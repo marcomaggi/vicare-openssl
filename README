@@ -1,10 +1,6 @@
 
-		      Vicare/Template
-		      ===============
-
-
-THIS  PACKAGE PROVIDES  AN  EXAMPLE PACKAGE  SHOWING HOW  TO
-WRITE A VICARE EXTENSION.  THIS FILE IS ITSELF A TEMPLATE.
+		       Vicare/OpenSSL
+		       ==============
 
 
 Topics
@@ -23,11 +19,11 @@ Topics
 ---------------
 
 This package is a distribution of C and Scheme libraries for
-Vicare Scheme,  an R6RS compliant  Scheme implementation; it
-provides bindings for the Template C language library.
+Vicare Scheme,  an R6RS compliant Scheme  implementation; it
+provides bindings for the OpenSSL C language library.
 
   The  last   time  the  author  bothered   to  update  this
-paragraph, he had tested Template version 1.2.3.
+paragraph, he had tested OpenSSL version 1.0.1e.
 
   This package makes use of the GNU Autotools.
 
@@ -57,13 +53,13 @@ License   along   with    this   program.    If   not,   see
 3. Install
 ----------
 
-Before  installing  Vicare/Template  make  sure  to  have  a
-correctly installed Template library and Vicare Scheme.
+Before  installing  Vicare/OpenSSL  make   sure  to  have  a
+correctly installed OpenSSL library and Vicare Scheme.
 
-  To install Vicare/Template from  a proper release tarball,
+  To install Vicare/OpenSSL from  a proper release tarball,
 we must unpack the archive then do:
 
-   $ cd vicare-template-0.1.0
+   $ cd vicare-openssl-0.1.0
    $ mkdir build
    $ cd build
    $ ../configure
@@ -83,13 +79,13 @@ shared library to be dynamically loaded.
   The "Makefile" supports the "DESTDIR" environment variable
 to install the files under a temporary location; example:
 
-    $ make install DESTDIR=/tmp/vicare-template
+    $ make install DESTDIR=/tmp/vicare-openssl
 
   If,  instead, we  have  checked out  a  revision from  the
 repository, we  will have to first  build the infrastructure
 running a script from the top source directory:
 
-   $ cd vicare-template
+   $ cd vicare-openssl
    $ sh autogen.sh
 
 after this the procedure is the same as the one for building
@@ -101,7 +97,7 @@ from a proper release tarball.
 
   After  installation, the  makefile rule  "vfasl-installed"
 will  precompile the  libraries installed  in the  hierarchy
-(vicare   category   template   ---);  the   makefile   rule
+(vicare   crypto    openssl   ---);   the    makefile   rule
 "installcheck" will run the test suite against the installed
 libraries.
 
@@ -115,29 +111,37 @@ Read the documentation.
 A. Credits
 ----------
 
-Vicare/Template was  written by Marco  Maggi.  Vicare Scheme
-is  an  R6RS compliant  fork  of  Ikarus Scheme;  originally
-created by Abdulaziz Ghuloum,  it is now maintained by Marco
-Maggi.
+Vicare/OpenSSL was written by Marco Maggi.  Vicare Scheme is
+an R6RS compliant fork  of Ikarus Scheme; originally created
+by Abdulaziz Ghuloum, it is now maintained by Marco Maggi.
 
-  Template is the creation of Temp Late.
+  The OpenSSL project is managed by a worldwide community of
+volunteers that  use the Internet to  communicate, plan, and
+develop the OpenSSL toolkit and its related documentation.
+
+  OpenSSL is based on the excellent SSLeay library developed
+by Eric A.  Young and Tim J. Hudson.  The OpenSSL toolkit is
+licensed  under  an  Apache-style licence,  which  basically
+means that you are free to get and use it for commercial and
+non-commercial  purposes  subject  to  some  simple  license
+conditions.
 
 
 B. Bugs
 -------
 
-Bug  reports  are   appreciated.   Register  issues  at  the
-Vicare/Template issue tracker:
+Bug  reports  are  appreciated.    Register  issues  at  the
+Vicare/OpenSSL issue tracker:
 
-   <http://github.com/marcomaggi/vicare-template/issues>
+    <http://github.com/marcomaggi/vicare-openssl/issues>
 
 
 C. Resources
 ------------
 
-The documentation of Vicare/Template is available online:
+The documentation of Vicare/OpenSSL is available online:
 
-  <http://marcomaggi.github.com/docs/vicare-template.html>
+  <http://marcomaggi.github.com/docs/vicare-openssl.html>
 
 the latest version of this package can be downloaded from:
 
@@ -145,15 +149,15 @@ the latest version of this package can be downloaded from:
 
 development takes place at:
 
-      <http://github.com/marcomaggi/vicare-template/>
+       <http://github.com/marcomaggi/vicare-openssl/>
 
 the home page of the Vicare project is at:
 
 	 <http://marcomaggi.github.com/vicare.html>
 
-Template can be found here:
+OpenSSL can be found here:
 
-	     <http://template.sourceforge.net/>
+		 <http://www.openssl.org/>
 
 
 ### end of file
