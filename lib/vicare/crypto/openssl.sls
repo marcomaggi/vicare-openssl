@@ -182,6 +182,14 @@
     hmac-ctx-set-flags
 
     ;; AES
+    aes-ctx
+    aes-ctx?
+    aes-ctx?/alive
+    aes-ctx-custom-destructor
+    set-aes-ctx-custom-destructor!
+    aes-ctx.vicare-arguments-validation
+    aes-ctx/alive.vicare-arguments-validation
+
     aes-options
     aes-set-encrypt-key
     aes-set-decrypt-key
@@ -819,23 +827,45 @@
 
 ;;;; AES
 
-(define (aes-options ctx)
-  (define who 'aes-options)
-  (with-arguments-validation (who)
-      ()
-    (capi.aes-options)))
+(ffi.define-foreign-pointer-wrapper aes-ctx
+  (ffi.foreign-destructor capi.aes-finalise)
+  (ffi.collector-struct-type #f))
 
-(define (aes-set-encrypt-key ctx)
+;;; --------------------------------------------------------------------
+
+(define (aes-options)
+  (define who 'aes-options)
+  (cond ((capi.aes-options)
+	 => (lambda (rv)
+	      (ascii->string rv)))
+	(else
+	 (error who "error acquiring options string for AES"))))
+
+;;; --------------------------------------------------------------------
+
+(define (aes-set-encrypt-key key bits)
   (define who 'aes-set-encrypt-key)
   (with-arguments-validation (who)
-      ()
-    (capi.aes-set-encrypt-key)))
+      ((general-c-string	key)
+       (signed-int		bits))
+    (with-general-c-strings
+	((key^	key))
+      (string-to-bytevector string->utf8)
+      (let ((rv (capi.aes-set-encrypt-key key^ bits)))
+	(and rv (make-aes-ctx/owner rv))))))
 
-(define (aes-set-decrypt-key ctx)
+(define (aes-set-decrypt-key key bits)
   (define who 'aes-set-decrypt-key)
   (with-arguments-validation (who)
-      ()
-    (capi.aes-set-decrypt-key)))
+      ((general-c-string	key)
+       (signed-int		bits))
+    (with-general-c-strings
+	((key^	key))
+      (string-to-bytevector string->utf8)
+      (let ((rv (capi.aes-set-decrypt-key key^ bits)))
+	(and rv (make-aes-ctx/owner rv))))))
+
+;;; --------------------------------------------------------------------
 
 (define (aes-encrypt ctx)
   (define who 'aes-encrypt)
@@ -848,6 +878,8 @@
   (with-arguments-validation (who)
       ()
     (capi.aes-decrypt)))
+
+;;; --------------------------------------------------------------------
 
 (define (aes-ecb-encrypt ctx)
   (define who 'aes-ecb-encrypt)
@@ -902,6 +934,8 @@
   (with-arguments-validation (who)
       ()
     (capi.aes-bi-ige-encrypt)))
+
+;;; --------------------------------------------------------------------
 
 (define (aes-wrap-key ctx)
   (define who 'aes-wrap-key)

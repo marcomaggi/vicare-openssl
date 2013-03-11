@@ -101,6 +101,7 @@
 
     ;; AES unsafe C API
     aes-options
+    aes-finalise
     aes-set-encrypt-key
     aes-set-decrypt-key
     aes-encrypt
@@ -317,17 +318,28 @@
 (define-inline (aes-options)
   (foreign-call "ikrt_aes_options"))
 
-(define-inline (aes-set-encrypt-key)
-  (foreign-call "ikrt_aes_set_encrypt_key"))
+;;; --------------------------------------------------------------------
 
-(define-inline (aes-set-decrypt-key)
-  (foreign-call "ikrt_aes_set_decrypt_key"))
+(define-inline (aes-finalise ctx)
+  ;;This is not an OpenSSL function.
+  ;;
+  (foreign-call "ikrt_aes_finalise" ctx))
+
+(define-inline (aes-set-encrypt-key key bits)
+  (foreign-call "ikrt_aes_set_encrypt_key" key bits))
+
+(define-inline (aes-set-decrypt-key key bits)
+  (foreign-call "ikrt_aes_set_decrypt_key" key bits))
+
+;;; --------------------------------------------------------------------
 
 (define-inline (aes-encrypt)
   (foreign-call "ikrt_aes_encrypt"))
 
 (define-inline (aes-decrypt)
   (foreign-call "ikrt_aes_decrypt"))
+
+;;; --------------------------------------------------------------------
 
 (define-inline (aes-ecb-encrypt)
   (foreign-call "ikrt_aes_ecb_encrypt"))
@@ -355,6 +367,8 @@
 
 (define-inline (aes-bi-ige-encrypt)
   (foreign-call "ikrt_aes_bi_ige_encrypt"))
+
+;;; --------------------------------------------------------------------
 
 (define-inline (aes-wrap-key)
   (foreign-call "ikrt_aes_wrap_key"))

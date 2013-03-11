@@ -49,39 +49,85 @@ generalised_c_buffer_len (ikptr s_buffer, ikptr s_buffer_len)
 
 
 /** --------------------------------------------------------------------
- ** AES C wrappers.
+ ** AES C wrappers: miscellaneous functions.
  ** ----------------------------------------------------------------- */
 
 ikptr
 ikrt_aes_options (ikpcb * pcb)
 {
 #ifdef HAVE_AES_OPTIONS
-  /* rv = AES_options(); */
-  return IK_VOID;
+  const char *	rv;
+  rv = AES_options();
+  return (rv)? ika_bytevector_from_cstring(pcb, rv) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
+
+
+/** --------------------------------------------------------------------
+ ** AES C wrappers: encryption key.
+ ** ----------------------------------------------------------------- */
+
 ikptr
-ikrt_aes_set_encrypt_key (ikpcb * pcb)
+ikrt_aes_set_encrypt_key (ikptr s_key, ikptr s_bits, ikpcb * pcb)
 {
 #ifdef HAVE_AES_SET_ENCRYPT_KEY
-  /* rv = AES_set_encrypt_key(); */
-  return IK_VOID;
+  const void *	key	= IK_GENERALISED_C_STRING(s_key);
+  int		bits	= ik_integer_to_int(s_bits);
+  AES_KEY *	ctx;
+  int		rv;
+  ctx = malloc(sizeof(MD4_CTX));
+  if (ctx) {
+    rv = AES_set_encrypt_key(key, bits, ctx);
+    if (rv)
+      return ika_pointer_alloc(pcb, (long)ctx);
+    else
+      free(ctx);
+  }
+  return IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_aes_set_decrypt_key (ikpcb * pcb)
+ikrt_aes_set_decrypt_key (ikptr s_key, ikptr s_bits, ikpcb * pcb)
 {
 #ifdef HAVE_AES_SET_DECRYPT_KEY
-  /* rv = AES_set_decrypt_key(); */
-  return IK_VOID;
+  const void *	key	= IK_GENERALISED_C_STRING(s_key);
+  int		bits	= ik_integer_to_int(s_bits);
+  AES_KEY *	ctx;
+  int		rv;
+  ctx = malloc(sizeof(MD4_CTX));
+  if (ctx) {
+    rv = AES_set_decrypt_key(key, bits, ctx);
+    if (rv)
+      return ika_pointer_alloc(pcb, (long)ctx);
+    else
+      free(ctx);
+  }
+  return IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
+
+/* ------------------------------------------------------------------ */
+
+ikptr
+ikrt_aes_finalise (ikptr s_ctx, ikpcb * pcb)
+/* This is not an OpenSSL function. */
+{
+  ikptr		s_pointer	= IK_AES_CTX_POINTER(s_ctx);
+  AES_KEY *	ctx		= IK_POINTER_DATA_VOIDP(s_pointer);
+  if (ctx) {
+    free(ctx);
+    IK_POINTER_SET_NULL(s_pointer);
+  }
+  return IK_VOID;
+}
+
+
 ikptr
 ikrt_aes_encrypt (ikpcb * pcb)
 {

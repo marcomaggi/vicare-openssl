@@ -2052,6 +2052,71 @@ reference memory block; otherwise @var{input.len} is ignored.
 @section Encrypting and decrypting
 
 
+@menu
+* plain crypto aes::            The AES algorithm.
+@end menu
+
+@c page
+@node plain crypto aes
+@subsection The AES algorithm
+
+
+@menu
+* plain crypto aes key::        Selecting the key.
+* plain crypto aes misc::       Miscellaneous functions.
+@end menu
+
+@c page
+@node plain crypto aes key
+@subsubsection Selecting the key
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun aes-set-encrypt-key @var{key} @var{bits}
+Build an instance of @code{aes-ctx} initialised with the encryption
+@var{key} and configured with @var{bits}; if successful return the
+struct, else return @false{}.
+
+@var{key} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{key} is a string: it
+is converted to a bytevector with @func{string->utf8}.
+
+@var{bits} must be an exact integer in the range of the C language type
+@code{signed int}.
+@end defun
+
+
+@defun aes-set-decrypt-key @var{key} @var{bits}
+Build an instance of @code{aes-ctx} initialised with the decryption
+@var{key} and configured with @var{bits}; if successful return the
+struct, else return @false{}.
+
+@var{key} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{key} is a string: it
+is converted to a bytevector with @func{string->utf8}.
+
+@var{bits} must be an exact integer in the range of the C language type
+@code{signed int}.
+@end defun
+
+@c page
+@node plain crypto aes misc
+@subsubsection Miscellaneous functions
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun aes-options
+If successful return a string representing some kind of options,
+otherwise raise an @condition{error} condition.
+@end defun
+
+
 @c page
 @node plain evp
 @section High--level cryptographic functions

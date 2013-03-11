@@ -27,8 +27,8 @@
 
 #!r6rs
 (import (vicare)
-  (vicare crypto openssl)
-  (vicare crypto openssl constants)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl constants) ssl.)
 ;;;  (prefix (vicare ffi) ffi.)
   (vicare checks))
 
@@ -40,8 +40,29 @@
 
 
 
-(parametrise ((check-test-name	'aes))
+(parametrise ((check-test-name	'misc))
 
+  (when #f
+    (check-pretty-print (ssl.aes-options)))
+
+  (check
+      (string? (ssl.aes-options))
+    => #t)
+
+  #f)
+
+
+(parametrise ((check-test-name	'encrypt))
+
+  (check
+      (let ((ctx (ssl.aes-set-encrypt-key "ciao" 0)))
+	(ssl.aes-ctx? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.aes-set-encrypt-key "ciao" 0)))
+	(ssl.aes-ctx?/alive ctx))
+    => #t)
 
   (collect))
 
