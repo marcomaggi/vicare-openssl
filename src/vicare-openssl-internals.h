@@ -106,6 +106,10 @@
 #define IK_RIPEMD160_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
 #define IK_RIPEMD160_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_RIPEMD160_CTX_POINTER(CTX))
 
+/* Accessors for the fields of the Scheme structure "hmac-ctx". */
+#define IK_HMAC_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
+#define IK_HMAC_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_HMAC_CTX_POINTER(CTX))
+
 
 /** --------------------------------------------------------------------
  ** Support for missing functions.

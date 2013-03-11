@@ -163,6 +163,14 @@
     ripemd160
 
     ;; HMAC
+    hmac-ctx
+    hmac-ctx?
+    hmac-ctx?/alive
+    hmac-ctx-custom-destructor
+    set-hmac-ctx-custom-destructor!
+    hmac-ctx.vicare-arguments-validation
+    hmac-ctx/alive.vicare-arguments-validation
+
     hmac
     hmac-ctx-init
     hmac-ctx-cleanup
@@ -647,29 +655,59 @@
 
 ;;;; HMAC
 
-(define (hmac ctx)
-  (define who 'hmac)
-  (with-arguments-validation (who)
-      ()
-    (capi.hmac)))
+(ffi.define-foreign-pointer-wrapper hmac-ctx
+  (ffi.foreign-destructor capi.hmac-ctx-cleanup)
+  (ffi.collector-struct-type #f))
 
-(define (hmac-ctx-init ctx)
-  (define who 'hmac-ctx-init)
-  (with-arguments-validation (who)
-      ()
-    (capi.hmac-ctx-init)))
+;;; --------------------------------------------------------------------
+
+(define (%symbol->md who md)
+  (case md
+    ;;This  mapping  must   be  kept  in  sync  with  the   one  in  the
+    ;;implementation of the functions HMAC-INIT and HMAC.
+    ((md4)		0)
+    ((md5)		1)
+    ((mdc2)		2)
+    ((sha1)		3)
+    ((sha224)		4)
+    ((sha256)		5)
+    ((sha384)		6)
+    ((sha512)		7)
+    ((ripemd160)	8)
+    ((dss)		9)
+    ((dss1)		10)
+    (else
+     (error who "unknown message digest" md))))
+
+;;; --------------------------------------------------------------------
+
+(define (hmac-ctx-init)
+  (let ((rv (capi.hmac-ctx-init)))
+    (and rv (make-hmac-ctx/owner rv))))
 
 (define (hmac-ctx-cleanup ctx)
   (define who 'hmac-ctx-cleanup)
   (with-arguments-validation (who)
-      ()
-    (capi.hmac-ctx-cleanup)))
+      ((hmac-ctx	ctx))
+    ($hmac-ctx-finalise ctx)))
 
-(define (hmac-init ctx)
-  (define who 'hmac-init)
-  (with-arguments-validation (who)
-      ()
-    (capi.hmac-init)))
+;;; --------------------------------------------------------------------
+
+(define hmac-init
+  (case-lambda
+   ((ctx key md)
+    (hmac-init ctx key #f md))
+   ((ctx key key.len md)
+    (define who 'hmac-init)
+    (with-arguments-validation (who)
+	((hmac-ctx/alive	ctx)
+	 (general-c-string	key)
+	 (size_t/false		key.len)
+	 (symbol		md))
+      (with-general-c-strings
+	  ((key^	key))
+	(string-to-bytevector string->utf8)
+	(capi.hmac-init ctx key^ key.len (%symbol->md who md)))))))
 
 (define (hmac-init-ex ctx)
   (define who 'hmac-init-ex)
@@ -677,29 +715,60 @@
       ()
     (capi.hmac-init-ex)))
 
-(define (hmac-update ctx)
-  (define who 'hmac-update)
-  (with-arguments-validation (who)
-      ()
-    (capi.hmac-update)))
-
 (define (hmac-final ctx)
   (define who 'hmac-final)
   (with-arguments-validation (who)
-      ()
-    (capi.hmac-final)))
+      ((hmac-ctx/alive	ctx))
+    (capi.hmac-final ctx)))
 
-(define (hmac-ctx-copy ctx)
+;;; --------------------------------------------------------------------
+
+(define hmac-update
+  (case-lambda
+   ((ctx input)
+    (hmac-update ctx input #f))
+   ((ctx input input.len)
+    (define who 'hmac-update)
+    (with-arguments-validation (who)
+	((hmac-ctx/alive	ctx)
+	 (general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.hmac-update ctx input^ input.len))))))
+
+;;; --------------------------------------------------------------------
+
+(define (hmac-ctx-copy dst-ctx src-ctx)
   (define who 'hmac-ctx-copy)
   (with-arguments-validation (who)
-      ()
-    (capi.hmac-ctx-copy)))
+      ((hmac-ctx/alive	dst-ctx)
+       (hmac-ctx/alive	src-ctx))
+    (capi.hmac-ctx-copy dst-ctx src-ctx)))
 
-(define (hmac-ctx-set-flags ctx)
+(define (hmac-ctx-set-flags ctx flags)
   (define who 'hmac-ctx-set-flags)
   (with-arguments-validation (who)
-      ()
-    (capi.hmac-ctx-set-flags)))
+      ((hmac-ctx/alive	ctx)
+       (unsigned-long	flags))
+    (capi.hmac-ctx-set-flags ctx flags)))
+
+;;; --------------------------------------------------------------------
+
+(define (hmac md key key.len input input.len)
+  (define who 'hmac)
+  (with-arguments-validation (who)
+      ((symbol			md)
+       (general-c-string	key)
+       (size_t/false		key.len)
+       (general-c-string	input)
+       (size_t/false		input.len))
+    (with-general-c-strings
+	((key^		key)
+	 (input^	input))
+      (string-to-bytevector string->utf8)
+      (capi.hmac (%symbol->md who md) key^ key.len input^ input.len))))
 
 
 ;;;; done

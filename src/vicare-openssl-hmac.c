@@ -53,41 +53,60 @@ generalised_c_buffer_len (ikptr s_buffer, ikptr s_buffer_len)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_hmac (ikpcb * pcb)
-{
-#ifdef HAVE_HMAC
-  /* rv = HMAC(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
 ikrt_hmac_ctx_init (ikpcb * pcb)
 {
 #ifdef HAVE_HMAC_CTX_INIT
-  /* rv = HMAC_CTX_init(); */
-  return IK_VOID;
+  HMAC_CTX *	ctx;
+  ctx = malloc(sizeof(HMAC_CTX));
+  if (ctx) {
+    HMAC_CTX_init(ctx);
+    return ika_pointer_alloc(pcb, (long)ctx);
+  } else
+    return IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_hmac_ctx_cleanup (ikpcb * pcb)
+ikrt_hmac_ctx_cleanup (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_HMAC_CTX_CLEANUP
-  /* rv = HMAC_CTX_cleanup(); */
+  HMAC_CTX *	ctx = IK_HMAC_CTX(s_ctx);
+  HMAC_CTX_cleanup(ctx);
   return IK_VOID;
 #else
   feature_failure(__func__);
 #endif
 }
+
+/* ------------------------------------------------------------------ */
+
 ikptr
-ikrt_hmac_init (ikpcb * pcb)
+ikrt_hmac_init (ikptr s_ctx, ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * pcb)
 {
 #ifdef HAVE_HMAC_INIT
-  /* rv = HMAC_Init(); */
-  return IK_VOID;
+  HMAC_CTX *	ctx	= IK_HMAC_CTX(s_ctx);
+  const void *	key	= IK_GENERALISED_C_STRING(s_key);
+  size_t	key_len	= generalised_c_buffer_len(s_key, s_key_len);
+  const EVP_MD *md;
+  int		rv;
+  switch (ik_integer_to_int(s_md)) {
+  case 0:	md = EVP_md4();		break;
+  case 1:	md = EVP_md5();		break;
+  case 2:	md = EVP_mdc2();	break;
+  case 3:	md = EVP_sha1();	break;
+  case 4:	md = EVP_sha224();	break;
+  case 5:	md = EVP_sha256();	break;
+  case 6:	md = EVP_sha384();	break;
+  case 7:	md = EVP_sha512();	break;
+  case 8:	md = EVP_ripemd160();	break;
+  case 9:	md = EVP_dss();		break;
+  case 10:	md = EVP_dss1();	break;
+  default:
+    return IK_FALSE;
+  }
+  rv = HMAC_Init(ctx, key, (unsigned long)key_len, md);
+  return IK_BOOLEAN_FROM_INT(rv);
 #else
   feature_failure(__func__);
 #endif
@@ -103,41 +122,110 @@ ikrt_hmac_init_ex (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_hmac_update (ikpcb * pcb)
-{
-#ifdef HAVE_HMAC_UPDATE
-  /* rv = HMAC_Update(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_hmac_final (ikpcb * pcb)
+ikrt_hmac_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_HMAC_FINAL
-  /* rv = HMAC_Final(); */
-  return IK_VOID;
+  HMAC_CTX *		ctx = IK_HMAC_CTX(s_ctx);
+  unsigned char		sum[HMAC_MAX_MD_CBLOCK];
+  unsigned int		len;
+  int			rv;
+  rv = HMAC_Final(ctx, sum, &len);
+  return (rv)? ika_bytevector_from_memory_block(pcb, sum, len) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
+
+
+/** --------------------------------------------------------------------
+ ** Context updating.
+ ** ----------------------------------------------------------------- */
+
 ikptr
-ikrt_hmac_ctx_copy (ikpcb * pcb)
+ikrt_hmac_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_HMAC_UPDATE
+  HMAC_CTX *	ctx	= IK_HMAC_CTX(s_ctx);
+  const void *	in	= IK_GENERALISED_C_STRING(s_input);
+  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  int		rv;
+  rv = HMAC_Update(ctx, in, in_len);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** Miscellaneous functions.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_hmac_ctx_copy (ikptr s_dst_ctx, ikptr s_src_ctx, ikpcb * pcb)
+/* This OpenSSL function is undocumented as of version 1.0.1e. */
 {
 #ifdef HAVE_HMAC_CTX_COPY
-  /* rv = HMAC_CTX_copy(); */
-  return IK_VOID;
+  HMAC_CTX *	dst_ctx	= IK_HMAC_CTX(s_dst_ctx);
+  HMAC_CTX *	src_ctx	= IK_HMAC_CTX(s_src_ctx);
+  int		rv;
+  rv = HMAC_CTX_copy(dst_ctx, src_ctx);
+  return IK_BOOLEAN_FROM_INT(rv);
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_hmac_ctx_set_flags (ikpcb * pcb)
+ikrt_hmac_ctx_set_flags (ikptr s_ctx, ikptr s_flags, ikpcb * pcb)
+/* This OpenSSL function is undocumented as of version 1.0.1e. */
 {
 #ifdef HAVE_HMAC_CTX_SET_FLAGS
-  /* rv = HMAC_CTX_set_flags(); */
+  HMAC_CTX *	ctx	= IK_HMAC_CTX(s_ctx);
+  unsigned long	flags	= ik_integer_to_ulong(s_flags);
+  HMAC_CTX_set_flags(ctx, flags);
   return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** One-step computation.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_hmac (ikptr s_md,
+	   ikptr s_key,   ikptr s_key_len,
+	   ikptr s_input, ikptr s_input_len,
+	   ikpcb * pcb)
+{
+#ifdef HAVE_HMAC
+  const void *		key	= IK_GENERALISED_C_STRING(s_key);
+  size_t		key_len	= generalised_c_buffer_len(s_key, s_key_len);
+  const void *		in	= IK_GENERALISED_C_STRING(s_input);
+  size_t		in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  const EVP_MD *	md;
+  unsigned char		sum[HMAC_MAX_MD_CBLOCK];
+  unsigned int		len;
+  unsigned char *	rv;
+  switch (ik_integer_to_int(s_md)) {
+  case 0:	md = EVP_md4();		break;
+  case 1:	md = EVP_md5();		break;
+  case 2:	md = EVP_mdc2();	break;
+  case 3:	md = EVP_sha1();	break;
+  case 4:	md = EVP_sha224();	break;
+  case 5:	md = EVP_sha256();	break;
+  case 6:	md = EVP_sha384();	break;
+  case 7:	md = EVP_sha512();	break;
+  case 8:	md = EVP_ripemd160();	break;
+  case 9:	md = EVP_dss();		break;
+  case 10:	md = EVP_dss1();	break;
+  default:
+    return IK_FALSE;
+  }
+  rv = HMAC(md, key, key_len, in, in_len, sum, &len);
+  return (rv)? ika_bytevector_from_memory_block(pcb, sum, len) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif

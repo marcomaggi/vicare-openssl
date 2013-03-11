@@ -266,34 +266,34 @@
 
 ;;;; HMAC
 
-(define-inline (hmac)
-  (foreign-call "ikrt_hmac"))
+(define-inline (hmac md key key.len input input.len)
+  (foreign-call "ikrt_hmac" md key key.len input input.len))
+
+;;; --------------------------------------------------------------------
 
 (define-inline (hmac-ctx-init)
   (foreign-call "ikrt_hmac_ctx_init"))
 
-(define-inline (hmac-ctx-cleanup)
-  (foreign-call "ikrt_hmac_ctx_cleanup"))
+(define-inline (hmac-ctx-cleanup ctx)
+  (foreign-call "ikrt_hmac_ctx_cleanup" ctx))
 
-(define-inline (hmac-init)
-  (foreign-call "ikrt_hmac_init"))
+(define-inline (hmac-init ctx input input.len md)
+  (foreign-call "ikrt_hmac_init" ctx input input.len md))
 
 (define-inline (hmac-init-ex)
   (foreign-call "ikrt_hmac_init_ex"))
 
-(define-inline (hmac-update)
-  (foreign-call "ikrt_hmac_update"))
+(define-inline (hmac-update ctx input input.len)
+  (foreign-call "ikrt_hmac_update" ctx input input.len))
 
-(define-inline (hmac-final)
-  (foreign-call "ikrt_hmac_final"))
+(define-inline (hmac-final ctx)
+  (foreign-call "ikrt_hmac_final" ctx))
 
-(define-inline (hmac-ctx-copy)
-  (foreign-call "ikrt_hmac_ctx_copy"))
+(define-inline (hmac-ctx-copy dst-ctx src-ctx)
+  (foreign-call "ikrt_hmac_ctx_copy" dst-ctx src-ctx))
 
-(define-inline (hmac-ctx-set-flags)
-  (foreign-call "ikrt_hmac_ctx_set_flags"))
-
-
+(define-inline (hmac-ctx-set-flags ctx flags)
+  (foreign-call "ikrt_hmac_ctx_set_flags" ctx flags))
 
 
 ;;;; done
