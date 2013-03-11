@@ -69,6 +69,11 @@ main (int argc, const char *const argv[])
     HAVE_MD4_FINAL\n\
     HAVE_MD4\n\
     \n\
+    HAVE_MD5_INIT\n\
+    HAVE_MD5_UPDATE\n\
+    HAVE_MD5_FINAL\n\
+    HAVE_MD5\n\
+    \n\
     )\n\
   (import (rnrs))\n\
 \n\
@@ -83,6 +88,10 @@ main (int argc, const char *const argv[])
 ;;;; code\n\n");
 
 
+/** --------------------------------------------------------------------
+ ** MD4.
+ ** ----------------------------------------------------------------- */
+
 printf("(define-inline-constant HAVE_MD4_INIT %s)\n",
 #ifdef HAVE_MD4_INIT
   "#t"
@@ -106,6 +115,40 @@ printf("(define-inline-constant HAVE_MD4_FINAL %s)\n",
   );
 printf("(define-inline-constant HAVE_MD4 %s)\n",
 #ifdef HAVE_MD4
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** MD5.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_MD5_INIT %s)\n",
+#ifdef HAVE_MD5_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+printf("(define-inline-constant HAVE_MD5_UPDATE %s)\n",
+#ifdef HAVE_MD5_UPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+printf("(define-inline-constant HAVE_MD5_FINAL %s)\n",
+#ifdef HAVE_MD5_FINAL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+printf("(define-inline-constant HAVE_MD5 %s)\n",
+#ifdef HAVE_MD5
   "#t"
 #else
   "#f"

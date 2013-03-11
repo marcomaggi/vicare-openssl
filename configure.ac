@@ -101,7 +101,11 @@ AC_INCLUDES_DEFAULT
 
 dnl Message Digest 4
 VICARE_CONSTANT_TESTS([MD4_DIGEST_LENGTH])
-AC_CHECK_FUNCS([MD4_Init MD4_Update MD4_Final MD4 MD4_Transform])
+AC_CHECK_FUNCS([MD4_Init MD4_Update MD4_Final MD4])
+
+dnl Message Digest 5
+VICARE_CONSTANT_TESTS([MD5_DIGEST_LENGTH])
+AC_CHECK_FUNCS([MD5_Init MD5_Update MD5_Final MD5])
 
 #page
 #### finish

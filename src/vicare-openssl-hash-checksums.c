@@ -121,6 +121,76 @@ ikrt_md4 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 
 
 /** --------------------------------------------------------------------
+ ** MD5.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_md5_init (ikpcb * pcb)
+{
+#ifdef HAVE_MD5_INIT
+  MD5_CTX *	ctx;
+  int		rv;
+  ctx = malloc(sizeof(MD5_CTX));
+  if (ctx) {
+    rv  = MD5_Init(ctx);
+    if (rv)
+      return ika_pointer_alloc(pcb, (long)ctx);
+    else
+      free(ctx);
+  }
+  return IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_md5_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_MD5_UPDATE
+  MD5_CTX *	ctx	= IK_MD5_CTX(s_ctx);
+  const void *	in	= IK_GENERALISED_C_STRING(s_input);
+  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  int		rv;
+  rv = MD5_Update(ctx, in, (unsigned long)in_len);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_md5_final (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_MD5_FINAL
+  ikptr		s_pointer	= IK_MD5_CTX_POINTER(s_ctx);
+  MD5_CTX *	ctx		= IK_POINTER_DATA_VOIDP(s_pointer);
+  unsigned char	sum[MD5_DIGEST_LENGTH];
+  int		rv = 0;
+  if (ctx) {
+    rv = MD5_Final(sum, ctx);
+    free(ctx);
+    IK_POINTER_SET_NULL(s_pointer);
+  }
+  return (rv)? ika_bytevector_from_memory_block(pcb, sum, MD5_DIGEST_LENGTH) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_md5 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_MD5
+  ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
+  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  unsigned char		sum[MD5_DIGEST_LENGTH];
+  MD5(in, in_len, sum);
+  return ika_bytevector_from_memory_block(pcb, sum, MD5_DIGEST_LENGTH);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
  ** Still to be implemented.
  ** ----------------------------------------------------------------- */
 

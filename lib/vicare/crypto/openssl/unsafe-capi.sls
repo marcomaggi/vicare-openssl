@@ -41,6 +41,12 @@
     md4-final
     md4
 
+    ;; MD5
+    md5-init
+    md5-update
+    md5-final
+    md5
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -87,6 +93,21 @@
 
 (define-inline (md4 input input.len)
   (foreign-call "ikrt_md4" input input.len))
+
+
+;;;; MD5
+
+(define-inline (md5-init)
+  (foreign-call "ikrt_md5_init"))
+
+(define-inline (md5-update ctx input input.len)
+  (foreign-call "ikrt_md5_update" ctx input input.len))
+
+(define-inline (md5-final ctx)
+  (foreign-call "ikrt_md5_final" ctx))
+
+(define-inline (md5 input input.len)
+  (foreign-call "ikrt_md5" input input.len))
 
 
 ;;;; done

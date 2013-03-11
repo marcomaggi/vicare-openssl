@@ -50,6 +50,20 @@
     md4-final
     md4
 
+    ;; MD5
+    md5-ctx
+    md5-ctx?
+    md5-ctx?/alive
+    md5-ctx-custom-destructor
+    set-md5-ctx-custom-destructor!
+    md5-ctx.vicare-arguments-validation
+    md5-ctx/alive.vicare-arguments-validation
+
+    md5-init
+    md5-update
+    md5-final
+    md5
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -136,6 +150,54 @@
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
 	(capi.md4 input^ input.len))))))
+
+
+;;;; MD5
+
+(ffi.define-foreign-pointer-wrapper md5-ctx
+  (ffi.foreign-destructor capi.md5-final)
+  (ffi.collector-struct-type #f))
+
+(define (md5-init)
+  (let ((rv (capi.md5-init)))
+    (and rv (make-md5-ctx/owner rv))))
+
+(define md5-update
+  (case-lambda
+   ((ctx input)
+    (md5-update ctx input #f))
+   ((ctx input input.len)
+    (define who 'md5-update)
+    (with-arguments-validation (who)
+	((md5-ctx/alive		ctx)
+	 (general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.md5-update ctx input^ input.len))))))
+
+(define (md5-final ctx)
+  (define who 'md5-final)
+  (with-arguments-validation (who)
+      ((md5-ctx		ctx))
+    ($md5-ctx-finalise ctx)))
+
+;;; --------------------------------------------------------------------
+
+(define md5
+  (case-lambda
+   ((input)
+    (md5 input #f))
+   ((input input.len)
+    (define who 'md5)
+    (with-arguments-validation (who)
+	((general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.md5 input^ input.len))))))
 
 
 ;;;; done

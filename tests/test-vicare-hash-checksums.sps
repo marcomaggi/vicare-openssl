@@ -90,6 +90,54 @@
   (collect))
 
 
+(parametrise ((check-test-name		'md5)
+	      (struct-guardian-logger	#f))
+
+  (when #f
+    (check-pretty-print (ssl.md5-init)))
+
+  (check
+      (let ((ctx (ssl.md5-init)))
+	(ssl.md5-ctx? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.md5-init)))
+	(ssl.md5-ctx?/alive ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.md5-init)))
+	(ssl.md5-final ctx)
+	(ssl.md5-ctx?/alive ctx))
+    => #f)
+
+  (check
+      (let ((ctx (ssl.md5-init)))
+	(ssl.md5-final ctx)
+	(ssl.md5-final ctx)
+	(ssl.md5-ctx?/alive ctx))
+    => #f)
+
+;;; --------------------------------------------------------------------
+;;; md5-update
+
+  (check
+      (let ((ctx (ssl.md5-init)))
+	(assert (ssl.md5-update ctx "ciao"))
+	(ssl.md5-final ctx))
+    => '#vu8(110 107 196 228 157 212 119 235 201 142 244 4 108 6 123 95))
+
+;;; --------------------------------------------------------------------
+;;; md5
+
+  (check
+      (ssl.md5 "ciao")
+    => '#vu8(110 107 196 228 157 212 119 235 201 142 244 4 108 6 123 95))
+
+  (collect))
+
+
 ;;;; done
 
 (check-report)
