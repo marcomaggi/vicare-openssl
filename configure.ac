@@ -58,7 +58,7 @@ dnl This must come first.
 AC_CHECK_HEADERS([openssl/ssl.h],,
   [AC_MSG_FAILURE([missing openssl/ssl.h header],[2])])
 
-dnl Message digests
+dnl Message digests.
 AC_CHECK_HEADERS([openssl/md4.h],,
   [AC_MSG_FAILURE([missing openssl/md4.h header],[2])])
 AC_CHECK_HEADERS([openssl/md5.h],,
@@ -106,6 +106,10 @@ AC_CHECK_FUNCS([MD4_Init MD4_Update MD4_Final MD4])
 dnl Message Digest 5
 VICARE_CONSTANT_TESTS([MD5_DIGEST_LENGTH])
 AC_CHECK_FUNCS([MD5_Init MD5_Update MD5_Final MD5])
+
+dnl MDC2
+VICARE_CONSTANT_TESTS([MDC2_DIGEST_LENGTH])
+AC_CHECK_FUNCS([MDC2_Init MDC2_Update MDC2_Final MDC2])
 
 #page
 #### finish

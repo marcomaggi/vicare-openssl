@@ -30,6 +30,12 @@
     ;; Message Digest 4
     MD4_DIGEST_LENGTH
 
+    ;; Message Digest 5
+    MD5_DIGEST_LENGTH
+
+    ;; MDC2
+    MDC2_DIGEST_LENGTH
+
     )
   (import (rename (only (vicare syntactic-extensions)
 			define-inline-constant)
@@ -40,6 +46,12 @@
 
 ;; Message Digest 4
 (defc MD4_DIGEST_LENGTH			@VALUEOF_MD4_DIGEST_LENGTH@)
+
+;; Message Digest 5
+(defc MD5_DIGEST_LENGTH			@VALUEOF_MD5_DIGEST_LENGTH@)
+
+;; MDC2
+(defc MDC2_DIGEST_LENGTH		@VALUEOF_MDC2_DIGEST_LENGTH@)
 
 
 

@@ -138,6 +138,54 @@
   (collect))
 
 
+(parametrise ((check-test-name		'mdc2)
+	      (struct-guardian-logger	#f))
+
+  (when #f
+    (check-pretty-print (ssl.mdc2-init)))
+
+  (check
+      (let ((ctx (ssl.mdc2-init)))
+	(ssl.mdc2-ctx? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.mdc2-init)))
+	(ssl.mdc2-ctx?/alive ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.mdc2-init)))
+	(ssl.mdc2-final ctx)
+	(ssl.mdc2-ctx?/alive ctx))
+    => #f)
+
+  (check
+      (let ((ctx (ssl.mdc2-init)))
+	(ssl.mdc2-final ctx)
+	(ssl.mdc2-final ctx)
+	(ssl.mdc2-ctx?/alive ctx))
+    => #f)
+
+;;; --------------------------------------------------------------------
+;;; mdc2-update
+
+  (check
+      (let ((ctx (ssl.mdc2-init)))
+	(assert (ssl.mdc2-update ctx "ciao"))
+	(ssl.mdc2-final ctx))
+    => '#vu8(7 135 111 85 63 136 98 189 26 91 47 77 36 135 251 237))
+
+;;; --------------------------------------------------------------------
+;;; mdc2
+
+  (check
+      (ssl.mdc2 "ciao")
+    => '#vu8(7 135 111 85 63 136 98 189 26 91 47 77 36 135 251 237))
+
+  (collect))
+
+
 ;;;; done
 
 (check-report)

@@ -47,6 +47,12 @@
     md5-final
     md5
 
+    ;; MDC2
+    mdc2-init
+    mdc2-update
+    mdc2-final
+    mdc2
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -108,6 +114,21 @@
 
 (define-inline (md5 input input.len)
   (foreign-call "ikrt_md5" input input.len))
+
+
+;;;; MDC2
+
+(define-inline (mdc2-init)
+  (foreign-call "ikrt_mdc2_init"))
+
+(define-inline (mdc2-update ctx input input.len)
+  (foreign-call "ikrt_mdc2_update" ctx input input.len))
+
+(define-inline (mdc2-final ctx)
+  (foreign-call "ikrt_mdc2_final" ctx))
+
+(define-inline (mdc2 input input.len)
+  (foreign-call "ikrt_mdc2" input input.len))
 
 
 ;;;; done

@@ -64,6 +64,20 @@
     md5-final
     md5
 
+    ;; MDC2
+    mdc2-ctx
+    mdc2-ctx?
+    mdc2-ctx?/alive
+    mdc2-ctx-custom-destructor
+    set-mdc2-ctx-custom-destructor!
+    mdc2-ctx.vicare-arguments-validation
+    mdc2-ctx/alive.vicare-arguments-validation
+
+    mdc2-init
+    mdc2-update
+    mdc2-final
+    mdc2
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -198,6 +212,54 @@
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
 	(capi.md5 input^ input.len))))))
+
+
+;;;; MDC2
+
+(ffi.define-foreign-pointer-wrapper mdc2-ctx
+  (ffi.foreign-destructor capi.mdc2-final)
+  (ffi.collector-struct-type #f))
+
+(define (mdc2-init)
+  (let ((rv (capi.mdc2-init)))
+    (and rv (make-mdc2-ctx/owner rv))))
+
+(define mdc2-update
+  (case-lambda
+   ((ctx input)
+    (mdc2-update ctx input #f))
+   ((ctx input input.len)
+    (define who 'mdc2-update)
+    (with-arguments-validation (who)
+	((mdc2-ctx/alive		ctx)
+	 (general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.mdc2-update ctx input^ input.len))))))
+
+(define (mdc2-final ctx)
+  (define who 'mdc2-final)
+  (with-arguments-validation (who)
+      ((mdc2-ctx		ctx))
+    ($mdc2-ctx-finalise ctx)))
+
+;;; --------------------------------------------------------------------
+
+(define mdc2
+  (case-lambda
+   ((input)
+    (mdc2 input #f))
+   ((input input.len)
+    (define who 'mdc2)
+    (with-arguments-validation (who)
+	((general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.mdc2 input^ input.len))))))
 
 
 ;;;; done
