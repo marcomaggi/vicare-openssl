@@ -89,6 +89,17 @@
     ripemd160-final
     ripemd160
 
+    ;; HMAC unsafe C API
+    hmac
+    hmac-ctx-init
+    hmac-ctx-cleanup
+    hmac-init
+    hmac-init-ex
+    hmac-update
+    hmac-final
+    hmac-ctx-copy
+    hmac-ctx-set-flags
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -251,6 +262,38 @@
 
 (define-inline (ripemd160 input input.len)
   (foreign-call "ikrt_ripemd160" input input.len))
+
+
+;;;; HMAC
+
+(define-inline (hmac)
+  (foreign-call "ikrt_hmac"))
+
+(define-inline (hmac-ctx-init)
+  (foreign-call "ikrt_hmac_ctx_init"))
+
+(define-inline (hmac-ctx-cleanup)
+  (foreign-call "ikrt_hmac_ctx_cleanup"))
+
+(define-inline (hmac-init)
+  (foreign-call "ikrt_hmac_init"))
+
+(define-inline (hmac-init-ex)
+  (foreign-call "ikrt_hmac_init_ex"))
+
+(define-inline (hmac-update)
+  (foreign-call "ikrt_hmac_update"))
+
+(define-inline (hmac-final)
+  (foreign-call "ikrt_hmac_final"))
+
+(define-inline (hmac-ctx-copy)
+  (foreign-call "ikrt_hmac_ctx_copy"))
+
+(define-inline (hmac-ctx-set-flags)
+  (foreign-call "ikrt_hmac_ctx_set_flags"))
+
+
 
 
 ;;;; done

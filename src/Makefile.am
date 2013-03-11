@@ -9,6 +9,7 @@ lib_LTLIBRARIES			= libvicare-openssl.la
 libvicare_openssl_la_LDFLAGS	= -version-info $(vicare_openssl_VERSION)
 libvicare_openssl_la_SOURCES	= \
 	vicare-openssl-hash-checksums.c		\
+	vicare-openssl-hmac.c			\
 	vicare-openssl-version.c		\
 	vicare-openssl-internals.h
 

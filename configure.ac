@@ -69,6 +69,8 @@ AC_CHECK_HEADERS([openssl/sha.h],,
   [AC_MSG_FAILURE([missing openssl/sha.h header],[2])])
 AC_CHECK_HEADERS([openssl/ripemd.h],,
   [AC_MSG_FAILURE([missing openssl/ripemd.h header],[2])])
+AC_CHECK_HEADERS([openssl/hmac.h],,
+  [AC_MSG_FAILURE([missing openssl/hmac.h header],[2])])
 
 AC_CHECK_LIB([crypto],[MD5_Init],,
   [AC_MSG_FAILURE([missing OpenSSL crypto library],[2])])
@@ -103,10 +105,14 @@ AC_INCLUDES_DEFAULT
 #  include <openssl/ripemd.h>
 #endif
 
+#ifdef HAVE_OPENSSL_HMAC_H
+#  include <openssl/hmac.h>
+#endif
+
 ])
 
 #page
-#### C language stuff from the files "openssl/md4.h", "openssl/md5.h"
+#### C language stuff from the files "openssl/md4.h", "openssl/md5.h", etc.
 
 dnl Message Digest 4
 VICARE_CONSTANT_TESTS([MD4_DIGEST_LENGTH])
@@ -143,6 +149,15 @@ AC_CHECK_FUNCS([SHA512_Init SHA512_Update SHA512_Final SHA512])
 dnl RIPEMD 160
 VICARE_CONSTANT_TESTS([RIPEMD160_DIGEST_LENGTH])
 AC_CHECK_FUNCS([RIPEMD160_Init RIPEMD160_Update RIPEMD160_Final RIPEMD160])
+
+#page
+#### C language stuff from the files "openssl/hmac.h"
+
+dnl HMAC
+VICARE_CONSTANT_TESTS([HMAC_MAX_MD_CBLOCK])
+
+dnl HMAC functions checking
+AC_CHECK_FUNCS([HMAC HMAC_CTX_init HMAC_CTX_cleanup HMAC_Init HMAC_Init_ex HMAC_Update HMAC_Final HMAC_CTX_copy HMAC_CTX_set_flags ])
 
 #page
 #### finish

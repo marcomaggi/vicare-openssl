@@ -162,6 +162,17 @@
     ripemd160-final
     ripemd160
 
+    ;; HMAC
+    hmac
+    hmac-ctx-init
+    hmac-ctx-cleanup
+    hmac-init
+    hmac-init-ex
+    hmac-update
+    hmac-final
+    hmac-ctx-copy
+    hmac-ctx-set-flags
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -632,6 +643,63 @@
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
 	(capi.ripemd160 input^ input.len))))))
+
+
+;;;; HMAC
+
+(define (hmac ctx)
+  (define who 'hmac)
+  (with-arguments-validation (who)
+      ()
+    (capi.hmac)))
+
+(define (hmac-ctx-init ctx)
+  (define who 'hmac-ctx-init)
+  (with-arguments-validation (who)
+      ()
+    (capi.hmac-ctx-init)))
+
+(define (hmac-ctx-cleanup ctx)
+  (define who 'hmac-ctx-cleanup)
+  (with-arguments-validation (who)
+      ()
+    (capi.hmac-ctx-cleanup)))
+
+(define (hmac-init ctx)
+  (define who 'hmac-init)
+  (with-arguments-validation (who)
+      ()
+    (capi.hmac-init)))
+
+(define (hmac-init-ex ctx)
+  (define who 'hmac-init-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.hmac-init-ex)))
+
+(define (hmac-update ctx)
+  (define who 'hmac-update)
+  (with-arguments-validation (who)
+      ()
+    (capi.hmac-update)))
+
+(define (hmac-final ctx)
+  (define who 'hmac-final)
+  (with-arguments-validation (who)
+      ()
+    (capi.hmac-final)))
+
+(define (hmac-ctx-copy ctx)
+  (define who 'hmac-ctx-copy)
+  (with-arguments-validation (who)
+      ()
+    (capi.hmac-ctx-copy)))
+
+(define (hmac-ctx-set-flags ctx)
+  (define who 'hmac-ctx-set-flags)
+  (with-arguments-validation (who)
+      ()
+    (capi.hmac-ctx-set-flags)))
 
 
 ;;;; done

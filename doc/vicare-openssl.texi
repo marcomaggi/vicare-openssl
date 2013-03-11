@@ -270,6 +270,8 @@ Return a Scheme string representing the version number.
 
 @menu
 * plain hash::                  Computing hash checksums.
+* plain hmac::                  Computing message authentication codes.
+* plain evp::                   High-level cryptographic functions.
 @end menu
 
 @c page
@@ -1809,6 +1811,16 @@ pointer object: @var{input.len} must represent the number of bytes
 available in the reference memory block; otherwise @var{input.len} is
 ignored.
 @end defun
+
+@c page
+@node plain hmac
+@section Computing message authentication codes
+
+
+@c page
+@node plain evp
+@section High--level cryptographic functions
+
 
 @c page
 @c ------------------------------------------------------------

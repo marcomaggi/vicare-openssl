@@ -58,6 +58,10 @@
 #  include <openssl/ripemd.h>
 #endif
 
+#ifdef HAVE_OPENSSL_HMAC_H
+#  include <openssl/hmac.h>
+#endif
+
 
 /** --------------------------------------------------------------------
  ** Handling of Scheme objects.

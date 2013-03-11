@@ -45,6 +45,9 @@
 
     ;; RIPEMD 160
     RIPEMD160_DIGEST_LENGTH
+
+    ;; HMAC
+    HMAC_MAX_MD_CBLOCK
     )
   (import (rename (only (vicare syntactic-extensions)
 			define-inline-constant)
@@ -71,6 +74,9 @@
 
 ;; RIPEMD 160
 (defc RIPEMD160_DIGEST_LENGTH		@VALUEOF_RIPEMD160_DIGEST_LENGTH@)
+
+;; HMAC
+(defc HMAC_MAX_MD_CBLOCK		@VALUEOF_HMAC_MAX_MD_CBLOCK@)
 
 
 ;;;; done

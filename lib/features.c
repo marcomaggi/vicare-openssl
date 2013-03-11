@@ -74,6 +74,53 @@ main (int argc, const char *const argv[])
     HAVE_MD5_FINAL\n\
     HAVE_MD5\n\
     \n\
+    ;; MDC2 features\n\
+    HAVE_MDC2_INIT\n\
+    HAVE_MDC2_UPDATE\n\
+    HAVE_MDC2_FINAL\n\
+    HAVE_MDC2\n\
+    \n\
+    ;; SHA 1 features\n\
+    HAVE_SHA1_INIT\n\
+    HAVE_SHA1_UPDATE\n\
+    HAVE_SHA1_FINAL\n\
+    HAVE_SHA1\n\
+    \n\
+    ;; SHA 224 features\n\
+    HAVE_SHA224_INIT\n\
+    HAVE_SHA224_UPDATE\n\
+    HAVE_SHA224_FINAL\n\
+    HAVE_SHA224\n\
+    \n\
+    ;; SHA 256 features\n\
+    HAVE_SHA256_INIT\n\
+    HAVE_SHA256_UPDATE\n\
+    HAVE_SHA256_FINAL\n\
+    HAVE_SHA256\n\
+    \n\
+    ;; SHA 384 features\n\
+    HAVE_SHA384_INIT\n\
+    HAVE_SHA384_UPDATE\n\
+    HAVE_SHA384_FINAL\n\
+    HAVE_SHA384\n\
+    \n\
+    ;; SHA 512 features\n\
+    HAVE_SHA512_INIT\n\
+    HAVE_SHA512_UPDATE\n\
+    HAVE_SHA512_FINAL\n\
+    HAVE_SHA512\n\
+    \n\
+    ;; HMAC features\n\
+    HAVE_HMAC\n\
+    HAVE_HMAC_CTX_INIT\n\
+    HAVE_HMAC_CTX_CLEANUP\n\
+    HAVE_HMAC_INIT\n\
+    HAVE_HMAC_INIT_EX\n\
+    HAVE_HMAC_UPDATE\n\
+    HAVE_HMAC_FINAL\n\
+    HAVE_HMAC_CTX_COPY\n\
+    HAVE_HMAC_CTX_SET_FLAGS\n\
+    \n\
     )\n\
   (import (rnrs))\n\
 \n\
@@ -149,6 +196,305 @@ printf("(define-inline-constant HAVE_MD5_FINAL %s)\n",
   );
 printf("(define-inline-constant HAVE_MD5 %s)\n",
 #ifdef HAVE_MD5
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** MDC2 features.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_MDC2_INIT %s)\n",
+#ifdef HAVE_MDC2_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_MDC2_UPDATE %s)\n",
+#ifdef HAVE_MDC2_UPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_MDC2_FINAL %s)\n",
+#ifdef HAVE_MDC2_FINAL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_MDC2 %s)\n",
+#ifdef HAVE_MDC2
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** SHA 1 features.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_SHA1_INIT %s)\n",
+#ifdef HAVE_SHA1_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA1_UPDATE %s)\n",
+#ifdef HAVE_SHA1_UPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA1_FINAL %s)\n",
+#ifdef HAVE_SHA1_FINAL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA1 %s)\n",
+#ifdef HAVE_SHA1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** SHA 224 features.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_SHA224_INIT %s)\n",
+#ifdef HAVE_SHA224_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA224_UPDATE %s)\n",
+#ifdef HAVE_SHA224_UPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA224_FINAL %s)\n",
+#ifdef HAVE_SHA224_FINAL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA224 %s)\n",
+#ifdef HAVE_SHA224
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** SHA 256 features.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_SHA256_INIT %s)\n",
+#ifdef HAVE_SHA256_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA256_UPDATE %s)\n",
+#ifdef HAVE_SHA256_UPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA256_FINAL %s)\n",
+#ifdef HAVE_SHA256_FINAL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA256 %s)\n",
+#ifdef HAVE_SHA256
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** SHA 384 features.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_SHA384_INIT %s)\n",
+#ifdef HAVE_SHA384_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA384_UPDATE %s)\n",
+#ifdef HAVE_SHA384_UPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA384_FINAL %s)\n",
+#ifdef HAVE_SHA384_FINAL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA384 %s)\n",
+#ifdef HAVE_SHA384
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** SHA 512 features.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_SHA512_INIT %s)\n",
+#ifdef HAVE_SHA512_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA512_UPDATE %s)\n",
+#ifdef HAVE_SHA512_UPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA512_FINAL %s)\n",
+#ifdef HAVE_SHA512_FINAL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_SHA512 %s)\n",
+#ifdef HAVE_SHA512
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** HMAC features.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_HMAC %s)\n",
+#ifdef HAVE_HMAC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_HMAC_CTX_INIT %s)\n",
+#ifdef HAVE_HMAC_CTX_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_HMAC_CTX_CLEANUP %s)\n",
+#ifdef HAVE_HMAC_CTX_CLEANUP
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_HMAC_INIT %s)\n",
+#ifdef HAVE_HMAC_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_HMAC_INIT_EX %s)\n",
+#ifdef HAVE_HMAC_INIT_EX
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_HMAC_UPDATE %s)\n",
+#ifdef HAVE_HMAC_UPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_HMAC_FINAL %s)\n",
+#ifdef HAVE_HMAC_FINAL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_HMAC_CTX_COPY %s)\n",
+#ifdef HAVE_HMAC_CTX_COPY
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_HMAC_CTX_SET_FLAGS %s)\n",
+#ifdef HAVE_HMAC_CTX_SET_FLAGS
   "#t"
 #else
   "#f"
