@@ -186,6 +186,266 @@
   (collect))
 
 
+(parametrise ((check-test-name		'sha1)
+	      (struct-guardian-logger	#f))
+
+  (when #f
+    (check-pretty-print (ssl.sha1-init)))
+
+  (check
+      (let ((ctx (ssl.sha1-init)))
+	(ssl.sha1-ctx? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.sha1-init)))
+	(ssl.sha1-ctx?/alive ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.sha1-init)))
+	(ssl.sha1-final ctx)
+	(ssl.sha1-ctx?/alive ctx))
+    => #f)
+
+  (check
+      (let ((ctx (ssl.sha1-init)))
+	(ssl.sha1-final ctx)
+	(ssl.sha1-final ctx)
+	(ssl.sha1-ctx?/alive ctx))
+    => #f)
+
+;;; --------------------------------------------------------------------
+;;; sha1-update
+
+  (check
+      (let ((ctx (ssl.sha1-init)))
+	(assert (ssl.sha1-update ctx "ciao"))
+	(ssl.sha1-final ctx))
+    => '#vu8(30 78 136 138 198 111 141 212 30 0 197 167 172 54 163
+		42 153 80 210 113))
+
+;;; --------------------------------------------------------------------
+;;; sha1
+
+  (check
+      (ssl.sha1 "ciao")
+    => '#vu8(30 78 136 138 198 111 141 212 30 0 197 167 172 54 163
+		42 153 80 210 113))
+
+  (collect))
+
+
+(parametrise ((check-test-name		'sha224)
+	      (struct-guardian-logger	#f))
+
+  (when #f
+    (check-pretty-print (ssl.sha224-init)))
+
+  (check
+      (let ((ctx (ssl.sha224-init)))
+	(ssl.sha224-ctx? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.sha224-init)))
+	(ssl.sha224-ctx?/alive ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.sha224-init)))
+	(ssl.sha224-final ctx)
+	(ssl.sha224-ctx?/alive ctx))
+    => #f)
+
+  (check
+      (let ((ctx (ssl.sha224-init)))
+	(ssl.sha224-final ctx)
+	(ssl.sha224-final ctx)
+	(ssl.sha224-ctx?/alive ctx))
+    => #f)
+
+;;; --------------------------------------------------------------------
+;;; sha224-update
+
+  (check
+      (let ((ctx (ssl.sha224-init)))
+	(assert (ssl.sha224-update ctx "ciao"))
+	(ssl.sha224-final ctx))
+    => '#vu8(241 177 161 48 51 237 220 63 222 236 192 237 3 189 192
+		 25 194 88 144 186 144 102 88 173 218 217 254 254))
+
+;;; --------------------------------------------------------------------
+;;; sha224
+
+  (check
+      (ssl.sha224 "ciao")
+    => '#vu8(241 177 161 48 51 237 220 63 222 236 192 237 3 189 192
+		 25 194 88 144 186 144 102 88 173 218 217 254 254))
+
+  (collect))
+
+
+(parametrise ((check-test-name		'sha256)
+	      (struct-guardian-logger	#f))
+
+  (when #f
+    (check-pretty-print (ssl.sha256-init)))
+
+  (check
+      (let ((ctx (ssl.sha256-init)))
+	(ssl.sha256-ctx? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.sha256-init)))
+	(ssl.sha256-ctx?/alive ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.sha256-init)))
+	(ssl.sha256-final ctx)
+	(ssl.sha256-ctx?/alive ctx))
+    => #f)
+
+  (check
+      (let ((ctx (ssl.sha256-init)))
+	(ssl.sha256-final ctx)
+	(ssl.sha256-final ctx)
+	(ssl.sha256-ctx?/alive ctx))
+    => #f)
+
+;;; --------------------------------------------------------------------
+;;; sha256-update
+
+  (check
+      (let ((ctx (ssl.sha256-init)))
+	(assert (ssl.sha256-update ctx "ciao"))
+	(ssl.sha256-final ctx))
+    => '#vu8(177 51 160 192 233 190 227 190 32 22 61 42 211 29 98 72
+		 219 41 42 166 220 177 238 8 122 42 165 14 15 199 90 226))
+
+;;; --------------------------------------------------------------------
+;;; sha256
+
+  (check
+      (ssl.sha256 "ciao")
+    => '#vu8(177 51 160 192 233 190 227 190 32 22 61 42 211 29 98 72
+		 219 41 42 166 220 177 238 8 122 42 165 14 15 199 90 226))
+
+  (collect))
+
+
+(parametrise ((check-test-name		'sha384)
+	      (struct-guardian-logger	#f))
+
+  (when #f
+    (check-pretty-print (ssl.sha384-init)))
+
+  (check
+      (let ((ctx (ssl.sha384-init)))
+	(ssl.sha384-ctx? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.sha384-init)))
+	(ssl.sha384-ctx?/alive ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.sha384-init)))
+	(ssl.sha384-final ctx)
+	(ssl.sha384-ctx?/alive ctx))
+    => #f)
+
+  (check
+      (let ((ctx (ssl.sha384-init)))
+	(ssl.sha384-final ctx)
+	(ssl.sha384-final ctx)
+	(ssl.sha384-ctx?/alive ctx))
+    => #f)
+
+;;; --------------------------------------------------------------------
+;;; sha384-update
+
+  (check
+      (let ((ctx (ssl.sha384-init)))
+	(assert (ssl.sha384-update ctx "ciao"))
+	(ssl.sha384-final ctx))
+    => '#vu8(110 218 79 204 118 133 171 186 67 69 181 195 13 193 56
+		 133 175 247 53 154 81 209 135 124 124 85 207 48 93 213
+		 47 198 34 188 209 168 24 58 194 231 199 253 193 252 20
+		 195 246 133))
+
+;;; --------------------------------------------------------------------
+;;; sha384
+
+  (check
+      (ssl.sha384 "ciao")
+    => '#vu8(110 218 79 204 118 133 171 186 67 69 181 195 13 193 56
+		 133 175 247 53 154 81 209 135 124 124 85 207 48 93 213
+		 47 198 34 188 209 168 24 58 194 231 199 253 193 252 20
+		 195 246 133))
+
+  (collect))
+
+
+(parametrise ((check-test-name		'sha512)
+	      (struct-guardian-logger	#f))
+
+  (when #f
+    (check-pretty-print (ssl.sha512-init)))
+
+  (check
+      (let ((ctx (ssl.sha512-init)))
+	(ssl.sha512-ctx? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.sha512-init)))
+	(ssl.sha512-ctx?/alive ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.sha512-init)))
+	(ssl.sha512-final ctx)
+	(ssl.sha512-ctx?/alive ctx))
+    => #f)
+
+  (check
+      (let ((ctx (ssl.sha512-init)))
+	(ssl.sha512-final ctx)
+	(ssl.sha512-final ctx)
+	(ssl.sha512-ctx?/alive ctx))
+    => #f)
+
+;;; --------------------------------------------------------------------
+;;; sha512-update
+
+  (check
+      (let ((ctx (ssl.sha512-init)))
+	(assert (ssl.sha512-update ctx "ciao"))
+	(ssl.sha512-final ctx))
+    => '#vu8(160 194 153 183 26 158 89 213 235 176 121 23 231 6 1
+		 163 87 10 161 3 233 154 123 182 90 88 231 128 236 144
+		 119 177 144 45 29 237 179 27 20 87 190 218 89 95 228
+		 215 29 119 155 108 169 202 212 118 38 108 192 117 144
+		 227 29 132 178 6))
+
+;;; --------------------------------------------------------------------
+;;; sha512
+
+  (check
+      (ssl.sha512 "ciao")
+    => '#vu8(160 194 153 183 26 158 89 213 235 176 121 23 231 6 1
+		 163 87 10 161 3 233 154 123 182 90 88 231 128 236 144
+		 119 177 144 45 29 237 179 27 20 87 190 218 89 95 228
+		 215 29 119 155 108 169 202 212 118 38 108 192 117 144
+		 227 29 132 178 6))
+
+  (collect))
+
+
 ;;;; done
 
 (check-report)

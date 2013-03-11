@@ -53,6 +53,36 @@
     mdc2-final
     mdc2
 
+    ;; SHA1
+    sha1-init
+    sha1-update
+    sha1-final
+    sha1
+
+    ;; SHA224
+    sha224-init
+    sha224-update
+    sha224-final
+    sha224
+
+    ;; SHA256
+    sha256-init
+    sha256-update
+    sha256-final
+    sha256
+
+    ;; SHA384
+    sha384-init
+    sha384-update
+    sha384-final
+    sha384
+
+    ;; SHA512
+    sha512-init
+    sha512-update
+    sha512-final
+    sha512
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -129,6 +159,77 @@
 
 (define-inline (mdc2 input input.len)
   (foreign-call "ikrt_mdc2" input input.len))
+
+
+;;;; SHA
+
+(define-inline (sha1-init)
+  (foreign-call "ikrt_sha1_init"))
+
+(define-inline (sha1-update ctx input input.len)
+  (foreign-call "ikrt_sha1_update" ctx input input.len))
+
+(define-inline (sha1-final ctx)
+  (foreign-call "ikrt_sha1_final" ctx))
+
+(define-inline (sha1 input input.len)
+  (foreign-call "ikrt_sha1" input input.len))
+
+;;; --------------------------------------------------------------------
+
+(define-inline (sha224-init)
+  (foreign-call "ikrt_sha224_init"))
+
+(define-inline (sha224-update ctx input input.len)
+  (foreign-call "ikrt_sha224_update" ctx input input.len))
+
+(define-inline (sha224-final ctx)
+  (foreign-call "ikrt_sha224_final" ctx))
+
+(define-inline (sha224 input input.len)
+  (foreign-call "ikrt_sha224" input input.len))
+
+;;; --------------------------------------------------------------------
+
+(define-inline (sha256-init)
+  (foreign-call "ikrt_sha256_init"))
+
+(define-inline (sha256-update ctx input input.len)
+  (foreign-call "ikrt_sha256_update" ctx input input.len))
+
+(define-inline (sha256-final ctx)
+  (foreign-call "ikrt_sha256_final" ctx))
+
+(define-inline (sha256 input input.len)
+  (foreign-call "ikrt_sha256" input input.len))
+
+;;; --------------------------------------------------------------------
+
+(define-inline (sha384-init)
+  (foreign-call "ikrt_sha384_init"))
+
+(define-inline (sha384-update ctx input input.len)
+  (foreign-call "ikrt_sha384_update" ctx input input.len))
+
+(define-inline (sha384-final ctx)
+  (foreign-call "ikrt_sha384_final" ctx))
+
+(define-inline (sha384 input input.len)
+  (foreign-call "ikrt_sha384" input input.len))
+
+;;; --------------------------------------------------------------------
+
+(define-inline (sha512-init)
+  (foreign-call "ikrt_sha512_init"))
+
+(define-inline (sha512-update ctx input input.len)
+  (foreign-call "ikrt_sha512_update" ctx input input.len))
+
+(define-inline (sha512-final ctx)
+  (foreign-call "ikrt_sha512_final" ctx))
+
+(define-inline (sha512 input input.len)
+  (foreign-call "ikrt_sha512" input input.len))
 
 
 ;;;; done

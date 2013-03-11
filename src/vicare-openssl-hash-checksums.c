@@ -261,6 +261,368 @@ ikrt_mdc2 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 
 
 /** --------------------------------------------------------------------
+ ** SHA1.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_sha1_init (ikpcb * pcb)
+{
+#ifdef HAVE_SHA1_INIT
+  SHA_CTX *	ctx;
+  int		rv;
+  ctx = malloc(sizeof(SHA_CTX));
+  if (ctx) {
+    rv  = SHA1_Init(ctx);
+    if (rv)
+      return ika_pointer_alloc(pcb, (long)ctx);
+    else
+      free(ctx);
+  }
+  return IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha1_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_SHA1_UPDATE
+  SHA_CTX *	ctx	= IK_SHA_CTX(s_ctx);
+  const void *	in	= IK_GENERALISED_C_STRING(s_input);
+  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  int		rv;
+  rv = SHA1_Update(ctx, in, (unsigned long)in_len);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha1_final (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_SHA1_FINAL
+  ikptr		s_pointer	= IK_SHA_CTX_POINTER(s_ctx);
+  SHA_CTX *	ctx		= IK_POINTER_DATA_VOIDP(s_pointer);
+  unsigned char	sum[SHA_DIGEST_LENGTH];
+  int		rv = 0;
+  if (ctx) {
+    rv = SHA1_Final(sum, ctx);
+    free(ctx);
+    IK_POINTER_SET_NULL(s_pointer);
+  }
+  return (rv)? ika_bytevector_from_memory_block(pcb, sum, SHA_DIGEST_LENGTH) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha1 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_SHA1
+  ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
+  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  unsigned char		sum[SHA_DIGEST_LENGTH];
+  SHA1(in, in_len, sum);
+  return ika_bytevector_from_memory_block(pcb, sum, SHA_DIGEST_LENGTH);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** SHA224.
+ ** ----------------------------------------------------------------- */
+
+/* The   functions  for   SHA224  operate   on  the   context  structure
+   "SHA256_CTX", as of  OpenSSL version 1.0.1e there  is no "SHA224_CTX"
+   structure. */
+
+typedef SHA256_CTX		SHA224_CTX;
+
+ikptr
+ikrt_sha224_init (ikpcb * pcb)
+{
+#ifdef HAVE_SHA224_INIT
+  SHA224_CTX *	ctx;
+  int		rv;
+  ctx = malloc(sizeof(SHA224_CTX));
+  if (ctx) {
+    rv  = SHA224_Init(ctx);
+    if (rv)
+      return ika_pointer_alloc(pcb, (long)ctx);
+    else
+      free(ctx);
+  }
+  return IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha224_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_SHA224_UPDATE
+  SHA224_CTX *	ctx	= IK_SHA224_CTX(s_ctx);
+  const void *	in	= IK_GENERALISED_C_STRING(s_input);
+  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  int		rv;
+  rv = SHA224_Update(ctx, in, (unsigned long)in_len);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha224_final (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_SHA224_FINAL
+  ikptr		s_pointer	= IK_SHA224_CTX_POINTER(s_ctx);
+  SHA224_CTX *	ctx		= IK_POINTER_DATA_VOIDP(s_pointer);
+  unsigned char	sum[SHA224_DIGEST_LENGTH];
+  int		rv = 0;
+  if (ctx) {
+    rv = SHA224_Final(sum, ctx);
+    free(ctx);
+    IK_POINTER_SET_NULL(s_pointer);
+  }
+  return (rv)? ika_bytevector_from_memory_block(pcb, sum, SHA224_DIGEST_LENGTH) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha224 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_SHA224
+  ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
+  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  unsigned char		sum[SHA224_DIGEST_LENGTH];
+  SHA224(in, in_len, sum);
+  return ika_bytevector_from_memory_block(pcb, sum, SHA224_DIGEST_LENGTH);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** SHA256.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_sha256_init (ikpcb * pcb)
+{
+#ifdef HAVE_SHA256_INIT
+  SHA256_CTX *	ctx;
+  int		rv;
+  ctx = malloc(sizeof(SHA256_CTX));
+  if (ctx) {
+    rv  = SHA256_Init(ctx);
+    if (rv)
+      return ika_pointer_alloc(pcb, (long)ctx);
+    else
+      free(ctx);
+  }
+  return IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha256_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_SHA256_UPDATE
+  SHA256_CTX *	ctx	= IK_SHA256_CTX(s_ctx);
+  const void *	in	= IK_GENERALISED_C_STRING(s_input);
+  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  int		rv;
+  rv = SHA256_Update(ctx, in, (unsigned long)in_len);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha256_final (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_SHA256_FINAL
+  ikptr		s_pointer	= IK_SHA256_CTX_POINTER(s_ctx);
+  SHA256_CTX *	ctx		= IK_POINTER_DATA_VOIDP(s_pointer);
+  unsigned char	sum[SHA256_DIGEST_LENGTH];
+  int		rv = 0;
+  if (ctx) {
+    rv = SHA256_Final(sum, ctx);
+    free(ctx);
+    IK_POINTER_SET_NULL(s_pointer);
+  }
+  return (rv)? ika_bytevector_from_memory_block(pcb, sum, SHA256_DIGEST_LENGTH) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha256 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_SHA256
+  ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
+  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  unsigned char		sum[SHA256_DIGEST_LENGTH];
+  SHA256(in, in_len, sum);
+  return ika_bytevector_from_memory_block(pcb, sum, SHA256_DIGEST_LENGTH);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** SHA384.
+ ** ----------------------------------------------------------------- */
+
+/* The   functions  for   SHA384  operate   on  the   context  structure
+   "SHA512_CTX", as of  OpenSSL version 1.0.1e there  is no "SHA384_CTX"
+   structure. */
+
+typedef SHA512_CTX		SHA384_CTX;
+
+ikptr
+ikrt_sha384_init (ikpcb * pcb)
+{
+#ifdef HAVE_SHA384_INIT
+  SHA384_CTX *	ctx;
+  int		rv;
+  ctx = malloc(sizeof(SHA384_CTX));
+  if (ctx) {
+    rv  = SHA384_Init(ctx);
+    if (rv)
+      return ika_pointer_alloc(pcb, (long)ctx);
+    else
+      free(ctx);
+  }
+  return IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha384_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_SHA384_UPDATE
+  SHA384_CTX *	ctx	= IK_SHA384_CTX(s_ctx);
+  const void *	in	= IK_GENERALISED_C_STRING(s_input);
+  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  int		rv;
+  rv = SHA384_Update(ctx, in, (unsigned long)in_len);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha384_final (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_SHA384_FINAL
+  ikptr		s_pointer	= IK_SHA384_CTX_POINTER(s_ctx);
+  SHA384_CTX *	ctx		= IK_POINTER_DATA_VOIDP(s_pointer);
+  unsigned char	sum[SHA384_DIGEST_LENGTH];
+  int		rv = 0;
+  if (ctx) {
+    rv = SHA384_Final(sum, ctx);
+    free(ctx);
+    IK_POINTER_SET_NULL(s_pointer);
+  }
+  return (rv)? ika_bytevector_from_memory_block(pcb, sum, SHA384_DIGEST_LENGTH) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha384 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_SHA384
+  ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
+  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  unsigned char		sum[SHA384_DIGEST_LENGTH];
+  SHA384(in, in_len, sum);
+  return ika_bytevector_from_memory_block(pcb, sum, SHA384_DIGEST_LENGTH);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** SHA512.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_sha512_init (ikpcb * pcb)
+{
+#ifdef HAVE_SHA512_INIT
+  SHA512_CTX *	ctx;
+  int		rv;
+  ctx = malloc(sizeof(SHA512_CTX));
+  if (ctx) {
+    rv  = SHA512_Init(ctx);
+    if (rv)
+      return ika_pointer_alloc(pcb, (long)ctx);
+    else
+      free(ctx);
+  }
+  return IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha512_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_SHA512_UPDATE
+  SHA512_CTX *	ctx	= IK_SHA512_CTX(s_ctx);
+  const void *	in	= IK_GENERALISED_C_STRING(s_input);
+  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  int		rv;
+  rv = SHA512_Update(ctx, in, (unsigned long)in_len);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha512_final (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_SHA512_FINAL
+  ikptr		s_pointer	= IK_SHA512_CTX_POINTER(s_ctx);
+  SHA512_CTX *	ctx		= IK_POINTER_DATA_VOIDP(s_pointer);
+  unsigned char	sum[SHA512_DIGEST_LENGTH];
+  int		rv = 0;
+  if (ctx) {
+    rv = SHA512_Final(sum, ctx);
+    free(ctx);
+    IK_POINTER_SET_NULL(s_pointer);
+  }
+  return (rv)? ika_bytevector_from_memory_block(pcb, sum, SHA512_DIGEST_LENGTH) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_sha512 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_SHA512
+  ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
+  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  unsigned char		sum[SHA512_DIGEST_LENGTH];
+  SHA512(in, in_len, sum);
+  return ika_bytevector_from_memory_block(pcb, sum, SHA512_DIGEST_LENGTH);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
  ** Still to be implemented.
  ** ----------------------------------------------------------------- */
 

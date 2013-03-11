@@ -78,6 +78,76 @@
     mdc2-final
     mdc2
 
+    ;; SHA1
+    sha1-ctx
+    sha1-ctx?
+    sha1-ctx?/alive
+    sha1-ctx-custom-destructor
+    set-sha1-ctx-custom-destructor!
+    sha1-ctx.vicare-arguments-validation
+    sha1-ctx/alive.vicare-arguments-validation
+
+    sha1-init
+    sha1-update
+    sha1-final
+    sha1
+
+    ;; SHA224
+    sha224-ctx
+    sha224-ctx?
+    sha224-ctx?/alive
+    sha224-ctx-custom-destructor
+    set-sha224-ctx-custom-destructor!
+    sha224-ctx.vicare-arguments-validation
+    sha224-ctx/alive.vicare-arguments-validation
+
+    sha224-init
+    sha224-update
+    sha224-final
+    sha224
+
+    ;; SHA256
+    sha256-ctx
+    sha256-ctx?
+    sha256-ctx?/alive
+    sha256-ctx-custom-destructor
+    set-sha256-ctx-custom-destructor!
+    sha256-ctx.vicare-arguments-validation
+    sha256-ctx/alive.vicare-arguments-validation
+
+    sha256-init
+    sha256-update
+    sha256-final
+    sha256
+
+    ;; SHA384
+    sha384-ctx
+    sha384-ctx?
+    sha384-ctx?/alive
+    sha384-ctx-custom-destructor
+    set-sha384-ctx-custom-destructor!
+    sha384-ctx.vicare-arguments-validation
+    sha384-ctx/alive.vicare-arguments-validation
+
+    sha384-init
+    sha384-update
+    sha384-final
+    sha384
+
+    ;; SHA512
+    sha512-ctx
+    sha512-ctx?
+    sha512-ctx?/alive
+    sha512-ctx-custom-destructor
+    set-sha512-ctx-custom-destructor!
+    sha512-ctx.vicare-arguments-validation
+    sha512-ctx/alive.vicare-arguments-validation
+
+    sha512-init
+    sha512-update
+    sha512-final
+    sha512
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -260,6 +330,246 @@
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
 	(capi.mdc2 input^ input.len))))))
+
+
+;;;; SHA1
+
+(ffi.define-foreign-pointer-wrapper sha1-ctx
+  (ffi.foreign-destructor capi.sha1-final)
+  (ffi.collector-struct-type #f))
+
+(define (sha1-init)
+  (let ((rv (capi.sha1-init)))
+    (and rv (make-sha1-ctx/owner rv))))
+
+(define sha1-update
+  (case-lambda
+   ((ctx input)
+    (sha1-update ctx input #f))
+   ((ctx input input.len)
+    (define who 'sha1-update)
+    (with-arguments-validation (who)
+	((sha1-ctx/alive		ctx)
+	 (general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.sha1-update ctx input^ input.len))))))
+
+(define (sha1-final ctx)
+  (define who 'sha1-final)
+  (with-arguments-validation (who)
+      ((sha1-ctx		ctx))
+    ($sha1-ctx-finalise ctx)))
+
+;;; --------------------------------------------------------------------
+
+(define sha1
+  (case-lambda
+   ((input)
+    (sha1 input #f))
+   ((input input.len)
+    (define who 'sha1)
+    (with-arguments-validation (who)
+	((general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.sha1 input^ input.len))))))
+
+
+;;;; SHA224
+
+(ffi.define-foreign-pointer-wrapper sha224-ctx
+  (ffi.foreign-destructor capi.sha224-final)
+  (ffi.collector-struct-type #f))
+
+(define (sha224-init)
+  (let ((rv (capi.sha224-init)))
+    (and rv (make-sha224-ctx/owner rv))))
+
+(define sha224-update
+  (case-lambda
+   ((ctx input)
+    (sha224-update ctx input #f))
+   ((ctx input input.len)
+    (define who 'sha224-update)
+    (with-arguments-validation (who)
+	((sha224-ctx/alive		ctx)
+	 (general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.sha224-update ctx input^ input.len))))))
+
+(define (sha224-final ctx)
+  (define who 'sha224-final)
+  (with-arguments-validation (who)
+      ((sha224-ctx		ctx))
+    ($sha224-ctx-finalise ctx)))
+
+;;; --------------------------------------------------------------------
+
+(define sha224
+  (case-lambda
+   ((input)
+    (sha224 input #f))
+   ((input input.len)
+    (define who 'sha224)
+    (with-arguments-validation (who)
+	((general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.sha224 input^ input.len))))))
+
+
+;;;; SHA256
+
+(ffi.define-foreign-pointer-wrapper sha256-ctx
+  (ffi.foreign-destructor capi.sha256-final)
+  (ffi.collector-struct-type #f))
+
+(define (sha256-init)
+  (let ((rv (capi.sha256-init)))
+    (and rv (make-sha256-ctx/owner rv))))
+
+(define sha256-update
+  (case-lambda
+   ((ctx input)
+    (sha256-update ctx input #f))
+   ((ctx input input.len)
+    (define who 'sha256-update)
+    (with-arguments-validation (who)
+	((sha256-ctx/alive		ctx)
+	 (general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.sha256-update ctx input^ input.len))))))
+
+(define (sha256-final ctx)
+  (define who 'sha256-final)
+  (with-arguments-validation (who)
+      ((sha256-ctx		ctx))
+    ($sha256-ctx-finalise ctx)))
+
+;;; --------------------------------------------------------------------
+
+(define sha256
+  (case-lambda
+   ((input)
+    (sha256 input #f))
+   ((input input.len)
+    (define who 'sha256)
+    (with-arguments-validation (who)
+	((general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.sha256 input^ input.len))))))
+
+
+;;;; SHA384
+
+(ffi.define-foreign-pointer-wrapper sha384-ctx
+  (ffi.foreign-destructor capi.sha384-final)
+  (ffi.collector-struct-type #f))
+
+(define (sha384-init)
+  (let ((rv (capi.sha384-init)))
+    (and rv (make-sha384-ctx/owner rv))))
+
+(define sha384-update
+  (case-lambda
+   ((ctx input)
+    (sha384-update ctx input #f))
+   ((ctx input input.len)
+    (define who 'sha384-update)
+    (with-arguments-validation (who)
+	((sha384-ctx/alive		ctx)
+	 (general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.sha384-update ctx input^ input.len))))))
+
+(define (sha384-final ctx)
+  (define who 'sha384-final)
+  (with-arguments-validation (who)
+      ((sha384-ctx		ctx))
+    ($sha384-ctx-finalise ctx)))
+
+;;; --------------------------------------------------------------------
+
+(define sha384
+  (case-lambda
+   ((input)
+    (sha384 input #f))
+   ((input input.len)
+    (define who 'sha384)
+    (with-arguments-validation (who)
+	((general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.sha384 input^ input.len))))))
+
+
+;;;; SHA512
+
+(ffi.define-foreign-pointer-wrapper sha512-ctx
+  (ffi.foreign-destructor capi.sha512-final)
+  (ffi.collector-struct-type #f))
+
+(define (sha512-init)
+  (let ((rv (capi.sha512-init)))
+    (and rv (make-sha512-ctx/owner rv))))
+
+(define sha512-update
+  (case-lambda
+   ((ctx input)
+    (sha512-update ctx input #f))
+   ((ctx input input.len)
+    (define who 'sha512-update)
+    (with-arguments-validation (who)
+	((sha512-ctx/alive		ctx)
+	 (general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.sha512-update ctx input^ input.len))))))
+
+(define (sha512-final ctx)
+  (define who 'sha512-final)
+  (with-arguments-validation (who)
+      ((sha512-ctx		ctx))
+    ($sha512-ctx-finalise ctx)))
+
+;;; --------------------------------------------------------------------
+
+(define sha512
+  (case-lambda
+   ((input)
+    (sha512 input #f))
+   ((input input.len)
+    (define who 'sha512)
+    (with-arguments-validation (who)
+	((general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.sha512 input^ input.len))))))
 
 
 ;;;; done

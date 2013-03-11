@@ -281,6 +281,11 @@ Return a Scheme string representing the version number.
 * plain hash md4::              Computing MD4 hash checksums.
 * plain hash md5::              Computing MD5 hash checksums.
 * plain hash mdc2::             Computing MDC2 hash checksums.
+* plain hash sha1::             Computing SHA1 hash checksums.
+* plain hash sha224::           Computing SHA224 hash checksums.
+* plain hash sha256::           Computing SHA256 hash checksums.
+* plain hash sha384::           Computing SHA384 hash checksums.
+* plain hash sha512::           Computing SHA512 hash checksums.
 @end menu
 
 @c page
@@ -778,6 +783,851 @@ crypto openssl}.
 @defunx mdc2 @var{input} @var{input.len}
 Perform a one--step checksum computing; return a bytevector holding the
 result.  @manpage{MDC2, MDC2}.
+
+@var{input} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{input} is a string:
+it is converted to a bytevector with @func{string->utf8}.
+
+The optional @var{input.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{input} is a
+pointer object: @var{input.len} must represent the number of bytes
+available in the reference memory block; otherwise @var{input.len} is
+ignored.
+@end defun
+
+@c page
+@node plain hash sha1
+@subsection Computing SHA1 hash checksums
+
+
+@menu
+* plain hash sha1 struct::       Hash checksum data structures.
+* plain hash sha1 api::          Context updating functions.
+* plain hash sha1 direct::       Directly computing hash checksums.
+@end menu
+
+@c page
+@node plain hash sha1 struct
+@subsubsection Hash checksum data structures
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@deftp {Struct Type} sha1-ctx
+@cindex @var{SHA1} argument
+@cindex Argument @var{SHA1}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{SHA1_CTX}; it references an SHA1 hash checksum
+context.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{SHA1}.
+
+There are two categories of @code{sha1-ctx} instances: those who own the
+underlying checksum context and those who merely reference it.
+
+@itemize
+@item
+@code{sha1-ctx} instances returned by @func{sha1-init} do own the context.
+When instances of this category are garbage collected or when
+@func{md5-final} is applied to them: the context is closed, all the
+associated data is finalised; any error is ignored in this procedure.
+@end itemize
+@end deftp
+
+
+@defun sha1-ctx? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{sha1-ctx}; otherwise
+return @false{}.
+@end defun
+
+
+@defun sha1-ctx?/alive @var{obj}
+Return @true{} if @var{obj} is an instance of @code{sha1-ctx} and the
+context it represents is open; otherwise return @false{}.
+@end defun
+
+
+@defun sha1-ctx-custom-destructor @var{SHA1}
+@defunx set-sha1-ctx-custom-destructor! @var{SHA1} @var{func}
+Retrieve or set a destructor function associated to the @var{SHA1}.
+
+Whenever the @var{SHA1} is closed, either explicitly with
+@func{sha1-final} or implicitly by the garbage collector, @var{func} is
+applied to @var{SHA1} before the internal state of @var{SHA1} is
+finalised.
+
+Notice that @var{func} can do anything, not only destroy some state
+associated to @var{SHA1}; if we do:
+
+@example
+(define context ...)
+(set-sha1-ctx-custom-destructor! context
+  (let ((state (make-some-data-struct)))
+    (case-lambda
+      ((sex)
+       (destroy state))
+      (()
+       state))))
+
+(let ((state ((sha1-ctx-custom-destructor context))))
+  (do-something-with context state))
+@end example
+
+@noindent
+we can easily associate values to @var{SHA1}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} sha1-ctx @var{obj}
+@deffnx {Validation Clause} false-or-sha1-ctx @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{sha1-ctx?}; the second
+clause also accepts @false{}.
+@end deffn
+
+
+@deffn {Validation Clause} sha1-ctx/alive @var{obj}
+@deffnx {Validation Clause} false-or-sha1-ctx/alive @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{sha1-ctx?/alive}; the
+second clause also accepts @false{}.
+@end deffn
+
+@c page
+@node plain hash sha1 api
+@subsubsection Context updating functions
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun sha1-init
+Allocate and initialise a new instance of @code{sha1-ctx}; if successful
+return the struct, else return @false{}.  @manpage{SHA1_Init, SHA1_Init}
+@end defun
+
+
+@defun sha1-final @var{SHA1}
+Finalise a checksum context; if successful return a bytevector holding
+the computed checksum, else return @false{}.  @manpage{SHA1_Final,
+SHA1_Final}.  It is fine to apply this function multiple times to the
+same @var{SHA1} argument.
+@end defun
+
+
+@defun sha1-update @var{SHA1} @var{input} @var{input.len}
+Update the checksum context with the given input data.
+@manpage{SHA1_Update, SHA1_Update}
+
+@var{input} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{input} is a string:
+it is converted to a bytevector with @func{string->utf8}.
+
+The optional @var{input.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{input} is a
+pointer object: @var{input.len} must represent the number of bytes
+available in the reference memory block; otherwise @var{input.len} is
+ignored.
+@end defun
+
+@c page
+@node plain hash sha1 direct
+@subsubsection Directly computing hash checksums
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun sha1 @var{input}
+@defunx sha1 @var{input} @var{input.len}
+Perform a one--step checksum computing; return a bytevector holding the
+result.  @manpage{SHA1, SHA1}.
+
+@var{input} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{input} is a string:
+it is converted to a bytevector with @func{string->utf8}.
+
+The optional @var{input.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{input} is a
+pointer object: @var{input.len} must represent the number of bytes
+available in the reference memory block; otherwise @var{input.len} is
+ignored.
+@end defun
+
+@c page
+@node plain hash sha224
+@subsection Computing SHA224 hash checksums
+
+
+@menu
+* plain hash sha224 struct::       Hash checksum data structures.
+* plain hash sha224 api::          Context updating functions.
+* plain hash sha224 direct::       Directly computing hash checksums.
+@end menu
+
+@c page
+@node plain hash sha224 struct
+@subsubsection Hash checksum data structures
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@deftp {Struct Type} sha224-ctx
+@cindex @var{SHA224} argument
+@cindex Argument @var{SHA224}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{SHA224_CTX}; it references an SHA224 hash checksum
+context.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{SHA224}.
+
+There are two categories of @code{sha224-ctx} instances: those who own the
+underlying checksum context and those who merely reference it.
+
+@itemize
+@item
+@code{sha224-ctx} instances returned by @func{sha224-init} do own the context.
+When instances of this category are garbage collected or when
+@func{md5-final} is applied to them: the context is closed, all the
+associated data is finalised; any error is ignored in this procedure.
+@end itemize
+@end deftp
+
+
+@defun sha224-ctx? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{sha224-ctx}; otherwise
+return @false{}.
+@end defun
+
+
+@defun sha224-ctx?/alive @var{obj}
+Return @true{} if @var{obj} is an instance of @code{sha224-ctx} and the
+context it represents is open; otherwise return @false{}.
+@end defun
+
+
+@defun sha224-ctx-custom-destructor @var{SHA224}
+@defunx set-sha224-ctx-custom-destructor! @var{SHA224} @var{func}
+Retrieve or set a destructor function associated to the @var{SHA224}.
+
+Whenever the @var{SHA224} is closed, either explicitly with
+@func{sha224-final} or implicitly by the garbage collector, @var{func} is
+applied to @var{SHA224} before the internal state of @var{SHA224} is
+finalised.
+
+Notice that @var{func} can do anything, not only destroy some state
+associated to @var{SHA224}; if we do:
+
+@example
+(define context ...)
+(set-sha224-ctx-custom-destructor! context
+  (let ((state (make-some-data-struct)))
+    (case-lambda
+      ((sex)
+       (destroy state))
+      (()
+       state))))
+
+(let ((state ((sha224-ctx-custom-destructor context))))
+  (do-something-with context state))
+@end example
+
+@noindent
+we can easily associate values to @var{SHA224}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} sha224-ctx @var{obj}
+@deffnx {Validation Clause} false-or-sha224-ctx @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{sha224-ctx?}; the second
+clause also accepts @false{}.
+@end deffn
+
+
+@deffn {Validation Clause} sha224-ctx/alive @var{obj}
+@deffnx {Validation Clause} false-or-sha224-ctx/alive @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{sha224-ctx?/alive}; the
+second clause also accepts @false{}.
+@end deffn
+
+@c page
+@node plain hash sha224 api
+@subsubsection Context updating functions
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun sha224-init
+Allocate and initialise a new instance of @code{sha224-ctx}; if successful
+return the struct, else return @false{}.  @manpage{SHA224_Init, SHA224_Init}
+@end defun
+
+
+@defun sha224-final @var{SHA224}
+Finalise a checksum context; if successful return a bytevector holding
+the computed checksum, else return @false{}.  @manpage{SHA224_Final,
+SHA224_Final}.  It is fine to apply this function multiple times to the
+same @var{SHA224} argument.
+@end defun
+
+
+@defun sha224-update @var{SHA224} @var{input} @var{input.len}
+Update the checksum context with the given input data.
+@manpage{SHA224_Update, SHA224_Update}
+
+@var{input} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{input} is a string:
+it is converted to a bytevector with @func{string->utf8}.
+
+The optional @var{input.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{input} is a
+pointer object: @var{input.len} must represent the number of bytes
+available in the reference memory block; otherwise @var{input.len} is
+ignored.
+@end defun
+
+@c page
+@node plain hash sha224 direct
+@subsubsection Directly computing hash checksums
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun sha224 @var{input}
+@defunx sha224 @var{input} @var{input.len}
+Perform a one--step checksum computing; return a bytevector holding the
+result.  @manpage{SHA224, SHA224}.
+
+@var{input} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{input} is a string:
+it is converted to a bytevector with @func{string->utf8}.
+
+The optional @var{input.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{input} is a
+pointer object: @var{input.len} must represent the number of bytes
+available in the reference memory block; otherwise @var{input.len} is
+ignored.
+@end defun
+
+@c page
+@node plain hash sha256
+@subsection Computing SHA256 hash checksums
+
+
+@menu
+* plain hash sha256 struct::       Hash checksum data structures.
+* plain hash sha256 api::          Context updating functions.
+* plain hash sha256 direct::       Directly computing hash checksums.
+@end menu
+
+@c page
+@node plain hash sha256 struct
+@subsubsection Hash checksum data structures
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@deftp {Struct Type} sha256-ctx
+@cindex @var{SHA256} argument
+@cindex Argument @var{SHA256}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{SHA256_CTX}; it references an SHA256 hash checksum
+context.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{SHA256}.
+
+There are two categories of @code{sha256-ctx} instances: those who own the
+underlying checksum context and those who merely reference it.
+
+@itemize
+@item
+@code{sha256-ctx} instances returned by @func{sha256-init} do own the context.
+When instances of this category are garbage collected or when
+@func{md5-final} is applied to them: the context is closed, all the
+associated data is finalised; any error is ignored in this procedure.
+@end itemize
+@end deftp
+
+
+@defun sha256-ctx? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{sha256-ctx}; otherwise
+return @false{}.
+@end defun
+
+
+@defun sha256-ctx?/alive @var{obj}
+Return @true{} if @var{obj} is an instance of @code{sha256-ctx} and the
+context it represents is open; otherwise return @false{}.
+@end defun
+
+
+@defun sha256-ctx-custom-destructor @var{SHA256}
+@defunx set-sha256-ctx-custom-destructor! @var{SHA256} @var{func}
+Retrieve or set a destructor function associated to the @var{SHA256}.
+
+Whenever the @var{SHA256} is closed, either explicitly with
+@func{sha256-final} or implicitly by the garbage collector, @var{func} is
+applied to @var{SHA256} before the internal state of @var{SHA256} is
+finalised.
+
+Notice that @var{func} can do anything, not only destroy some state
+associated to @var{SHA256}; if we do:
+
+@example
+(define context ...)
+(set-sha256-ctx-custom-destructor! context
+  (let ((state (make-some-data-struct)))
+    (case-lambda
+      ((sex)
+       (destroy state))
+      (()
+       state))))
+
+(let ((state ((sha256-ctx-custom-destructor context))))
+  (do-something-with context state))
+@end example
+
+@noindent
+we can easily associate values to @var{SHA256}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} sha256-ctx @var{obj}
+@deffnx {Validation Clause} false-or-sha256-ctx @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{sha256-ctx?}; the second
+clause also accepts @false{}.
+@end deffn
+
+
+@deffn {Validation Clause} sha256-ctx/alive @var{obj}
+@deffnx {Validation Clause} false-or-sha256-ctx/alive @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{sha256-ctx?/alive}; the
+second clause also accepts @false{}.
+@end deffn
+
+@c page
+@node plain hash sha256 api
+@subsubsection Context updating functions
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun sha256-init
+Allocate and initialise a new instance of @code{sha256-ctx}; if successful
+return the struct, else return @false{}.  @manpage{SHA256_Init, SHA256_Init}
+@end defun
+
+
+@defun sha256-final @var{SHA256}
+Finalise a checksum context; if successful return a bytevector holding
+the computed checksum, else return @false{}.  @manpage{SHA256_Final,
+SHA256_Final}.  It is fine to apply this function multiple times to the
+same @var{SHA256} argument.
+@end defun
+
+
+@defun sha256-update @var{SHA256} @var{input} @var{input.len}
+Update the checksum context with the given input data.
+@manpage{SHA256_Update, SHA256_Update}
+
+@var{input} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{input} is a string:
+it is converted to a bytevector with @func{string->utf8}.
+
+The optional @var{input.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{input} is a
+pointer object: @var{input.len} must represent the number of bytes
+available in the reference memory block; otherwise @var{input.len} is
+ignored.
+@end defun
+
+@c page
+@node plain hash sha256 direct
+@subsubsection Directly computing hash checksums
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun sha256 @var{input}
+@defunx sha256 @var{input} @var{input.len}
+Perform a one--step checksum computing; return a bytevector holding the
+result.  @manpage{SHA256, SHA256}.
+
+@var{input} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{input} is a string:
+it is converted to a bytevector with @func{string->utf8}.
+
+The optional @var{input.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{input} is a
+pointer object: @var{input.len} must represent the number of bytes
+available in the reference memory block; otherwise @var{input.len} is
+ignored.
+@end defun
+
+@c page
+@node plain hash sha384
+@subsection Computing SHA384 hash checksums
+
+
+@menu
+* plain hash sha384 struct::       Hash checksum data structures.
+* plain hash sha384 api::          Context updating functions.
+* plain hash sha384 direct::       Directly computing hash checksums.
+@end menu
+
+@c page
+@node plain hash sha384 struct
+@subsubsection Hash checksum data structures
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@deftp {Struct Type} sha384-ctx
+@cindex @var{SHA384} argument
+@cindex Argument @var{SHA384}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{SHA384_CTX}; it references an SHA384 hash checksum
+context.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{SHA384}.
+
+There are two categories of @code{sha384-ctx} instances: those who own the
+underlying checksum context and those who merely reference it.
+
+@itemize
+@item
+@code{sha384-ctx} instances returned by @func{sha384-init} do own the context.
+When instances of this category are garbage collected or when
+@func{md5-final} is applied to them: the context is closed, all the
+associated data is finalised; any error is ignored in this procedure.
+@end itemize
+@end deftp
+
+
+@defun sha384-ctx? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{sha384-ctx}; otherwise
+return @false{}.
+@end defun
+
+
+@defun sha384-ctx?/alive @var{obj}
+Return @true{} if @var{obj} is an instance of @code{sha384-ctx} and the
+context it represents is open; otherwise return @false{}.
+@end defun
+
+
+@defun sha384-ctx-custom-destructor @var{SHA384}
+@defunx set-sha384-ctx-custom-destructor! @var{SHA384} @var{func}
+Retrieve or set a destructor function associated to the @var{SHA384}.
+
+Whenever the @var{SHA384} is closed, either explicitly with
+@func{sha384-final} or implicitly by the garbage collector, @var{func} is
+applied to @var{SHA384} before the internal state of @var{SHA384} is
+finalised.
+
+Notice that @var{func} can do anything, not only destroy some state
+associated to @var{SHA384}; if we do:
+
+@example
+(define context ...)
+(set-sha384-ctx-custom-destructor! context
+  (let ((state (make-some-data-struct)))
+    (case-lambda
+      ((sex)
+       (destroy state))
+      (()
+       state))))
+
+(let ((state ((sha384-ctx-custom-destructor context))))
+  (do-something-with context state))
+@end example
+
+@noindent
+we can easily associate values to @var{SHA384}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} sha384-ctx @var{obj}
+@deffnx {Validation Clause} false-or-sha384-ctx @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{sha384-ctx?}; the second
+clause also accepts @false{}.
+@end deffn
+
+
+@deffn {Validation Clause} sha384-ctx/alive @var{obj}
+@deffnx {Validation Clause} false-or-sha384-ctx/alive @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{sha384-ctx?/alive}; the
+second clause also accepts @false{}.
+@end deffn
+
+@c page
+@node plain hash sha384 api
+@subsubsection Context updating functions
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun sha384-init
+Allocate and initialise a new instance of @code{sha384-ctx}; if successful
+return the struct, else return @false{}.  @manpage{SHA384_Init, SHA384_Init}
+@end defun
+
+
+@defun sha384-final @var{SHA384}
+Finalise a checksum context; if successful return a bytevector holding
+the computed checksum, else return @false{}.  @manpage{SHA384_Final,
+SHA384_Final}.  It is fine to apply this function multiple times to the
+same @var{SHA384} argument.
+@end defun
+
+
+@defun sha384-update @var{SHA384} @var{input} @var{input.len}
+Update the checksum context with the given input data.
+@manpage{SHA384_Update, SHA384_Update}
+
+@var{input} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{input} is a string:
+it is converted to a bytevector with @func{string->utf8}.
+
+The optional @var{input.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{input} is a
+pointer object: @var{input.len} must represent the number of bytes
+available in the reference memory block; otherwise @var{input.len} is
+ignored.
+@end defun
+
+@c page
+@node plain hash sha384 direct
+@subsubsection Directly computing hash checksums
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun sha384 @var{input}
+@defunx sha384 @var{input} @var{input.len}
+Perform a one--step checksum computing; return a bytevector holding the
+result.  @manpage{SHA384, SHA384}.
+
+@var{input} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{input} is a string:
+it is converted to a bytevector with @func{string->utf8}.
+
+The optional @var{input.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{input} is a
+pointer object: @var{input.len} must represent the number of bytes
+available in the reference memory block; otherwise @var{input.len} is
+ignored.
+@end defun
+
+@c page
+@node plain hash sha512
+@subsection Computing SHA512 hash checksums
+
+
+@menu
+* plain hash sha512 struct::       Hash checksum data structures.
+* plain hash sha512 api::          Context updating functions.
+* plain hash sha512 direct::       Directly computing hash checksums.
+@end menu
+
+@c page
+@node plain hash sha512 struct
+@subsubsection Hash checksum data structures
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@deftp {Struct Type} sha512-ctx
+@cindex @var{SHA512} argument
+@cindex Argument @var{SHA512}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{SHA512_CTX}; it references an SHA512 hash checksum
+context.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{SHA512}.
+
+There are two categories of @code{sha512-ctx} instances: those who own the
+underlying checksum context and those who merely reference it.
+
+@itemize
+@item
+@code{sha512-ctx} instances returned by @func{sha512-init} do own the context.
+When instances of this category are garbage collected or when
+@func{md5-final} is applied to them: the context is closed, all the
+associated data is finalised; any error is ignored in this procedure.
+@end itemize
+@end deftp
+
+
+@defun sha512-ctx? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{sha512-ctx}; otherwise
+return @false{}.
+@end defun
+
+
+@defun sha512-ctx?/alive @var{obj}
+Return @true{} if @var{obj} is an instance of @code{sha512-ctx} and the
+context it represents is open; otherwise return @false{}.
+@end defun
+
+
+@defun sha512-ctx-custom-destructor @var{SHA512}
+@defunx set-sha512-ctx-custom-destructor! @var{SHA512} @var{func}
+Retrieve or set a destructor function associated to the @var{SHA512}.
+
+Whenever the @var{SHA512} is closed, either explicitly with
+@func{sha512-final} or implicitly by the garbage collector, @var{func} is
+applied to @var{SHA512} before the internal state of @var{SHA512} is
+finalised.
+
+Notice that @var{func} can do anything, not only destroy some state
+associated to @var{SHA512}; if we do:
+
+@example
+(define context ...)
+(set-sha512-ctx-custom-destructor! context
+  (let ((state (make-some-data-struct)))
+    (case-lambda
+      ((sex)
+       (destroy state))
+      (()
+       state))))
+
+(let ((state ((sha512-ctx-custom-destructor context))))
+  (do-something-with context state))
+@end example
+
+@noindent
+we can easily associate values to @var{SHA512}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} sha512-ctx @var{obj}
+@deffnx {Validation Clause} false-or-sha512-ctx @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{sha512-ctx?}; the second
+clause also accepts @false{}.
+@end deffn
+
+
+@deffn {Validation Clause} sha512-ctx/alive @var{obj}
+@deffnx {Validation Clause} false-or-sha512-ctx/alive @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{sha512-ctx?/alive}; the
+second clause also accepts @false{}.
+@end deffn
+
+@c page
+@node plain hash sha512 api
+@subsubsection Context updating functions
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun sha512-init
+Allocate and initialise a new instance of @code{sha512-ctx}; if successful
+return the struct, else return @false{}.  @manpage{SHA512_Init, SHA512_Init}
+@end defun
+
+
+@defun sha512-final @var{SHA512}
+Finalise a checksum context; if successful return a bytevector holding
+the computed checksum, else return @false{}.  @manpage{SHA512_Final,
+SHA512_Final}.  It is fine to apply this function multiple times to the
+same @var{SHA512} argument.
+@end defun
+
+
+@defun sha512-update @var{SHA512} @var{input} @var{input.len}
+Update the checksum context with the given input data.
+@manpage{SHA512_Update, SHA512_Update}
+
+@var{input} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{input} is a string:
+it is converted to a bytevector with @func{string->utf8}.
+
+The optional @var{input.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{input} is a
+pointer object: @var{input.len} must represent the number of bytes
+available in the reference memory block; otherwise @var{input.len} is
+ignored.
+@end defun
+
+@c page
+@node plain hash sha512 direct
+@subsubsection Directly computing hash checksums
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun sha512 @var{input}
+@defunx sha512 @var{input} @var{input.len}
+Perform a one--step checksum computing; return a bytevector holding the
+result.  @manpage{SHA512, SHA512}.
 
 @var{input} must be a generalised C string, @vicareref{cbuffers strings,
 Introduction to generalised C strings}.  When @var{input} is a string:

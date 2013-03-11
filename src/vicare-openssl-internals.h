@@ -51,6 +51,9 @@
 #ifdef HAVE_OPENSSL_MDC2_H
 #  include <openssl/mdc2.h>
 #endif
+#ifdef HAVE_OPENSSL_SHA_H
+#  include <openssl/sha.h>
+#endif
 
 
 /** --------------------------------------------------------------------
@@ -71,6 +74,26 @@
 /* Accessors for the fields of the Scheme structure "mdc2-ctx". */
 #define IK_MDC2_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
 #define IK_MDC2_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_MDC2_CTX_POINTER(CTX))
+
+/* Accessors for the fields of the Scheme structure "sha-ctx". */
+#define IK_SHA_CTX_POINTER(CTX)		IK_FIELD((CTX),0)
+#define IK_SHA_CTX(CTX)			IK_POINTER_DATA_VOIDP(IK_SHA_CTX_POINTER(CTX))
+
+/* Accessors for the fields of the Scheme structure "sha224-ctx". */
+#define IK_SHA224_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
+#define IK_SHA224_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_SHA224_CTX_POINTER(CTX))
+
+/* Accessors for the fields of the Scheme structure "sha256-ctx". */
+#define IK_SHA256_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
+#define IK_SHA256_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_SHA256_CTX_POINTER(CTX))
+
+/* Accessors for the fields of the Scheme structure "sha384-ctx". */
+#define IK_SHA384_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
+#define IK_SHA384_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_SHA384_CTX_POINTER(CTX))
+
+/* Accessors for the fields of the Scheme structure "sha512-ctx". */
+#define IK_SHA512_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
+#define IK_SHA512_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_SHA512_CTX_POINTER(CTX))
 
 
 /** --------------------------------------------------------------------
