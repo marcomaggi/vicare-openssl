@@ -83,6 +83,12 @@
     sha512-final
     sha512
 
+    ;; RIPEMD160
+    ripemd160-init
+    ripemd160-update
+    ripemd160-final
+    ripemd160
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -230,6 +236,21 @@
 
 (define-inline (sha512 input input.len)
   (foreign-call "ikrt_sha512" input input.len))
+
+
+;;;; RIPEMD160
+
+(define-inline (ripemd160-init)
+  (foreign-call "ikrt_ripemd160_init"))
+
+(define-inline (ripemd160-update ctx input input.len)
+  (foreign-call "ikrt_ripemd160_update" ctx input input.len))
+
+(define-inline (ripemd160-final ctx)
+  (foreign-call "ikrt_ripemd160_final" ctx))
+
+(define-inline (ripemd160 input input.len)
+  (foreign-call "ikrt_ripemd160" input input.len))
 
 
 ;;;; done

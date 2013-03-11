@@ -67,7 +67,8 @@ AC_CHECK_HEADERS([openssl/mdc2.h],,
   [AC_MSG_FAILURE([missing openssl/mdc2.h header],[2])])
 AC_CHECK_HEADERS([openssl/sha.h],,
   [AC_MSG_FAILURE([missing openssl/sha.h header],[2])])
-
+AC_CHECK_HEADERS([openssl/ripemd.h],,
+  [AC_MSG_FAILURE([missing openssl/ripemd.h header],[2])])
 
 AC_CHECK_LIB([crypto],[MD5_Init],,
   [AC_MSG_FAILURE([missing OpenSSL crypto library],[2])])
@@ -94,6 +95,12 @@ AC_INCLUDES_DEFAULT
 #endif
 #ifdef HAVE_OPENSSL_MDC2_H
 #  include <openssl/mdc2.h>
+#endif
+#ifdef HAVE_OPENSSL_SHA_H
+#  include <openssl/sha.h>
+#endif
+#ifdef HAVE_OPENSSL_RIPEMD_H
+#  include <openssl/ripemd.h>
 #endif
 
 ])
@@ -132,6 +139,10 @@ AC_CHECK_FUNCS([SHA384_Init SHA384_Update SHA384_Final SHA384])
 dnl SHA512
 VICARE_CONSTANT_TESTS([SHA512_DIGEST_LENGTH])
 AC_CHECK_FUNCS([SHA512_Init SHA512_Update SHA512_Final SHA512])
+
+dnl RIPEMD 160
+VICARE_CONSTANT_TESTS([RIPEMD160_DIGEST_LENGTH])
+AC_CHECK_FUNCS([RIPEMD160_Init RIPEMD160_Update RIPEMD160_Final RIPEMD160])
 
 #page
 #### finish

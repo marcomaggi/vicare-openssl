@@ -286,6 +286,7 @@ Return a Scheme string representing the version number.
 * plain hash sha256::           Computing SHA256 hash checksums.
 * plain hash sha384::           Computing SHA384 hash checksums.
 * plain hash sha512::           Computing SHA512 hash checksums.
+* plain hash ripemd160::        Computing RIPEMD160 hash checksums.
 @end menu
 
 @c page
@@ -1628,6 +1629,175 @@ crypto openssl}.
 @defunx sha512 @var{input} @var{input.len}
 Perform a one--step checksum computing; return a bytevector holding the
 result.  @manpage{SHA512, SHA512}.
+
+@var{input} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{input} is a string:
+it is converted to a bytevector with @func{string->utf8}.
+
+The optional @var{input.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{input} is a
+pointer object: @var{input.len} must represent the number of bytes
+available in the reference memory block; otherwise @var{input.len} is
+ignored.
+@end defun
+
+@c page
+@node plain hash ripemd160
+@subsection Computing RIPEMD160 hash checksums
+
+
+@menu
+* plain hash ripemd160 struct::       Hash checksum data structures.
+* plain hash ripemd160 api::          Context updating functions.
+* plain hash ripemd160 direct::       Directly computing hash checksums.
+@end menu
+
+@c page
+@node plain hash ripemd160 struct
+@subsubsection Hash checksum data structures
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@deftp {Struct Type} ripemd160-ctx
+@cindex @var{RIPEMD160} argument
+@cindex Argument @var{RIPEMD160}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{RIPEMD160_CTX}; it references an RIPEMD160 hash checksum
+context.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{RIPEMD160}.
+
+There are two categories of @code{ripemd160-ctx} instances: those who own the
+underlying checksum context and those who merely reference it.
+
+@itemize
+@item
+@code{ripemd160-ctx} instances returned by @func{ripemd160-init} do own the context.
+When instances of this category are garbage collected or when
+@func{md5-final} is applied to them: the context is closed, all the
+associated data is finalised; any error is ignored in this procedure.
+@end itemize
+@end deftp
+
+
+@defun ripemd160-ctx? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{ripemd160-ctx}; otherwise
+return @false{}.
+@end defun
+
+
+@defun ripemd160-ctx?/alive @var{obj}
+Return @true{} if @var{obj} is an instance of @code{ripemd160-ctx} and the
+context it represents is open; otherwise return @false{}.
+@end defun
+
+
+@defun ripemd160-ctx-custom-destructor @var{RIPEMD160}
+@defunx set-ripemd160-ctx-custom-destructor! @var{RIPEMD160} @var{func}
+Retrieve or set a destructor function associated to the @var{RIPEMD160}.
+
+Whenever the @var{RIPEMD160} is closed, either explicitly with
+@func{ripemd160-final} or implicitly by the garbage collector, @var{func} is
+applied to @var{RIPEMD160} before the internal state of @var{RIPEMD160} is
+finalised.
+
+Notice that @var{func} can do anything, not only destroy some state
+associated to @var{RIPEMD160}; if we do:
+
+@example
+(define context ...)
+(set-ripemd160-ctx-custom-destructor! context
+  (let ((state (make-some-data-struct)))
+    (case-lambda
+      ((sex)
+       (destroy state))
+      (()
+       state))))
+
+(let ((state ((ripemd160-ctx-custom-destructor context))))
+  (do-something-with context state))
+@end example
+
+@noindent
+we can easily associate values to @var{RIPEMD160}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} ripemd160-ctx @var{obj}
+@deffnx {Validation Clause} false-or-ripemd160-ctx @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{ripemd160-ctx?}; the second
+clause also accepts @false{}.
+@end deffn
+
+
+@deffn {Validation Clause} ripemd160-ctx/alive @var{obj}
+@deffnx {Validation Clause} false-or-ripemd160-ctx/alive @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{ripemd160-ctx?/alive}; the
+second clause also accepts @false{}.
+@end deffn
+
+@c page
+@node plain hash ripemd160 api
+@subsubsection Context updating functions
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun ripemd160-init
+Allocate and initialise a new instance of @code{ripemd160-ctx}; if successful
+return the struct, else return @false{}.  @manpage{RIPEMD160_Init, RIPEMD160_Init}
+@end defun
+
+
+@defun ripemd160-final @var{RIPEMD160}
+Finalise a checksum context; if successful return a bytevector holding
+the computed checksum, else return @false{}.  @manpage{RIPEMD160_Final,
+RIPEMD160_Final}.  It is fine to apply this function multiple times to the
+same @var{RIPEMD160} argument.
+@end defun
+
+
+@defun ripemd160-update @var{RIPEMD160} @var{input} @var{input.len}
+Update the checksum context with the given input data.
+@manpage{RIPEMD160_Update, RIPEMD160_Update}
+
+@var{input} must be a generalised C string, @vicareref{cbuffers strings,
+Introduction to generalised C strings}.  When @var{input} is a string:
+it is converted to a bytevector with @func{string->utf8}.
+
+The optional @var{input.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{input} is a
+pointer object: @var{input.len} must represent the number of bytes
+available in the reference memory block; otherwise @var{input.len} is
+ignored.
+@end defun
+
+@c page
+@node plain hash ripemd160 direct
+@subsubsection Directly computing hash checksums
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun ripemd160 @var{input}
+@defunx ripemd160 @var{input} @var{input.len}
+Perform a one--step checksum computing; return a bytevector holding the
+result.  @manpage{RIPEMD160, RIPEMD160}.
 
 @var{input} must be a generalised C string, @vicareref{cbuffers strings,
 Introduction to generalised C strings}.  When @var{input} is a string:

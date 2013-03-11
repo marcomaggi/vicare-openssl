@@ -623,6 +623,76 @@ ikrt_sha512 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 
 
 /** --------------------------------------------------------------------
+ ** RIPEMD160.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_ripemd160_init (ikpcb * pcb)
+{
+#ifdef HAVE_RIPEMD160_INIT
+  RIPEMD160_CTX *	ctx;
+  int		rv;
+  ctx = malloc(sizeof(RIPEMD160_CTX));
+  if (ctx) {
+    rv  = RIPEMD160_Init(ctx);
+    if (rv)
+      return ika_pointer_alloc(pcb, (long)ctx);
+    else
+      free(ctx);
+  }
+  return IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_ripemd160_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_RIPEMD160_UPDATE
+  RIPEMD160_CTX *	ctx	= IK_RIPEMD160_CTX(s_ctx);
+  const void *	in	= IK_GENERALISED_C_STRING(s_input);
+  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  int		rv;
+  rv = RIPEMD160_Update(ctx, in, (unsigned long)in_len);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_ripemd160_final (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_RIPEMD160_FINAL
+  ikptr		s_pointer	= IK_RIPEMD160_CTX_POINTER(s_ctx);
+  RIPEMD160_CTX *	ctx		= IK_POINTER_DATA_VOIDP(s_pointer);
+  unsigned char	sum[RIPEMD160_DIGEST_LENGTH];
+  int		rv = 0;
+  if (ctx) {
+    rv = RIPEMD160_Final(sum, ctx);
+    free(ctx);
+    IK_POINTER_SET_NULL(s_pointer);
+  }
+  return (rv)? ika_bytevector_from_memory_block(pcb, sum, RIPEMD160_DIGEST_LENGTH) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_ripemd160 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_RIPEMD160
+  ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
+  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  unsigned char		sum[RIPEMD160_DIGEST_LENGTH];
+  RIPEMD160(in, in_len, sum);
+  return ika_bytevector_from_memory_block(pcb, sum, RIPEMD160_DIGEST_LENGTH);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
  ** Still to be implemented.
  ** ----------------------------------------------------------------- */
 

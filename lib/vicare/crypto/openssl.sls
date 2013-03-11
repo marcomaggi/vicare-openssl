@@ -148,6 +148,20 @@
     sha512-final
     sha512
 
+    ;; RIPEMD160
+    ripemd160-ctx
+    ripemd160-ctx?
+    ripemd160-ctx?/alive
+    ripemd160-ctx-custom-destructor
+    set-ripemd160-ctx-custom-destructor!
+    ripemd160-ctx.vicare-arguments-validation
+    ripemd160-ctx/alive.vicare-arguments-validation
+
+    ripemd160-init
+    ripemd160-update
+    ripemd160-final
+    ripemd160
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -570,6 +584,54 @@
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
 	(capi.sha512 input^ input.len))))))
+
+
+;;;; RIPEMD160
+
+(ffi.define-foreign-pointer-wrapper ripemd160-ctx
+  (ffi.foreign-destructor capi.ripemd160-final)
+  (ffi.collector-struct-type #f))
+
+(define (ripemd160-init)
+  (let ((rv (capi.ripemd160-init)))
+    (and rv (make-ripemd160-ctx/owner rv))))
+
+(define ripemd160-update
+  (case-lambda
+   ((ctx input)
+    (ripemd160-update ctx input #f))
+   ((ctx input input.len)
+    (define who 'ripemd160-update)
+    (with-arguments-validation (who)
+	((ripemd160-ctx/alive		ctx)
+	 (general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.ripemd160-update ctx input^ input.len))))))
+
+(define (ripemd160-final ctx)
+  (define who 'ripemd160-final)
+  (with-arguments-validation (who)
+      ((ripemd160-ctx		ctx))
+    ($ripemd160-ctx-finalise ctx)))
+
+;;; --------------------------------------------------------------------
+
+(define ripemd160
+  (case-lambda
+   ((input)
+    (ripemd160 input #f))
+   ((input input.len)
+    (define who 'ripemd160)
+    (with-arguments-validation (who)
+	((general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.ripemd160 input^ input.len))))))
 
 
 ;;;; done

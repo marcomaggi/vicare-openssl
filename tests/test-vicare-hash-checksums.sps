@@ -446,6 +446,54 @@
   (collect))
 
 
+(parametrise ((check-test-name		'ripemd160)
+	      (struct-guardian-logger	#f))
+
+  (when #f
+    (check-pretty-print (ssl.ripemd160-init)))
+
+  (check
+      (let ((ctx (ssl.ripemd160-init)))
+	(ssl.ripemd160-ctx? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.ripemd160-init)))
+	(ssl.ripemd160-ctx?/alive ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.ripemd160-init)))
+	(ssl.ripemd160-final ctx)
+	(ssl.ripemd160-ctx?/alive ctx))
+    => #f)
+
+  (check
+      (let ((ctx (ssl.ripemd160-init)))
+	(ssl.ripemd160-final ctx)
+	(ssl.ripemd160-final ctx)
+	(ssl.ripemd160-ctx?/alive ctx))
+    => #f)
+
+;;; --------------------------------------------------------------------
+;;; ripemd160-update
+
+  (check
+      (let ((ctx (ssl.ripemd160-init)))
+	(assert (ssl.ripemd160-update ctx "ciao"))
+	(ssl.ripemd160-final ctx))
+    => '#vu8(73 78 219 37 115 168 139 92 233 100 122 73 155 77 18 242 144 169 250 190))
+
+;;; --------------------------------------------------------------------
+;;; ripemd160
+
+  (check
+      (ssl.ripemd160 "ciao")
+    => '#vu8(73 78 219 37 115 168 139 92 233 100 122 73 155 77 18 242 144 169 250 190))
+
+  (collect))
+
+
 ;;;; done
 
 (check-report)
