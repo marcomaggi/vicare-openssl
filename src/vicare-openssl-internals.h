@@ -35,8 +35,21 @@
 #  include <config.h>
 #endif
 #include <vicare.h>
+
+/* It is better if this comes first. */
 #ifdef HAVE_OPENSSL_SSL_H
 #  include <openssl/ssl.h>
+#endif
+
+/* Message digests. */
+#ifdef HAVE_OPENSSL_MD4_H
+#  include <openssl/md4.h>
+#endif
+#ifdef HAVE_OPENSSL_MD5_H
+#  include <openssl/md5.h>
+#endif
+#ifdef HAVE_OPENSSL_MDC2_H
+#  include <openssl/mdc2.h>
 #endif
 
 
@@ -47,11 +60,9 @@
 #define ika_integer_from_openssl_errcode(PCB,CODE)	\
 	ika_integer_from_int((PCB),(CODE))
 
-/* Accessors for the fields of the Scheme structure "struct". */
-#define IK_OPENSSL_STRUCT_POINTER(CONN)		IK_FIELD((CONN),0)
-#define IK_OPENSSL_STRUCT_PATHNAME(CONN)		IK_FIELD((CONN),1)
-#define IK_OPENSSL_CONNECTION(CONN)	\
-  IK_POINTER_DATA_VOIDP(IK_OPENSSL_STRUCT_POINTER(CONN))
+/* Accessors for the fields of the Scheme structure "md4-ctx". */
+#define IK_MD4_CTX_POINTER(CTX)		IK_FIELD((CTX),0)
+#define IK_MD4_CTX(CTX)			IK_POINTER_DATA_VOIDP(IK_MD4_CTX_POINTER(CTX))
 
 
 /** --------------------------------------------------------------------

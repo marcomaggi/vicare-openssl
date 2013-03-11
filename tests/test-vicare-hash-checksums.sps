@@ -1,8 +1,8 @@
 ;;; -*- coding: utf-8-unix -*-
 ;;;
 ;;;Part of: Vicare/OpenSSL
-;;;Contents: tests for Openssl bindings
-;;;Date: Sat Mar  9, 2013
+;;;Contents: tests for Openssl bindings, hash checksums
+;;;Date: Mon Mar 11, 2013
 ;;;
 ;;;Abstract
 ;;;
@@ -27,36 +27,26 @@
 
 #!r6rs
 (import (vicare)
-  (vicare crypto openssl)
-  (vicare crypto openssl constants)
+  (prefix (vicare crypto openssl)
+	  ssl.)
+  (prefix (vicare crypto openssl constants)
+	  ssl.)
 ;;;  (prefix (vicare ffi) ffi.)
   (vicare checks))
 
 (check-set-mode! 'report-failed)
-(check-display "*** testing Vicare OpenSSL bindings\n")
+(check-display "*** testing Vicare OpenSSL bindings: hash checksums\n")
 
 
 ;;;; helpers
 
 
 
-(parametrise ((check-test-name	'version))
+(parametrise ((check-test-name	'md4))
 
   (check
-      (fixnum? (vicare-openssl-version-interface-current))
-    => #t)
-
-  (check
-      (fixnum? (vicare-openssl-version-interface-revision))
-    => #t)
-
-  (check
-      (fixnum? (vicare-openssl-version-interface-age))
-    => #t)
-
-  (check
-      (string? (vicare-openssl-version))
-    => #t)
+      (ssl.md4 "ciao")
+    => '#vu8(229 95 235 57 89 152 65 126 80 152 248 176 252 4 127 16))
 
   #t)
 

@@ -36,6 +36,21 @@
     vicare-openssl-version-interface-age
     vicare-openssl-version
 
+    ;; MD4
+    md4-ctx
+    md4-ctx?
+    md4-ctx?/alive
+    md4-ctx-custom-destructor
+    set-md4-ctx-custom-destructor!
+    md4-ctx.vicare-arguments-validation
+    md4-ctx/alive.vicare-arguments-validation
+
+    md4-init
+    md4-update
+    md4-final
+    md4
+    md4-transform
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -50,6 +65,7 @@
 	    ffi.)
     (vicare syntactic-extensions)
     (vicare arguments validation)
+    (vicare arguments general-c-buffers)
     #;(prefix (vicare words) words.))
 
 
@@ -75,23 +91,51 @@
   (ascii->string (capi.vicare-openssl-version)))
 
 
-;;;; data structures
+;;;; MD4
 
-(ffi.define-foreign-pointer-wrapper alpha
-  (ffi.foreign-destructor #f)
-  (ffi.collector-struct-type #f)
-  (ffi.collected-struct-type beta))
+(ffi.define-foreign-pointer-wrapper md4-ctx
+  (ffi.foreign-destructor capi.md4-abort)
+  (ffi.collector-struct-type #f))
 
-(ffi.define-foreign-pointer-wrapper beta
-  (ffi.foreign-destructor #f)
-  (ffi.collector-struct-type alpha))
+(define (md4-init)
+  (define who 'md4-init)
+  (with-arguments-validation (who)
+      ()
+    (capi.md4-init)))
+
+(define (md4-update)
+  (define who 'md4-update)
+  (with-arguments-validation (who)
+      ()
+    (capi.md4-update)))
+
+(define (md4-final)
+  (define who 'md4-final)
+  (with-arguments-validation (who)
+      ()
+    (capi.md4-final)))
+
+(define md4
+  (case-lambda
+   ((input)
+    (md4 input #f))
+   ((input input.len)
+    (define who 'md4)
+    (with-arguments-validation (who)
+	((general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(capi.md4 input^ input.len))))))
+
+(define (md4-transform)
+  (define who 'md4-transform)
+  (with-arguments-validation (who)
+      ()
+    (capi.md4-transform)))
 
 
 ;;;; done
-
-#;(set-rtd-printer! (type-descriptor XML_ParsingStatus) %struct-XML_ParsingStatus-printer)
-
-#;(post-gc-hooks (cons %free-allocated-parser (post-gc-hooks)))
 
 )
 

@@ -1,10 +1,12 @@
 ## Process this file with automake to produce Makefile.in
 
 TESTS			= \
-	test-vicare-openssl.sps
+	test-vicare-openssl-version.sps			\
+	test-vicare-hash-checksums.sps
 
 EXTRA_DIST = \
-	test-vicare-openssl.sps			\
+	test-vicare-openssl-version.sps			\
+	test-vicare-hash-checksums.sps			\
 	\
 	demo-for-documentation.sps
 

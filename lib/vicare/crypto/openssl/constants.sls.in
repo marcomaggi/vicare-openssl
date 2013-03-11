@@ -27,7 +27,8 @@
 (library (vicare crypto openssl constants)
   (export
 
-    THE_OPENSSL
+    ;; Message Digest 4
+    MD4_DIGEST_LENGTH
 
     )
   (import (rename (only (vicare syntactic-extensions)
@@ -37,10 +38,8 @@
 
 ;;;; constants
 
-;;; Preprocessor symbols: XML_Bool
-;;(defc XML_TRUE		@VALUEOF_XML_TRUE@)
-
-(defc THE_OPENSSL		123)
+;; Message Digest 4
+(defc MD4_DIGEST_LENGTH			@VALUEOF_MD4_DIGEST_LENGTH@)
 
 
 
