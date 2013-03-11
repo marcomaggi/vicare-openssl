@@ -8,9 +8,13 @@ vicare_openssl_VERSION	= $(vicare_openssl_CURRENT):$(vicare_openssl_REVISION):$(
 lib_LTLIBRARIES			= libvicare-openssl.la
 libvicare_openssl_la_LDFLAGS	= -version-info $(vicare_openssl_VERSION)
 libvicare_openssl_la_SOURCES	= \
+	vicare-openssl-version.c		\
+	\
 	vicare-openssl-hash-checksums.c		\
 	vicare-openssl-hmac.c			\
-	vicare-openssl-version.c		\
+	\
+	vicare-openssl-crypto-aes.c		\
+	\
 	vicare-openssl-internals.h
 
 ### end of file

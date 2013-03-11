@@ -181,6 +181,25 @@
     hmac-ctx-copy
     hmac-ctx-set-flags
 
+    ;; AES
+    aes-options
+    aes-set-encrypt-key
+    aes-set-decrypt-key
+    aes-encrypt
+    aes-decrypt
+    aes-ecb-encrypt
+    aes-cbc-encrypt
+    aes-cfb128-encrypt
+    aes-cfb1-encrypt
+    aes-cfb8-encrypt
+    aes-ofb128-encrypt
+    aes-ctr128-encrypt
+    aes-ige-encrypt
+    aes-bi-ige-encrypt
+    aes-wrap-key
+    aes-unwrap-key
+
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -796,6 +815,105 @@
 	 (input^	input))
       (string-to-bytevector string->utf8)
       (capi.hmac (%symbol->md who md) key^ key.len input^ input.len))))
+
+
+;;;; AES
+
+(define (aes-options ctx)
+  (define who 'aes-options)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-options)))
+
+(define (aes-set-encrypt-key ctx)
+  (define who 'aes-set-encrypt-key)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-set-encrypt-key)))
+
+(define (aes-set-decrypt-key ctx)
+  (define who 'aes-set-decrypt-key)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-set-decrypt-key)))
+
+(define (aes-encrypt ctx)
+  (define who 'aes-encrypt)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-encrypt)))
+
+(define (aes-decrypt ctx)
+  (define who 'aes-decrypt)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-decrypt)))
+
+(define (aes-ecb-encrypt ctx)
+  (define who 'aes-ecb-encrypt)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-ecb-encrypt)))
+
+(define (aes-cbc-encrypt ctx)
+  (define who 'aes-cbc-encrypt)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-cbc-encrypt)))
+
+(define (aes-cfb128-encrypt ctx)
+  (define who 'aes-cfb128-encrypt)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-cfb128-encrypt)))
+
+(define (aes-cfb1-encrypt ctx)
+  (define who 'aes-cfb1-encrypt)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-cfb1-encrypt)))
+
+(define (aes-cfb8-encrypt ctx)
+  (define who 'aes-cfb8-encrypt)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-cfb8-encrypt)))
+
+(define (aes-ofb128-encrypt ctx)
+  (define who 'aes-ofb128-encrypt)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-ofb128-encrypt)))
+
+(define (aes-ctr128-encrypt ctx)
+  (define who 'aes-ctr128-encrypt)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-ctr128-encrypt)))
+
+(define (aes-ige-encrypt ctx)
+  (define who 'aes-ige-encrypt)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-ige-encrypt)))
+
+(define (aes-bi-ige-encrypt ctx)
+  (define who 'aes-bi-ige-encrypt)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-bi-ige-encrypt)))
+
+(define (aes-wrap-key ctx)
+  (define who 'aes-wrap-key)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-wrap-key)))
+
+(define (aes-unwrap-key ctx)
+  (define who 'aes-unwrap-key)
+  (with-arguments-validation (who)
+      ()
+    (capi.aes-unwrap-key)))
 
 
 ;;;; still to be implemented

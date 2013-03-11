@@ -271,6 +271,7 @@ Return a Scheme string representing the version number.
 @menu
 * plain hash::                  Computing hash checksums.
 * plain hmac::                  Computing message authentication codes.
+* plain crypto::                Encrypting and decrypting.
 * plain evp::                   High-level cryptographic functions.
 @end menu
 
@@ -2045,6 +2046,11 @@ C language type @code{size_t}.  When @var{input} is a pointer object:
 @var{input.len} must represent the number of bytes available in the
 reference memory block; otherwise @var{input.len} is ignored.
 @end defun
+
+@c page
+@node plain crypto
+@section Encrypting and decrypting
+
 
 @c page
 @node plain evp

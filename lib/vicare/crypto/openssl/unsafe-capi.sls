@@ -99,6 +99,25 @@
     hmac-ctx-copy
     hmac-ctx-set-flags
 
+    ;; AES unsafe C API
+    aes-options
+    aes-set-encrypt-key
+    aes-set-decrypt-key
+    aes-encrypt
+    aes-decrypt
+    aes-ecb-encrypt
+    aes-cbc-encrypt
+    aes-cfb128-encrypt
+    aes-cfb1-encrypt
+    aes-cfb8-encrypt
+    aes-ofb128-encrypt
+    aes-ctr128-encrypt
+    aes-ige-encrypt
+    aes-bi-ige-encrypt
+    aes-wrap-key
+    aes-unwrap-key
+
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -291,6 +310,57 @@
 
 (define-inline (hmac-ctx-set-flags ctx flags)
   (foreign-call "ikrt_hmac_ctx_set_flags" ctx flags))
+
+
+;;;; AES unsafe C API
+
+(define-inline (aes-options)
+  (foreign-call "ikrt_aes_options"))
+
+(define-inline (aes-set-encrypt-key)
+  (foreign-call "ikrt_aes_set_encrypt_key"))
+
+(define-inline (aes-set-decrypt-key)
+  (foreign-call "ikrt_aes_set_decrypt_key"))
+
+(define-inline (aes-encrypt)
+  (foreign-call "ikrt_aes_encrypt"))
+
+(define-inline (aes-decrypt)
+  (foreign-call "ikrt_aes_decrypt"))
+
+(define-inline (aes-ecb-encrypt)
+  (foreign-call "ikrt_aes_ecb_encrypt"))
+
+(define-inline (aes-cbc-encrypt)
+  (foreign-call "ikrt_aes_cbc_encrypt"))
+
+(define-inline (aes-cfb128-encrypt)
+  (foreign-call "ikrt_aes_cfb128_encrypt"))
+
+(define-inline (aes-cfb1-encrypt)
+  (foreign-call "ikrt_aes_cfb1_encrypt"))
+
+(define-inline (aes-cfb8-encrypt)
+  (foreign-call "ikrt_aes_cfb8_encrypt"))
+
+(define-inline (aes-ofb128-encrypt)
+  (foreign-call "ikrt_aes_ofb128_encrypt"))
+
+(define-inline (aes-ctr128-encrypt)
+  (foreign-call "ikrt_aes_ctr128_encrypt"))
+
+(define-inline (aes-ige-encrypt)
+  (foreign-call "ikrt_aes_ige_encrypt"))
+
+(define-inline (aes-bi-ige-encrypt)
+  (foreign-call "ikrt_aes_bi_ige_encrypt"))
+
+(define-inline (aes-wrap-key)
+  (foreign-call "ikrt_aes_wrap_key"))
+
+(define-inline (aes-unwrap-key)
+  (foreign-call "ikrt_aes_unwrap_key"))
 
 
 ;;;; still to be implemented

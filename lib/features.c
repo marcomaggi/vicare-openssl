@@ -121,6 +121,24 @@ main (int argc, const char *const argv[])
     HAVE_HMAC_CTX_COPY\n\
     HAVE_HMAC_CTX_SET_FLAGS\n\
     \n\
+    ;; AES features\n\
+    HAVE_AES_OPTIONS\n\
+    HAVE_AES_SET_ENCRYPT_KEY\n\
+    HAVE_AES_SET_DECRYPT_KEY\n\
+    HAVE_AES_ENCRYPT\n\
+    HAVE_AES_DECRYPT\n\
+    HAVE_AES_ECB_ENCRYPT\n\
+    HAVE_AES_CBC_ENCRYPT\n\
+    HAVE_AES_CFB128_ENCRYPT\n\
+    HAVE_AES_CFB1_ENCRYPT\n\
+    HAVE_AES_CFB8_ENCRYPT\n\
+    HAVE_AES_OFB128_ENCRYPT\n\
+    HAVE_AES_CTR128_ENCRYPT\n\
+    HAVE_AES_IGE_ENCRYPT\n\
+    HAVE_AES_BI_IGE_ENCRYPT\n\
+    HAVE_AES_WRAP_KEY\n\
+    HAVE_AES_UNWRAP_KEY\n\
+    \n\
     )\n\
   (import (rnrs))\n\
 \n\
@@ -495,6 +513,139 @@ printf("(define-inline-constant HAVE_HMAC_CTX_COPY %s)\n",
 
 printf("(define-inline-constant HAVE_HMAC_CTX_SET_FLAGS %s)\n",
 #ifdef HAVE_HMAC_CTX_SET_FLAGS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** AES features.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_AES_OPTIONS %s)\n",
+#ifdef HAVE_AES_OPTIONS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_SET_ENCRYPT_KEY %s)\n",
+#ifdef HAVE_AES_SET_ENCRYPT_KEY
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_SET_DECRYPT_KEY %s)\n",
+#ifdef HAVE_AES_SET_DECRYPT_KEY
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_ENCRYPT %s)\n",
+#ifdef HAVE_AES_ENCRYPT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_DECRYPT %s)\n",
+#ifdef HAVE_AES_DECRYPT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_ECB_ENCRYPT %s)\n",
+#ifdef HAVE_AES_ECB_ENCRYPT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_CBC_ENCRYPT %s)\n",
+#ifdef HAVE_AES_CBC_ENCRYPT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_CFB128_ENCRYPT %s)\n",
+#ifdef HAVE_AES_CFB128_ENCRYPT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_CFB1_ENCRYPT %s)\n",
+#ifdef HAVE_AES_CFB1_ENCRYPT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_CFB8_ENCRYPT %s)\n",
+#ifdef HAVE_AES_CFB8_ENCRYPT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_OFB128_ENCRYPT %s)\n",
+#ifdef HAVE_AES_OFB128_ENCRYPT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_CTR128_ENCRYPT %s)\n",
+#ifdef HAVE_AES_CTR128_ENCRYPT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_IGE_ENCRYPT %s)\n",
+#ifdef HAVE_AES_IGE_ENCRYPT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_BI_IGE_ENCRYPT %s)\n",
+#ifdef HAVE_AES_BI_IGE_ENCRYPT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_WRAP_KEY %s)\n",
+#ifdef HAVE_AES_WRAP_KEY
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_AES_UNWRAP_KEY %s)\n",
+#ifdef HAVE_AES_UNWRAP_KEY
   "#t"
 #else
   "#f"

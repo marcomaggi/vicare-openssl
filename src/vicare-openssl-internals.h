@@ -62,13 +62,16 @@
 #  include <openssl/hmac.h>
 #endif
 
+/* Encrypting and decrypting. */
+#ifdef HAVE_OPENSSL_AES_H
+#  include <openssl/aes.h>
+#endif
+
+
 
 /** --------------------------------------------------------------------
- ** Handling of Scheme objects.
+ ** Handling of Scheme objects: hash checksums and HMAC.
  ** ----------------------------------------------------------------- */
-
-#define ika_integer_from_openssl_errcode(PCB,CODE)	\
-	ika_integer_from_int((PCB),(CODE))
 
 /* Accessors for the fields of the Scheme structure "md4-ctx". */
 #define IK_MD4_CTX_POINTER(CTX)		IK_FIELD((CTX),0)
@@ -109,6 +112,15 @@
 /* Accessors for the fields of the Scheme structure "hmac-ctx". */
 #define IK_HMAC_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
 #define IK_HMAC_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_HMAC_CTX_POINTER(CTX))
+
+
+/** --------------------------------------------------------------------
+ ** Handling of Scheme objects: encrypting and decripting.
+ ** ----------------------------------------------------------------- */
+
+/* Accessors for the fields of the Scheme structure "aes-ctx". */
+#define IK_AES_CTX_POINTER(CTX)		IK_FIELD((CTX),0)
+#define IK_AES_CTX(CTX)			IK_POINTER_DATA_VOIDP(IK_AES_CTX_POINTER(CTX))
 
 
 /** --------------------------------------------------------------------
