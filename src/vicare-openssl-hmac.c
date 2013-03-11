@@ -49,11 +49,54 @@ generalised_c_buffer_len (ikptr s_buffer, ikptr s_buffer_len)
 
 
 /** --------------------------------------------------------------------
- ** Initialisation and finalisation.
+ ** Initialisation.
  ** ----------------------------------------------------------------- */
 
 ikptr
+ikrt_hmac_init (ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * pcb)
+/* This   version  of   the   function  performs   the   work  of   both
+   "HMAC_CTX_init()" and "HMAC_Init()". */
+{
+#ifdef HAVE_HMAC_INIT
+  HMAC_CTX *	ctx;
+  ctx = malloc(sizeof(HMAC_CTX));
+  if (ctx) {
+    HMAC_CTX_init(ctx);
+    const void *	key	= IK_GENERALISED_C_STRING(s_key);
+    size_t		key_len	= generalised_c_buffer_len(s_key, s_key_len);
+    const EVP_MD *	md;
+    int			rv;
+    switch (ik_integer_to_int(s_md)) {
+    case 0:	md = EVP_md4();		break;
+    case 1:	md = EVP_md5();		break;
+    case 2:	md = EVP_mdc2();	break;
+    case 3:	md = EVP_sha1();	break;
+    case 4:	md = EVP_sha224();	break;
+    case 5:	md = EVP_sha256();	break;
+    case 6:	md = EVP_sha384();	break;
+    case 7:	md = EVP_sha512();	break;
+    case 8:	md = EVP_ripemd160();	break;
+    case 9:	md = EVP_dss();		break;
+    case 10:	md = EVP_dss1();	break;
+    default:
+      return IK_FALSE;
+    }
+    rv = HMAC_Init(ctx, key, (unsigned long)key_len, md);
+    return (rv)? ika_pointer_alloc(pcb, (long)ctx) : IK_FALSE;
+  } else
+    return IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+
+/* ------------------------------------------------------------------ */
+
+#if 0
+ikptr
 ikrt_hmac_ctx_init (ikpcb * pcb)
+/* This   version  of   the   function  performs   the   work  of
+   "HMAC_CTX_init()" only. */
 {
 #ifdef HAVE_HMAC_CTX_INIT
   HMAC_CTX *	ctx;
@@ -68,21 +111,9 @@ ikrt_hmac_ctx_init (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_hmac_ctx_cleanup (ikptr s_ctx, ikpcb * pcb)
-{
-#ifdef HAVE_HMAC_CTX_CLEANUP
-  HMAC_CTX *	ctx = IK_HMAC_CTX(s_ctx);
-  HMAC_CTX_cleanup(ctx);
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-
-/* ------------------------------------------------------------------ */
-
-ikptr
 ikrt_hmac_init (ikptr s_ctx, ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * pcb)
+/* This  version of  the  function performs  the  work of  "HMAC_Init()"
+   only. */
 {
 #ifdef HAVE_HMAC_INIT
   HMAC_CTX *	ctx	= IK_HMAC_CTX(s_ctx);
@@ -111,11 +142,51 @@ ikrt_hmac_init (ikptr s_ctx, ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * p
   feature_failure(__func__);
 #endif
 }
+#endif
+
+/* ------------------------------------------------------------------ */
+
 ikptr
 ikrt_hmac_init_ex (ikpcb * pcb)
 {
 #ifdef HAVE_HMAC_INIT_EX
   /* rv = HMAC_Init_ex(); */
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** Initialisation and finalisation.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_hmac_final (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_HMAC_FINAL
+  HMAC_CTX *		ctx = IK_HMAC_CTX(s_ctx);
+  unsigned char		sum[HMAC_MAX_MD_CBLOCK];
+  unsigned int		len;
+  int			rv;
+  rv = HMAC_Final(ctx, sum, &len);
+  HMAC_CTX_cleanup(ctx);
+  return (rv)? ika_bytevector_from_memory_block(pcb, sum, len) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+
+/* ------------------------------------------------------------------ */
+
+#if 0
+ikptr
+ikrt_hmac_ctx_cleanup (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_HMAC_CTX_CLEANUP
+  HMAC_CTX *	ctx = IK_HMAC_CTX(s_ctx);
+  HMAC_CTX_cleanup(ctx);
   return IK_VOID;
 #else
   feature_failure(__func__);
@@ -135,6 +206,7 @@ ikrt_hmac_final (ikptr s_ctx, ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
+#endif
 
 
 /** --------------------------------------------------------------------

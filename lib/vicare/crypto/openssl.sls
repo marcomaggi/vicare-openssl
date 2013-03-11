@@ -172,12 +172,12 @@
     hmac-ctx/alive.vicare-arguments-validation
 
     hmac
-    hmac-ctx-init
-    hmac-ctx-cleanup
+    #;hmac-ctx-init
+    #;hmac-ctx-cleanup
     hmac-init
     hmac-init-ex
-    hmac-update
     hmac-final
+    hmac-update
     hmac-ctx-copy
     hmac-ctx-set-flags
 
@@ -656,7 +656,7 @@
 ;;;; HMAC
 
 (ffi.define-foreign-pointer-wrapper hmac-ctx
-  (ffi.foreign-destructor capi.hmac-ctx-cleanup)
+  (ffi.foreign-destructor capi.hmac-final)
   (ffi.collector-struct-type #f))
 
 ;;; --------------------------------------------------------------------
@@ -681,45 +681,72 @@
 
 ;;; --------------------------------------------------------------------
 
-(define (hmac-ctx-init)
-  (let ((rv (capi.hmac-ctx-init)))
-    (and rv (make-hmac-ctx/owner rv))))
-
-(define (hmac-ctx-cleanup ctx)
-  (define who 'hmac-ctx-cleanup)
-  (with-arguments-validation (who)
-      ((hmac-ctx	ctx))
-    ($hmac-ctx-finalise ctx)))
-
-;;; --------------------------------------------------------------------
-
 (define hmac-init
+  ;;This  version  performs  the  work  of  both  "HMAC_CTX_init()"  and
+  ;;"HMAC_Init()".
   (case-lambda
-   ((ctx key md)
-    (hmac-init ctx key #f md))
-   ((ctx key key.len md)
+   ((key md)
+    (hmac-init key #f md))
+   ((key key.len md)
     (define who 'hmac-init)
     (with-arguments-validation (who)
-	((hmac-ctx/alive	ctx)
-	 (general-c-string	key)
+	((general-c-string	key)
 	 (size_t/false		key.len)
 	 (symbol		md))
       (with-general-c-strings
 	  ((key^	key))
 	(string-to-bytevector string->utf8)
-	(capi.hmac-init ctx key^ key.len (%symbol->md who md)))))))
+	(let ((rv (capi.hmac-init key^ key.len (%symbol->md who md))))
+	  (and rv (make-hmac-ctx/owner rv))))))))
 
-(define (hmac-init-ex ctx)
-  (define who 'hmac-init-ex)
-  (with-arguments-validation (who)
-      ()
-    (capi.hmac-init-ex)))
+;;These  old   versions  perform  the  work   of  "HMAC_CTX_init()"  and
+;;"HMAC_Init()" separately.
+;;
+;; (define (hmac-ctx-init)
+;;   (let ((rv (capi.hmac-ctx-init)))
+;;     (and rv (make-hmac-ctx/owner rv))))
+;;
+;; (define hmac-init
+;;   (case-lambda
+;;    ((ctx key md)
+;;     (hmac-init ctx key #f md))
+;;    ((ctx key key.len md)
+;;     (define who 'hmac-init)
+;;     (with-arguments-validation (who)
+;; 	((hmac-ctx/alive	ctx)
+;; 	 (general-c-string	key)
+;; 	 (size_t/false		key.len)
+;; 	 (symbol		md))
+;;       (with-general-c-strings
+;; 	  ((key^	key))
+;; 	(string-to-bytevector string->utf8)
+;; 	(capi.hmac-init ctx key^ key.len (%symbol->md who md)))))))
+
+;;; --------------------------------------------------------------------
 
 (define (hmac-final ctx)
+  ;;These  version performs  the work  of both  "HMAC_CTX_cleanup()" and
+  ;;"HMAC_Final()".
+  ;;
   (define who 'hmac-final)
   (with-arguments-validation (who)
-      ((hmac-ctx/alive	ctx))
-    (capi.hmac-final ctx)))
+      ((hmac-ctx	ctx))
+    ($hmac-ctx-finalise ctx)))
+
+;;These  old  versions  perform  the work  of  "HMAC_CTX_cleanup()"  and
+;;"HMAC_Final()" separately.
+;;
+;; (define (hmac-ctx-cleanup ctx)
+;;   (define who 'hmac-ctx-cleanup)
+;;   (with-arguments-validation (who)
+;;       ((hmac-ctx	ctx))
+;;     ($hmac-ctx-finalise ctx)))
+;;
+;; (define (hmac-final ctx)
+;;   (define who 'hmac-final)
+;;   (with-arguments-validation (who)
+;;       ((hmac-ctx/alive	ctx))
+;;     (capi.hmac-final ctx)))
 
 ;;; --------------------------------------------------------------------
 
@@ -769,6 +796,16 @@
 	 (input^	input))
       (string-to-bytevector string->utf8)
       (capi.hmac (%symbol->md who md) key^ key.len input^ input.len))))
+
+
+;;;; still to be implemented
+
+(define (hmac-init-ex ctx)
+  (define who 'hmac-init-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.hmac-init-ex)))
+
 
 
 ;;;; done

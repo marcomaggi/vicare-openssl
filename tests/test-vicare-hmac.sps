@@ -48,28 +48,28 @@
 	      (struct-guardian-logger	#f))
 
   (when #f
-    (check-pretty-print (ssl.hmac-ctx-init)))
+    (check-pretty-print (ssl.hmac-init "key" 'md5)))
 
   (check
-      (let ((ctx (ssl.hmac-ctx-init)))
+      (let ((ctx (ssl.hmac-init "key" 'md5)))
 	(ssl.hmac-ctx? ctx))
     => #t)
 
   (check
-      (let ((ctx (ssl.hmac-ctx-init)))
+      (let ((ctx (ssl.hmac-init "key" 'md5)))
 	(ssl.hmac-ctx?/alive ctx))
     => #t)
 
   (check
-      (let ((ctx (ssl.hmac-ctx-init)))
-	(ssl.hmac-ctx-cleanup ctx)
+      (let ((ctx (ssl.hmac-init "key" 'md5)))
+	(ssl.hmac-final ctx)
 	(ssl.hmac-ctx?/alive ctx))
     => #f)
 
   (check
-      (let ((ctx (ssl.hmac-ctx-init)))
-	(ssl.hmac-ctx-cleanup ctx)
-	(ssl.hmac-ctx-cleanup ctx)
+      (let ((ctx (ssl.hmac-init "key" 'md5)))
+	(ssl.hmac-final ctx)
+	(ssl.hmac-final ctx)
 	(ssl.hmac-ctx?/alive ctx))
     => #f)
 
@@ -77,12 +77,9 @@
 ;;; hmac-update
 
   (check
-      (let ((ctx (ssl.hmac-ctx-init)))
-	(assert (ssl.hmac-init ctx "key" 'md5))
+      (let ((ctx (ssl.hmac-init "key" 'md5)))
 	(assert (ssl.hmac-update ctx "ciao"))
-	(begin0
-	    (ssl.hmac-final ctx)
-	  (ssl.hmac-ctx-cleanup ctx)))
+	(ssl.hmac-final ctx))
     => '#vu8(104 95 146 126 133 66 104 215 19 225 230 101 126 75 39 188))
 
 ;;; --------------------------------------------------------------------
