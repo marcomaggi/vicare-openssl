@@ -83,6 +83,25 @@
     => '#vu8(104 95 146 126 133 66 104 215 19 225 230 101 126 75 39 188))
 
 ;;; --------------------------------------------------------------------
+;;; hmac-update
+
+  (check
+      (let ((ctx1 (ssl.hmac-init "key" 'md5))
+	    (ctx2 (ssl.hmac-init "hello" 'md5)))
+	(ssl.hmac-ctx-copy ctx2 ctx1)
+	(assert (ssl.hmac-update ctx2 "ciao"))
+	(ssl.hmac-final ctx2))
+    => '#vu8(104 95 146 126 133 66 104 215 19 225 230 101 126 75 39 188))
+
+;;; --------------------------------------------------------------------
+;;; hmac-ctx-set-flags
+
+  (check
+      (let ((ctx (ssl.hmac-init "key" 'md5)))
+	(ssl.hmac-ctx-set-flags ctx 0))
+    => (void))
+
+;;; --------------------------------------------------------------------
 ;;; hmac
 
   (check

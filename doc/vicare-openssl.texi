@@ -1992,6 +1992,19 @@ available in the reference memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
+
+@defun hmac-ctx-copy @var{DST-HMAC} @var{SRC-HMAC}
+Duplicate an HMAC context from @var{SRC-HMAC} to @var{DST-HMAC}; if
+successful return true, else return @false{}.  @manpage{HMAC_CTX_copy,
+HMAC_CTX_copy}.
+@end defun
+
+
+@defun hmac-ctx-set-flags @var{HMAC} @var{flags}
+Set flags in an HMAC context; return unspecified values.
+@manpage{HMAC_CTX_copy}.
+@end defun
+
 @c page
 @node plain hmac direct
 @subsection Directly computing HMACs
