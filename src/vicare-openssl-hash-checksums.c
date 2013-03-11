@@ -58,37 +58,49 @@ ikptr
 ikrt_md4_init (ikpcb * pcb)
 {
 #ifdef HAVE_MD4_INIT
-  return IK_VOID;
+  MD4_CTX *	ctx;
+  int		rv;
+  ctx = malloc(sizeof(MD4_CTX));
+  if (ctx) {
+    rv  = MD4_Init(ctx);
+    if (rv)
+      return ika_pointer_alloc(pcb, (long)ctx);
+    else
+      free(ctx);
+  }
+  return IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_md4_update (ikpcb * pcb)
+ikrt_md4_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_MD4_UPDATE
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_md4_final (ikpcb * pcb)
-{
-#ifdef HAVE_MD4_FINAL
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_md4_abort (ikptr s_ctx, ikpcb * pcb)
-{
-#ifdef HAVE_MD4_FINAL
   MD4_CTX *	ctx	= IK_MD4_CTX(s_ctx);
-  unsigned char	dummy[MD4_DIGEST_LENGTH];
-  MD4_Final(dummy, ctx);
-  return IK_VOID;
+  const void *	in	= IK_GENERALISED_C_STRING(s_input);
+  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  int		rv;
+  rv = MD4_Update(ctx, in, (unsigned long)in_len);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_md4_final (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_MD4_FINAL
+  ikptr		s_pointer	= IK_MD4_CTX_POINTER(s_ctx);
+  MD4_CTX *	ctx		= IK_POINTER_DATA_VOIDP(s_pointer);
+  unsigned char	sum[MD4_DIGEST_LENGTH];
+  int		rv = 0;
+  if (ctx) {
+    rv = MD4_Final(sum, ctx);
+    free(ctx);
+    IK_POINTER_SET_NULL(s_pointer);
+  }
+  return (rv)? ika_bytevector_from_memory_block(pcb, sum, MD4_DIGEST_LENGTH) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
@@ -99,25 +111,9 @@ ikrt_md4 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #ifdef HAVE_MD4
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
   ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
-  ikptr			rv;
-  pcb->root0 = &s_input;
-  {
-    unsigned char *	ou;
-    rv = ika_bytevector_alloc(pcb, MD4_DIGEST_LENGTH);
-    ou = IK_BYTEVECTOR_DATA_VOIDP(rv);
-    MD4(in, in_len, ou);
-  }
-  pcb->root0 = NULL;
-  return rv;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_md4_transform (ikpcb * pcb)
-{
-#ifdef HAVE_MD4_TRANSFORM
-  return IK_VOID;
+  unsigned char		sum[MD4_DIGEST_LENGTH];
+  MD4(in, in_len, sum);
+  return ika_bytevector_from_memory_block(pcb, sum, MD4_DIGEST_LENGTH);
 #else
   feature_failure(__func__);
 #endif

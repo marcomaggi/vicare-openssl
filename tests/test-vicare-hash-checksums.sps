@@ -42,13 +42,52 @@
 
 
 
-(parametrise ((check-test-name	'md4))
+(parametrise ((check-test-name		'md4)
+	      (struct-guardian-logger	#f))
+
+  (when #f
+    (check-pretty-print (ssl.md4-init)))
+
+  (check
+      (let ((ctx (ssl.md4-init)))
+	(ssl.md4-ctx? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.md4-init)))
+	(ssl.md4-ctx?/alive ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.md4-init)))
+	(ssl.md4-final ctx)
+	(ssl.md4-ctx?/alive ctx))
+    => #f)
+
+  (check
+      (let ((ctx (ssl.md4-init)))
+	(ssl.md4-final ctx)
+	(ssl.md4-final ctx)
+	(ssl.md4-ctx?/alive ctx))
+    => #f)
+
+;;; --------------------------------------------------------------------
+;;; md4-update
+
+  (check
+      (let ((ctx (ssl.md4-init)))
+	(assert (ssl.md4-update ctx "ciao"))
+	(ssl.md4-final ctx))
+    => '#vu8(229 95 235 57 89 152 65 126 80 152 248 176 252 4 127 16))
+
+;;; --------------------------------------------------------------------
+;;; md4
 
   (check
       (ssl.md4 "ciao")
     => '#vu8(229 95 235 57 89 152 65 126 80 152 248 176 252 4 127 16))
 
-  #t)
+  (collect))
 
 
 ;;;; done

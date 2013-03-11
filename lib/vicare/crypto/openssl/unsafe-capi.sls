@@ -39,9 +39,7 @@
     md4-init
     md4-update
     md4-final
-    md4-abort
     md4
-    md4-transform
 
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
@@ -76,25 +74,19 @@
   (foreign-call "ikrt_openssl_version"))
 
 
-;;;; still to be implemented
+;;;; MD4
 
 (define-inline (md4-init)
   (foreign-call "ikrt_md4_init"))
 
-(define-inline (md4-update)
-  (foreign-call "ikrt_md4_update"))
+(define-inline (md4-update ctx input input.len)
+  (foreign-call "ikrt_md4_update" ctx input input.len))
 
-(define-inline (md4-final)
-  (foreign-call "ikrt_md4_final"))
-
-(define-inline (md4-abort ctx)
-  (foreign-call "ikrt_md4_abort" ctx))
+(define-inline (md4-final ctx)
+  (foreign-call "ikrt_md4_final" ctx))
 
 (define-inline (md4 input input.len)
   (foreign-call "ikrt_md4" input input.len))
-
-(define-inline (md4-transform)
-  (foreign-call "ikrt_md4_transform"))
 
 
 ;;;; done

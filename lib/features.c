@@ -68,7 +68,7 @@ main (int argc, const char *const argv[])
     HAVE_MD4_UPDATE\n\
     HAVE_MD4_FINAL\n\
     HAVE_MD4\n\
-    HAVE_MD4_TRANSFORM\n\
+    \n\
     )\n\
   (import (rnrs))\n\
 \n\
@@ -106,13 +106,6 @@ printf("(define-inline-constant HAVE_MD4_FINAL %s)\n",
   );
 printf("(define-inline-constant HAVE_MD4 %s)\n",
 #ifdef HAVE_MD4
-  "#t"
-#else
-  "#f"
-#endif
-  );
-printf("(define-inline-constant  HAVE_MD4_TRANSFORM %s)\n",
-#ifdef HAVE_MD4_TRANSFORM
   "#t"
 #else
   "#f"

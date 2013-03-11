@@ -64,6 +64,14 @@
 #define IK_MD4_CTX_POINTER(CTX)		IK_FIELD((CTX),0)
 #define IK_MD4_CTX(CTX)			IK_POINTER_DATA_VOIDP(IK_MD4_CTX_POINTER(CTX))
 
+/* Accessors for the fields of the Scheme structure "md5-ctx". */
+#define IK_MD5_CTX_POINTER(CTX)		IK_FIELD((CTX),0)
+#define IK_MD5_CTX(CTX)			IK_POINTER_DATA_VOIDP(IK_MD5_CTX_POINTER(CTX))
+
+/* Accessors for the fields of the Scheme structure "mdc2-ctx". */
+#define IK_MDC2_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
+#define IK_MDC2_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_MDC2_CTX_POINTER(CTX))
+
 
 /** --------------------------------------------------------------------
  ** Support for missing functions.

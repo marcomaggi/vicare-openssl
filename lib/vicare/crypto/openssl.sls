@@ -49,7 +49,6 @@
     md4-update
     md4-final
     md4
-    md4-transform
 
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
@@ -94,26 +93,35 @@
 ;;;; MD4
 
 (ffi.define-foreign-pointer-wrapper md4-ctx
-  (ffi.foreign-destructor capi.md4-abort)
+  (ffi.foreign-destructor capi.md4-final)
   (ffi.collector-struct-type #f))
 
 (define (md4-init)
-  (define who 'md4-init)
-  (with-arguments-validation (who)
-      ()
-    (capi.md4-init)))
+  (let ((rv (capi.md4-init)))
+    (and rv (make-md4-ctx/owner rv))))
 
-(define (md4-update)
-  (define who 'md4-update)
-  (with-arguments-validation (who)
-      ()
-    (capi.md4-update)))
+(define md4-update
+  (case-lambda
+   ((ctx input)
+    (md4-update ctx input #f))
+   ((ctx input input.len)
+    (define who 'md4-update)
+    (with-arguments-validation (who)
+	((md4-ctx/alive		ctx)
+	 (general-c-string	input)
+	 (size_t/false		input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.md4-update ctx input^ input.len))))))
 
-(define (md4-final)
+(define (md4-final ctx)
   (define who 'md4-final)
   (with-arguments-validation (who)
-      ()
-    (capi.md4-final)))
+      ((md4-ctx		ctx))
+    ($md4-ctx-finalise ctx)))
+
+;;; --------------------------------------------------------------------
 
 (define md4
   (case-lambda
@@ -126,13 +134,8 @@
 	 (size_t/false		input.len))
       (with-general-c-strings
 	  ((input^	input))
+	(string-to-bytevector string->utf8)
 	(capi.md4 input^ input.len))))))
-
-(define (md4-transform)
-  (define who 'md4-transform)
-  (with-arguments-validation (who)
-      ()
-    (capi.md4-transform)))
 
 
 ;;;; done
