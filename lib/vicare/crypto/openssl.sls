@@ -175,20 +175,19 @@
     #;hmac-ctx-init
     #;hmac-ctx-cleanup
     hmac-init
-    hmac-init-ex
     hmac-final
     hmac-update
     hmac-ctx-copy
     hmac-ctx-set-flags
 
     ;; AES
-    aes-ctx
-    aes-ctx?
-    aes-ctx?/alive
-    aes-ctx-custom-destructor
-    set-aes-ctx-custom-destructor!
-    aes-ctx.vicare-arguments-validation
-    aes-ctx/alive.vicare-arguments-validation
+    aes-key
+    aes-key?
+    aes-key?/alive
+    aes-key-custom-destructor
+    set-aes-key-custom-destructor!
+    aes-key.vicare-arguments-validation
+    aes-key/alive.vicare-arguments-validation
 
     aes-options
     aes-set-encrypt-key
@@ -207,10 +206,17 @@
     aes-wrap-key
     aes-unwrap-key
 
+    aes-block-len?
+    aes-data-len?
+    aes-key-len?
+    aes-block-len.vicare-arguments-validation
+    aes-data-len.vicare-arguments-validation
+    aes-key-len.vicare-arguments-validation
 
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
+    hmac-init-ex
     )
   (import (vicare)
     (vicare crypto openssl constants)
@@ -223,14 +229,42 @@
     (vicare syntactic-extensions)
     (vicare arguments validation)
     (vicare arguments general-c-buffers)
+    (prefix (vicare unsafe-operations)
+	    $)
     #;(prefix (vicare words) words.))
 
 
 ;;;; arguments validation
 
-#;(define-argument-validation (fixnum who obj)
-  (fixnum? obj)
-  (assertion-violation who "expected fixnum as argument" obj))
+(define-argument-validation (aes-block-len who buf buf.len)
+  ;;BUF must  be a generalised  C buffer; BUF.LEN  must be false  or the
+  ;;number of octets referenced by BUF, when BUF is a pointer object.
+  ;;
+  ;;Succeed if the length of the buffer equals the AES block size.
+  ;;
+  (= AES_BLOCK_SIZE (general-c-buffer-len buf buf.len))
+  (assertion-violation who
+    "invalid data block length for AES encryption" buf.len))
+
+(define-argument-validation (aes-data-len who buf buf.len)
+  ;;BUF must  be a generalised  C buffer; BUF.LEN  must be false  or the
+  ;;number of octets referenced by BUF, when BUF is a pointer object.
+  ;;
+  ;;Succeed if the length of the buffer  is an exact multiple of the AES
+  ;;block size.
+  ;;
+  (aes-data-len? (general-c-buffer-len buf buf.len))
+  (assertion-violation who
+    "invalid data block length for AES encryption" buf.len))
+
+(define-argument-validation (aes-key-len who obj)
+  ;;Succeed if OBJ is a finxum representing a valid AES key length.
+  ;;
+  (aes-key-len? obj)
+  (assertion-violation who
+    "invalid AES key length, expected fixnum 16, 24 or 32" obj))
+
+;;; --------------------------------------------------------------------
 
 
 ;;;; version functions
@@ -827,11 +861,25 @@
 
 ;;;; AES
 
-(ffi.define-foreign-pointer-wrapper aes-ctx
+(ffi.define-foreign-pointer-wrapper aes-key
   (ffi.foreign-destructor capi.aes-finalise)
   (ffi.collector-struct-type #f))
 
 ;;; --------------------------------------------------------------------
+
+(define (aes-block-len? obj)
+  (and (fixnum? obj)
+       (= AES_BLOCK_SIZE obj)))
+
+(define (aes-data-len? obj)
+  (and (fixnum? obj)
+       (zero? (mod obj AES_BLOCK_SIZE))))
+
+(define (aes-key-len? obj)
+  (and (fixnum? obj)
+       (or ($fx= obj 16)
+	   ($fx= obj 24)
+	   ($fx= obj 32))))
 
 (define (aes-options)
   (define who 'aes-options)
@@ -843,48 +891,78 @@
 
 ;;; --------------------------------------------------------------------
 
-(define (aes-set-encrypt-key key bits)
-  (define who 'aes-set-encrypt-key)
-  (with-arguments-validation (who)
-      ((general-c-string	key)
-       (signed-int		bits))
-    (with-general-c-strings
-	((key^	key))
-      (string-to-bytevector string->utf8)
-      (let ((rv (capi.aes-set-encrypt-key key^ bits)))
-	(and rv (make-aes-ctx/owner rv))))))
+(define aes-set-encrypt-key
+  (case-lambda
+   ((key)
+    (aes-set-encrypt-key key #f))
+   ((key key.len)
+    (define who 'aes-set-encrypt-key)
+    (with-arguments-validation (who)
+	((general-c-string	key)
+	 (size_t/false		key.len))
+      (with-general-c-strings
+	  ((key^	key))
+	(let ((key.len (general-c-buffer-len key^ key.len)))
+	  (with-arguments-validation (who)
+	      ((aes-key-len	key.len))
+	    (let ((rv (capi.aes-set-encrypt-key key^ key.len)))
+	      (and rv (make-aes-key/owner rv))))))))))
 
-(define (aes-set-decrypt-key key bits)
-  (define who 'aes-set-decrypt-key)
-  (with-arguments-validation (who)
-      ((general-c-string	key)
-       (signed-int		bits))
-    (with-general-c-strings
-	((key^	key))
-      (string-to-bytevector string->utf8)
-      (let ((rv (capi.aes-set-decrypt-key key^ bits)))
-	(and rv (make-aes-ctx/owner rv))))))
+(define aes-set-decrypt-key
+  (case-lambda
+   ((key)
+    (aes-set-decrypt-key key #f))
+   ((key key.len)
+    (define who 'aes-set-decrypt-key)
+    (with-arguments-validation (who)
+	((general-c-string	key)
+	 (size_t/false		key.len))
+      (with-general-c-strings
+	  ((key^	key))
+	(let ((key.len (general-c-buffer-len key^ key.len)))
+	  (with-arguments-validation (who)
+	      ((aes-key-len	key.len))
+	    (let ((rv (capi.aes-set-decrypt-key key^ key.len)))
+	      (and rv (make-aes-key/owner rv))))))))))
 
 ;;; --------------------------------------------------------------------
 
-(define (aes-encrypt ctx)
+(define (aes-encrypt in in.len ou ou.len ctx)
   (define who 'aes-encrypt)
   (with-arguments-validation (who)
-      ()
-    (capi.aes-encrypt)))
+      ((general-c-buffer	in)
+       (size_t/false		in.len)
+       (aes-block-len		ou in.len)
+       (general-c-buffer	ou)
+       (size_t/false		ou.len)
+       (aes-block-len		ou ou.len)
+       (aes-key/alive		ctx))
+    (capi.aes-encrypt in ou ctx)))
 
-(define (aes-decrypt ctx)
+(define (aes-decrypt in in.len ou ou.len ctx)
   (define who 'aes-decrypt)
   (with-arguments-validation (who)
-      ()
-    (capi.aes-decrypt)))
+      ((general-c-buffer	in)
+       (size_t/false		in.len)
+       (aes-block-len		ou in.len)
+       (general-c-buffer	ou)
+       (size_t/false		ou.len)
+       (aes-block-len		ou ou.len)
+       (aes-key/alive		ctx))
+    (capi.aes-decrypt in ou ctx)))
 
 ;;; --------------------------------------------------------------------
 
-(define (aes-ecb-encrypt ctx)
+(define (aes-ecb-encrypt in in.len ou ou.len ctx)
   (define who 'aes-ecb-encrypt)
   (with-arguments-validation (who)
-      ()
+      ((general-c-buffer	in)
+       (size_t/false		in.len)
+       (aes-block-len		ou in.len)
+       (general-c-buffer	ou)
+       (size_t/false		ou.len)
+       (aes-block-len		ou ou.len)
+       (aes-key/alive		ctx))
     (capi.aes-ecb-encrypt)))
 
 (define (aes-cbc-encrypt ctx)

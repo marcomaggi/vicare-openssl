@@ -37,17 +37,6 @@ typedef const unsigned char		ik_ssl_cuchar;
  ** Helpers.
  ** ----------------------------------------------------------------- */
 
-static size_t
-generalised_c_buffer_len (ikptr s_buffer, ikptr s_buffer_len)
-{
-  if (IK_IS_POINTER(s_buffer)) {
-    return ik_integer_to_size_t(s_buffer_len);
-  } else if (IK_IS_BYTEVECTOR(s_buffer)) {
-    return IK_BYTEVECTOR_LENGTH(s_buffer);
-  } else { /* it is a memory-block */
-    return IK_MBLOCK_SIZE(s_buffer);
-  }
-}
 
 
 /** --------------------------------------------------------------------
@@ -79,7 +68,7 @@ ikrt_md4_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #ifdef HAVE_MD4_UPDATE
   MD4_CTX *	ctx	= IK_MD4_CTX(s_ctx);
   const void *	in	= IK_GENERALISED_C_STRING(s_input);
-  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  size_t	in_len	= ik_generalised_c_buffer_len(s_input, s_input_len);
   int		rv;
   rv = MD4_Update(ctx, in, (unsigned long)in_len);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -110,7 +99,7 @@ ikrt_md4 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_MD4
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
-  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  ik_ulong		in_len = (ik_ulong)ik_generalised_c_buffer_len(s_input, s_input_len);
   unsigned char		sum[MD4_DIGEST_LENGTH];
   MD4(in, in_len, sum);
   return ika_bytevector_from_memory_block(pcb, sum, MD4_DIGEST_LENGTH);
@@ -149,7 +138,7 @@ ikrt_md5_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #ifdef HAVE_MD5_UPDATE
   MD5_CTX *	ctx	= IK_MD5_CTX(s_ctx);
   const void *	in	= IK_GENERALISED_C_STRING(s_input);
-  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  size_t	in_len	= ik_generalised_c_buffer_len(s_input, s_input_len);
   int		rv;
   rv = MD5_Update(ctx, in, (unsigned long)in_len);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -180,7 +169,7 @@ ikrt_md5 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_MD5
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
-  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  ik_ulong		in_len = (ik_ulong)ik_generalised_c_buffer_len(s_input, s_input_len);
   unsigned char		sum[MD5_DIGEST_LENGTH];
   MD5(in, in_len, sum);
   return ika_bytevector_from_memory_block(pcb, sum, MD5_DIGEST_LENGTH);
@@ -219,7 +208,7 @@ ikrt_mdc2_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #ifdef HAVE_MDC2_UPDATE
   MDC2_CTX *	ctx	= IK_MDC2_CTX(s_ctx);
   const void *	in	= IK_GENERALISED_C_STRING(s_input);
-  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  size_t	in_len	= ik_generalised_c_buffer_len(s_input, s_input_len);
   int		rv;
   rv = MDC2_Update(ctx, in, (unsigned long)in_len);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -250,7 +239,7 @@ ikrt_mdc2 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_MDC2
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
-  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  ik_ulong		in_len = (ik_ulong)ik_generalised_c_buffer_len(s_input, s_input_len);
   unsigned char		sum[MDC2_DIGEST_LENGTH];
   MDC2(in, in_len, sum);
   return ika_bytevector_from_memory_block(pcb, sum, MDC2_DIGEST_LENGTH);
@@ -289,7 +278,7 @@ ikrt_sha1_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #ifdef HAVE_SHA1_UPDATE
   SHA_CTX *	ctx	= IK_SHA_CTX(s_ctx);
   const void *	in	= IK_GENERALISED_C_STRING(s_input);
-  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  size_t	in_len	= ik_generalised_c_buffer_len(s_input, s_input_len);
   int		rv;
   rv = SHA1_Update(ctx, in, (unsigned long)in_len);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -320,7 +309,7 @@ ikrt_sha1 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA1
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
-  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  ik_ulong		in_len = (ik_ulong)ik_generalised_c_buffer_len(s_input, s_input_len);
   unsigned char		sum[SHA_DIGEST_LENGTH];
   SHA1(in, in_len, sum);
   return ika_bytevector_from_memory_block(pcb, sum, SHA_DIGEST_LENGTH);
@@ -365,7 +354,7 @@ ikrt_sha224_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #ifdef HAVE_SHA224_UPDATE
   SHA224_CTX *	ctx	= IK_SHA224_CTX(s_ctx);
   const void *	in	= IK_GENERALISED_C_STRING(s_input);
-  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  size_t	in_len	= ik_generalised_c_buffer_len(s_input, s_input_len);
   int		rv;
   rv = SHA224_Update(ctx, in, (unsigned long)in_len);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -396,7 +385,7 @@ ikrt_sha224 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA224
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
-  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  ik_ulong		in_len = (ik_ulong)ik_generalised_c_buffer_len(s_input, s_input_len);
   unsigned char		sum[SHA224_DIGEST_LENGTH];
   SHA224(in, in_len, sum);
   return ika_bytevector_from_memory_block(pcb, sum, SHA224_DIGEST_LENGTH);
@@ -435,7 +424,7 @@ ikrt_sha256_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #ifdef HAVE_SHA256_UPDATE
   SHA256_CTX *	ctx	= IK_SHA256_CTX(s_ctx);
   const void *	in	= IK_GENERALISED_C_STRING(s_input);
-  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  size_t	in_len	= ik_generalised_c_buffer_len(s_input, s_input_len);
   int		rv;
   rv = SHA256_Update(ctx, in, (unsigned long)in_len);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -466,7 +455,7 @@ ikrt_sha256 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA256
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
-  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  ik_ulong		in_len = (ik_ulong)ik_generalised_c_buffer_len(s_input, s_input_len);
   unsigned char		sum[SHA256_DIGEST_LENGTH];
   SHA256(in, in_len, sum);
   return ika_bytevector_from_memory_block(pcb, sum, SHA256_DIGEST_LENGTH);
@@ -511,7 +500,7 @@ ikrt_sha384_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #ifdef HAVE_SHA384_UPDATE
   SHA384_CTX *	ctx	= IK_SHA384_CTX(s_ctx);
   const void *	in	= IK_GENERALISED_C_STRING(s_input);
-  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  size_t	in_len	= ik_generalised_c_buffer_len(s_input, s_input_len);
   int		rv;
   rv = SHA384_Update(ctx, in, (unsigned long)in_len);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -542,7 +531,7 @@ ikrt_sha384 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA384
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
-  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  ik_ulong		in_len = (ik_ulong)ik_generalised_c_buffer_len(s_input, s_input_len);
   unsigned char		sum[SHA384_DIGEST_LENGTH];
   SHA384(in, in_len, sum);
   return ika_bytevector_from_memory_block(pcb, sum, SHA384_DIGEST_LENGTH);
@@ -581,7 +570,7 @@ ikrt_sha512_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #ifdef HAVE_SHA512_UPDATE
   SHA512_CTX *	ctx	= IK_SHA512_CTX(s_ctx);
   const void *	in	= IK_GENERALISED_C_STRING(s_input);
-  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  size_t	in_len	= ik_generalised_c_buffer_len(s_input, s_input_len);
   int		rv;
   rv = SHA512_Update(ctx, in, (unsigned long)in_len);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -612,7 +601,7 @@ ikrt_sha512 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA512
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
-  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  ik_ulong		in_len = (ik_ulong)ik_generalised_c_buffer_len(s_input, s_input_len);
   unsigned char		sum[SHA512_DIGEST_LENGTH];
   SHA512(in, in_len, sum);
   return ika_bytevector_from_memory_block(pcb, sum, SHA512_DIGEST_LENGTH);
@@ -651,7 +640,7 @@ ikrt_ripemd160_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pc
 #ifdef HAVE_RIPEMD160_UPDATE
   RIPEMD160_CTX *	ctx	= IK_RIPEMD160_CTX(s_ctx);
   const void *	in	= IK_GENERALISED_C_STRING(s_input);
-  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  size_t	in_len	= ik_generalised_c_buffer_len(s_input, s_input_len);
   int		rv;
   rv = RIPEMD160_Update(ctx, in, (unsigned long)in_len);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -682,7 +671,7 @@ ikrt_ripemd160 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_RIPEMD160
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
-  ik_ulong		in_len = (ik_ulong)generalised_c_buffer_len(s_input, s_input_len);
+  ik_ulong		in_len = (ik_ulong)ik_generalised_c_buffer_len(s_input, s_input_len);
   unsigned char		sum[RIPEMD160_DIGEST_LENGTH];
   RIPEMD160(in, in_len, sum);
   return ika_bytevector_from_memory_block(pcb, sum, RIPEMD160_DIGEST_LENGTH);

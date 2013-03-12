@@ -52,16 +52,46 @@
   #f)
 
 
-(parametrise ((check-test-name	'encrypt))
+(parametrise ((check-test-name	'key))
 
   (check
-      (let ((ctx (ssl.aes-set-encrypt-key "ciao" 0)))
-	(ssl.aes-ctx? ctx))
+      (let ((ctx (ssl.aes-set-encrypt-key "0123456789012345")))
+	(ssl.aes-key? ctx))
     => #t)
 
   (check
-      (let ((ctx (ssl.aes-set-encrypt-key "ciao" 0)))
-	(ssl.aes-ctx?/alive ctx))
+      (let ((ctx (ssl.aes-set-encrypt-key "0123456789012345")))
+	(ssl.aes-key?/alive ctx))
+    => #t)
+
+;;; --------------------------------------------------------------------
+
+  (check
+      (let ((ctx (ssl.aes-set-decrypt-key "0123456789012345")))
+	(ssl.aes-key? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.aes-set-decrypt-key "0123456789012345")))
+	(ssl.aes-key?/alive ctx))
+    => #t)
+
+  (collect))
+
+
+(parametrise ((check-test-name	'default))
+
+;;; crypt with the default scheme
+
+  (check
+      (let ((key.en	(ssl.aes-set-encrypt-key "0123456789012345"))
+	    (key.de	(ssl.aes-set-decrypt-key "0123456789012345"))
+	    (data.in	(make-bytevector ssl.AES_BLOCK_SIZE 123))
+	    (data.en	(make-bytevector ssl.AES_BLOCK_SIZE 0))
+	    (data.de	(make-bytevector ssl.AES_BLOCK_SIZE 0)))
+	(ssl.aes-encrypt data.in #f data.en #f key.en)
+	(ssl.aes-decrypt data.en #f data.de #f key.de)
+	(bytevector=? data.in data.de))
     => #t)
 
   (collect))

@@ -118,9 +118,9 @@
  ** Handling of Scheme objects: encrypting and decripting.
  ** ----------------------------------------------------------------- */
 
-/* Accessors for the fields of the Scheme structure "aes-ctx". */
-#define IK_AES_CTX_POINTER(CTX)		IK_FIELD((CTX),0)
-#define IK_AES_CTX(CTX)			IK_POINTER_DATA_VOIDP(IK_AES_CTX_POINTER(CTX))
+/* Accessors for the fields of the Scheme structure "aes-key". */
+#define IK_AES_KEY_POINTER(CTX)		IK_FIELD((CTX),0)
+#define IK_AES_KEY(CTX)			IK_POINTER_DATA_VOIDP(IK_AES_KEY_POINTER(CTX))
 
 
 /** --------------------------------------------------------------------

@@ -35,17 +35,6 @@
  ** Helpers.
  ** ----------------------------------------------------------------- */
 
-static size_t
-generalised_c_buffer_len (ikptr s_buffer, ikptr s_buffer_len)
-{
-  if (IK_IS_POINTER(s_buffer)) {
-    return ik_integer_to_size_t(s_buffer_len);
-  } else if (IK_IS_BYTEVECTOR(s_buffer)) {
-    return IK_BYTEVECTOR_LENGTH(s_buffer);
-  } else { /* it is a memory-block */
-    return IK_MBLOCK_SIZE(s_buffer);
-  }
-}
 
 
 /** --------------------------------------------------------------------
@@ -66,21 +55,34 @@ ikrt_aes_options (ikpcb * pcb)
 
 
 /** --------------------------------------------------------------------
- ** AES C wrappers: encryption key.
+ ** AES C wrappers: encryption and decryption keys.
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_aes_set_encrypt_key (ikptr s_key, ikptr s_bits, ikpcb * pcb)
+ikrt_aes_set_encrypt_key (ikptr s_key, ikptr s_key_len, ikpcb * pcb)
 {
 #ifdef HAVE_AES_SET_ENCRYPT_KEY
   const void *	key	= IK_GENERALISED_C_STRING(s_key);
-  int		bits	= ik_integer_to_int(s_bits);
+  size_t	key_len	= ik_generalised_c_buffer_len(s_key, s_key_len);
   AES_KEY *	ctx;
-  int		rv;
-  ctx = malloc(sizeof(MD4_CTX));
+  int		rv, bits;
+  /* The  argument "bits"  requested  by the  OpenSSL  functions is  the
+     length of  the key measured  in bits;  valid values are:  128, 192,
+     256.  Measured in octets: 16, 24, 32. */
+  switch (key_len) {
+  case 16:	bits = 128;	break;
+  case 24:	bits = 192;	break;
+  case 32:	bits = 256;	break;
+  default:
+    return IK_FALSE;
+  }
+  ctx = malloc(sizeof(AES_KEY));
   if (ctx) {
     rv = AES_set_encrypt_key(key, bits, ctx);
-    if (rv)
+    /* The return value "rv" is: 0 if  success, -1 if "key" or "ctx" are
+       NULL pointers, -2 if "bits" is  not a correct key length measured
+       in bits. */
+    if (0 == rv)
       return ika_pointer_alloc(pcb, (long)ctx);
     else
       free(ctx);
@@ -91,17 +93,30 @@ ikrt_aes_set_encrypt_key (ikptr s_key, ikptr s_bits, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_aes_set_decrypt_key (ikptr s_key, ikptr s_bits, ikpcb * pcb)
+ikrt_aes_set_decrypt_key (ikptr s_key, ikptr s_key_len, ikpcb * pcb)
 {
 #ifdef HAVE_AES_SET_DECRYPT_KEY
   const void *	key	= IK_GENERALISED_C_STRING(s_key);
-  int		bits	= ik_integer_to_int(s_bits);
+  size_t	key_len	= ik_generalised_c_buffer_len(s_key, s_key_len);
   AES_KEY *	ctx;
-  int		rv;
-  ctx = malloc(sizeof(MD4_CTX));
+  int		rv, bits;
+  /* The  argument "bits"  requested  by the  OpenSSL  functions is  the
+     length of  the key measured  in bits;  valid values are:  128, 192,
+     256.  Measured in octets: 16, 24, 32. */
+  switch (key_len) {
+  case 16:	bits = 128;	break;
+  case 24:	bits = 192;	break;
+  case 32:	bits = 256;	break;
+  default:
+    return IK_FALSE;
+  }
+  ctx = malloc(sizeof(AES_KEY));
   if (ctx) {
     rv = AES_set_decrypt_key(key, bits, ctx);
-    if (rv)
+    /* The return value "rv" is: 0 if  success, -1 if "key" or "ctx" are
+       NULL pointers, -2 if "bits" is  not a correct key length measured
+       in bits. */
+    if (0 == rv)
       return ika_pointer_alloc(pcb, (long)ctx);
     else
       free(ctx);
@@ -116,9 +131,10 @@ ikrt_aes_set_decrypt_key (ikptr s_key, ikptr s_bits, ikpcb * pcb)
 
 ikptr
 ikrt_aes_finalise (ikptr s_ctx, ikpcb * pcb)
-/* This is not an OpenSSL function. */
+/* This is not an OpenSSL  function.  It is introduced by Vicare/OpenSSL
+   to allow clean finalisation of AES context structures. */
 {
-  ikptr		s_pointer	= IK_AES_CTX_POINTER(s_ctx);
+  ikptr		s_pointer	= IK_AES_KEY_POINTER(s_ctx);
   AES_KEY *	ctx		= IK_POINTER_DATA_VOIDP(s_pointer);
   if (ctx) {
     free(ctx);
@@ -128,26 +144,40 @@ ikrt_aes_finalise (ikptr s_ctx, ikpcb * pcb)
 }
 
 
+/** --------------------------------------------------------------------
+ ** AES C wrappers: default encryption and decryption scheme.
+ ** ----------------------------------------------------------------- */
+
 ikptr
-ikrt_aes_encrypt (ikpcb * pcb)
+ikrt_aes_encrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
+		  ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_AES_ENCRYPT
-  /* rv = AES_encrypt(); */
+  const unsigned char *	in  = IK_GENERALISED_C_BUFFER(s_single_block_in);
+  unsigned char *	ou  = IK_GENERALISED_C_BUFFER(s_single_block_ou);
+  const AES_KEY *	ctx = IK_AES_KEY(s_ctx);
+  AES_encrypt(in, ou, ctx);
   return IK_VOID;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_aes_decrypt (ikpcb * pcb)
+ikrt_aes_decrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
+		  ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_AES_DECRYPT
-  /* rv = AES_decrypt(); */
+  const unsigned char *	in  = IK_GENERALISED_C_BUFFER(s_single_block_in);
+  unsigned char *	ou  = IK_GENERALISED_C_BUFFER(s_single_block_ou);
+  const AES_KEY *	ctx = IK_AES_KEY(s_ctx);
+  AES_decrypt(in, ou, ctx);
   return IK_VOID;
 #else
   feature_failure(__func__);
 #endif
 }
+
+
 ikptr
 ikrt_aes_ecb_encrypt (ikpcb * pcb)
 {

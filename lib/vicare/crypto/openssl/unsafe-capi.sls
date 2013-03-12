@@ -325,19 +325,19 @@
   ;;
   (foreign-call "ikrt_aes_finalise" ctx))
 
-(define-inline (aes-set-encrypt-key key bits)
-  (foreign-call "ikrt_aes_set_encrypt_key" key bits))
+(define-inline (aes-set-encrypt-key key key.len)
+  (foreign-call "ikrt_aes_set_encrypt_key" key key.len))
 
-(define-inline (aes-set-decrypt-key key bits)
-  (foreign-call "ikrt_aes_set_decrypt_key" key bits))
+(define-inline (aes-set-decrypt-key key key.len)
+  (foreign-call "ikrt_aes_set_decrypt_key" key key.len))
 
 ;;; --------------------------------------------------------------------
 
-(define-inline (aes-encrypt)
-  (foreign-call "ikrt_aes_encrypt"))
+(define-inline (aes-encrypt in ou ctx)
+  (foreign-call "ikrt_aes_encrypt" in ou ctx))
 
-(define-inline (aes-decrypt)
-  (foreign-call "ikrt_aes_decrypt"))
+(define-inline (aes-decrypt in ou ctx)
+  (foreign-call "ikrt_aes_decrypt" in ou ctx))
 
 ;;; --------------------------------------------------------------------
 

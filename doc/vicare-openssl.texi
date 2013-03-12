@@ -432,7 +432,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -457,7 +457,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -601,7 +601,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -626,7 +626,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -770,7 +770,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -795,7 +795,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -939,7 +939,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -964,7 +964,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -1108,7 +1108,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -1133,7 +1133,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -1277,7 +1277,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -1302,7 +1302,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -1446,7 +1446,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -1471,7 +1471,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -1615,7 +1615,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -1640,7 +1640,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -1784,7 +1784,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -1809,7 +1809,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -1956,7 +1956,7 @@ is converted to a bytevector with @func{string->utf8}.
 The optional @var{key.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{key} is a pointer
 object: @var{key.len} must represent the number of bytes available in
-the reference memory block; otherwise @var{key.len} is ignored.
+the referenced memory block; otherwise @var{key.len} is ignored.
 
 @var{md} must be a symbol among:
 
@@ -1989,7 +1989,7 @@ it is converted to a bytevector with @func{string->utf8}.
 The optional @var{input.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{input} is a
 pointer object: @var{input.len} must represent the number of bytes
-available in the reference memory block; otherwise @var{input.len} is
+available in the referenced memory block; otherwise @var{input.len} is
 ignored.
 @end defun
 
@@ -2035,7 +2035,7 @@ is converted to a bytevector with @func{string->utf8}.
 The optional @var{key.len} must be @false{} or an exact integer in the
 range of the C language type @code{size_t}.  When @var{key} is a pointer
 object: @var{key.len} must represent the number of bytes available in
-the reference memory block; otherwise @var{key.len} is ignored.
+the referenced memory block; otherwise @var{key.len} is ignored.
 
 @var{input} must be a generalised C string, @vicareref{cbuffers strings,
 Introduction to generalised C strings}.  When @var{input} is a string:
@@ -2044,7 +2044,7 @@ it is converted to a bytevector with @func{string->utf8}.
 @var{input.len} must be @false{} or an exact integer in the range of the
 C language type @code{size_t}.  When @var{input} is a pointer object:
 @var{input.len} must represent the number of bytes available in the
-reference memory block; otherwise @var{input.len} is ignored.
+referenced memory block; otherwise @var{input.len} is ignored.
 @end defun
 
 @c page
@@ -2062,9 +2062,104 @@ reference memory block; otherwise @var{input.len} is ignored.
 
 
 @menu
+* plain crypto aes struct::     Context data structure.
 * plain crypto aes key::        Selecting the key.
-* plain crypto aes misc::       Miscellaneous functions.
+* plain crypto aes crypt::      Encryption and decryption.
+* plain crypto aes misc::       Miscellaneous functions and syntaxes.
 @end menu
+
+@c page
+@node plain crypto aes struct
+@subsubsection Context data structure
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@deftp {Struct Type} aes-key
+@cindex @var{AES} argument
+@cindex Argument @var{AES}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{AES_KEY}; it references an AES encryption or
+decryption key.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{AES}.
+
+There are two categories of @code{aes-key} instances: those who own the
+underlying checksum context and those who merely reference it.
+
+@itemize
+@item
+@code{aes-key} instances returned by @func{aes-set-encrypt-key} and
+@func{aes-set-decrypt-key} do own the context.  When instances of this
+category are garbage collected: the context is closed, all the
+associated data is finalised; any error is ignored in this procedure.
+@end itemize
+@end deftp
+
+
+@defun aes-key? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{aes-key}; otherwise
+return @false{}.
+@end defun
+
+
+@defun aes-key?/alive @var{obj}
+Return @true{} if @var{obj} is an instance of @code{aes-key} and the
+context it represents is open; otherwise return @false{}.
+@end defun
+
+
+@defun aes-key-custom-destructor @var{AES}
+@defunx set-aes-key-custom-destructor! @var{AES} @var{func}
+Retrieve or set a destructor function associated to the @var{AES}.
+
+Whenever the @var{AES} is closed: @var{func} is applied to @var{AES}
+before the internal state of @var{AES} is finalised.
+
+Notice that @var{func} can do anything, not only destroy some state
+associated to @var{AES}; if we do:
+
+@example
+(define context ...)
+(set-aes-key-custom-destructor! context
+  (let ((state (make-some-data-struct)))
+    (case-lambda
+      ((sex)
+       (destroy state))
+      (()
+       state))))
+
+(let ((state ((aes-key-custom-destructor context))))
+  (do-something-with context state))
+@end example
+
+@noindent
+we can easily associate values to @var{AES}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} aes-key @var{obj}
+@deffnx {Validation Clause} false-or-aes-key @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{aes-key?}; the second
+clause also accepts @false{}.
+@end deffn
+
+
+@deffn {Validation Clause} aes-key/alive @var{obj}
+@deffnx {Validation Clause} false-or-aes-key/alive @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{aes-key?/alive}; the
+second clause also accepts @false{}.
+@end deffn
 
 @c page
 @node plain crypto aes key
@@ -2075,36 +2170,110 @@ The following bindings are exported by the library @library{vicare
 crypto openssl}.
 
 
-@defun aes-set-encrypt-key @var{key} @var{bits}
+@defun aes-set-encrypt-key @var{key}
+@defunx aes-set-encrypt-key @var{key} @var{key.len}
 Build an instance of @code{aes-ctx} initialised with the encryption
 @var{key} and configured with @var{bits}; if successful return the
 struct, else return @false{}.
 
 @var{key} must be a generalised C string, @vicareref{cbuffers strings,
 Introduction to generalised C strings}.  When @var{key} is a string: it
-is converted to a bytevector with @func{string->utf8}.
+is converted to a bytevector with @func{string->ascii}.
 
-@var{bits} must be an exact integer in the range of the C language type
-@code{signed int}.
+The optional @var{key.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{key} is a pointer
+object: @var{key.len} must represent the number of bytes available in
+the referenced memory block; otherwise @var{key.len} is ignored.
+
+The key length, measured in bytes, must be: @math{16}, @math{24} or
+@math{32}; corresponding to a length measured in bits of: @math{128},
+@math{192}, @math{256}.
 @end defun
 
 
-@defun aes-set-decrypt-key @var{key} @var{bits}
+@defun aes-set-decrypt-key @var{key}
+@defunx aes-set-decrypt-key @var{key} @var{key.len}
 Build an instance of @code{aes-ctx} initialised with the decryption
 @var{key} and configured with @var{bits}; if successful return the
 struct, else return @false{}.
 
 @var{key} must be a generalised C string, @vicareref{cbuffers strings,
 Introduction to generalised C strings}.  When @var{key} is a string: it
-is converted to a bytevector with @func{string->utf8}.
+is converted to a bytevector with @func{string->ascii}.
 
-@var{bits} must be an exact integer in the range of the C language type
-@code{signed int}.
+The optional @var{key.len} must be @false{} or an exact integer in the
+range of the C language type @code{size_t}.  When @var{key} is a pointer
+object: @var{key.len} must represent the number of bytes available in
+the referenced memory block; otherwise @var{key.len} is ignored.
+
+The key length, measured in bytes, must be: @math{16}, @math{24} or
+@math{32}; corresponding to a length measured in bits of: @math{128},
+@math{192}, @math{256}.
 @end defun
 
 @c page
+@node plain crypto aes crypt
+@subsubsection Encryption and decryption
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun aes-encrypt @var{in} @var{in.len} @var{ou} @var{ou.len} @var{AES}
+@defunx aes-decrypt @var{in} @var{in.len} @var{ou} @var{ou.len} @var{AES}
+Encrypt or decrypt the single data block @var{in} and store the result
+in @var{ou}; return unspecified values.
+
+@var{in} and @var{ou} must be a generalised C buffers,
+@vicareref{cbuffers buffers, Introduction to generalised C buffers}.
+Their length must be equal to the AES block length available through the
+constant @code{AES_BLOCK_SIZE}.  @var{in} and @var{ou} can overlap and
+also be the same argument.
+
+@var{in.len} and @var{ou.len} must be @false{} or exact integers in the
+range of the C language type @code{size_t}.  When @var{in} and @var{ou}
+are pointer objects: @var{in.len} and @var{ou.len} must represent the
+number of bytes available in the referenced memory block; otherwise
+@var{in.len} and @var{ou.len} are ignored.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl constants) ssl.)
+
+(define key.en
+  (ssl.aes-set-encrypt-key "0123456789012345"))
+(define key.de
+  (ssl.aes-set-decrypt-key "0123456789012345"))
+
+(define data.in
+  (make-bytevector ssl.AES_BLOCK_SIZE 123))
+(define data.en
+  (make-bytevector ssl.AES_BLOCK_SIZE 0))
+(define data.de
+  (make-bytevector ssl.AES_BLOCK_SIZE 0))
+
+(ssl.aes-encrypt data.in #f data.en #f key.en)
+(ssl.aes-decrypt data.en #f data.de #f key.de)
+
+data.in @result{} #vu8(123 123 123 123 123 123
+   123 123 123 123 123 123 123 123 123 123)
+
+data.en @result{} #vu8(204 84 141 21 154 178 104
+   243 186 57 101 209 29 113 127 2)
+
+data.de @result{} #vu8(123 123 123 123 123 123
+   123 123 123 123 123 123 123 123 123 123)
+@end example
+@end defun
+
+
+
+@c page
 @node plain crypto aes misc
-@subsubsection Miscellaneous functions
+@subsubsection Miscellaneous functions and syntaxes
 
 
 The following bindings are exported by the library @library{vicare
@@ -2116,6 +2285,57 @@ If successful return a string representing some kind of options,
 otherwise raise an @condition{error} condition.
 @end defun
 
+
+@defun aes-block-len? @var{obj}
+Return @true{} if @var{obj} is a fixnum equal to the AES block size;
+otherwise return @false{}.
+@end defun
+
+
+@defun aes-data-len? @var{obj}
+Return @true{} if @var{obj} is a fixnum equal to an exact multiple of
+the AES block size; otherwise return @false{}.
+@end defun
+
+
+@defun aes-key-len? @var{obj}
+Return @true{} if @var{obj} is a fixnum representing a valid AES key
+length; valid values are: @math{16}, @math{24}, @math{32}.  Otherwise
+return @false{}.
+@end defun
+
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} aes-block-len @var{buf} @var{buf.len}
+@var{buf} must be a generalised C buffer; @var{buf.len} must be @false{}
+or the number of octets referenced by @var{buf}, when @var{buf} is a
+pointer object.
+
+Succeed if the length of the buffer equals the AES block size.
+@end deffn
+
+
+@deffn {Validation Clause} aes-data-len @var{buf} @var{buf.len}
+@var{buf} must be a generalised C buffer; @var{buf.len} must be @false{}
+or the number of octets referenced by @var{buf}, when @var{buf} is a
+pointer object.
+
+Succeed if the length of the buffer is an exact multiple of the AES
+block size.
+@end deffn
+
+
+@deffn {Validation Clause} aes-key-len @var{obj}
+Succeed if @var{obj} is a finxum representing a valid AES key length;
+valid values are: @math{16}, @math{24}, @math{32}.
+@end deffn
 
 @c page
 @node plain evp

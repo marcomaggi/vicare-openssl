@@ -35,17 +35,6 @@
  ** Helpers.
  ** ----------------------------------------------------------------- */
 
-static size_t
-generalised_c_buffer_len (ikptr s_buffer, ikptr s_buffer_len)
-{
-  if (IK_IS_POINTER(s_buffer)) {
-    return ik_integer_to_size_t(s_buffer_len);
-  } else if (IK_IS_BYTEVECTOR(s_buffer)) {
-    return IK_BYTEVECTOR_LENGTH(s_buffer);
-  } else { /* it is a memory-block */
-    return IK_MBLOCK_SIZE(s_buffer);
-  }
-}
 
 
 /** --------------------------------------------------------------------
@@ -63,7 +52,7 @@ ikrt_hmac_init (ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * pcb)
   if (ctx) {
     HMAC_CTX_init(ctx);
     const void *	key	= IK_GENERALISED_C_STRING(s_key);
-    size_t		key_len	= generalised_c_buffer_len(s_key, s_key_len);
+    size_t		key_len	= ik_generalised_c_buffer_len(s_key, s_key_len);
     const EVP_MD *	md;
     int			rv;
     switch (ik_integer_to_int(s_md)) {
@@ -118,7 +107,7 @@ ikrt_hmac_init (ikptr s_ctx, ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * p
 #ifdef HAVE_HMAC_INIT
   HMAC_CTX *	ctx	= IK_HMAC_CTX(s_ctx);
   const void *	key	= IK_GENERALISED_C_STRING(s_key);
-  size_t	key_len	= generalised_c_buffer_len(s_key, s_key_len);
+  size_t	key_len	= ik_generalised_c_buffer_len(s_key, s_key_len);
   const EVP_MD *md;
   int		rv;
   switch (ik_integer_to_int(s_md)) {
@@ -219,7 +208,7 @@ ikrt_hmac_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #ifdef HAVE_HMAC_UPDATE
   HMAC_CTX *	ctx	= IK_HMAC_CTX(s_ctx);
   const void *	in	= IK_GENERALISED_C_STRING(s_input);
-  size_t	in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  size_t	in_len	= ik_generalised_c_buffer_len(s_input, s_input_len);
   int		rv;
   rv = HMAC_Update(ctx, in, in_len);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -274,9 +263,9 @@ ikrt_hmac (ikptr s_md,
 {
 #ifdef HAVE_HMAC
   const void *		key	= IK_GENERALISED_C_STRING(s_key);
-  size_t		key_len	= generalised_c_buffer_len(s_key, s_key_len);
+  size_t		key_len	= ik_generalised_c_buffer_len(s_key, s_key_len);
   const void *		in	= IK_GENERALISED_C_STRING(s_input);
-  size_t		in_len	= generalised_c_buffer_len(s_input, s_input_len);
+  size_t		in_len	= ik_generalised_c_buffer_len(s_input, s_input_len);
   const EVP_MD *	md;
   unsigned char		sum[HMAC_MAX_MD_CBLOCK];
   unsigned int		len;

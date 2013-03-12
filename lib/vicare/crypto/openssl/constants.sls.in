@@ -48,13 +48,16 @@
 
     ;; HMAC
     HMAC_MAX_MD_CBLOCK
+
+    ;; AES
+    AES_ENCRYPT AES_DECRYPT AES_BLOCK_SIZE
     )
   (import (rename (only (vicare syntactic-extensions)
 			define-inline-constant)
 		  (define-inline-constant	defc)))
 
 
-;;;; constants
+;;;; constants for message digests and HMAC
 
 ;; Message Digest 4
 (defc MD4_DIGEST_LENGTH			@VALUEOF_MD4_DIGEST_LENGTH@)
@@ -77,6 +80,14 @@
 
 ;; HMAC
 (defc HMAC_MAX_MD_CBLOCK		@VALUEOF_HMAC_MAX_MD_CBLOCK@)
+
+
+;;;; constants for encryption and decryption
+
+;; AES
+(defc AES_ENCRYPT		@VALUEOF_AES_ENCRYPT@)
+(defc AES_DECRYPT		@VALUEOF_AES_DECRYPT@)
+(defc AES_BLOCK_SIZE		@VALUEOF_AES_BLOCK_SIZE@)
 
 
 ;;;; done
