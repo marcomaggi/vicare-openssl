@@ -97,6 +97,52 @@
   (collect))
 
 
+(parametrise ((check-test-name	'ecb))
+
+;;; crypt with the ECB scheme
+
+  (check
+      (let ((key.en	(ssl.aes-set-encrypt-key "0123456789012345"))
+	    (key.de	(ssl.aes-set-decrypt-key "0123456789012345"))
+	    (data.in	(make-bytevector ssl.AES_BLOCK_SIZE 123))
+	    (data.en	(make-bytevector ssl.AES_BLOCK_SIZE 0))
+	    (data.de	(make-bytevector ssl.AES_BLOCK_SIZE 0)))
+	(ssl.aes-ecb-encrypt data.in #f data.en #f key.en)
+	(ssl.aes-ecb-decrypt data.en #f data.de #f key.de)
+	(bytevector=? data.in data.de))
+    => #t)
+
+  (collect))
+
+
+(parametrise ((check-test-name	'cbc))
+
+;;; crypt with the ECB scheme
+
+  (check
+      (let ()
+	(define key.en
+	  (ssl.aes-set-encrypt-key "0123456789012345"))
+	(define key.de
+	  (ssl.aes-set-decrypt-key "0123456789012345"))
+	(define iv
+	  (make-bytevector ssl.AES_BLOCK_SIZE 99))
+	(define data.len
+	  (* 5 ssl.AES_BLOCK_SIZE))
+	(define data.in
+	  (make-bytevector data.len 123))
+	(define data.en
+	  (make-bytevector data.len 0))
+	(define data.de
+	  (make-bytevector data.len 0))
+	(ssl.aes-cbc-encrypt data.in #f data.en #f key.en iv #f)
+	(ssl.aes-cbc-decrypt data.en #f data.de #f key.de iv #f)
+	(bytevector=? data.in data.de))
+    => #t)
+
+  (collect))
+
+
 ;;;; done
 
 (check-report)

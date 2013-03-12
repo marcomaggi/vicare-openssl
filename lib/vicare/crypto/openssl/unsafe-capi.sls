@@ -341,11 +341,11 @@
 
 ;;; --------------------------------------------------------------------
 
-(define-inline (aes-ecb-encrypt)
-  (foreign-call "ikrt_aes_ecb_encrypt"))
+(define-inline (aes-ecb-encrypt in ou ctx mode)
+  (foreign-call "ikrt_aes_ecb_encrypt" in ou ctx mode))
 
-(define-inline (aes-cbc-encrypt)
-  (foreign-call "ikrt_aes_cbc_encrypt"))
+(define-inline (aes-cbc-encrypt in in.len ou ou.len ctx iv iv.len mode)
+  (foreign-call "ikrt_aes_cbc_encrypt" in in.len ou ou.len ctx iv iv.len mode))
 
 (define-inline (aes-cfb128-encrypt)
   (foreign-call "ikrt_aes_cfb128_encrypt"))

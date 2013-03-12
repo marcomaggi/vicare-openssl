@@ -34,6 +34,7 @@
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
 #endif
+#include <assert.h>
 #include <vicare.h>
 
 /* It is better if this comes first. */

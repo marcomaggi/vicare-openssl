@@ -190,12 +190,10 @@
     aes-key/alive.vicare-arguments-validation
 
     aes-options
-    aes-set-encrypt-key
-    aes-set-decrypt-key
-    aes-encrypt
-    aes-decrypt
-    aes-ecb-encrypt
-    aes-cbc-encrypt
+    aes-set-encrypt-key		aes-set-decrypt-key
+    aes-encrypt			aes-decrypt
+    aes-ecb-encrypt		aes-ecb-decrypt
+    aes-cbc-encrypt		aes-cbc-decrypt
     aes-cfb128-encrypt
     aes-cfb1-encrypt
     aes-cfb8-encrypt
@@ -203,8 +201,7 @@
     aes-ctr128-encrypt
     aes-ige-encrypt
     aes-bi-ige-encrypt
-    aes-wrap-key
-    aes-unwrap-key
+    aes-wrap-key		aes-unwrap-key
 
     aes-block-len?
     aes-data-len?
@@ -953,23 +950,50 @@
 
 ;;; --------------------------------------------------------------------
 
-(define (aes-ecb-encrypt in in.len ou ou.len ctx)
-  (define who 'aes-ecb-encrypt)
-  (with-arguments-validation (who)
-      ((general-c-buffer	in)
-       (size_t/false		in.len)
-       (aes-block-len		ou in.len)
-       (general-c-buffer	ou)
-       (size_t/false		ou.len)
-       (aes-block-len		ou ou.len)
-       (aes-key/alive		ctx))
-    (capi.aes-ecb-encrypt)))
+(module (aes-ecb-encrypt aes-ecb-decrypt)
 
-(define (aes-cbc-encrypt ctx)
-  (define who 'aes-cbc-encrypt)
-  (with-arguments-validation (who)
-      ()
-    (capi.aes-cbc-encrypt)))
+  (define (aes-ecb-encrypt in in.len ou ou.len ctx)
+    (%aes-ecb-encrypt 'aes-ecb-encrypt in in.len ou ou.len ctx AES_ENCRYPT))
+
+  (define (aes-ecb-decrypt in in.len ou ou.len ctx)
+    (%aes-ecb-encrypt 'aes-ecb-decrypt in in.len ou ou.len ctx AES_DECRYPT))
+
+  (define (%aes-ecb-encrypt who in in.len ou ou.len ctx mode)
+    (with-arguments-validation (who)
+	((general-c-buffer	in)
+	 (size_t/false		in.len)
+	 (aes-block-len		ou in.len)
+	 (general-c-buffer	ou)
+	 (size_t/false		ou.len)
+	 (aes-block-len		ou ou.len)
+	 (aes-key/alive		ctx))
+      (capi.aes-ecb-encrypt in ou ctx mode)))
+
+  #| end of module |# )
+
+(module (aes-cbc-encrypt aes-cbc-decrypt)
+
+  (define (aes-cbc-encrypt in in.len ou ou.len ctx iv iv.len)
+    (%aes-cbc-encrypt 'aes-cbc-encrypt in in.len ou ou.len ctx iv iv.len AES_ENCRYPT))
+
+  (define (aes-cbc-decrypt in in.len ou ou.len ctx iv iv.len)
+    (%aes-cbc-encrypt 'aes-cbc-decrypt in in.len ou ou.len ctx iv iv.len AES_DECRYPT))
+
+  (define (%aes-cbc-encrypt who in in.len ou ou.len ctx iv iv.len mode)
+    (with-arguments-validation (who)
+	((general-c-buffer	in)
+	 (size_t/false		in.len)
+	 (aes-data-len		ou in.len)
+	 (general-c-buffer	ou)
+	 (size_t/false		ou.len)
+	 (aes-data-len		ou ou.len)
+	 (aes-key/alive		ctx)
+	 (general-c-buffer	iv)
+	 (size_t/false		iv.len)
+	 (aes-block-len		iv iv.len))
+      (capi.aes-cbc-encrypt in in.len ou ou.len ctx iv iv.len mode)))
+
+  #| end of module |# )
 
 (define (aes-cfb128-encrypt ctx)
   (define who 'aes-cfb128-encrypt)

@@ -115,6 +115,10 @@ Vicare/OpenSSL was written by Marco Maggi.  Vicare Scheme is
 an R6RS compliant fork  of Ikarus Scheme; originally created
 by Abdulaziz Ghuloum, it is now maintained by Marco Maggi.
 
+  This product  includes software  developed by  the OpenSSL
+Project     for    use     in    the     OpenSSL    Toolkit.
+(http://www.openssl.org/)
+
   The OpenSSL project is managed by a worldwide community of
 volunteers that  use the Internet to  communicate, plan, and
 develop the OpenSSL toolkit and its related documentation.

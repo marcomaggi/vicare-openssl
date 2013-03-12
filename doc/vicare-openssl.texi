@@ -164,10 +164,9 @@ language and Scheme language libraries for Vicare Scheme; it provides
 bindings for the @value{FOREIGN_PACKAGE} C language library.
 
 The last time the author bothered to update this paragraph, he had
-tested @value{FOREIGN_PACKAGE} version @value{FOREIGN_VERSION}; the
-@value{FOREIGN_PACKAGE} library is available at:
-
-@center @value{FOREIGN_URL}
+tested @value{FOREIGN_PACKAGE} version @value{FOREIGN_VERSION}; This
+product includes software developed by the OpenSSL Project for use in
+the OpenSSL Toolkit.  (@url{http://www.openssl.org/})
 
 The package installs a C language library implementing wrapper C
 functions for the C language @value{FOREIGN_PACKAGE} library; on top of
@@ -2061,6 +2060,8 @@ referenced memory block; otherwise @var{input.len} is ignored.
 @subsection The AES algorithm
 
 
+The cryptographic algorithm AES operates on blocks of size @math{16}.
+
 @menu
 * plain crypto aes struct::     Context data structure.
 * plain crypto aes key::        Selecting the key.
@@ -2225,11 +2226,11 @@ crypto openssl}.
 Encrypt or decrypt the single data block @var{in} and store the result
 in @var{ou}; return unspecified values.
 
-@var{in} and @var{ou} must be a generalised C buffers,
-@vicareref{cbuffers buffers, Introduction to generalised C buffers}.
-Their length must be equal to the AES block length available through the
-constant @code{AES_BLOCK_SIZE}.  @var{in} and @var{ou} can overlap and
-also be the same argument.
+@var{in} and @var{ou} must be generalised C buffers, @vicareref{cbuffers
+buffers, Introduction to generalised C buffers}.  Their length must be
+equal to the AES block length available through the constant
+@code{AES_BLOCK_SIZE}.  @var{in} and @var{ou} can overlap and also be
+the same argument.
 
 @var{in.len} and @var{ou.len} must be @false{} or exact integers in the
 range of the C language type @code{size_t}.  When @var{in} and @var{ou}
@@ -2269,6 +2270,104 @@ data.de @result{} #vu8(123 123 123 123 123 123
 @end example
 @end defun
 
+
+@defun aes-ecb-encrypt @var{in} @var{in.len} @var{ou} @var{ou.len} @var{AES}
+@defunx aes-ecb-decrypt @var{in} @var{in.len} @var{ou} @var{ou.len} @var{AES}
+Encrypt or decrypt the single data block @var{in}, using the ECB scheme,
+and store the result in @var{ou}; return unspecified values.
+
+@var{in} and @var{ou} must be generalised C buffers, @vicareref{cbuffers
+buffers, Introduction to generalised C buffers}.  Their length must be
+equal to the AES block length available through the constant
+@code{AES_BLOCK_SIZE}.  @var{in} and @var{ou} can overlap and also be
+the same argument.
+
+@var{in.len} and @var{ou.len} must be @false{} or exact integers in the
+range of the C language type @code{size_t}.  When @var{in} and @var{ou}
+are pointer objects: @var{in.len} and @var{ou.len} must represent the
+number of bytes available in the referenced memory block; otherwise
+@var{in.len} and @var{ou.len} are ignored.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl constants) ssl.)
+
+(define key.en
+  (ssl.aes-set-encrypt-key "0123456789012345"))
+(define key.de
+  (ssl.aes-set-decrypt-key "0123456789012345"))
+
+(define data.in
+  (make-bytevector ssl.AES_BLOCK_SIZE 123))
+(define data.en
+  (make-bytevector ssl.AES_BLOCK_SIZE 0))
+(define data.de
+  (make-bytevector ssl.AES_BLOCK_SIZE 0))
+
+(ssl.aes-ecb-encrypt data.in #f data.en #f key.en)
+(ssl.aes-ecb-decrypt data.en #f data.de #f key.de)
+@end example
+@end defun
+
+
+@defun aes-cbc-encrypt @var{in} @var{in.len} @var{ou} @var{ou.len} @var{AES} @var{iv} @var{iv.len}
+@defunx aes-cbc-decrypt @var{in} @var{in.len} @var{ou} @var{ou.len} @var{AES} @var{iv} @var{iv.len}
+Encrypt or decrypt multiple data blocks @var{in}, using the CBC scheme,
+and store the result in @var{ou}; return unspecified values.
+
+@var{in} and @var{ou} must be generalised C buffers, @vicareref{cbuffers
+buffers, Introduction to generalised C buffers}.  Their length must be
+equal to a multiple of @code{AES_BLOCK_SIZE}.  @var{in} and @var{ou} can
+overlap and also be the same argument.
+
+@var{in.len} and @var{ou.len} must be @false{} or exact integers in the
+range of the C language type @code{size_t}.  When @var{in} and @var{ou}
+are pointer objects: @var{in.len} and @var{ou.len} must represent the
+number of bytes available in the referenced memory block; otherwise
+@var{in.len} and @var{ou.len} are ignored.
+
+@var{iv} must be a generalised C buffer holding the initialisation
+vector, @vicareref{cbuffers buffers, Introduction to generalised C
+buffers}.  Its length must be equal to @code{AES_BLOCK_SIZE}.
+
+@var{iv.len} must be @false{} or an exact integer in the range of the C
+language type @code{size_t}.  When @var{iv} is a pointer object:
+@var{iv.len} must represent the number of bytes available in the
+referenced memory block; otherwise @var{iv.len} is ignored.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl constants) ssl.)
+
+(define key.en
+  (ssl.aes-set-encrypt-key "0123456789012345"))
+
+(define key.de
+  (ssl.aes-set-decrypt-key "0123456789012345"))
+
+(define iv
+  (make-bytevector ssl.AES_BLOCK_SIZE 99))
+
+(define data.len
+  (* 5 ssl.AES_BLOCK_SIZE))
+
+(define data.in
+  (make-bytevector data.len 123))
+
+(define data.en
+  (make-bytevector data.len 0))
+
+(define data.de
+  (make-bytevector data.len 0))
+
+(ssl.aes-cbc-encrypt data.in #f data.en #f key.en iv #f)
+(ssl.aes-cbc-decrypt data.en #f data.de #f key.de iv #f)
+@end example
+@end defun
 
 
 @c page

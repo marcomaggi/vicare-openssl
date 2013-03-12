@@ -151,6 +151,7 @@ ikrt_aes_finalise (ikptr s_ctx, ikpcb * pcb)
 ikptr
 ikrt_aes_encrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
 		  ikptr s_ctx, ikpcb * pcb)
+/* Encrypt a single block of data using the default scheme. */
 {
 #ifdef HAVE_AES_ENCRYPT
   const unsigned char *	in  = IK_GENERALISED_C_BUFFER(s_single_block_in);
@@ -165,6 +166,7 @@ ikrt_aes_encrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
 ikptr
 ikrt_aes_decrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
 		  ikptr s_ctx, ikpcb * pcb)
+/* Decrypt a single block of data using the default scheme. */
 {
 #ifdef HAVE_AES_DECRYPT
   const unsigned char *	in  = IK_GENERALISED_C_BUFFER(s_single_block_in);
@@ -178,21 +180,67 @@ ikrt_aes_decrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
 }
 
 
+/** --------------------------------------------------------------------
+ ** AES C wrappers: miscellaneous schemes.
+ ** ----------------------------------------------------------------- */
+
 ikptr
-ikrt_aes_ecb_encrypt (ikpcb * pcb)
+ikrt_aes_ecb_encrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
+		      ikptr s_ctx, ikptr s_encrypt_or_decrypt, ikpcb * pcb)
+/* Encrypt  or decrypt  a single  block of  data using  the ECB  scheme.
+   S_ENCRYPT_OR_DECRYPT must be an exact integer representing one of the
+   constants AES_ENCRYPT and AES_DECRYPT. */
 {
 #ifdef HAVE_AES_ECB_ENCRYPT
-  /* rv = AES_ecb_encrypt(); */
+  const unsigned char *	in  = IK_GENERALISED_C_BUFFER(s_single_block_in);
+  unsigned char *	ou  = IK_GENERALISED_C_BUFFER(s_single_block_ou);
+  const AES_KEY *	ctx = IK_AES_KEY(s_ctx);
+  int			enc = ik_integer_to_int(s_encrypt_or_decrypt);
+  AES_ecb_encrypt(in, ou, ctx, enc);
   return IK_VOID;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_aes_cbc_encrypt (ikpcb * pcb)
+ikrt_aes_cbc_encrypt (ikptr s_in, ikptr s_in_len,
+		      ikptr s_ou, ikptr s_ou_len,
+		      ikptr s_ctx,
+		      ikptr s_iv, ikptr s_iv_len,
+		      ikptr s_encrypt_or_decrypt, ikpcb * pcb)
+/* Encrypt  or decrypt  multiple blocks  of data  using the  ECB scheme.
+   S_ENCRYPT_OR_DECRYPT must be an exact integer representing one of the
+   constants AES_ENCRYPT and AES_DECRYPT.
+
+   S_IN is a generalised C buffer holding input data.  It length must be
+   an exact multiple of AES_BLOCK_SIZE.
+
+   S_OU is a generalised C buffer  to be filled with encrypted data; its
+   length must equal the length of S_IN.
+
+   S_IV is a generalised C  buffer holding the initialisation vector for
+   the   CBC  encryption   scheme.   Its   length  must   be  equal   to
+   AES_BLOCK_SIZE. */
 {
 #ifdef HAVE_AES_CBC_ENCRYPT
-  /* rv = AES_cbc_encrypt(); */
+  const unsigned char *	in	= IK_GENERALISED_C_BUFFER(s_in);
+  size_t		in_len	= ik_generalised_c_buffer_len(s_in, s_in_len);
+  unsigned char *	ou	= IK_GENERALISED_C_BUFFER(s_ou);
+  size_t		ou_len	= ik_generalised_c_buffer_len(s_ou, s_ou_len);
+  const AES_KEY *	key	= IK_AES_KEY(s_ctx);
+  unsigned char *	iv_ptr	= IK_GENERALISED_C_BUFFER(s_iv);
+  size_t		iv_len	= ik_generalised_c_buffer_len(s_iv, s_iv_len);
+  int			enc	= ik_integer_to_int(s_encrypt_or_decrypt);
+  /* NOTE  The function  AES_cbc_encrypt() overwrites  the given  buffer
+     holding  the initialisation  vector!!!  (Marco  Maggi; Tue  Mar 12,
+     2013) */
+  unsigned char		iv[AES_BLOCK_SIZE];
+  assert(0 == (in_len % AES_BLOCK_SIZE));
+  assert(in_len == ou_len);
+  assert(AES_BLOCK_SIZE == iv_len);
+  assert((AES_ENCRYPT == enc) || (AES_DECRYPT == enc));
+  memcpy(iv, iv_ptr, AES_BLOCK_SIZE);
+  AES_cbc_encrypt(in, ou, in_len, key, iv, enc);
   return IK_VOID;
 #else
   feature_failure(__func__);
@@ -288,8 +336,5 @@ ikrt_aes_unwrap_key (ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
-
-
-
 
 /* end of file */
