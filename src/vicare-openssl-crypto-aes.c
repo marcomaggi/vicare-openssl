@@ -313,7 +313,6 @@ ikrt_aes_cfb128_encrypt (ikptr s_in, ikptr s_in_len,
      holding  the initialisation  vector!!!  (Marco  Maggi; Tue  Mar 12,
      2013) */
   unsigned char		iv[AES_BLOCK_SIZE];
-  assert(0 == (in_len % AES_BLOCK_SIZE));
   assert(in_len == ou_len);
   assert(AES_BLOCK_SIZE == iv_len);
   assert((AES_ENCRYPT == enc) || (AES_DECRYPT == enc));
@@ -348,7 +347,6 @@ ikrt_aes_cfb1_encrypt (ikptr s_in, ikptr s_in_len,
      holding  the initialisation  vector!!!  (Marco  Maggi; Tue  Mar 12,
      2013) */
   unsigned char		iv[AES_BLOCK_SIZE];
-  assert(0 == (in_len % AES_BLOCK_SIZE));
   assert(in_len == ou_len);
   assert(AES_BLOCK_SIZE == iv_len);
   assert((AES_ENCRYPT == enc) || (AES_DECRYPT == enc));
@@ -383,7 +381,6 @@ ikrt_aes_cfb8_encrypt (ikptr s_in, ikptr s_in_len,
      holding  the initialisation  vector!!!  (Marco  Maggi; Tue  Mar 12,
      2013) */
   unsigned char		iv[AES_BLOCK_SIZE];
-  assert(0 == (in_len % AES_BLOCK_SIZE));
   assert(in_len == ou_len);
   assert(AES_BLOCK_SIZE == iv_len);
   assert((AES_ENCRYPT == enc) || (AES_DECRYPT == enc));
