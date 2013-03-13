@@ -36,6 +36,9 @@
     vicare-openssl-version-interface-age
     vicare-openssl-version
 
+    ;; SSL
+    ssl-library-init
+
     ;; MD4
     md4-ctx
     md4-ctx?
@@ -277,6 +280,12 @@
 
 (define (vicare-openssl-version)
   (ascii->string (capi.vicare-openssl-version)))
+
+
+;;;; SSL
+
+(define (ssl-library-init)
+  (capi.ssl-library-init))
 
 
 ;;;; MD4

@@ -39,6 +39,8 @@
 (check-set-mode! 'report-failed)
 (check-display "*** testing Vicare OpenSSL bindings: HMAC\n")
 
+(ssl.ssl-library-init)
+
 
 ;;;; helpers
 

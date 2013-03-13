@@ -64,6 +64,8 @@ main (int argc, const char *const argv[])
 #!r6rs\n\
 (library (vicare crypto openssl features)\n\
   (export\n\
+    HAVE_SSL_LIBRARY_INIT\n\
+    \n\
     HAVE_MD4_INIT\n\
     HAVE_MD4_UPDATE\n\
     HAVE_MD4_FINAL\n\
@@ -151,6 +153,19 @@ main (int argc, const char *const argv[])
 \n\
 \n\
 ;;;; code\n\n");
+
+
+/** --------------------------------------------------------------------
+ ** SSL.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_SSL_LIBRARY_INIT %s)\n",
+#ifdef HAVE_SSL_LIBRARY_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
 
 
 /** --------------------------------------------------------------------

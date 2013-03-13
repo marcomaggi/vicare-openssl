@@ -120,6 +120,11 @@ AC_INCLUDES_DEFAULT
 ])
 
 #page
+#### C language stuff from the files "openssl/ssl.h".
+
+AC_CHECK_FUNCS([SSL_library_init])
+
+#page
 #### C language stuff from the files "openssl/md4.h", "openssl/md5.h", etc.
 
 dnl Message Digest 4

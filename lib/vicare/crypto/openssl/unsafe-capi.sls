@@ -35,6 +35,9 @@
     vicare-openssl-version-interface-age
     vicare-openssl-version
 
+    ;; SSL
+    ssl-library-init
+
     ;; MD4
     md4-init
     md4-update
@@ -151,6 +154,12 @@
 
 (define-inline (vicare-openssl-version)
   (foreign-call "ikrt_openssl_version"))
+
+
+;;;; SSL
+
+(define-inline (ssl-library-init)
+  (foreign-call "ikrt_ssl_library_init"))
 
 
 ;;;; MD4

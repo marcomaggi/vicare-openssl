@@ -268,11 +268,25 @@ Return a Scheme string representing the version number.
 
 
 @menu
+* plain init::                  Global initialisation functions.
 * plain hash::                  Computing hash checksums.
 * plain hmac::                  Computing message authentication codes.
 * plain crypto::                Encrypting and decrypting.
 * plain evp::                   High-level cryptographic functions.
 @end menu
+
+@c page
+@node plain init
+@section Global initialisation functions
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun ssl-library-init
+Initialise the library; return unspecified values.
+@end defun
 
 @c page
 @node plain hash

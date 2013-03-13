@@ -37,6 +37,8 @@
 (check-set-mode! 'report-failed)
 (check-display "*** testing Vicare OpenSSL bindings: hash checksums\n")
 
+(ssl.ssl-library-init)
+
 
 ;;;; helpers
 

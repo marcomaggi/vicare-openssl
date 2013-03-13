@@ -35,6 +35,8 @@
 (check-set-mode! 'report-failed)
 (check-display "*** testing Vicare OpenSSL bindings: version functions\n")
 
+(ssl-library-init)
+
 
 ;;;; helpers
 
