@@ -181,7 +181,7 @@ ikrt_aes_decrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
 
 
 /** --------------------------------------------------------------------
- ** AES C wrappers: miscellaneous schemes.
+ ** AES C wrappers: ECB schemes.
  ** ----------------------------------------------------------------- */
 
 ikptr
@@ -202,6 +202,12 @@ ikrt_aes_ecb_encrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
   feature_failure(__func__);
 #endif
 }
+
+
+/** --------------------------------------------------------------------
+ ** AES C wrappers: CBC scheme.
+ ** ----------------------------------------------------------------- */
+
 ikptr
 ikrt_aes_cbc_encrypt (ikptr s_in, ikptr s_in_len,
 		      ikptr s_ou, ikptr s_ou_len,
@@ -246,36 +252,154 @@ ikrt_aes_cbc_encrypt (ikptr s_in, ikptr s_in_len,
   feature_failure(__func__);
 #endif
 }
+
+
+/** --------------------------------------------------------------------
+ ** AES C wrappers: CFB schemes.
+ ** ----------------------------------------------------------------- */
+
+/* NOTE I was not  able to make the OpenSSL CFB  functions work; none of
+   them.  They  are not  documented and, as  of OpenSSL  version 1.0.1e,
+   they appear  not to  be used  in OpenSSL  itself.  Searching  the Net
+   revealed attempts by  people to make them work:  no attempt succeeded
+   AFAICT.  These function are wrapped  here but left undocumented until
+   I understand  what the heck is  going on.  (Marco Maggi;  Wed Mar 13,
+   2013) */
+
+/* For all the CFB functions:
+
+   S_IN  and S_IN_LEN  represent a  generalised C  buffer holding  input
+   data; the  length is  *not* constrained  to be  an exact  multiple of
+   AES_BLOCK_SIZE.
+
+   S_OU and S_OU_LEN represent a generalised  C buffer to be filled with
+   encrypted data; the length must be equal to the length of S_IN.
+
+   S_IV  and  S_IV_LEN  repreent  a generalised  C  buffer  holding  the
+   initialisation vector for the CBC  encryption scheme; its length must
+   be equal to AES_BLOCK_SIZE.
+
+   S_NUM must be  an exact integer in  the range of the  C language type
+   "signed int"; it represents the offset  of the first octet to process
+   in the input buffer S_IN.
+
+   S_ENCRYPT_OR_DECRYPT must be an exact integer representing one of the
+   constants AES_ENCRYPT and AES_DECRYPT.
+
+   The return value  is an exact integer representing the  offset of the
+   first octet still to process in the input buffer S_IN. */
+
 ikptr
-ikrt_aes_cfb128_encrypt (ikpcb * pcb)
+ikrt_aes_cfb128_encrypt (ikptr s_in, ikptr s_in_len,
+			 ikptr s_ou, ikptr s_ou_len,
+			 ikptr s_ctx,
+			 ikptr s_iv, ikptr s_iv_len,
+			 ikptr s_num,
+			 ikptr s_encrypt_or_decrypt, ikpcb * pcb)
+/* Encrypt  or  decrypt  multiple  blocks   of  data  using  the  CFB128
+   scheme. */
 {
 #ifdef HAVE_AES_CFB128_ENCRYPT
-  /* rv = AES_cfb128_encrypt(); */
-  return IK_VOID;
+  const unsigned char *	in	= IK_GENERALISED_C_BUFFER(s_in);
+  size_t		in_len	= ik_generalised_c_buffer_len(s_in, s_in_len);
+  unsigned char *	ou	= IK_GENERALISED_C_BUFFER(s_ou);
+  size_t		ou_len	= ik_generalised_c_buffer_len(s_ou, s_ou_len);
+  const AES_KEY *	key	= IK_AES_KEY(s_ctx);
+  unsigned char *	iv_ptr	= IK_GENERALISED_C_BUFFER(s_iv);
+  size_t		iv_len	= ik_generalised_c_buffer_len(s_iv, s_iv_len);
+  int			num     = ik_integer_to_int(s_num);
+  int			enc	= ik_integer_to_int(s_encrypt_or_decrypt);
+  /* NOTE The function AES_cfb128_encrypt()  overwrites the given buffer
+     holding  the initialisation  vector!!!  (Marco  Maggi; Tue  Mar 12,
+     2013) */
+  unsigned char		iv[AES_BLOCK_SIZE];
+  assert(0 == (in_len % AES_BLOCK_SIZE));
+  assert(in_len == ou_len);
+  assert(AES_BLOCK_SIZE == iv_len);
+  assert((AES_ENCRYPT == enc) || (AES_DECRYPT == enc));
+  memcpy(iv, iv_ptr, AES_BLOCK_SIZE);
+  AES_cfb128_encrypt(in, ou, in_len, key, iv, &num, enc);
+  return ika_integer_from_int(pcb, num);
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_aes_cfb1_encrypt (ikpcb * pcb)
+ikrt_aes_cfb1_encrypt (ikptr s_in, ikptr s_in_len,
+		       ikptr s_ou, ikptr s_ou_len,
+		       ikptr s_ctx,
+		       ikptr s_iv, ikptr s_iv_len,
+		       ikptr s_num,
+		       ikptr s_encrypt_or_decrypt, ikpcb * pcb)
+/* Encrypt  or  decrypt  multiple  blocks of  data  using  the  CFB128-1
+   scheme. */
 {
 #ifdef HAVE_AES_CFB1_ENCRYPT
-  /* rv = AES_cfb1_encrypt(); */
-  return IK_VOID;
+  const unsigned char *	in	= IK_GENERALISED_C_BUFFER(s_in);
+  size_t		in_len	= ik_generalised_c_buffer_len(s_in, s_in_len);
+  unsigned char *	ou	= IK_GENERALISED_C_BUFFER(s_ou);
+  size_t		ou_len	= ik_generalised_c_buffer_len(s_ou, s_ou_len);
+  const AES_KEY *	key	= IK_AES_KEY(s_ctx);
+  unsigned char *	iv_ptr	= IK_GENERALISED_C_BUFFER(s_iv);
+  size_t		iv_len	= ik_generalised_c_buffer_len(s_iv, s_iv_len);
+  int			num     = ik_integer_to_int(s_num);
+  int			enc	= ik_integer_to_int(s_encrypt_or_decrypt);
+  /* NOTE The  function AES_cfb1_encrypt()  overwrites the  given buffer
+     holding  the initialisation  vector!!!  (Marco  Maggi; Tue  Mar 12,
+     2013) */
+  unsigned char		iv[AES_BLOCK_SIZE];
+  assert(0 == (in_len % AES_BLOCK_SIZE));
+  assert(in_len == ou_len);
+  assert(AES_BLOCK_SIZE == iv_len);
+  assert((AES_ENCRYPT == enc) || (AES_DECRYPT == enc));
+  memcpy(iv, iv_ptr, AES_BLOCK_SIZE);
+  AES_cfb1_encrypt(in, ou, in_len, key, iv, &num, enc);
+  return ika_integer_from_int(pcb, num);
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_aes_cfb8_encrypt (ikpcb * pcb)
+ikrt_aes_cfb8_encrypt (ikptr s_in, ikptr s_in_len,
+		       ikptr s_ou, ikptr s_ou_len,
+		       ikptr s_ctx,
+		       ikptr s_iv, ikptr s_iv_len,
+		       ikptr s_num,
+		       ikptr s_encrypt_or_decrypt, ikpcb * pcb)
+/* Encrypt  or  decrypt  multiple  blocks of  data  using  the  CFB128-8
+   scheme. */
 {
 #ifdef HAVE_AES_CFB8_ENCRYPT
-  /* rv = AES_cfb8_encrypt(); */
-  return IK_VOID;
+  const unsigned char *	in	= IK_GENERALISED_C_BUFFER(s_in);
+  size_t		in_len	= ik_generalised_c_buffer_len(s_in, s_in_len);
+  unsigned char *	ou	= IK_GENERALISED_C_BUFFER(s_ou);
+  size_t		ou_len	= ik_generalised_c_buffer_len(s_ou, s_ou_len);
+  const AES_KEY *	key	= IK_AES_KEY(s_ctx);
+  unsigned char *	iv_ptr	= IK_GENERALISED_C_BUFFER(s_iv);
+  size_t		iv_len	= ik_generalised_c_buffer_len(s_iv, s_iv_len);
+  int			num     = ik_integer_to_int(s_num);
+  int			enc	= ik_integer_to_int(s_encrypt_or_decrypt);
+  /* NOTE The  function AES_cfb1_encrypt()  overwrites the  given buffer
+     holding  the initialisation  vector!!!  (Marco  Maggi; Tue  Mar 12,
+     2013) */
+  unsigned char		iv[AES_BLOCK_SIZE];
+  assert(0 == (in_len % AES_BLOCK_SIZE));
+  assert(in_len == ou_len);
+  assert(AES_BLOCK_SIZE == iv_len);
+  assert((AES_ENCRYPT == enc) || (AES_DECRYPT == enc));
+  memcpy(iv, iv_ptr, AES_BLOCK_SIZE);
+  AES_cfb8_encrypt(in, ou, in_len, key, iv, &num, enc);
+  return ika_integer_from_int(pcb, num);
 #else
   feature_failure(__func__);
 #endif
 }
+
+
+/** --------------------------------------------------------------------
+ ** AES C wrappers: OFB scheme.
+ ** ----------------------------------------------------------------- */
+
 ikptr
 ikrt_aes_ofb128_encrypt (ikpcb * pcb)
 {
@@ -286,6 +410,12 @@ ikrt_aes_ofb128_encrypt (ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
+
+
+/** --------------------------------------------------------------------
+ ** AES C wrappers: CTR scheme.
+ ** ----------------------------------------------------------------- */
+
 ikptr
 ikrt_aes_ctr128_encrypt (ikpcb * pcb)
 {
@@ -296,6 +426,12 @@ ikrt_aes_ctr128_encrypt (ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
+
+
+/** --------------------------------------------------------------------
+ ** AES C wrappers: IGE scheme.
+ ** ----------------------------------------------------------------- */
+
 ikptr
 ikrt_aes_ige_encrypt (ikpcb * pcb)
 {
@@ -316,6 +452,12 @@ ikrt_aes_bi_ige_encrypt (ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
+
+
+/** --------------------------------------------------------------------
+ ** AES C wrappers: key wrapping.
+ ** ----------------------------------------------------------------- */
+
 ikptr
 ikrt_aes_wrap_key (ikpcb * pcb)
 {

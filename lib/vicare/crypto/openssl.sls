@@ -194,9 +194,9 @@
     aes-encrypt			aes-decrypt
     aes-ecb-encrypt		aes-ecb-decrypt
     aes-cbc-encrypt		aes-cbc-decrypt
-    aes-cfb128-encrypt
-    aes-cfb1-encrypt
-    aes-cfb8-encrypt
+    aes-cfb128-encrypt		aes-cfb128-decrypt
+    aes-cfb1-encrypt		aes-cfb1-decrypt
+    aes-cfb8-encrypt		aes-cfb8-decrypt
     aes-ofb128-encrypt
     aes-ctr128-encrypt
     aes-ige-encrypt
@@ -297,8 +297,7 @@
     (define who 'md4-update)
     (with-arguments-validation (who)
 	((md4-ctx/alive		ctx)
-	 (general-c-string	input)
-	 (size_t/false		input.len))
+	 (general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -319,8 +318,7 @@
    ((input input.len)
     (define who 'md4)
     (with-arguments-validation (who)
-	((general-c-string	input)
-	 (size_t/false		input.len))
+	((general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -345,8 +343,7 @@
     (define who 'md5-update)
     (with-arguments-validation (who)
 	((md5-ctx/alive		ctx)
-	 (general-c-string	input)
-	 (size_t/false		input.len))
+	 (general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -367,8 +364,7 @@
    ((input input.len)
     (define who 'md5)
     (with-arguments-validation (who)
-	((general-c-string	input)
-	 (size_t/false		input.len))
+	((general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -392,9 +388,8 @@
    ((ctx input input.len)
     (define who 'mdc2-update)
     (with-arguments-validation (who)
-	((mdc2-ctx/alive		ctx)
-	 (general-c-string	input)
-	 (size_t/false		input.len))
+	((mdc2-ctx/alive	ctx)
+	 (general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -415,8 +410,7 @@
    ((input input.len)
     (define who 'mdc2)
     (with-arguments-validation (who)
-	((general-c-string	input)
-	 (size_t/false		input.len))
+	((general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -441,8 +435,7 @@
     (define who 'sha1-update)
     (with-arguments-validation (who)
 	((sha1-ctx/alive		ctx)
-	 (general-c-string	input)
-	 (size_t/false		input.len))
+	 (general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -463,8 +456,7 @@
    ((input input.len)
     (define who 'sha1)
     (with-arguments-validation (who)
-	((general-c-string	input)
-	 (size_t/false		input.len))
+	((general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -489,8 +481,7 @@
     (define who 'sha224-update)
     (with-arguments-validation (who)
 	((sha224-ctx/alive		ctx)
-	 (general-c-string	input)
-	 (size_t/false		input.len))
+	 (general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -511,8 +502,7 @@
    ((input input.len)
     (define who 'sha224)
     (with-arguments-validation (who)
-	((general-c-string	input)
-	 (size_t/false		input.len))
+	((general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -537,8 +527,7 @@
     (define who 'sha256-update)
     (with-arguments-validation (who)
 	((sha256-ctx/alive		ctx)
-	 (general-c-string	input)
-	 (size_t/false		input.len))
+	 (general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -559,8 +548,7 @@
    ((input input.len)
     (define who 'sha256)
     (with-arguments-validation (who)
-	((general-c-string	input)
-	 (size_t/false		input.len))
+	((general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -585,8 +573,7 @@
     (define who 'sha384-update)
     (with-arguments-validation (who)
 	((sha384-ctx/alive		ctx)
-	 (general-c-string	input)
-	 (size_t/false		input.len))
+	 (general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -607,8 +594,7 @@
    ((input input.len)
     (define who 'sha384)
     (with-arguments-validation (who)
-	((general-c-string	input)
-	 (size_t/false		input.len))
+	((general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -633,8 +619,7 @@
     (define who 'sha512-update)
     (with-arguments-validation (who)
 	((sha512-ctx/alive		ctx)
-	 (general-c-string	input)
-	 (size_t/false		input.len))
+	 (general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -655,8 +640,7 @@
    ((input input.len)
     (define who 'sha512)
     (with-arguments-validation (who)
-	((general-c-string	input)
-	 (size_t/false		input.len))
+	((general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -681,8 +665,7 @@
     (define who 'ripemd160-update)
     (with-arguments-validation (who)
 	((ripemd160-ctx/alive		ctx)
-	 (general-c-string	input)
-	 (size_t/false		input.len))
+	 (general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -703,8 +686,7 @@
    ((input input.len)
     (define who 'ripemd160)
     (with-arguments-validation (who)
-	((general-c-string	input)
-	 (size_t/false		input.len))
+	((general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -748,8 +730,7 @@
    ((key key.len md)
     (define who 'hmac-init)
     (with-arguments-validation (who)
-	((general-c-string	key)
-	 (size_t/false		key.len)
+	((general-c-string*	key key.len)
 	 (symbol		md))
       (with-general-c-strings
 	  ((key^	key))
@@ -772,8 +753,7 @@
 ;;     (define who 'hmac-init)
 ;;     (with-arguments-validation (who)
 ;; 	((hmac-ctx/alive	ctx)
-;; 	 (general-c-string	key)
-;; 	 (size_t/false		key.len)
+;; 	 (general-c-string*	key key.len)
 ;; 	 (symbol		md))
 ;;       (with-general-c-strings
 ;; 	  ((key^	key))
@@ -816,8 +796,7 @@
     (define who 'hmac-update)
     (with-arguments-validation (who)
 	((hmac-ctx/alive	ctx)
-	 (general-c-string	input)
-	 (size_t/false		input.len))
+	 (general-c-string*	input input.len))
       (with-general-c-strings
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
@@ -845,10 +824,8 @@
   (define who 'hmac)
   (with-arguments-validation (who)
       ((symbol			md)
-       (general-c-string	key)
-       (size_t/false		key.len)
-       (general-c-string	input)
-       (size_t/false		input.len))
+       (general-c-string*	key key.len)
+       (general-c-string*	input input.len))
     (with-general-c-strings
 	((key^		key)
 	 (input^	input))
@@ -895,8 +872,7 @@
    ((key key.len)
     (define who 'aes-set-encrypt-key)
     (with-arguments-validation (who)
-	((general-c-string	key)
-	 (size_t/false		key.len))
+	((general-c-string*	key key.len))
       (with-general-c-strings
 	  ((key^	key))
 	(let ((key.len (general-c-buffer-len key^ key.len)))
@@ -912,8 +888,7 @@
    ((key key.len)
     (define who 'aes-set-decrypt-key)
     (with-arguments-validation (who)
-	((general-c-string	key)
-	 (size_t/false		key.len))
+	((general-c-string*	key key.len))
       (with-general-c-strings
 	  ((key^	key))
 	(let ((key.len (general-c-buffer-len key^ key.len)))
@@ -995,23 +970,80 @@
 
   #| end of module |# )
 
-(define (aes-cfb128-encrypt ctx)
-  (define who 'aes-cfb128-encrypt)
-  (with-arguments-validation (who)
-      ()
-    (capi.aes-cfb128-encrypt)))
+(module (aes-cfb128-encrypt aes-cfb128-decrypt)
 
-(define (aes-cfb1-encrypt ctx)
-  (define who 'aes-cfb1-encrypt)
-  (with-arguments-validation (who)
-      ()
-    (capi.aes-cfb1-encrypt)))
+  (define (aes-cfb128-encrypt in in.len ou ou.len ctx iv iv.len num)
+    (%aes-cfb128-encrypt 'aes-cfb128-encrypt in in.len ou ou.len ctx iv iv.len num AES_ENCRYPT))
 
-(define (aes-cfb8-encrypt ctx)
-  (define who 'aes-cfb8-encrypt)
-  (with-arguments-validation (who)
-      ()
-    (capi.aes-cfb8-encrypt)))
+  (define (aes-cfb128-decrypt in in.len ou ou.len ctx iv iv.len num)
+    (%aes-cfb128-encrypt 'aes-cfb128-decrypt in in.len ou ou.len ctx iv iv.len num AES_DECRYPT))
+
+  (define (%aes-cfb128-encrypt who in in.len ou ou.len ctx iv iv.len num mode)
+    (with-arguments-validation (who)
+	((general-c-buffer	in)
+	 (size_t/false		in.len)
+	 (aes-data-len		ou in.len)
+	 (general-c-buffer	ou)
+	 (size_t/false		ou.len)
+	 (aes-data-len		ou ou.len)
+	 (aes-key/alive		ctx)
+	 (general-c-buffer	iv)
+	 (size_t/false		iv.len)
+	 (aes-block-len		iv iv.len)
+	 (signed-int		num))
+      (capi.aes-cfb128-encrypt in in.len ou ou.len ctx iv iv.len num mode)))
+
+  #| end of module |# )
+
+(module (aes-cfb1-encrypt aes-cfb1-decrypt)
+
+  (define (aes-cfb1-encrypt in in.len ou ou.len ctx iv iv.len num)
+    (%aes-cfb1-encrypt 'aes-cfb1-encrypt in in.len ou ou.len ctx iv iv.len num AES_ENCRYPT))
+
+  (define (aes-cfb1-decrypt in in.len ou ou.len ctx iv iv.len num)
+    (%aes-cfb1-encrypt 'aes-cfb1-decrypt in in.len ou ou.len ctx iv iv.len num AES_DECRYPT))
+
+  (define (%aes-cfb1-encrypt who in in.len ou ou.len ctx iv iv.len num mode)
+    (with-arguments-validation (who)
+	((general-c-buffer	in)
+	 (size_t/false		in.len)
+	 (aes-data-len		ou in.len)
+	 (general-c-buffer	ou)
+	 (size_t/false		ou.len)
+	 (aes-data-len		ou ou.len)
+	 (aes-key/alive		ctx)
+	 (general-c-buffer	iv)
+	 (size_t/false		iv.len)
+	 (aes-block-len		iv iv.len)
+	 (signed-int		num))
+      (capi.aes-cfb1-encrypt in in.len ou ou.len ctx iv iv.len num mode)))
+
+  #| end of module |# )
+
+(module (aes-cfb8-encrypt aes-cfb8-decrypt)
+
+  (define (aes-cfb8-encrypt in in.len ou ou.len ctx iv iv.len num)
+    (%aes-cfb8-encrypt 'aes-cfb8-encrypt in in.len ou ou.len ctx iv iv.len num AES_ENCRYPT))
+
+  (define (aes-cfb8-decrypt in in.len ou ou.len ctx iv iv.len num)
+    (%aes-cfb8-encrypt 'aes-cfb8-decrypt in in.len ou ou.len ctx iv iv.len num AES_DECRYPT))
+
+  (define (%aes-cfb8-encrypt who in in.len ou ou.len ctx iv iv.len num mode)
+    (with-arguments-validation (who)
+	((general-c-buffer	in)
+	 (size_t/false		in.len)
+	 (aes-data-len		ou in.len)
+	 (general-c-buffer	ou)
+	 (size_t/false		ou.len)
+	 (aes-data-len		ou ou.len)
+	 (aes-key/alive		ctx)
+	 (general-c-buffer	iv)
+	 (size_t/false		iv.len)
+	 (aes-block-len		iv iv.len)
+	 (signed-int		num))
+      (capi.aes-cfb8-encrypt in in.len ou ou.len ctx iv iv.len num mode)))
+
+  #| end of module |# )
 
 (define (aes-ofb128-encrypt ctx)
   (define who 'aes-ofb128-encrypt)

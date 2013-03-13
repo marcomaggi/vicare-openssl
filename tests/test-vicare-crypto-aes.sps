@@ -143,6 +143,79 @@
   (collect))
 
 
+#;(parametrise ((check-test-name	'cfb))
+
+;;; crypt with the ECB scheme
+
+  (check	;cfb128
+      (let ()
+	(define key.en
+	  (ssl.aes-set-encrypt-key "0123456789012345"))
+	(define key.de
+	  (ssl.aes-set-decrypt-key "0123456789012345"))
+	(define iv
+	  (make-bytevector ssl.AES_BLOCK_SIZE 99))
+	(define data.len
+	  (* 5 ssl.AES_BLOCK_SIZE))
+	(define data.in
+	  (make-bytevector data.len 123))
+	(define data.en
+	  (make-bytevector data.len 0))
+	(define data.de
+	  (make-bytevector data.len 0))
+	(check-pretty-print (ssl.aes-cfb128-encrypt data.in #f data.en #f key.en iv #f 0))
+	(check-pretty-print (ssl.aes-cfb128-decrypt data.en #f data.de #f key.de iv #f 0))
+;;;	(check-pretty-print (list data.in data.en data.de))
+	(bytevector=? data.in data.de))
+    => #t)
+
+  (check	;cfb1
+      (let ()
+	(define key.en
+	  (ssl.aes-set-encrypt-key "0123456789012345"))
+	(define key.de
+	  (ssl.aes-set-decrypt-key "0123456789012345"))
+	(define iv
+	  (make-bytevector ssl.AES_BLOCK_SIZE 99))
+	(define data.len
+	  (* 5 ssl.AES_BLOCK_SIZE))
+	(define data.in
+	  (make-bytevector data.len 123))
+	(define data.en
+	  (make-bytevector data.len 0))
+	(define data.de
+	  (make-bytevector data.len 0))
+	(check-pretty-print (ssl.aes-cfb1-encrypt data.in #f data.en #f key.en iv #f 0))
+	(check-pretty-print (ssl.aes-cfb1-decrypt data.en #f data.de #f key.de iv #f 0))
+;;;	(check-pretty-print (list data.in data.en data.de))
+	(bytevector=? data.in data.de))
+    => #t)
+
+  (check	;cfb8
+      (let ()
+	(define key.en
+	  (ssl.aes-set-encrypt-key "0123456789012345"))
+	(define key.de
+	  (ssl.aes-set-decrypt-key "0123456789012345"))
+	(define iv
+	  (make-bytevector ssl.AES_BLOCK_SIZE 99))
+	(define data.len
+	  (* 5 ssl.AES_BLOCK_SIZE))
+	(define data.in
+	  (make-bytevector data.len 123))
+	(define data.en
+	  (make-bytevector data.len 0))
+	(define data.de
+	  (make-bytevector data.len 0))
+	(check-pretty-print (ssl.aes-cfb8-encrypt data.in #f data.en #f key.en iv #f 0))
+	(check-pretty-print (ssl.aes-cfb8-decrypt data.en #f data.de #f key.de iv #f 0))
+;;;	(check-pretty-print (list data.in data.en data.de))
+	(bytevector=? data.in data.de))
+    => #t)
+
+  (collect))
+
+
 ;;;; done
 
 (check-report)

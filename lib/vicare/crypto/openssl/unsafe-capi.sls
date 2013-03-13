@@ -347,14 +347,14 @@
 (define-inline (aes-cbc-encrypt in in.len ou ou.len ctx iv iv.len mode)
   (foreign-call "ikrt_aes_cbc_encrypt" in in.len ou ou.len ctx iv iv.len mode))
 
-(define-inline (aes-cfb128-encrypt)
-  (foreign-call "ikrt_aes_cfb128_encrypt"))
+(define-inline (aes-cfb128-encrypt in in.len ou ou.len ctx iv iv.len num mode)
+  (foreign-call "ikrt_aes_cfb128_encrypt" in in.len ou ou.len ctx iv iv.len num mode))
 
-(define-inline (aes-cfb1-encrypt)
-  (foreign-call "ikrt_aes_cfb1_encrypt"))
+(define-inline (aes-cfb1-encrypt in in.len ou ou.len ctx iv iv.len num mode)
+  (foreign-call "ikrt_aes_cfb1_encrypt" in in.len ou ou.len ctx iv iv.len num mode))
 
-(define-inline (aes-cfb8-encrypt)
-  (foreign-call "ikrt_aes_cfb8_encrypt"))
+(define-inline (aes-cfb8-encrypt in in.len ou ou.len ctx iv iv.len num mode)
+  (foreign-call "ikrt_aes_cfb8_encrypt" in in.len ou ou.len ctx iv iv.len num mode))
 
 (define-inline (aes-ofb128-encrypt)
   (foreign-call "ikrt_aes_ofb128_encrypt"))

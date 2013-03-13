@@ -424,15 +424,9 @@ same @var{MD4} argument.
 Update the checksum context with the given input data.
 @manpage{MD4_Update, MD4_Update}
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -449,15 +443,9 @@ crypto openssl}.
 Perform a one--step checksum computing; return a bytevector holding the
 result.  @manpage{MD4, MD4}.
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -593,15 +581,9 @@ same @var{MD5} argument.
 Update the checksum context with the given input data.
 @manpage{MD5_Update, MD5_Update}
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -618,15 +600,9 @@ crypto openssl}.
 Perform a one--step checksum computing; return a bytevector holding the
 result.  @manpage{MD5, MD5}.
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -762,15 +738,9 @@ same @var{MDC2} argument.
 Update the checksum context with the given input data.
 @manpage{MDC2_Update, MDC2_Update}
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -787,15 +757,9 @@ crypto openssl}.
 Perform a one--step checksum computing; return a bytevector holding the
 result.  @manpage{MDC2, MDC2}.
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -931,15 +895,9 @@ same @var{SHA1} argument.
 Update the checksum context with the given input data.
 @manpage{SHA1_Update, SHA1_Update}
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -956,15 +914,9 @@ crypto openssl}.
 Perform a one--step checksum computing; return a bytevector holding the
 result.  @manpage{SHA1, SHA1}.
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -1100,15 +1052,9 @@ same @var{SHA224} argument.
 Update the checksum context with the given input data.
 @manpage{SHA224_Update, SHA224_Update}
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -1125,15 +1071,9 @@ crypto openssl}.
 Perform a one--step checksum computing; return a bytevector holding the
 result.  @manpage{SHA224, SHA224}.
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -1269,15 +1209,9 @@ same @var{SHA256} argument.
 Update the checksum context with the given input data.
 @manpage{SHA256_Update, SHA256_Update}
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -1294,15 +1228,9 @@ crypto openssl}.
 Perform a one--step checksum computing; return a bytevector holding the
 result.  @manpage{SHA256, SHA256}.
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -1438,15 +1366,9 @@ same @var{SHA384} argument.
 Update the checksum context with the given input data.
 @manpage{SHA384_Update, SHA384_Update}
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -1463,15 +1385,9 @@ crypto openssl}.
 Perform a one--step checksum computing; return a bytevector holding the
 result.  @manpage{SHA384, SHA384}.
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -1607,15 +1523,9 @@ same @var{SHA512} argument.
 Update the checksum context with the given input data.
 @manpage{SHA512_Update, SHA512_Update}
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -1632,15 +1542,9 @@ crypto openssl}.
 Perform a one--step checksum computing; return a bytevector holding the
 result.  @manpage{SHA512, SHA512}.
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -1776,15 +1680,9 @@ same @var{RIPEMD160} argument.
 Update the checksum context with the given input data.
 @manpage{RIPEMD160_Update, RIPEMD160_Update}
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -1801,15 +1699,9 @@ crypto openssl}.
 Perform a one--step checksum computing; return a bytevector holding the
 result.  @manpage{RIPEMD160, RIPEMD160}.
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -1981,15 +1873,9 @@ apply this function multiple times to the same @var{HMAC} argument.
 Update the checksum context with the given input data.
 @manpage{HMAC_Update, HMAC_Update}
 
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-The optional @var{input.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{input} is a
-pointer object: @var{input.len} must represent the number of bytes
-available in the referenced memory block; otherwise @var{input.len} is
-ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 
@@ -2027,23 +1913,13 @@ sha384          sha512          ripemd160
 dss             dss1
 @end example
 
-@var{key} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{key} is a string: it
-is converted to a bytevector with @func{string->utf8}.
+@var{key} and @var{key.len} must represent a generalised C string,
+@cstringsref{}.  When @var{key} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 
-The optional @var{key.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{key} is a pointer
-object: @var{key.len} must represent the number of bytes available in
-the referenced memory block; otherwise @var{key.len} is ignored.
-
-@var{input} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{input} is a string:
-it is converted to a bytevector with @func{string->utf8}.
-
-@var{input.len} must be @false{} or an exact integer in the range of the
-C language type @code{size_t}.  When @var{input} is a pointer object:
-@var{input.len} must represent the number of bytes available in the
-referenced memory block; otherwise @var{input.len} is ignored.
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
@@ -2177,18 +2053,11 @@ Build an instance of @code{aes-ctx} initialised with the encryption
 @var{key} and configured with @var{bits}; if successful return the
 struct, else return @false{}.
 
-@var{key} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{key} is a string: it
-is converted to a bytevector with @func{string->ascii}.
-
-The optional @var{key.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{key} is a pointer
-object: @var{key.len} must represent the number of bytes available in
-the referenced memory block; otherwise @var{key.len} is ignored.
-
-The key length, measured in bytes, must be: @math{16}, @math{24} or
-@math{32}; corresponding to a length measured in bits of: @math{128},
-@math{192}, @math{256}.
+@var{key} and @var{key.len} must represent a generalised C string,
+@cstringsref{}.  When @var{key} is a string: it is converted to a
+bytevector with @func{string->ascii}.  The key length, measured in
+bytes, must be: @math{16}, @math{24} or @math{32}; corresponding to a
+length measured in bits of: @math{128}, @math{192}, @math{256}.
 @end defun
 
 
@@ -2198,18 +2067,11 @@ Build an instance of @code{aes-ctx} initialised with the decryption
 @var{key} and configured with @var{bits}; if successful return the
 struct, else return @false{}.
 
-@var{key} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{key} is a string: it
-is converted to a bytevector with @func{string->ascii}.
-
-The optional @var{key.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{key} is a pointer
-object: @var{key.len} must represent the number of bytes available in
-the referenced memory block; otherwise @var{key.len} is ignored.
-
-The key length, measured in bytes, must be: @math{16}, @math{24} or
-@math{32}; corresponding to a length measured in bits of: @math{128},
-@math{192}, @math{256}.
+@var{key} and @var{key.len} must represent a generalised C string,
+@cstringsref{}.  When @var{key} is a string: it is converted to a
+bytevector with @func{string->ascii}.  The key length, measured in
+bytes, must be: @math{16}, @math{24} or @math{32}; corresponding to a
+length measured in bits of: @math{128}, @math{192}, @math{256}.
 @end defun
 
 @c page
@@ -2226,17 +2088,10 @@ crypto openssl}.
 Encrypt or decrypt the single data block @var{in} and store the result
 in @var{ou}; return unspecified values.
 
-@var{in} and @var{ou} must be generalised C buffers, @vicareref{cbuffers
-buffers, Introduction to generalised C buffers}.  Their length must be
-equal to the AES block length available through the constant
-@code{AES_BLOCK_SIZE}.  @var{in} and @var{ou} can overlap and also be
-the same argument.
-
-@var{in.len} and @var{ou.len} must be @false{} or exact integers in the
-range of the C language type @code{size_t}.  When @var{in} and @var{ou}
-are pointer objects: @var{in.len} and @var{ou.len} must represent the
-number of bytes available in the referenced memory block; otherwise
-@var{in.len} and @var{ou.len} are ignored.
+@var{in}, @var{in.len} and @var{ou}, @var{ou.len} must represent
+generalised C buffers, @cbuffersref{}.  Their length must be equal to
+@code{AES_BLOCK_SIZE} (@math{16}).  @var{in} and @var{ou} can overlap
+and also be the same argument.
 
 @example
 #!r6rs
@@ -2276,17 +2131,10 @@ data.de @result{} #vu8(123 123 123 123 123 123
 Encrypt or decrypt the single data block @var{in}, using the ECB scheme,
 and store the result in @var{ou}; return unspecified values.
 
-@var{in} and @var{ou} must be generalised C buffers, @vicareref{cbuffers
-buffers, Introduction to generalised C buffers}.  Their length must be
-equal to the AES block length available through the constant
-@code{AES_BLOCK_SIZE}.  @var{in} and @var{ou} can overlap and also be
-the same argument.
-
-@var{in.len} and @var{ou.len} must be @false{} or exact integers in the
-range of the C language type @code{size_t}.  When @var{in} and @var{ou}
-are pointer objects: @var{in.len} and @var{ou.len} must represent the
-number of bytes available in the referenced memory block; otherwise
-@var{in.len} and @var{ou.len} are ignored.
+@var{in}, @var{in.len} and @var{ou}, @var{ou.len} must represent
+generalised C buffers, @cbuffersref{}.  Their length must be equal to
+@code{AES_BLOCK_SIZE} (@math{16}).  @var{in} and @var{ou} can overlap
+and also be the same argument.
 
 @example
 #!r6rs
@@ -2317,25 +2165,14 @@ number of bytes available in the referenced memory block; otherwise
 Encrypt or decrypt multiple data blocks @var{in}, using the CBC scheme,
 and store the result in @var{ou}; return unspecified values.
 
-@var{in} and @var{ou} must be generalised C buffers, @vicareref{cbuffers
-buffers, Introduction to generalised C buffers}.  Their length must be
-equal to a multiple of @code{AES_BLOCK_SIZE}.  @var{in} and @var{ou} can
-overlap and also be the same argument.
+@var{in}, @var{in.len} and @var{ou}, @var{ou.len} must represent
+generalised C buffers, @cbuffersref{}.  Their length must be an exact
+multiple of @code{AES_BLOCK_SIZE} (@math{16}).  @var{in} and @var{ou}
+can overlap and also be the same argument.
 
-@var{in.len} and @var{ou.len} must be @false{} or exact integers in the
-range of the C language type @code{size_t}.  When @var{in} and @var{ou}
-are pointer objects: @var{in.len} and @var{ou.len} must represent the
-number of bytes available in the referenced memory block; otherwise
-@var{in.len} and @var{ou.len} are ignored.
-
-@var{iv} must be a generalised C buffer holding the initialisation
-vector, @vicareref{cbuffers buffers, Introduction to generalised C
-buffers}.  Its length must be equal to @code{AES_BLOCK_SIZE}.
-
-@var{iv.len} must be @false{} or an exact integer in the range of the C
-language type @code{size_t}.  When @var{iv} is a pointer object:
-@var{iv.len} must represent the number of bytes available in the
-referenced memory block; otherwise @var{iv.len} is ignored.
+@var{iv} and @var{iv.len} must represent a generalised C buffer holding
+the initialisation vector, @cbuffersref{}.  Its length must be equal to
+@code{AES_BLOCK_SIZE}.
 
 @example
 #!r6rs
@@ -2413,21 +2250,16 @@ The following bindings are meant to be used along the library
 
 
 @deffn {Validation Clause} aes-block-len @var{buf} @var{buf.len}
-@var{buf} must be a generalised C buffer; @var{buf.len} must be @false{}
-or the number of octets referenced by @var{buf}, when @var{buf} is a
-pointer object.
-
-Succeed if the length of the buffer equals the AES block size.
+@var{buf} and @var{buf.len} must represent a generalised C buffer,
+@cbuffersref{}.  Succeed if the length of the buffer equals the AES
+block size.
 @end deffn
 
 
 @deffn {Validation Clause} aes-data-len @var{buf} @var{buf.len}
-@var{buf} must be a generalised C buffer; @var{buf.len} must be @false{}
-or the number of octets referenced by @var{buf}, when @var{buf} is a
-pointer object.
-
-Succeed if the length of the buffer is an exact multiple of the AES
-block size.
+@var{buf} and @var{buf.len} must represent a generalised C buffer,
+@cbuffersref{}.  Succeed if the length of the buffer is an exact
+multiple of the AES block size.
 @end deffn
 
 
