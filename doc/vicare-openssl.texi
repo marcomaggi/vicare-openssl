@@ -2443,6 +2443,8 @@ valid values are: @math{16}, @math{24}, @math{32}.
 * plain evp hash create::       Context creation and destruction.
 * plain evp hash init::         Context initialisation and finalisation.
 * plain evp hash update::       Processing input data.
+* plain evp hash inspect::      Context inspection.
+* plain evp hash algos::        Message digest algorithms.
 @end menu
 
 @c page
@@ -2690,6 +2692,48 @@ bytevector with @func{string->utf8}.
 
 It is an error to apply this function to a non--initialised
 @var{EVP-MD}.
+@end defun
+
+@c page
+@node plain evp hash inspect
+@subsubsection Context inspection
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun evp-md-ctx-size @var{EVP-MD}
+Return an exact integer representing the message digest size produced by
+@var{EVP-MD}.
+@end defun
+
+
+@defun evp-md-ctx-block-size @var{EVP-MD}
+Return an exact integer representing the block size produced by
+@var{EVP-MD}.
+@end defun
+
+@c page
+@node plain evp hash algos
+@subsubsection Message digest algorithms
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun evp-md-size @var{EVP-MD-PTR}
+Return an exact integer representing the message digest size produced by
+the algorithm specfied by the @code{EVP_MD} structure referenced by the
+pointer object @var{EVP-MD-PTR}.
+@end defun
+
+
+@defun evp-md-block-size @var{EVP-MD-PTR}
+Return an exact integer representing the block size produced by the
+algorithm specfied by the @code{EVP_MD} structure referenced by the
+pointer object @var{EVP-MD-PTR}.
 @end defun
 
 @c page

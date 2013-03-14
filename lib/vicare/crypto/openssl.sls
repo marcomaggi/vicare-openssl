@@ -244,16 +244,15 @@
     evp-digest-init		evp-digest-final
     evp-digest-update		evp-md-ctx-copy
 
+    evp-md-ctx-size		evp-md-ctx-block-size
+    evp-md-size			evp-md-block-size
+
     evp-md-type
     evp-md-nid
     evp-md-name
     evp-md-pkey-type
-    evp-md-size
-    evp-md-block-size
     evp-md-flags
     evp-md-ctx-md
-    evp-md-ctx-size
-    evp-md-ctx-block-size
     evp-md-ctx-type
     evp-md-ctx-set-flags
     evp-md-ctx-clear-flags
@@ -1292,6 +1291,32 @@
 
 ;;; --------------------------------------------------------------------
 
+(define (evp-md-ctx-size ctx)
+  (define who 'evp-md-ctx-size)
+  (with-arguments-validation (who)
+      ((evp-md-ctx/running	ctx))
+    (capi.evp-md-ctx-size ctx)))
+
+(define (evp-md-ctx-block-size ctx)
+  (define who 'evp-md-ctx-block-size)
+  (with-arguments-validation (who)
+      ((evp-md-ctx/running	ctx))
+    (capi.evp-md-ctx-block-size ctx)))
+
+(define (evp-md-size md)
+  (define who 'evp-md-size)
+  (with-arguments-validation (who)
+      ((pointer		md))
+    (capi.evp-md-size md)))
+
+(define (evp-md-block-size md)
+  (define who 'evp-md-block-size)
+  (with-arguments-validation (who)
+      ((pointer		md))
+    (capi.evp-md-block-size md)))
+
+;;; --------------------------------------------------------------------
+
 (define (evp-md-type ctx)
   (define who 'evp-md-type)
   (with-arguments-validation (who)
@@ -1316,18 +1341,6 @@
       ()
     (capi.evp-md-pkey-type)))
 
-(define (evp-md-size ctx)
-  (define who 'evp-md-size)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-size)))
-
-(define (evp-md-block-size ctx)
-  (define who 'evp-md-block-size)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-block-size)))
-
 (define (evp-md-flags ctx)
   (define who 'evp-md-flags)
   (with-arguments-validation (who)
@@ -1339,18 +1352,6 @@
   (with-arguments-validation (who)
       ()
     (capi.evp-md-ctx-md)))
-
-(define (evp-md-ctx-size ctx)
-  (define who 'evp-md-ctx-size)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-size)))
-
-(define (evp-md-ctx-block-size ctx)
-  (define who 'evp-md-ctx-block-size)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-block-size)))
 
 (define (evp-md-ctx-type ctx)
   (define who 'evp-md-ctx-type)

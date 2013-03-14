@@ -137,6 +137,63 @@ ikrt_openssl_evp_digestupdate (ikptr s_ctx, ikptr s_buf, ikptr s_buf_len, ikpcb 
 
 
 /** --------------------------------------------------------------------
+ ** EVP hash functions C wrappers: context inspection.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_openssl_evp_md_ctx_size (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_SIZE
+  const EVP_MD_CTX *	ctx = IK_EVP_MD_CTX(s_ctx);
+  int			rv;
+  rv = EVP_MD_CTX_size(ctx);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_md_ctx_block_size (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_BLOCK_SIZE
+  const EVP_MD_CTX *	ctx = IK_EVP_MD_CTX(s_ctx);
+  int			rv;
+  rv = EVP_MD_CTX_block_size(ctx);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+/* ------------------------------------------------------------------ */
+
+ikptr
+ikrt_openssl_evp_md_size (ikptr s_md_ptr, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_SIZE
+  const EVP_MD *	P = IK_POINTER_DATA_VOIDP(s_md_ptr);
+  int			rv;
+  rv = EVP_MD_size(P);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_md_block_size (ikptr s_md_ptr, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_BLOCK_SIZE
+  const EVP_MD *	P = IK_POINTER_DATA_VOIDP(s_md_ptr);
+  int			rv;
+  rv = EVP_MD_block_size(P);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
  ** EVP hash functions C wrappers.
  ** ----------------------------------------------------------------- */
 
@@ -181,26 +238,6 @@ ikrt_openssl_evp_md_pkey_type (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_openssl_evp_md_size (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_SIZE
-  /* rv = EVP_MD_size(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_md_block_size (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_BLOCK_SIZE
-  /* rv = EVP_MD_block_size(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
 ikrt_openssl_evp_md_flags (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_FLAGS
@@ -215,26 +252,6 @@ ikrt_openssl_evp_md_ctx_md (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_MD
   /* rv = EVP_MD_CTX_md(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_md_ctx_size (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_SIZE
-  /* rv = EVP_MD_CTX_size(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_md_ctx_block_size (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_BLOCK_SIZE
-  /* rv = EVP_MD_CTX_block_size(); */
   return IK_VOID;
 #else
   feature_failure(__func__);

@@ -105,6 +105,24 @@
 
   (collect))
 
+
+(parametrise ((check-test-name		'inspect)
+	      (struct-guardian-logger	#f))
+
+  (check
+      (let ((ctx (ssl.evp-md-ctx-create)))
+	(ssl.evp-digest-init ctx 'md5)
+	(ssl.evp-md-ctx-size ctx))
+    => 16)
+
+  (check
+      (let ((ctx (ssl.evp-md-ctx-create)))
+	(ssl.evp-digest-init ctx 'md5)
+	(ssl.evp-md-ctx-block-size ctx))
+    => 64)
+
+
+  (collect))
 
 
 ;;;; done

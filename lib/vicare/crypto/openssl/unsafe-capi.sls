@@ -453,6 +453,9 @@
 (define-inline (evp-md-ctx-destroy ctx)
   (foreign-call "ikrt_openssl_evp_md_ctx_destroy" ctx))
 
+(define-inline (evp-md-ctx-copy ou in)
+  (foreign-call "ikrt_openssl_evp_md_ctx_copy_ex" ou in))
+
 ;;; --------------------------------------------------------------------
 
 (define-inline (evp-digest-init ctx md)
@@ -468,6 +471,20 @@
 
 ;;; --------------------------------------------------------------------
 
+(define-inline (evp-md-ctx-size ctx)
+  (foreign-call "ikrt_openssl_evp_md_ctx_size" ctx))
+
+(define-inline (evp-md-ctx-block-size ctx)
+  (foreign-call "ikrt_openssl_evp_md_ctx_block_size" ctx))
+
+(define-inline (evp-md-size md)
+  (foreign-call "ikrt_openssl_evp_md_size" md))
+
+(define-inline (evp-md-block-size md)
+  (foreign-call "ikrt_openssl_evp_md_block_size" md))
+
+;;; --------------------------------------------------------------------
+
 (define-inline (evp-md-type)
   (foreign-call "ikrt_openssl_evp_md_type"))
 
@@ -480,29 +497,14 @@
 (define-inline (evp-md-pkey-type)
   (foreign-call "ikrt_openssl_evp_md_pkey_type"))
 
-(define-inline (evp-md-size)
-  (foreign-call "ikrt_openssl_evp_md_size"))
-
-(define-inline (evp-md-block-size)
-  (foreign-call "ikrt_openssl_evp_md_block_size"))
-
 (define-inline (evp-md-flags)
   (foreign-call "ikrt_openssl_evp_md_flags"))
 
 (define-inline (evp-md-ctx-md)
   (foreign-call "ikrt_openssl_evp_md_ctx_md"))
 
-(define-inline (evp-md-ctx-size)
-  (foreign-call "ikrt_openssl_evp_md_ctx_size"))
-
-(define-inline (evp-md-ctx-block-size)
-  (foreign-call "ikrt_openssl_evp_md_ctx_block_size"))
-
 (define-inline (evp-md-ctx-type)
   (foreign-call "ikrt_openssl_evp_md_ctx_type"))
-
-(define-inline (evp-md-ctx-copy ou in)
-  (foreign-call "ikrt_openssl_evp_md_ctx_copy_ex" ou in))
 
 (define-inline (evp-md-ctx-set-flags)
   (foreign-call "ikrt_openssl_evp_md_ctx_set_flags"))
