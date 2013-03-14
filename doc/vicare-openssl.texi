@@ -183,19 +183,23 @@ The following Scheme libraries are installed:
 @cindex Library @library{vicare crypto openssl}
 @cindex @library{vicare crypto openssl}, library
 It exports bindings for some @value{FOREIGN_PACKAGE} public functions.
-All the Scheme function names are directly derived from the C function
-names by replacing upper case with lower case and underscore characters
-@samp{_} with dash characters @samp{-}; so @cfunc{SSL_library_init}
-becomes @func{ssl-library-init}.
+Most of the Scheme function names are directly derived from the C
+function names by replacing upper case with lower case and underscore
+characters @samp{_} with dash characters @samp{-}; so
+@cfunc{SSL_library_init} becomes @func{ssl-library-init}.  In some rare
+case a dash is inserted to make the name more readable, for example
+@cfunc{EVP_DigestInit} becomes @func{evp-digest-init}.
 
 @item vicare crypto openssl unsafe-capi
 @cindex Library @library{vicare crypto openssl unsafe-capi}
 @cindex @library{vicare crypto openssl unsafe-capi}, library
 It exports syntax bindings for some @value{FOREIGN_PACKAGE} public
-functions.  All the Scheme syntax names are directly derived from the C
-function names by replacing upper case with lower case and underscore
-characters @samp{_} with dash characters @samp{-}; so
-@cfunc{SSL_library_init} becomes @func{ssl-library-init}.
+functions.  Most of the Scheme syntax names are directly derived from
+the C function names by replacing upper case with lower case and
+underscore characters @samp{_} with dash characters @samp{-}; so
+@cfunc{SSL_library_init} becomes @func{ssl-library-init}.  In some rare
+case a dash is inserted to make the name more readable, for example
+@cfunc{EVP_DigestInit} becomes @func{evp-digest-init}.
 
 These syntaxes expand to a direct call to the C language wrapper
 functions in the @value{PACKAGE} library; they are not meant to be
@@ -2434,9 +2438,39 @@ valid values are: @math{16}, @math{24}, @math{32}.
 
 
 @menu
+* plain evp hash examples::     Some message digest usage examples.
 * plain evp hash struct::       Context data structures.
 * plain evp hash create::       Context creation and destruction.
+* plain evp hash init::         Context initialisation and finalisation.
+* plain evp hash update::       Processing input data.
 @end menu
+
+@c page
+@node plain evp hash examples
+@subsubsection Some message digest usage examples
+
+
+Here is an example of MD5 checksum computation, notice that the
+destruction of the context data structure is left to the garbage
+collector:
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl constants) ssl.)
+
+(ssl.ssl-library-init)
+
+(define ctx
+  (ssl.evp-md-ctx-create))
+
+(ssl.evp-digest-init ctx 'md5)
+(ssl.evp-digest-update ctx "ciao")
+(ssl.evp-digest-final ctx)
+@result{} #vu8(110 107 196 228 157 212 119
+   235 201 142 244 4 108 6 123 95)
+@end example
 
 @c page
 @node plain evp hash struct
@@ -2549,6 +2583,55 @@ not yet initialised with a message digest algorithm.
 @defun evp-md-ctx-destroy @var{EVP-MD}
 Finalise a struct of type @code{evp-md-ctx}, releasing all the
 associated resources; return unspecified values.
+@end defun
+
+@c page
+@node plain evp hash init
+@subsubsection Context initialisation and finalisation
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun evp-digest-init @var{EVP-MD} @var{md}
+Initialise an already built message digest context to produce a hash
+checksum of type @var{md}; if successful return @true{}, else return
+@false{}.
+
+@var{md} must be a symbol among:
+
+@example
+md4             md5             mdc2
+sha1            sha224          sha256
+sha384          sha512          ripemd160
+whirlpool       dss             dss1
+@end example
+@end defun
+
+
+@defun evp-digest-final @var{EVP-MD}
+Finalise the generation of a message digest checksum; if succesful
+return a bytevector representing the sum, otherwise return @false{}.
+@end defun
+
+@c page
+@node plain evp hash update
+@subsubsection Processing input data
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun evp-digest-update @var{EVP-MD} @var{str}
+@defunx evp-digest-update @var{EVP-MD} @var{str} @var{str.len}
+Update a message digest context with input data; if successful return
+@true{}, otherwise return @false{}.
+
+@var{str} and @var{str.len} must represent a generalised C string,
+@cstringsref{}.  When @var{str} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page

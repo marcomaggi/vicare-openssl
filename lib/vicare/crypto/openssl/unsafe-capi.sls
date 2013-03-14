@@ -129,8 +129,8 @@
 
     ;; EVP hash functions unsafe C API
     evp-md-ctx-create		evp-md-ctx-destroy
-    evp-digestinit-ex		evp-digestfinal-ex
-    evp-digestupdate
+    evp-digest-init		evp-digest-final
+    evp-digest-update
 
     evp-md-type
     evp-md-nid
@@ -455,16 +455,16 @@
 
 ;;; --------------------------------------------------------------------
 
-(define-inline (evp-digestinit-ex)
-  (foreign-call "ikrt_openssl_evp_digestinit_ex"))
+(define-inline (evp-digest-init ctx md)
+  (foreign-call "ikrt_openssl_evp_digestinit_ex" ctx md))
 
-(define-inline (evp-digestfinal-ex)
-  (foreign-call "ikrt_openssl_evp_digestfinal_ex"))
+(define-inline (evp-digest-final ctx)
+  (foreign-call "ikrt_openssl_evp_digestfinal_ex" ctx))
 
 ;;; --------------------------------------------------------------------
 
-(define-inline (evp-digestupdate)
-  (foreign-call "ikrt_openssl_evp_digestupdate"))
+(define-inline (evp-digest-update ctx buf buf.len)
+  (foreign-call "ikrt_openssl_evp_digestupdate" ctx buf buf.len))
 
 ;;; --------------------------------------------------------------------
 

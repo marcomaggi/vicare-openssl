@@ -43,7 +43,7 @@
 
 
 (parametrise ((check-test-name		'context)
-	      (struct-guardian-logger	#t))
+	      (struct-guardian-logger	#f))
 
   (check
       (let ((ctx (ssl.evp-md-ctx-create)))
@@ -69,6 +69,20 @@
     => #f)
 
   (collect))
+
+
+(parametrise ((check-test-name		'context)
+	      (struct-guardian-logger	#f))
+
+  (check
+      (let ((ctx (ssl.evp-md-ctx-create)))
+	(assert (ssl.evp-digest-init ctx 'md5))
+	(assert (ssl.evp-digest-update ctx "ciao"))
+	(ssl.evp-digest-final ctx))
+    => '#vu8(110 107 196 228 157 212 119 235 201 142 244 4 108 6 123 95))
+
+  (collect))
+
 
 
 ;;;; done

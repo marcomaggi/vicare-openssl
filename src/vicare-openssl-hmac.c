@@ -35,28 +35,6 @@
  ** Helpers.
  ** ----------------------------------------------------------------- */
 
-static const EVP_MD *
-integer_to_md (ikptr s_md)
-{
-  /* This mapping must  be kept in sync with the  Scheme function in the
-     public library. */
-  switch (ik_integer_to_int(s_md)) {
-  case 0:	return EVP_md4();
-  case 1:	return EVP_md5();
-  case 2:	return EVP_mdc2();
-  case 3:	return EVP_sha1();
-  case 4:	return EVP_sha224();
-  case 5:	return EVP_sha256();
-  case 6:	return EVP_sha384();
-  case 7:	return EVP_sha512();
-  case 8:	return EVP_ripemd160();
-  case 9:	return EVP_whirlpool();
-  case 10:	return EVP_dss();
-  case 11:	return EVP_dss1();
-  default:
-    return NULL;
-  }
-}
 
 
 /** --------------------------------------------------------------------
@@ -77,7 +55,7 @@ ikrt_openssl_hmac_init (ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * pcb)
     size_t		key_len	= ik_generalised_c_buffer_len(s_key, s_key_len);
     const EVP_MD *	md;
     int			rv;
-    md = integer_to_md (s_md);
+    md = ik_openssl_integer_to_evp_md (s_md);
     if (md) {
       rv = HMAC_Init(ctx, key, (unsigned long)key_len, md);
       return (rv)? ika_pointer_alloc(pcb, (long)ctx) : IK_FALSE;
@@ -280,7 +258,7 @@ ikrt_openssl_hmac (ikptr s_md,
   unsigned char		sum[HMAC_MAX_MD_CBLOCK];
   unsigned int		len;
   unsigned char *	rv;
-  md = integer_to_md (s_md);
+  md = ik_openssl_integer_to_evp_md(s_md);
   if (md) {
     rv = HMAC(md, key, key_len, in, in_len, sum, &len);
     if (rv)

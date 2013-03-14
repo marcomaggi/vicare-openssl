@@ -71,23 +71,52 @@ ikrt_openssl_evp_md_ctx_destroy (ikptr s_ctx, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_openssl_evp_digestinit_ex (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_evp_digestinit_ex (ikptr s_ctx, ikptr s_md, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DIGESTINIT_EX
   EVP_MD_CTX *		ctx = IK_EVP_MD_CTX(s_ctx);
   const EVP_MD *	md;
-  /* rv = EVP_DigestInit_ex(); */
-  return IK_VOID;
+  int			rv;
+  md = ik_openssl_integer_to_evp_md(s_md);
+  if (md) {
+    rv = EVP_DigestInit_ex(ctx, md, NULL);
+    return IK_BOOLEAN_FROM_INT(rv);
+  } else
+    return IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_digestfinal_ex (ikpcb * pcb)
+ikrt_openssl_evp_digestfinal_ex (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DIGESTFINAL_EX
-  /* rv = EVP_DigestFinal_ex(); */
-  return IK_VOID;
+  EVP_MD_CTX *		ctx = IK_EVP_MD_CTX(s_ctx);
+  unsigned char		md_buf[EVP_MAX_MD_SIZE];
+  unsigned int		md_len;
+  int			rv;
+  rv = EVP_DigestFinal_ex(ctx, md_buf, &md_len);
+  return (rv)? ika_bytevector_from_memory_block(pcb, md_buf, md_len) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** EVP hash functions C wrappers: context updating.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_openssl_evp_digestupdate (ikptr s_ctx, ikptr s_buf, ikptr s_buf_len, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_DIGESTUPDATE
+  EVP_MD_CTX *		ctx	= IK_EVP_MD_CTX(s_ctx);
+  uint8_t *		buf	= IK_GENERALISED_C_BUFFER(s_buf);
+  size_t		buf_len	= ik_generalised_c_buffer_len(s_buf, s_buf_len);
+  int			rv;
+  rv = EVP_DigestUpdate(ctx, buf, buf_len);
+  return IK_BOOLEAN_FROM_INT(rv);
 #else
   feature_failure(__func__);
 #endif
@@ -243,16 +272,6 @@ ikrt_openssl_evp_md_ctx_test_flags (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_TEST_FLAGS
   /* rv = EVP_MD_CTX_test_flags(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_digestupdate (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_DIGESTUPDATE
-  /* rv = EVP_DigestUpdate(); */
   return IK_VOID;
 #else
   feature_failure(__func__);

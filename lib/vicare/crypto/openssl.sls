@@ -237,8 +237,8 @@
     evp-md-ctx/alive.vicare-arguments-validation
 
     evp-md-ctx-create		evp-md-ctx-destroy
-    evp-digestinit-ex		evp-digestfinal-ex
-    evp-digestupdate
+    evp-digest-init		evp-digest-final
+    evp-digest-update
 
     evp-md-type
     evp-md-nid
@@ -326,6 +326,28 @@
     "invalid AES key length, expected fixnum 16, 24 or 32" obj))
 
 ;;; --------------------------------------------------------------------
+
+
+;;;; helpers
+
+(define (%symbol->md who md)
+  (case md
+    ;;This  mapping  must   be  kept  in  sync  with  the   one  in  the
+    ;;implementation of the functions HMAC-INIT and HMAC.
+    ((md4)		0)
+    ((md5)		1)
+    ((mdc2)		2)
+    ((sha1)		3)
+    ((sha224)		4)
+    ((sha256)		5)
+    ((sha384)		6)
+    ((sha512)		7)
+    ((ripemd160)	8)
+    ((whirlpool)	9)
+    ((dss)		10)
+    ((dss1)		11)
+    (else
+     (error who "unknown message digest" md))))
 
 
 ;;;; version functions
@@ -817,27 +839,6 @@
 
 ;;; --------------------------------------------------------------------
 
-(define (%symbol->md who md)
-  (case md
-    ;;This  mapping  must   be  kept  in  sync  with  the   one  in  the
-    ;;implementation of the functions HMAC-INIT and HMAC.
-    ((md4)		0)
-    ((md5)		1)
-    ((mdc2)		2)
-    ((sha1)		3)
-    ((sha224)		4)
-    ((sha256)		5)
-    ((sha384)		6)
-    ((sha512)		7)
-    ((ripemd160)	8)
-    ((whirlpool)	9)
-    ((dss)		10)
-    ((dss1)		11)
-    (else
-     (error who "unknown message digest" md))))
-
-;;; --------------------------------------------------------------------
-
 (define hmac-init
   ;;This  version  performs  the  work  of  both  "HMAC_CTX_init()"  and
   ;;"HMAC_Init()".
@@ -1221,25 +1222,34 @@
 
 ;;; --------------------------------------------------------------------
 
-(define (evp-digestinit-ex ctx)
-  (define who 'evp-digestinit-ex)
+(define (evp-digest-init ctx md)
+  (define who 'evp-digest-init)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-digestinit-ex)))
+      ((evp-md-ctx/alive	ctx)
+       (symbol			md))
+    (capi.evp-digest-init ctx (%symbol->md who md))))
 
-(define (evp-digestfinal-ex ctx)
-  (define who 'evp-digestfinal-ex)
+(define (evp-digest-final ctx)
+  (define who 'evp-digest-final)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-digestfinal-ex)))
+      ((evp-md-ctx/alive	ctx))
+    (capi.evp-digest-final ctx)))
 
 ;;; --------------------------------------------------------------------
 
-(define (evp-digestupdate ctx)
-  (define who 'evp-digestupdate)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-digestupdate)))
+(define evp-digest-update
+  (case-lambda
+   ((ctx buf)
+    (evp-digest-update ctx buf #f))
+   ((ctx buf buf.len)
+    (define who 'evp-digest-update)
+    (with-arguments-validation (who)
+	((evp-md-ctx/alive	ctx)
+	 (general-c-string*	buf buf.len))
+      (with-general-c-strings
+	  ((buf^	buf))
+	(string-to-bytevector string->utf8)
+	(capi.evp-digest-update ctx buf^ buf.len))))))
 
 ;;; --------------------------------------------------------------------
 
