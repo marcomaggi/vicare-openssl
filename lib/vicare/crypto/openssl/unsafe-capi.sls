@@ -121,6 +121,50 @@
     aes-wrap-key
     aes-unwrap-key
 
+    ;; EVP hash functions unsafe C API
+    evp-md-type
+    evp-md-nid
+    evp-md-name
+    evp-md-pkey-type
+    evp-md-size
+    evp-md-block-size
+    evp-md-flags
+    evp-md-ctx-md
+    evp-md-ctx-size
+    evp-md-ctx-block-size
+    evp-md-ctx-type
+    evp-md-ctx-init
+    evp-md-ctx-cleanup
+    evp-md-ctx-create
+    evp-md-ctx-destroy
+    evp-md-ctx-copy-ex
+    evp-md-ctx-set-flags
+    evp-md-ctx-clear-flags
+    evp-md-ctx-test-flags
+    evp-digestinit-ex
+    evp-digestupdate
+    evp-digestfinal-ex
+    evp-digest
+    evp-md-ctx-copy
+    evp-digestinit
+    evp-digestfinal
+    evp-md-null
+    evp-md2
+    evp-md4
+    evp-md5
+    evp-sha
+    evp-sha1
+    evp-dss
+    evp-dss1
+    evp-ecdsa
+    evp-sha224
+    evp-sha256
+    evp-sha384
+    evp-sha512
+    evp-mdc2
+    evp-ripemd160
+    evp-whirlpool
+    evp-get-digestbyname
 
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
@@ -384,6 +428,138 @@
 
 (define-inline (aes-unwrap-key)
   (foreign-call "ikrt_aes_unwrap_key"))
+
+
+;;;; EVP hash functions unsafe C API
+
+(define-inline (evp-md-type)
+  (foreign-call "ikrt_evp_md_type"))
+
+(define-inline (evp-md-nid)
+  (foreign-call "ikrt_evp_md_nid"))
+
+(define-inline (evp-md-name)
+  (foreign-call "ikrt_evp_md_name"))
+
+(define-inline (evp-md-pkey-type)
+  (foreign-call "ikrt_evp_md_pkey_type"))
+
+(define-inline (evp-md-size)
+  (foreign-call "ikrt_evp_md_size"))
+
+(define-inline (evp-md-block-size)
+  (foreign-call "ikrt_evp_md_block_size"))
+
+(define-inline (evp-md-flags)
+  (foreign-call "ikrt_evp_md_flags"))
+
+(define-inline (evp-md-ctx-md)
+  (foreign-call "ikrt_evp_md_ctx_md"))
+
+(define-inline (evp-md-ctx-size)
+  (foreign-call "ikrt_evp_md_ctx_size"))
+
+(define-inline (evp-md-ctx-block-size)
+  (foreign-call "ikrt_evp_md_ctx_block_size"))
+
+(define-inline (evp-md-ctx-type)
+  (foreign-call "ikrt_evp_md_ctx_type"))
+
+(define-inline (evp-md-ctx-init)
+  (foreign-call "ikrt_evp_md_ctx_init"))
+
+(define-inline (evp-md-ctx-cleanup)
+  (foreign-call "ikrt_evp_md_ctx_cleanup"))
+
+(define-inline (evp-md-ctx-create)
+  (foreign-call "ikrt_evp_md_ctx_create"))
+
+(define-inline (evp-md-ctx-destroy)
+  (foreign-call "ikrt_evp_md_ctx_destroy"))
+
+(define-inline (evp-md-ctx-copy-ex)
+  (foreign-call "ikrt_evp_md_ctx_copy_ex"))
+
+(define-inline (evp-md-ctx-set-flags)
+  (foreign-call "ikrt_evp_md_ctx_set_flags"))
+
+(define-inline (evp-md-ctx-clear-flags)
+  (foreign-call "ikrt_evp_md_ctx_clear_flags"))
+
+(define-inline (evp-md-ctx-test-flags)
+  (foreign-call "ikrt_evp_md_ctx_test_flags"))
+
+(define-inline (evp-digestinit-ex)
+  (foreign-call "ikrt_evp_digestinit_ex"))
+
+(define-inline (evp-digestupdate)
+  (foreign-call "ikrt_evp_digestupdate"))
+
+(define-inline (evp-digestfinal-ex)
+  (foreign-call "ikrt_evp_digestfinal_ex"))
+
+(define-inline (evp-digest)
+  (foreign-call "ikrt_evp_digest"))
+
+(define-inline (evp-md-ctx-copy)
+  (foreign-call "ikrt_evp_md_ctx_copy"))
+
+(define-inline (evp-digestinit)
+  (foreign-call "ikrt_evp_digestinit"))
+
+(define-inline (evp-digestfinal)
+  (foreign-call "ikrt_evp_digestfinal"))
+
+(define-inline (evp-md-null)
+  (foreign-call "ikrt_evp_md_null"))
+
+(define-inline (evp-md2)
+  (foreign-call "ikrt_evp_md2"))
+
+(define-inline (evp-md4)
+  (foreign-call "ikrt_evp_md4"))
+
+(define-inline (evp-md5)
+  (foreign-call "ikrt_evp_md5"))
+
+(define-inline (evp-sha)
+  (foreign-call "ikrt_evp_sha"))
+
+(define-inline (evp-sha1)
+  (foreign-call "ikrt_evp_sha1"))
+
+(define-inline (evp-dss)
+  (foreign-call "ikrt_evp_dss"))
+
+(define-inline (evp-dss1)
+  (foreign-call "ikrt_evp_dss1"))
+
+(define-inline (evp-ecdsa)
+  (foreign-call "ikrt_evp_ecdsa"))
+
+(define-inline (evp-sha224)
+  (foreign-call "ikrt_evp_sha224"))
+
+(define-inline (evp-sha256)
+  (foreign-call "ikrt_evp_sha256"))
+
+(define-inline (evp-sha384)
+  (foreign-call "ikrt_evp_sha384"))
+
+(define-inline (evp-sha512)
+  (foreign-call "ikrt_evp_sha512"))
+
+(define-inline (evp-mdc2)
+  (foreign-call "ikrt_evp_mdc2"))
+
+(define-inline (evp-ripemd160)
+  (foreign-call "ikrt_evp_ripemd160"))
+
+(define-inline (evp-whirlpool)
+  (foreign-call "ikrt_evp_whirlpool"))
+
+(define-inline (evp-get-digestbyname)
+  (foreign-call "ikrt_evp_get_digestbyname"))
 
 
 ;;;; still to be implemented

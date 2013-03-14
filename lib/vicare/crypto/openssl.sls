@@ -213,6 +213,51 @@
     aes-data-len.vicare-arguments-validation
     aes-key-len.vicare-arguments-validation
 
+    ;; EVP hash functions
+    evp-md-type
+    evp-md-nid
+    evp-md-name
+    evp-md-pkey-type
+    evp-md-size
+    evp-md-block-size
+    evp-md-flags
+    evp-md-ctx-md
+    evp-md-ctx-size
+    evp-md-ctx-block-size
+    evp-md-ctx-type
+    evp-md-ctx-init
+    evp-md-ctx-cleanup
+    evp-md-ctx-create
+    evp-md-ctx-destroy
+    evp-md-ctx-copy-ex
+    evp-md-ctx-set-flags
+    evp-md-ctx-clear-flags
+    evp-md-ctx-test-flags
+    evp-digestinit-ex
+    evp-digestupdate
+    evp-digestfinal-ex
+    evp-digest
+    evp-md-ctx-copy
+    evp-digestinit
+    evp-digestfinal
+    evp-md-null
+    evp-md2
+    evp-md4
+    evp-md5
+    evp-sha
+    evp-sha1
+    evp-dss
+    evp-dss1
+    evp-ecdsa
+    evp-sha224
+    evp-sha256
+    evp-sha384
+    evp-sha512
+    evp-mdc2
+    evp-ripemd160
+    evp-whirlpool
+    evp-get-digestbyname
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -1091,6 +1136,267 @@
   (with-arguments-validation (who)
       ()
     (capi.aes-unwrap-key)))
+
+
+;;;; EVP hash functions
+
+(define (evp-md-type ctx)
+  (define who 'evp-md-type)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-type)))
+
+(define (evp-md-nid ctx)
+  (define who 'evp-md-nid)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-nid)))
+
+(define (evp-md-name ctx)
+  (define who 'evp-md-name)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-name)))
+
+(define (evp-md-pkey-type ctx)
+  (define who 'evp-md-pkey-type)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-pkey-type)))
+
+(define (evp-md-size ctx)
+  (define who 'evp-md-size)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-size)))
+
+(define (evp-md-block-size ctx)
+  (define who 'evp-md-block-size)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-block-size)))
+
+(define (evp-md-flags ctx)
+  (define who 'evp-md-flags)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-flags)))
+
+(define (evp-md-ctx-md ctx)
+  (define who 'evp-md-ctx-md)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-md)))
+
+(define (evp-md-ctx-size ctx)
+  (define who 'evp-md-ctx-size)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-size)))
+
+(define (evp-md-ctx-block-size ctx)
+  (define who 'evp-md-ctx-block-size)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-block-size)))
+
+(define (evp-md-ctx-type ctx)
+  (define who 'evp-md-ctx-type)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-type)))
+
+(define (evp-md-ctx-init ctx)
+  (define who 'evp-md-ctx-init)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-init)))
+
+(define (evp-md-ctx-cleanup ctx)
+  (define who 'evp-md-ctx-cleanup)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-cleanup)))
+
+(define (evp-md-ctx-create ctx)
+  (define who 'evp-md-ctx-create)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-create)))
+
+(define (evp-md-ctx-destroy ctx)
+  (define who 'evp-md-ctx-destroy)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-destroy)))
+
+(define (evp-md-ctx-copy-ex ctx)
+  (define who 'evp-md-ctx-copy-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-copy-ex)))
+
+(define (evp-md-ctx-set-flags ctx)
+  (define who 'evp-md-ctx-set-flags)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-set-flags)))
+
+(define (evp-md-ctx-clear-flags ctx)
+  (define who 'evp-md-ctx-clear-flags)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-clear-flags)))
+
+(define (evp-md-ctx-test-flags ctx)
+  (define who 'evp-md-ctx-test-flags)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-test-flags)))
+
+(define (evp-digestinit-ex ctx)
+  (define who 'evp-digestinit-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-digestinit-ex)))
+
+(define (evp-digestupdate ctx)
+  (define who 'evp-digestupdate)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-digestupdate)))
+
+(define (evp-digestfinal-ex ctx)
+  (define who 'evp-digestfinal-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-digestfinal-ex)))
+
+(define (evp-digest ctx)
+  (define who 'evp-digest)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-digest)))
+
+(define (evp-md-ctx-copy ctx)
+  (define who 'evp-md-ctx-copy)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-ctx-copy)))
+
+(define (evp-digestinit ctx)
+  (define who 'evp-digestinit)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-digestinit)))
+
+(define (evp-digestfinal ctx)
+  (define who 'evp-digestfinal)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-digestfinal)))
+
+(define (evp-md-null ctx)
+  (define who 'evp-md-null)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md-null)))
+
+(define (evp-md2 ctx)
+  (define who 'evp-md2)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md2)))
+
+(define (evp-md4 ctx)
+  (define who 'evp-md4)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md4)))
+
+(define (evp-md5 ctx)
+  (define who 'evp-md5)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-md5)))
+
+(define (evp-sha ctx)
+  (define who 'evp-sha)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-sha)))
+
+(define (evp-sha1 ctx)
+  (define who 'evp-sha1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-sha1)))
+
+(define (evp-dss ctx)
+  (define who 'evp-dss)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-dss)))
+
+(define (evp-dss1 ctx)
+  (define who 'evp-dss1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-dss1)))
+
+(define (evp-ecdsa ctx)
+  (define who 'evp-ecdsa)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-ecdsa)))
+
+(define (evp-sha224 ctx)
+  (define who 'evp-sha224)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-sha224)))
+
+(define (evp-sha256 ctx)
+  (define who 'evp-sha256)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-sha256)))
+
+(define (evp-sha384 ctx)
+  (define who 'evp-sha384)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-sha384)))
+
+(define (evp-sha512 ctx)
+  (define who 'evp-sha512)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-sha512)))
+
+(define (evp-mdc2 ctx)
+  (define who 'evp-mdc2)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-mdc2)))
+
+(define (evp-ripemd160 ctx)
+  (define who 'evp-ripemd160)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-ripemd160)))
+
+(define (evp-whirlpool ctx)
+  (define who 'evp-whirlpool)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-whirlpool)))
+
+(define (evp-get-digestbyname ctx)
+  (define who 'evp-get-digestbyname)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-get-digestbyname)))
 
 
 ;;;; still to be implemented

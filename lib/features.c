@@ -123,6 +123,51 @@ main (int argc, const char *const argv[])
     HAVE_HMAC_CTX_COPY\n\
     HAVE_HMAC_CTX_SET_FLAGS\n\
     \n\
+    ;; EVP hash functions features\n\
+    HAVE_EVP_MD_TYPE\n\
+    HAVE_EVP_MD_NID\n\
+    HAVE_EVP_MD_NAME\n\
+    HAVE_EVP_MD_PKEY_TYPE\n\
+    HAVE_EVP_MD_SIZE\n\
+    HAVE_EVP_MD_BLOCK_SIZE\n\
+    HAVE_EVP_MD_FLAGS\n\
+    HAVE_EVP_MD_CTX_MD\n\
+    HAVE_EVP_MD_CTX_SIZE\n\
+    HAVE_EVP_MD_CTX_BLOCK_SIZE\n\
+    HAVE_EVP_MD_CTX_TYPE\n\
+    HAVE_EVP_MD_CTX_INIT\n\
+    HAVE_EVP_MD_CTX_CLEANUP\n\
+    HAVE_EVP_MD_CTX_CREATE\n\
+    HAVE_EVP_MD_CTX_DESTROY\n\
+    HAVE_EVP_MD_CTX_COPY_EX\n\
+    HAVE_EVP_MD_CTX_SET_FLAGS\n\
+    HAVE_EVP_MD_CTX_CLEAR_FLAGS\n\
+    HAVE_EVP_MD_CTX_TEST_FLAGS\n\
+    HAVE_EVP_DIGESTINIT_EX\n\
+    HAVE_EVP_DIGESTUPDATE\n\
+    HAVE_EVP_DIGESTFINAL_EX\n\
+    HAVE_EVP_DIGEST\n\
+    HAVE_EVP_MD_CTX_COPY\n\
+    HAVE_EVP_DIGESTINIT\n\
+    HAVE_EVP_DIGESTFINAL\n\
+    HAVE_EVP_MD_NULL\n\
+    HAVE_EVP_MD2\n\
+    HAVE_EVP_MD4\n\
+    HAVE_EVP_MD5\n\
+    HAVE_EVP_SHA\n\
+    HAVE_EVP_SHA1\n\
+    HAVE_EVP_DSS\n\
+    HAVE_EVP_DSS1\n\
+    HAVE_EVP_ECDSA\n\
+    HAVE_EVP_SHA224\n\
+    HAVE_EVP_SHA256\n\
+    HAVE_EVP_SHA384\n\
+    HAVE_EVP_SHA512\n\
+    HAVE_EVP_MDC2\n\
+    HAVE_EVP_RIPEMD160\n\
+    HAVE_EVP_WHIRLPOOL\n\
+    HAVE_EVP_GET_DIGESTBYNAME\n\
+    \n\
     ;; AES features\n\
     HAVE_AES_OPTIONS\n\
     HAVE_AES_SET_ENCRYPT_KEY\n\
@@ -661,6 +706,355 @@ printf("(define-inline-constant HAVE_AES_WRAP_KEY %s)\n",
 
 printf("(define-inline-constant HAVE_AES_UNWRAP_KEY %s)\n",
 #ifdef HAVE_AES_UNWRAP_KEY
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** EVP hash functions features.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_EVP_MD_TYPE %s)\n",
+#ifdef HAVE_EVP_MD_TYPE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_NID %s)\n",
+#ifdef HAVE_EVP_MD_NID
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_NAME %s)\n",
+#ifdef HAVE_EVP_MD_NAME
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_PKEY_TYPE %s)\n",
+#ifdef HAVE_EVP_MD_PKEY_TYPE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_SIZE %s)\n",
+#ifdef HAVE_EVP_MD_SIZE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_BLOCK_SIZE %s)\n",
+#ifdef HAVE_EVP_MD_BLOCK_SIZE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_FLAGS %s)\n",
+#ifdef HAVE_EVP_MD_FLAGS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_MD %s)\n",
+#ifdef HAVE_EVP_MD_CTX_MD
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_SIZE %s)\n",
+#ifdef HAVE_EVP_MD_CTX_SIZE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_BLOCK_SIZE %s)\n",
+#ifdef HAVE_EVP_MD_CTX_BLOCK_SIZE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_TYPE %s)\n",
+#ifdef HAVE_EVP_MD_CTX_TYPE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_INIT %s)\n",
+#ifdef HAVE_EVP_MD_CTX_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_CLEANUP %s)\n",
+#ifdef HAVE_EVP_MD_CTX_CLEANUP
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_CREATE %s)\n",
+#ifdef HAVE_EVP_MD_CTX_CREATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_DESTROY %s)\n",
+#ifdef HAVE_EVP_MD_CTX_DESTROY
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_COPY_EX %s)\n",
+#ifdef HAVE_EVP_MD_CTX_COPY_EX
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_SET_FLAGS %s)\n",
+#ifdef HAVE_EVP_MD_CTX_SET_FLAGS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_CLEAR_FLAGS %s)\n",
+#ifdef HAVE_EVP_MD_CTX_CLEAR_FLAGS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_TEST_FLAGS %s)\n",
+#ifdef HAVE_EVP_MD_CTX_TEST_FLAGS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DIGESTINIT_EX %s)\n",
+#ifdef HAVE_EVP_DIGESTINIT_EX
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DIGESTUPDATE %s)\n",
+#ifdef HAVE_EVP_DIGESTUPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DIGESTFINAL_EX %s)\n",
+#ifdef HAVE_EVP_DIGESTFINAL_EX
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DIGEST %s)\n",
+#ifdef HAVE_EVP_DIGEST
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_CTX_COPY %s)\n",
+#ifdef HAVE_EVP_MD_CTX_COPY
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DIGESTINIT %s)\n",
+#ifdef HAVE_EVP_DIGESTINIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DIGESTFINAL %s)\n",
+#ifdef HAVE_EVP_DIGESTFINAL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD_NULL %s)\n",
+#ifdef HAVE_EVP_MD_NULL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD2 %s)\n",
+#ifdef HAVE_EVP_MD2
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD4 %s)\n",
+#ifdef HAVE_EVP_MD4
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MD5 %s)\n",
+#ifdef HAVE_EVP_MD5
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_SHA %s)\n",
+#ifdef HAVE_EVP_SHA
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_SHA1 %s)\n",
+#ifdef HAVE_EVP_SHA1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DSS %s)\n",
+#ifdef HAVE_EVP_DSS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DSS1 %s)\n",
+#ifdef HAVE_EVP_DSS1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_ECDSA %s)\n",
+#ifdef HAVE_EVP_ECDSA
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_SHA224 %s)\n",
+#ifdef HAVE_EVP_SHA224
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_SHA256 %s)\n",
+#ifdef HAVE_EVP_SHA256
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_SHA384 %s)\n",
+#ifdef HAVE_EVP_SHA384
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_SHA512 %s)\n",
+#ifdef HAVE_EVP_SHA512
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_MDC2 %s)\n",
+#ifdef HAVE_EVP_MDC2
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RIPEMD160 %s)\n",
+#ifdef HAVE_EVP_RIPEMD160
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_WHIRLPOOL %s)\n",
+#ifdef HAVE_EVP_WHIRLPOOL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_GET_DIGESTBYNAME %s)\n",
+#ifdef HAVE_EVP_GET_DIGESTBYNAME
   "#t"
 #else
   "#f"

@@ -271,7 +271,7 @@ Return a Scheme string representing the version number.
 * plain init::                  Global initialisation functions.
 * plain hash::                  Computing hash checksums.
 * plain hmac::                  Computing message authentication codes.
-* plain crypto::                Encrypting and decrypting.
+* plain crypto::                Low-level cryptographic algorithms.
 * plain evp::                   High-level cryptographic functions.
 @end menu
 
@@ -1938,7 +1938,7 @@ bytevector with @func{string->utf8}.
 
 @c page
 @node plain crypto
-@section Encrypting and decrypting
+@section Low--level cryptographic algorithms.
 
 
 @menu
@@ -2264,6 +2264,17 @@ valid values are: @math{16}, @math{24}, @math{32}.
 @c page
 @node plain evp
 @section High--level cryptographic functions
+
+
+@menu
+* plain evp hash::              High-level hash functions.
+@end menu
+
+@c page
+@node plain evp hash
+@subsection High--level hash functions
+
+
 
 
 @c page
