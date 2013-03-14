@@ -2027,7 +2027,7 @@ the referenced memory block; otherwise @var{key.len} is ignored.
 md4             md5             mdc2
 sha1            sha224          sha256
 sha384          sha512          ripemd160
-dss             dss1
+whirlpool       dss             dss1
 @end example
 @end defun
 
@@ -2082,7 +2082,7 @@ result, or @false{} if an error occurs.  @manpage{HMAC, HMAC}.
 md4             md5             mdc2
 sha1            sha224          sha256
 sha384          sha512          ripemd160
-dss             dss1
+whirlpool       dss             dss1
 @end example
 
 @var{key} and @var{key.len} must represent a generalised C string,

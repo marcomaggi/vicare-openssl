@@ -828,8 +828,9 @@
     ((sha384)		6)
     ((sha512)		7)
     ((ripemd160)	8)
-    ((dss)		9)
-    ((dss1)		10)
+    ((whirlpool)	9)
+    ((dss)		10)
+    ((dss1)		11)
     (else
      (error who "unknown message digest" md))))
 
