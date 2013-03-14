@@ -42,7 +42,7 @@
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_aes_options (ikpcb * pcb)
+ikrt_openssl_aes_options (ikpcb * pcb)
 {
 #ifdef HAVE_AES_OPTIONS
   const char *	rv;
@@ -59,7 +59,7 @@ ikrt_aes_options (ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_aes_set_encrypt_key (ikptr s_key, ikptr s_key_len, ikpcb * pcb)
+ikrt_openssl_aes_set_encrypt_key (ikptr s_key, ikptr s_key_len, ikpcb * pcb)
 {
 #ifdef HAVE_AES_SET_ENCRYPT_KEY
   const void *	key	= IK_GENERALISED_C_STRING(s_key);
@@ -93,7 +93,7 @@ ikrt_aes_set_encrypt_key (ikptr s_key, ikptr s_key_len, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_aes_set_decrypt_key (ikptr s_key, ikptr s_key_len, ikpcb * pcb)
+ikrt_openssl_aes_set_decrypt_key (ikptr s_key, ikptr s_key_len, ikpcb * pcb)
 {
 #ifdef HAVE_AES_SET_DECRYPT_KEY
   const void *	key	= IK_GENERALISED_C_STRING(s_key);
@@ -130,7 +130,7 @@ ikrt_aes_set_decrypt_key (ikptr s_key, ikptr s_key_len, ikpcb * pcb)
 /* ------------------------------------------------------------------ */
 
 ikptr
-ikrt_aes_finalise (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_aes_finalise (ikptr s_ctx, ikpcb * pcb)
 /* This is not an OpenSSL  function.  It is introduced by Vicare/OpenSSL
    to allow clean finalisation of AES context structures. */
 {
@@ -149,7 +149,7 @@ ikrt_aes_finalise (ikptr s_ctx, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_aes_encrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
+ikrt_openssl_aes_encrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
 		  ikptr s_ctx, ikpcb * pcb)
 /* Encrypt a single block of data using the default scheme. */
 {
@@ -164,7 +164,7 @@ ikrt_aes_encrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
 #endif
 }
 ikptr
-ikrt_aes_decrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
+ikrt_openssl_aes_decrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
 		  ikptr s_ctx, ikpcb * pcb)
 /* Decrypt a single block of data using the default scheme. */
 {
@@ -185,7 +185,7 @@ ikrt_aes_decrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_aes_ecb_encrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
+ikrt_openssl_aes_ecb_encrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
 		      ikptr s_ctx, ikptr s_encrypt_or_decrypt, ikpcb * pcb)
 /* Encrypt  or decrypt  a single  block of  data using  the ECB  scheme.
    S_ENCRYPT_OR_DECRYPT must be an exact integer representing one of the
@@ -209,7 +209,7 @@ ikrt_aes_ecb_encrypt (ikptr s_single_block_in, ikptr s_single_block_ou,
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_aes_cbc_encrypt (ikptr s_in, ikptr s_in_len,
+ikrt_openssl_aes_cbc_encrypt (ikptr s_in, ikptr s_in_len,
 		      ikptr s_ou, ikptr s_ou_len,
 		      ikptr s_ctx,
 		      ikptr s_iv, ikptr s_iv_len,
@@ -290,7 +290,7 @@ ikrt_aes_cbc_encrypt (ikptr s_in, ikptr s_in_len,
    first octet still to process in the input buffer S_IN. */
 
 ikptr
-ikrt_aes_cfb128_encrypt (ikptr s_in, ikptr s_in_len,
+ikrt_openssl_aes_cfb128_encrypt (ikptr s_in, ikptr s_in_len,
 			 ikptr s_ou, ikptr s_ou_len,
 			 ikptr s_ctx,
 			 ikptr s_iv, ikptr s_iv_len,
@@ -324,7 +324,7 @@ ikrt_aes_cfb128_encrypt (ikptr s_in, ikptr s_in_len,
 #endif
 }
 ikptr
-ikrt_aes_cfb1_encrypt (ikptr s_in, ikptr s_in_len,
+ikrt_openssl_aes_cfb1_encrypt (ikptr s_in, ikptr s_in_len,
 		       ikptr s_ou, ikptr s_ou_len,
 		       ikptr s_ctx,
 		       ikptr s_iv, ikptr s_iv_len,
@@ -358,7 +358,7 @@ ikrt_aes_cfb1_encrypt (ikptr s_in, ikptr s_in_len,
 #endif
 }
 ikptr
-ikrt_aes_cfb8_encrypt (ikptr s_in, ikptr s_in_len,
+ikrt_openssl_aes_cfb8_encrypt (ikptr s_in, ikptr s_in_len,
 		       ikptr s_ou, ikptr s_ou_len,
 		       ikptr s_ctx,
 		       ikptr s_iv, ikptr s_iv_len,
@@ -398,7 +398,7 @@ ikrt_aes_cfb8_encrypt (ikptr s_in, ikptr s_in_len,
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_aes_ofb128_encrypt (ikpcb * pcb)
+ikrt_openssl_aes_ofb128_encrypt (ikpcb * pcb)
 {
 #ifdef HAVE_AES_OFB128_ENCRYPT
   /* rv = AES_ofb128_encrypt(); */
@@ -414,7 +414,7 @@ ikrt_aes_ofb128_encrypt (ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_aes_ctr128_encrypt (ikpcb * pcb)
+ikrt_openssl_aes_ctr128_encrypt (ikpcb * pcb)
 {
 #ifdef HAVE_AES_CTR128_ENCRYPT
   /* rv = AES_ctr128_encrypt(); */
@@ -430,7 +430,7 @@ ikrt_aes_ctr128_encrypt (ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_aes_ige_encrypt (ikpcb * pcb)
+ikrt_openssl_aes_ige_encrypt (ikpcb * pcb)
 {
 #ifdef HAVE_AES_IGE_ENCRYPT
   /* rv = AES_ige_encrypt(); */
@@ -440,7 +440,7 @@ ikrt_aes_ige_encrypt (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_aes_bi_ige_encrypt (ikpcb * pcb)
+ikrt_openssl_aes_bi_ige_encrypt (ikpcb * pcb)
 {
 #ifdef HAVE_AES_BI_IGE_ENCRYPT
   /* rv = AES_bi_ige_encrypt(); */
@@ -456,7 +456,7 @@ ikrt_aes_bi_ige_encrypt (ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_aes_wrap_key (ikpcb * pcb)
+ikrt_openssl_aes_wrap_key (ikpcb * pcb)
 {
 #ifdef HAVE_AES_WRAP_KEY
   /* rv = AES_wrap_key(); */
@@ -466,7 +466,7 @@ ikrt_aes_wrap_key (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_aes_unwrap_key (ikpcb * pcb)
+ikrt_openssl_aes_unwrap_key (ikpcb * pcb)
 {
 #ifdef HAVE_AES_UNWRAP_KEY
   /* rv = AES_unwrap_key(); */

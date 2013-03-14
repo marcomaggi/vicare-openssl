@@ -43,7 +43,7 @@
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_evp_md_ctx_create (ikpcb * pcb)
+ikrt_openssl_evp_md_ctx_create (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_CREATE
   EVP_MD_CTX *	ctx;
@@ -54,7 +54,7 @@ ikrt_evp_md_ctx_create (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_ctx_destroy (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_evp_md_ctx_destroy (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_DESTROY
   EVP_MD_CTX *	ctx = IK_EVP_MD_CTX(s_ctx);
@@ -71,7 +71,7 @@ ikrt_evp_md_ctx_destroy (ikptr s_ctx, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_evp_digestinit_ex (ikpcb * pcb)
+ikrt_openssl_evp_digestinit_ex (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DIGESTINIT_EX
   EVP_MD_CTX *		ctx = IK_EVP_MD_CTX(s_ctx);
@@ -83,7 +83,7 @@ ikrt_evp_digestinit_ex (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_digestfinal_ex (ikpcb * pcb)
+ikrt_openssl_evp_digestfinal_ex (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DIGESTFINAL_EX
   /* rv = EVP_DigestFinal_ex(); */
@@ -99,7 +99,7 @@ ikrt_evp_digestfinal_ex (ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_evp_md_type (ikpcb * pcb)
+ikrt_openssl_evp_md_type (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_TYPE
   /* rv = EVP_MD_type(); */
@@ -109,7 +109,7 @@ ikrt_evp_md_type (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_nid (ikpcb * pcb)
+ikrt_openssl_evp_md_nid (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_NID
   /* rv = EVP_MD_nid(); */
@@ -119,7 +119,7 @@ ikrt_evp_md_nid (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_name (ikpcb * pcb)
+ikrt_openssl_evp_md_name (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_NAME
   /* rv = EVP_MD_name(); */
@@ -129,7 +129,7 @@ ikrt_evp_md_name (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_pkey_type (ikpcb * pcb)
+ikrt_openssl_evp_md_pkey_type (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_PKEY_TYPE
   /* rv = EVP_MD_pkey_type(); */
@@ -139,7 +139,7 @@ ikrt_evp_md_pkey_type (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_size (ikpcb * pcb)
+ikrt_openssl_evp_md_size (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_SIZE
   /* rv = EVP_MD_size(); */
@@ -149,7 +149,7 @@ ikrt_evp_md_size (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_block_size (ikpcb * pcb)
+ikrt_openssl_evp_md_block_size (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_BLOCK_SIZE
   /* rv = EVP_MD_block_size(); */
@@ -159,7 +159,7 @@ ikrt_evp_md_block_size (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_flags (ikpcb * pcb)
+ikrt_openssl_evp_md_flags (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_FLAGS
   /* rv = EVP_MD_flags(); */
@@ -169,7 +169,7 @@ ikrt_evp_md_flags (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_ctx_md (ikpcb * pcb)
+ikrt_openssl_evp_md_ctx_md (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_MD
   /* rv = EVP_MD_CTX_md(); */
@@ -179,7 +179,7 @@ ikrt_evp_md_ctx_md (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_ctx_size (ikpcb * pcb)
+ikrt_openssl_evp_md_ctx_size (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_SIZE
   /* rv = EVP_MD_CTX_size(); */
@@ -189,7 +189,7 @@ ikrt_evp_md_ctx_size (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_ctx_block_size (ikpcb * pcb)
+ikrt_openssl_evp_md_ctx_block_size (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_BLOCK_SIZE
   /* rv = EVP_MD_CTX_block_size(); */
@@ -199,7 +199,7 @@ ikrt_evp_md_ctx_block_size (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_ctx_type (ikpcb * pcb)
+ikrt_openssl_evp_md_ctx_type (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_TYPE
   /* rv = EVP_MD_CTX_type(); */
@@ -209,7 +209,7 @@ ikrt_evp_md_ctx_type (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_ctx_copy_ex (ikpcb * pcb)
+ikrt_openssl_evp_md_ctx_copy_ex (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_COPY_EX
   /* rv = EVP_MD_CTX_copy_ex(); */
@@ -219,7 +219,7 @@ ikrt_evp_md_ctx_copy_ex (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_ctx_set_flags (ikpcb * pcb)
+ikrt_openssl_evp_md_ctx_set_flags (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_SET_FLAGS
   /* rv = EVP_MD_CTX_set_flags(); */
@@ -229,7 +229,7 @@ ikrt_evp_md_ctx_set_flags (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_ctx_clear_flags (ikpcb * pcb)
+ikrt_openssl_evp_md_ctx_clear_flags (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_CLEAR_FLAGS
   /* rv = EVP_MD_CTX_clear_flags(); */
@@ -239,7 +239,7 @@ ikrt_evp_md_ctx_clear_flags (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_ctx_test_flags (ikpcb * pcb)
+ikrt_openssl_evp_md_ctx_test_flags (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_TEST_FLAGS
   /* rv = EVP_MD_CTX_test_flags(); */
@@ -249,7 +249,7 @@ ikrt_evp_md_ctx_test_flags (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_digestupdate (ikpcb * pcb)
+ikrt_openssl_evp_digestupdate (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DIGESTUPDATE
   /* rv = EVP_DigestUpdate(); */
@@ -259,7 +259,7 @@ ikrt_evp_digestupdate (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_digest (ikpcb * pcb)
+ikrt_openssl_evp_digest (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DIGEST
   /* rv = EVP_Digest(); */
@@ -269,7 +269,7 @@ ikrt_evp_digest (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_null (ikpcb * pcb)
+ikrt_openssl_evp_md_null (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_NULL
   /* rv = EVP_md_null(); */
@@ -279,7 +279,7 @@ ikrt_evp_md_null (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md2 (ikpcb * pcb)
+ikrt_openssl_evp_md2 (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD2
   /* rv = EVP_md2(); */
@@ -289,7 +289,7 @@ ikrt_evp_md2 (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md4 (ikpcb * pcb)
+ikrt_openssl_evp_md4 (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD4
   /* rv = EVP_md4(); */
@@ -299,7 +299,7 @@ ikrt_evp_md4 (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md5 (ikpcb * pcb)
+ikrt_openssl_evp_md5 (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD5
   /* rv = EVP_md5(); */
@@ -309,7 +309,7 @@ ikrt_evp_md5 (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_sha (ikpcb * pcb)
+ikrt_openssl_evp_sha (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_SHA
   /* rv = EVP_sha(); */
@@ -319,7 +319,7 @@ ikrt_evp_sha (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_sha1 (ikpcb * pcb)
+ikrt_openssl_evp_sha1 (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_SHA1
   /* rv = EVP_sha1(); */
@@ -329,7 +329,7 @@ ikrt_evp_sha1 (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_dss (ikpcb * pcb)
+ikrt_openssl_evp_dss (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DSS
   /* rv = EVP_dss(); */
@@ -339,7 +339,7 @@ ikrt_evp_dss (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_dss1 (ikpcb * pcb)
+ikrt_openssl_evp_dss1 (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DSS1
   /* rv = EVP_dss1(); */
@@ -349,7 +349,7 @@ ikrt_evp_dss1 (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_ecdsa (ikpcb * pcb)
+ikrt_openssl_evp_ecdsa (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_ECDSA
   /* rv = EVP_ecdsa(); */
@@ -359,7 +359,7 @@ ikrt_evp_ecdsa (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_sha224 (ikpcb * pcb)
+ikrt_openssl_evp_sha224 (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_SHA224
   /* rv = EVP_sha224(); */
@@ -369,7 +369,7 @@ ikrt_evp_sha224 (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_sha256 (ikpcb * pcb)
+ikrt_openssl_evp_sha256 (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_SHA256
   /* rv = EVP_sha256(); */
@@ -379,7 +379,7 @@ ikrt_evp_sha256 (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_sha384 (ikpcb * pcb)
+ikrt_openssl_evp_sha384 (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_SHA384
   /* rv = EVP_sha384(); */
@@ -389,7 +389,7 @@ ikrt_evp_sha384 (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_sha512 (ikpcb * pcb)
+ikrt_openssl_evp_sha512 (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_SHA512
   /* rv = EVP_sha512(); */
@@ -399,7 +399,7 @@ ikrt_evp_sha512 (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_mdc2 (ikpcb * pcb)
+ikrt_openssl_evp_mdc2 (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MDC2
   /* rv = EVP_mdc2(); */
@@ -409,7 +409,7 @@ ikrt_evp_mdc2 (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_ripemd160 (ikpcb * pcb)
+ikrt_openssl_evp_ripemd160 (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_RIPEMD160
   /* rv = EVP_ripemd160(); */
@@ -419,7 +419,7 @@ ikrt_evp_ripemd160 (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_whirlpool (ikpcb * pcb)
+ikrt_openssl_evp_whirlpool (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_WHIRLPOOL
   /* rv = EVP_whirlpool(); */
@@ -429,7 +429,7 @@ ikrt_evp_whirlpool (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_get_digestbyname (ikpcb * pcb)
+ikrt_openssl_evp_get_digestbyname (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_GET_DIGESTBYNAME
   /* rv = EVP_get_digestbyname(); */

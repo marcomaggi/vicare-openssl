@@ -64,7 +64,7 @@ integer_to_md (ikptr s_md)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_hmac_init (ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * pcb)
+ikrt_openssl_hmac_init (ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * pcb)
 /* This   version  of   the   function  performs   the   work  of   both
    "HMAC_CTX_init()" and "HMAC_Init()". */
 {
@@ -93,7 +93,7 @@ ikrt_hmac_init (ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * pcb)
 
 #if 0
 ikptr
-ikrt_hmac_ctx_init (ikpcb * pcb)
+ikrt_openssl_hmac_ctx_init (ikpcb * pcb)
 /* This   version  of   the   function  performs   the   work  of
    "HMAC_CTX_init()" only. */
 {
@@ -110,7 +110,7 @@ ikrt_hmac_ctx_init (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_hmac_init (ikptr s_ctx, ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * pcb)
+ikrt_openssl_hmac_init (ikptr s_ctx, ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * pcb)
 /* This  version of  the  function performs  the  work of  "HMAC_Init()"
    only. */
 {
@@ -146,7 +146,7 @@ ikrt_hmac_init (ikptr s_ctx, ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * p
 /* ------------------------------------------------------------------ */
 
 ikptr
-ikrt_hmac_init_ex (ikpcb * pcb)
+ikrt_openssl_hmac_init_ex (ikpcb * pcb)
 {
 #ifdef HAVE_HMAC_INIT_EX
   /* rv = HMAC_Init_ex(); */
@@ -162,7 +162,7 @@ ikrt_hmac_init_ex (ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_hmac_final (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_hmac_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_HMAC_FINAL
   HMAC_CTX *		ctx = IK_HMAC_CTX(s_ctx);
@@ -181,7 +181,7 @@ ikrt_hmac_final (ikptr s_ctx, ikpcb * pcb)
 
 #if 0
 ikptr
-ikrt_hmac_ctx_cleanup (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_hmac_ctx_cleanup (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_HMAC_CTX_CLEANUP
   HMAC_CTX *	ctx = IK_HMAC_CTX(s_ctx);
@@ -192,7 +192,7 @@ ikrt_hmac_ctx_cleanup (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_hmac_final (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_hmac_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_HMAC_FINAL
   HMAC_CTX *		ctx = IK_HMAC_CTX(s_ctx);
@@ -213,7 +213,7 @@ ikrt_hmac_final (ikptr s_ctx, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_hmac_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_hmac_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_HMAC_UPDATE
   HMAC_CTX *	ctx	= IK_HMAC_CTX(s_ctx);
@@ -233,7 +233,7 @@ ikrt_hmac_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_hmac_ctx_copy (ikptr s_dst_ctx, ikptr s_src_ctx, ikpcb * pcb)
+ikrt_openssl_hmac_ctx_copy (ikptr s_dst_ctx, ikptr s_src_ctx, ikpcb * pcb)
 /* This OpenSSL function is undocumented as of version 1.0.1e. */
 {
 #ifdef HAVE_HMAC_CTX_COPY
@@ -247,7 +247,7 @@ ikrt_hmac_ctx_copy (ikptr s_dst_ctx, ikptr s_src_ctx, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_hmac_ctx_set_flags (ikptr s_ctx, ikptr s_flags, ikpcb * pcb)
+ikrt_openssl_hmac_ctx_set_flags (ikptr s_ctx, ikptr s_flags, ikpcb * pcb)
 /* This OpenSSL function is undocumented as of version 1.0.1e. */
 {
 #ifdef HAVE_HMAC_CTX_SET_FLAGS
@@ -266,7 +266,7 @@ ikrt_hmac_ctx_set_flags (ikptr s_ctx, ikptr s_flags, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_hmac (ikptr s_md,
+ikrt_openssl_hmac (ikptr s_md,
 	   ikptr s_key,   ikptr s_key_len,
 	   ikptr s_input, ikptr s_input_len,
 	   ikpcb * pcb)
@@ -299,7 +299,7 @@ ikrt_hmac (ikptr s_md,
 
 #if 0
 ikptr
-ikrt_openssl_doit (ikpcb * pcb)
+ikrt_openssl_openssl_doit (ikpcb * pcb)
 {
 #ifdef HAVE_OPENSSL_DOIT
   return IK_VOID;

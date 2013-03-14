@@ -228,6 +228,14 @@
     aes-key-len.vicare-arguments-validation
 
     ;; EVP hash functions
+    evp-md-ctx
+    evp-md-ctx?
+    evp-md-ctx?/alive
+    evp-md-ctx-custom-destructor
+    set-evp-md-ctx-custom-destructor!
+    evp-md-ctx.vicare-arguments-validation
+    evp-md-ctx/alive.vicare-arguments-validation
+
     evp-md-ctx-create		evp-md-ctx-destroy
     evp-digestinit-ex		evp-digestfinal-ex
     evp-digestupdate
@@ -1201,7 +1209,7 @@
 
 ;;; --------------------------------------------------------------------
 
-(define (evp-md-ctx-create ctx)
+(define (evp-md-ctx-create)
   (let ((rv (capi.evp-md-ctx-create)))
     (and rv (make-evp-md-ctx/owner rv))))
 

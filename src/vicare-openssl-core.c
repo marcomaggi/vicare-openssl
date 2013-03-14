@@ -36,7 +36,7 @@
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_ssl_library_init (ikpcb * pcb)
+ikrt_openssl_ssl_library_init (ikpcb * pcb)
 {
 #ifdef HAVE_SSL_LIBRARY_INIT
   SSL_library_init();

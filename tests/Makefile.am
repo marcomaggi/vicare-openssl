@@ -4,13 +4,19 @@ TESTS			= \
 	test-vicare-openssl-version.sps			\
 	test-vicare-hash-checksums.sps			\
 	test-vicare-hmac.sps				\
-	test-vicare-crypto-aes.sps
+	\
+	test-vicare-crypto-aes.sps			\
+	\
+	test-vicare-evp-hash.sps
 
 EXTRA_DIST = \
 	test-vicare-openssl-version.sps			\
 	test-vicare-hash-checksums.sps			\
 	test-vicare-hmac.sps				\
+	\
 	test-vicare-crypto-aes.sps			\
+	\
+	test-vicare-evp-hash.sps			\
 	\
 	demo-for-documentation.sps
 

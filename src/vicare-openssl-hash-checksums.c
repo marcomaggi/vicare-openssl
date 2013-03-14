@@ -44,7 +44,7 @@ typedef const unsigned char		ik_ssl_cuchar;
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_md4_init (ikpcb * pcb)
+ikrt_openssl_md4_init (ikpcb * pcb)
 {
 #ifdef HAVE_MD4_INIT
   MD4_CTX *	ctx;
@@ -63,7 +63,7 @@ ikrt_md4_init (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_md4_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_md4_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_MD4_UPDATE
   MD4_CTX *	ctx	= IK_MD4_CTX(s_ctx);
@@ -77,7 +77,7 @@ ikrt_md4_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_md4_final (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_md4_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_MD4_FINAL
   ikptr		s_pointer	= IK_MD4_CTX_POINTER(s_ctx);
@@ -95,7 +95,7 @@ ikrt_md4_final (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_md4 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_md4 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_MD4
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
@@ -114,7 +114,7 @@ ikrt_md4 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_md5_init (ikpcb * pcb)
+ikrt_openssl_md5_init (ikpcb * pcb)
 {
 #ifdef HAVE_MD5_INIT
   MD5_CTX *	ctx;
@@ -133,7 +133,7 @@ ikrt_md5_init (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_md5_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_md5_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_MD5_UPDATE
   MD5_CTX *	ctx	= IK_MD5_CTX(s_ctx);
@@ -147,7 +147,7 @@ ikrt_md5_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_md5_final (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_md5_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_MD5_FINAL
   ikptr		s_pointer	= IK_MD5_CTX_POINTER(s_ctx);
@@ -165,7 +165,7 @@ ikrt_md5_final (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_md5 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_md5 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_MD5
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
@@ -184,7 +184,7 @@ ikrt_md5 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_mdc2_init (ikpcb * pcb)
+ikrt_openssl_mdc2_init (ikpcb * pcb)
 {
 #ifdef HAVE_MDC2_INIT
   MDC2_CTX *	ctx;
@@ -203,7 +203,7 @@ ikrt_mdc2_init (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_mdc2_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_mdc2_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_MDC2_UPDATE
   MDC2_CTX *	ctx	= IK_MDC2_CTX(s_ctx);
@@ -217,7 +217,7 @@ ikrt_mdc2_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_mdc2_final (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_mdc2_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_MDC2_FINAL
   ikptr		s_pointer	= IK_MDC2_CTX_POINTER(s_ctx);
@@ -235,7 +235,7 @@ ikrt_mdc2_final (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_mdc2 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_mdc2 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_MDC2
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
@@ -254,7 +254,7 @@ ikrt_mdc2 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_sha1_init (ikpcb * pcb)
+ikrt_openssl_sha1_init (ikpcb * pcb)
 {
 #ifdef HAVE_SHA1_INIT
   SHA_CTX *	ctx;
@@ -273,7 +273,7 @@ ikrt_sha1_init (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha1_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_sha1_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA1_UPDATE
   SHA_CTX *	ctx	= IK_SHA_CTX(s_ctx);
@@ -287,7 +287,7 @@ ikrt_sha1_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha1_final (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_sha1_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_SHA1_FINAL
   ikptr		s_pointer	= IK_SHA_CTX_POINTER(s_ctx);
@@ -305,7 +305,7 @@ ikrt_sha1_final (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha1 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_sha1 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA1
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
@@ -330,7 +330,7 @@ ikrt_sha1 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 typedef SHA256_CTX		SHA224_CTX;
 
 ikptr
-ikrt_sha224_init (ikpcb * pcb)
+ikrt_openssl_sha224_init (ikpcb * pcb)
 {
 #ifdef HAVE_SHA224_INIT
   SHA224_CTX *	ctx;
@@ -349,7 +349,7 @@ ikrt_sha224_init (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha224_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_sha224_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA224_UPDATE
   SHA224_CTX *	ctx	= IK_SHA224_CTX(s_ctx);
@@ -363,7 +363,7 @@ ikrt_sha224_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha224_final (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_sha224_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_SHA224_FINAL
   ikptr		s_pointer	= IK_SHA224_CTX_POINTER(s_ctx);
@@ -381,7 +381,7 @@ ikrt_sha224_final (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha224 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_sha224 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA224
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
@@ -400,7 +400,7 @@ ikrt_sha224 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_sha256_init (ikpcb * pcb)
+ikrt_openssl_sha256_init (ikpcb * pcb)
 {
 #ifdef HAVE_SHA256_INIT
   SHA256_CTX *	ctx;
@@ -419,7 +419,7 @@ ikrt_sha256_init (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha256_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_sha256_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA256_UPDATE
   SHA256_CTX *	ctx	= IK_SHA256_CTX(s_ctx);
@@ -433,7 +433,7 @@ ikrt_sha256_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha256_final (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_sha256_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_SHA256_FINAL
   ikptr		s_pointer	= IK_SHA256_CTX_POINTER(s_ctx);
@@ -451,7 +451,7 @@ ikrt_sha256_final (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha256 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_sha256 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA256
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
@@ -476,7 +476,7 @@ ikrt_sha256 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 typedef SHA512_CTX		SHA384_CTX;
 
 ikptr
-ikrt_sha384_init (ikpcb * pcb)
+ikrt_openssl_sha384_init (ikpcb * pcb)
 {
 #ifdef HAVE_SHA384_INIT
   SHA384_CTX *	ctx;
@@ -495,7 +495,7 @@ ikrt_sha384_init (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha384_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_sha384_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA384_UPDATE
   SHA384_CTX *	ctx	= IK_SHA384_CTX(s_ctx);
@@ -509,7 +509,7 @@ ikrt_sha384_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha384_final (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_sha384_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_SHA384_FINAL
   ikptr		s_pointer	= IK_SHA384_CTX_POINTER(s_ctx);
@@ -527,7 +527,7 @@ ikrt_sha384_final (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha384 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_sha384 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA384
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
@@ -546,7 +546,7 @@ ikrt_sha384 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_sha512_init (ikpcb * pcb)
+ikrt_openssl_sha512_init (ikpcb * pcb)
 {
 #ifdef HAVE_SHA512_INIT
   SHA512_CTX *	ctx;
@@ -565,7 +565,7 @@ ikrt_sha512_init (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha512_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_sha512_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA512_UPDATE
   SHA512_CTX *	ctx	= IK_SHA512_CTX(s_ctx);
@@ -579,7 +579,7 @@ ikrt_sha512_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha512_final (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_sha512_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_SHA512_FINAL
   ikptr		s_pointer	= IK_SHA512_CTX_POINTER(s_ctx);
@@ -597,7 +597,7 @@ ikrt_sha512_final (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_sha512 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_sha512 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_SHA512
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
@@ -616,7 +616,7 @@ ikrt_sha512 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_ripemd160_init (ikpcb * pcb)
+ikrt_openssl_ripemd160_init (ikpcb * pcb)
 {
 #ifdef HAVE_RIPEMD160_INIT
   RIPEMD160_CTX *	ctx;
@@ -635,7 +635,7 @@ ikrt_ripemd160_init (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_ripemd160_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_ripemd160_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_RIPEMD160_UPDATE
   RIPEMD160_CTX *	ctx	= IK_RIPEMD160_CTX(s_ctx);
@@ -649,7 +649,7 @@ ikrt_ripemd160_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pc
 #endif
 }
 ikptr
-ikrt_ripemd160_final (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_ripemd160_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_RIPEMD160_FINAL
   ikptr		s_pointer	= IK_RIPEMD160_CTX_POINTER(s_ctx);
@@ -667,7 +667,7 @@ ikrt_ripemd160_final (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_ripemd160 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_ripemd160 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_RIPEMD160
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
@@ -686,7 +686,7 @@ ikrt_ripemd160 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_whirlpool_init (ikpcb * pcb)
+ikrt_openssl_whirlpool_init (ikpcb * pcb)
 {
 #ifdef HAVE_WHIRLPOOL_INIT
   WHIRLPOOL_CTX *	ctx;
@@ -705,7 +705,7 @@ ikrt_whirlpool_init (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_whirlpool_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_whirlpool_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_WHIRLPOOL_UPDATE
   WHIRLPOOL_CTX *	ctx	= IK_WHIRLPOOL_CTX(s_ctx);
@@ -719,7 +719,7 @@ ikrt_whirlpool_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pc
 #endif
 }
 ikptr
-ikrt_whirlpool_final (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_whirlpool_final (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_WHIRLPOOL_FINAL
   ikptr		s_pointer	= IK_WHIRLPOOL_CTX_POINTER(s_ctx);
@@ -737,7 +737,7 @@ ikrt_whirlpool_final (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_whirlpool (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+ikrt_openssl_whirlpool (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 {
 #ifdef HAVE_WHIRLPOOL
   ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
@@ -757,7 +757,7 @@ ikrt_whirlpool (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 
 #if 0
 ikptr
-ikrt_openssl_doit (ikpcb * pcb)
+ikrt_openssl_openssl_doit (ikpcb * pcb)
 {
 #ifdef HAVE_OPENSSL_DOIT
   return IK_VOID;
