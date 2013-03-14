@@ -165,6 +165,20 @@
     ripemd160-final
     ripemd160
 
+    ;; WHIRLPOOL
+    whirlpool-ctx
+    whirlpool-ctx?
+    whirlpool-ctx?/alive
+    whirlpool-ctx-custom-destructor
+    set-whirlpool-ctx-custom-destructor!
+    whirlpool-ctx.vicare-arguments-validation
+    whirlpool-ctx/alive.vicare-arguments-validation
+
+    whirlpool-init
+    whirlpool-update
+    whirlpool-final
+    whirlpool
+
     ;; HMAC
     hmac-ctx
     hmac-ctx?
@@ -745,6 +759,52 @@
 	  ((input^	input))
 	(string-to-bytevector string->utf8)
 	(capi.ripemd160 input^ input.len))))))
+
+
+;;;; WHIRLPOOL
+
+(ffi.define-foreign-pointer-wrapper whirlpool-ctx
+  (ffi.foreign-destructor capi.whirlpool-final)
+  (ffi.collector-struct-type #f))
+
+(define (whirlpool-init)
+  (let ((rv (capi.whirlpool-init)))
+    (and rv (make-whirlpool-ctx/owner rv))))
+
+(define whirlpool-update
+  (case-lambda
+   ((ctx input)
+    (whirlpool-update ctx input #f))
+   ((ctx input input.len)
+    (define who 'whirlpool-update)
+    (with-arguments-validation (who)
+	((whirlpool-ctx/alive		ctx)
+	 (general-c-string*	input input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.whirlpool-update ctx input^ input.len))))))
+
+(define (whirlpool-final ctx)
+  (define who 'whirlpool-final)
+  (with-arguments-validation (who)
+      ((whirlpool-ctx		ctx))
+    ($whirlpool-ctx-finalise ctx)))
+
+;;; --------------------------------------------------------------------
+
+(define whirlpool
+  (case-lambda
+   ((input)
+    (whirlpool input #f))
+   ((input input.len)
+    (define who 'whirlpool)
+    (with-arguments-validation (who)
+	((general-c-string*	input input.len))
+      (with-general-c-strings
+	  ((input^	input))
+	(string-to-bytevector string->utf8)
+	(capi.whirlpool input^ input.len))))))
 
 
 ;;;; HMAC

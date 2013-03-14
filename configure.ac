@@ -69,6 +69,8 @@ AC_CHECK_HEADERS([openssl/sha.h],,
   [AC_MSG_FAILURE([missing openssl/sha.h header],[2])])
 AC_CHECK_HEADERS([openssl/ripemd.h],,
   [AC_MSG_FAILURE([missing openssl/ripemd.h header],[2])])
+AC_CHECK_HEADERS([openssl/whrlpool.h],,
+  [AC_MSG_FAILURE([missing openssl/whrlpool.h header],[2])])
 AC_CHECK_HEADERS([openssl/hmac.h],,
   [AC_MSG_FAILURE([missing openssl/hmac.h header],[2])])
 
@@ -110,6 +112,9 @@ AC_INCLUDES_DEFAULT
 #endif
 #ifdef HAVE_OPENSSL_RIPEMD_H
 #  include <openssl/ripemd.h>
+#endif
+#ifdef HAVE_OPENSSL_WHRLPOOL_H
+#  include <openssl/whrlpool.h>
 #endif
 
 #ifdef HAVE_OPENSSL_HMAC_H
@@ -169,6 +174,10 @@ AC_CHECK_FUNCS([SHA512_Init SHA512_Update SHA512_Final SHA512])
 dnl RIPEMD 160
 VICARE_CONSTANT_TESTS([RIPEMD160_DIGEST_LENGTH])
 AC_CHECK_FUNCS([RIPEMD160_Init RIPEMD160_Update RIPEMD160_Final RIPEMD160])
+
+dnl WHIRLPOOL
+VICARE_CONSTANT_TESTS([WHIRLPOOL_DIGEST_LENGTH])
+AC_CHECK_FUNCS([WHIRLPOOL_Init WHIRLPOOL_Update WHIRLPOOL_Final WHIRLPOOL])
 
 #page
 #### C language stuff from the files "openssl/hmac.h"

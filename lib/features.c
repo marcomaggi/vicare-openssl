@@ -112,6 +112,16 @@ main (int argc, const char *const argv[])
     HAVE_SHA512_FINAL\n\
     HAVE_SHA512\n\
     \n\
+    HAVE_RIPEMD160_INIT\n\
+    HAVE_RIPEMD160_UPDATE\n\
+    HAVE_RIPEMD160_FINAL\n\
+    HAVE_RIPEMD160\n\
+    \n\
+    HAVE_WHIRLPOOL_INIT\n\
+    HAVE_WHIRLPOOL_UPDATE\n\
+    HAVE_WHIRLPOOL_FINAL\n\
+    HAVE_WHIRLPOOL\n\
+    \n\
     ;; HMAC features\n\
     HAVE_HMAC\n\
     HAVE_HMAC_CTX_INIT\n\
@@ -496,6 +506,74 @@ printf("(define-inline-constant HAVE_SHA512_FINAL %s)\n",
 
 printf("(define-inline-constant HAVE_SHA512 %s)\n",
 #ifdef HAVE_SHA512
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** RIPEMD160.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_RIPEMD160_INIT %s)\n",
+#ifdef HAVE_RIPEMD160_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+printf("(define-inline-constant HAVE_RIPEMD160_UPDATE %s)\n",
+#ifdef HAVE_RIPEMD160_UPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+printf("(define-inline-constant HAVE_RIPEMD160_FINAL %s)\n",
+#ifdef HAVE_RIPEMD160_FINAL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+printf("(define-inline-constant HAVE_RIPEMD160 %s)\n",
+#ifdef HAVE_RIPEMD160
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** WHIRLPOOL.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_WHIRLPOOL_INIT %s)\n",
+#ifdef HAVE_WHIRLPOOL_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+printf("(define-inline-constant HAVE_WHIRLPOOL_UPDATE %s)\n",
+#ifdef HAVE_WHIRLPOOL_UPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+printf("(define-inline-constant HAVE_WHIRLPOOL_FINAL %s)\n",
+#ifdef HAVE_WHIRLPOOL_FINAL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+printf("(define-inline-constant HAVE_WHIRLPOOL %s)\n",
+#ifdef HAVE_WHIRLPOOL
   "#t"
 #else
   "#f"

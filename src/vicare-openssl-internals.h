@@ -58,6 +58,9 @@
 #ifdef HAVE_OPENSSL_RIPEMD_H
 #  include <openssl/ripemd.h>
 #endif
+#ifdef HAVE_OPENSSL_WHRLPOOL_H
+#  include <openssl/whrlpool.h>
+#endif
 
 #ifdef HAVE_OPENSSL_HMAC_H
 #  include <openssl/hmac.h>
@@ -109,6 +112,10 @@
 /* Accessors for the fields of the Scheme structure "ripemd160-ctx". */
 #define IK_RIPEMD160_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
 #define IK_RIPEMD160_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_RIPEMD160_CTX_POINTER(CTX))
+
+/* Accessors for the fields of the Scheme structure "whirlpool-ctx". */
+#define IK_WHIRLPOOL_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
+#define IK_WHIRLPOOL_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_WHIRLPOOL_CTX_POINTER(CTX))
 
 /* Accessors for the fields of the Scheme structure "hmac-ctx". */
 #define IK_HMAC_CTX_POINTER(CTX)	IK_FIELD((CTX),0)

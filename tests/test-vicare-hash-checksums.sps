@@ -496,6 +496,62 @@
   (collect))
 
 
+(parametrise ((check-test-name		'whirlpool)
+	      (struct-guardian-logger	#f))
+
+  (when #f
+    (check-pretty-print (ssl.whirlpool-init)))
+
+  (check
+      (let ((ctx (ssl.whirlpool-init)))
+	(ssl.whirlpool-ctx? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.whirlpool-init)))
+	(ssl.whirlpool-ctx?/alive ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.whirlpool-init)))
+	(ssl.whirlpool-final ctx)
+	(ssl.whirlpool-ctx?/alive ctx))
+    => #f)
+
+  (check
+      (let ((ctx (ssl.whirlpool-init)))
+	(ssl.whirlpool-final ctx)
+	(ssl.whirlpool-final ctx)
+	(ssl.whirlpool-ctx?/alive ctx))
+    => #f)
+
+;;; --------------------------------------------------------------------
+;;; whirlpool-update
+
+  (check
+      (let ((ctx (ssl.whirlpool-init)))
+	(assert (ssl.whirlpool-update ctx "ciao"))
+	(ssl.whirlpool-final ctx))
+    => '#vu8(152 106 126 88 185 42 0 166 63 74 143 200 89 163 3 73
+		 252 24 173 157 214 90 15 140 193 41 96 233 221 94 42
+		 180 241 235 84 108 60 85 85 110 6 1 84 141 34 68 60 230
+		 208 104 203 49 17 139 135 81 125 206 42 25 173 36 243
+		 237))
+
+;;; --------------------------------------------------------------------
+;;; whirlpool
+
+  (check
+      (ssl.whirlpool "ciao")
+    => '#vu8(152 106 126 88 185 42 0 166 63 74 143 200 89 163 3 73
+		 252 24 173 157 214 90 15 140 193 41 96 233 221 94 42
+		 180 241 235 84 108 60 85 85 110 6 1 84 141 34 68 60 230
+		 208 104 203 49 17 139 135 81 125 206 42 25 173 36 243
+		 237))
+
+  (collect))
+
+
 ;;;; done
 
 (check-report)

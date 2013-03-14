@@ -303,6 +303,7 @@ Initialise the library; return unspecified values.
 * plain hash sha384::           Computing SHA384 hash checksums.
 * plain hash sha512::           Computing SHA512 hash checksums.
 * plain hash ripemd160::        Computing RIPEMD160 hash checksums.
+* plain hash whirlpool::        Computing WHIRLPOOL hash checksums.
 @end menu
 
 @c page
@@ -1712,6 +1713,163 @@ crypto openssl}.
 @defunx ripemd160 @var{input} @var{input.len}
 Perform a one--step checksum computing; return a bytevector holding the
 result.  @manpage{RIPEMD160, RIPEMD160}.
+
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
+@end defun
+
+@c page
+@node plain hash whirlpool
+@subsection Computing WHIRLPOOL hash checksums
+
+
+@menu
+* plain hash whirlpool struct::       Hash checksum data structures.
+* plain hash whirlpool api::          Context updating functions.
+* plain hash whirlpool direct::       Directly computing hash checksums.
+@end menu
+
+@c page
+@node plain hash whirlpool struct
+@subsubsection Hash checksum data structures
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@deftp {Struct Type} whirlpool-ctx
+@cindex @var{WHIRLPOOL} argument
+@cindex Argument @var{WHIRLPOOL}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{WHIRLPOOL_CTX}; it references an WHIRLPOOL hash checksum
+context.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{WHIRLPOOL}.
+
+There are two categories of @code{whirlpool-ctx} instances: those who own the
+underlying checksum context and those who merely reference it.
+
+@itemize
+@item
+@code{whirlpool-ctx} instances returned by @func{whirlpool-init} do own the context.
+When instances of this category are garbage collected or when
+@func{whirlpool-final} is applied to them: the context is closed, all the
+associated data is finalised; any error is ignored in this procedure.
+@end itemize
+@end deftp
+
+
+@defun whirlpool-ctx? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{whirlpool-ctx}; otherwise
+return @false{}.
+@end defun
+
+
+@defun whirlpool-ctx?/alive @var{obj}
+Return @true{} if @var{obj} is an instance of @code{whirlpool-ctx} and the
+context it represents is open; otherwise return @false{}.
+@end defun
+
+
+@defun whirlpool-ctx-custom-destructor @var{WHIRLPOOL}
+@defunx set-whirlpool-ctx-custom-destructor! @var{WHIRLPOOL} @var{func}
+Retrieve or set a destructor function associated to the @var{WHIRLPOOL}.
+
+Whenever the @var{WHIRLPOOL} is closed, either explicitly with
+@func{whirlpool-final} or implicitly by the garbage collector, @var{func} is
+applied to @var{WHIRLPOOL} before the internal state of @var{WHIRLPOOL} is
+finalised.
+
+Notice that @var{func} can do anything, not only destroy some state
+associated to @var{WHIRLPOOL}; if we do:
+
+@example
+(define context ...)
+(set-whirlpool-ctx-custom-destructor! context
+  (let ((state (make-some-data-struct)))
+    (case-lambda
+      ((sex)
+       (destroy state))
+      (()
+       state))))
+
+(let ((state ((whirlpool-ctx-custom-destructor context))))
+  (do-something-with context state))
+@end example
+
+@noindent
+we can easily associate values to @var{WHIRLPOOL}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} whirlpool-ctx @var{obj}
+@deffnx {Validation Clause} false-or-whirlpool-ctx @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{whirlpool-ctx?}; the second
+clause also accepts @false{}.
+@end deffn
+
+
+@deffn {Validation Clause} whirlpool-ctx/alive @var{obj}
+@deffnx {Validation Clause} false-or-whirlpool-ctx/alive @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{whirlpool-ctx?/alive}; the
+second clause also accepts @false{}.
+@end deffn
+
+@c page
+@node plain hash whirlpool api
+@subsubsection Context updating functions
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun whirlpool-init
+Allocate and initialise a new instance of @code{whirlpool-ctx}; if successful
+return the struct, else return @false{}.  @manpage{WHIRLPOOL_Init, WHIRLPOOL_Init}
+@end defun
+
+
+@defun whirlpool-final @var{WHIRLPOOL}
+Finalise a checksum context; if successful return a bytevector holding
+the computed checksum, else return @false{}.  @manpage{WHIRLPOOL_Final,
+WHIRLPOOL_Final}.  It is fine to apply this function multiple times to the
+same @var{WHIRLPOOL} argument.
+@end defun
+
+
+@defun whirlpool-update @var{WHIRLPOOL} @var{input} @var{input.len}
+Update the checksum context with the given input data.
+@manpage{WHIRLPOOL_Update, WHIRLPOOL_Update}
+
+@var{input} and @var{input.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
+@end defun
+
+@c page
+@node plain hash whirlpool direct
+@subsubsection Directly computing hash checksums
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun whirlpool @var{input}
+@defunx whirlpool @var{input} @var{input.len}
+Perform a one--step checksum computing; return a bytevector holding the
+result.  @manpage{WHIRLPOOL, WHIRLPOOL}.
 
 @var{input} and @var{input.len} must represent a generalised C string,
 @cstringsref{}.  When @var{input} is a string: it is converted to a

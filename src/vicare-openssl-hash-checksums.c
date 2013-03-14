@@ -682,6 +682,76 @@ ikrt_ripemd160 (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
 
 
 /** --------------------------------------------------------------------
+ ** WHIRLPOOL.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_whirlpool_init (ikpcb * pcb)
+{
+#ifdef HAVE_WHIRLPOOL_INIT
+  WHIRLPOOL_CTX *	ctx;
+  int		rv;
+  ctx = malloc(sizeof(WHIRLPOOL_CTX));
+  if (ctx) {
+    rv  = WHIRLPOOL_Init(ctx);
+    if (rv)
+      return ika_pointer_alloc(pcb, (long)ctx);
+    else
+      free(ctx);
+  }
+  return IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_whirlpool_update (ikptr s_ctx, ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_WHIRLPOOL_UPDATE
+  WHIRLPOOL_CTX *	ctx	= IK_WHIRLPOOL_CTX(s_ctx);
+  const void *	in	= IK_GENERALISED_C_STRING(s_input);
+  size_t	in_len	= ik_generalised_c_buffer_len(s_input, s_input_len);
+  int		rv;
+  rv = WHIRLPOOL_Update(ctx, in, (unsigned long)in_len);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_whirlpool_final (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_WHIRLPOOL_FINAL
+  ikptr		s_pointer	= IK_WHIRLPOOL_CTX_POINTER(s_ctx);
+  WHIRLPOOL_CTX *	ctx		= IK_POINTER_DATA_VOIDP(s_pointer);
+  unsigned char	sum[WHIRLPOOL_DIGEST_LENGTH];
+  int		rv = 0;
+  if (ctx) {
+    rv = WHIRLPOOL_Final(sum, ctx);
+    free(ctx);
+    IK_POINTER_SET_NULL(s_pointer);
+  }
+  return (rv)? ika_bytevector_from_memory_block(pcb, sum, WHIRLPOOL_DIGEST_LENGTH) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_whirlpool (ikptr s_input, ikptr s_input_len, ikpcb * pcb)
+{
+#ifdef HAVE_WHIRLPOOL
+  ik_ssl_cuchar *	in     = (ik_ssl_cuchar *)IK_GENERALISED_C_STRING(s_input);
+  ik_ulong		in_len = (ik_ulong)ik_generalised_c_buffer_len(s_input, s_input_len);
+  unsigned char		sum[WHIRLPOOL_DIGEST_LENGTH];
+  WHIRLPOOL(in, in_len, sum);
+  return ika_bytevector_from_memory_block(pcb, sum, WHIRLPOOL_DIGEST_LENGTH);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
  ** Still to be implemented.
  ** ----------------------------------------------------------------- */
 

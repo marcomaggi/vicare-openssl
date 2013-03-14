@@ -92,6 +92,12 @@
     ripemd160-final
     ripemd160
 
+    ;; WHIRLPOOL
+    whirlpool-init
+    whirlpool-update
+    whirlpool-final
+    whirlpool
+
     ;; HMAC unsafe C API
     hmac
     #;hmac-ctx-init
@@ -335,6 +341,21 @@
 
 (define-inline (ripemd160 input input.len)
   (foreign-call "ikrt_ripemd160" input input.len))
+
+
+;;;; WHIRLPOOL
+
+(define-inline (whirlpool-init)
+  (foreign-call "ikrt_whirlpool_init"))
+
+(define-inline (whirlpool-update ctx input input.len)
+  (foreign-call "ikrt_whirlpool_update" ctx input input.len))
+
+(define-inline (whirlpool-final ctx)
+  (foreign-call "ikrt_whirlpool_final" ctx))
+
+(define-inline (whirlpool input input.len)
+  (foreign-call "ikrt_whirlpool" input input.len))
 
 
 ;;;; HMAC
