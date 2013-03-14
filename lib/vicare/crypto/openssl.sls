@@ -228,6 +228,10 @@
     aes-key-len.vicare-arguments-validation
 
     ;; EVP hash functions
+    evp-md-ctx-create		evp-md-ctx-destroy
+    evp-digestinit-ex		evp-digestfinal-ex
+    evp-digestupdate
+
     evp-md-type
     evp-md-nid
     evp-md-name
@@ -239,21 +243,11 @@
     evp-md-ctx-size
     evp-md-ctx-block-size
     evp-md-ctx-type
-    evp-md-ctx-init
-    evp-md-ctx-cleanup
-    evp-md-ctx-create
-    evp-md-ctx-destroy
     evp-md-ctx-copy-ex
     evp-md-ctx-set-flags
     evp-md-ctx-clear-flags
     evp-md-ctx-test-flags
-    evp-digestinit-ex
-    evp-digestupdate
-    evp-digestfinal-ex
     evp-digest
-    evp-md-ctx-copy
-    evp-digestinit
-    evp-digestfinal
     evp-md-null
     evp-md2
     evp-md4
@@ -1201,6 +1195,46 @@
 
 ;;;; EVP hash functions
 
+(ffi.define-foreign-pointer-wrapper evp-md-ctx
+  (ffi.foreign-destructor capi.evp-md-ctx-destroy)
+  (ffi.collector-struct-type #f))
+
+;;; --------------------------------------------------------------------
+
+(define (evp-md-ctx-create ctx)
+  (let ((rv (capi.evp-md-ctx-create)))
+    (and rv (make-evp-md-ctx/owner rv))))
+
+(define (evp-md-ctx-destroy ctx)
+  (define who 'evp-md-ctx-destroy)
+  (with-arguments-validation (who)
+      ((evp-md-ctx	ctx))
+    ($evp-md-ctx-finalise ctx)))
+
+;;; --------------------------------------------------------------------
+
+(define (evp-digestinit-ex ctx)
+  (define who 'evp-digestinit-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-digestinit-ex)))
+
+(define (evp-digestfinal-ex ctx)
+  (define who 'evp-digestfinal-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-digestfinal-ex)))
+
+;;; --------------------------------------------------------------------
+
+(define (evp-digestupdate ctx)
+  (define who 'evp-digestupdate)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-digestupdate)))
+
+;;; --------------------------------------------------------------------
+
 (define (evp-md-type ctx)
   (define who 'evp-md-type)
   (with-arguments-validation (who)
@@ -1267,30 +1301,6 @@
       ()
     (capi.evp-md-ctx-type)))
 
-(define (evp-md-ctx-init ctx)
-  (define who 'evp-md-ctx-init)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-init)))
-
-(define (evp-md-ctx-cleanup ctx)
-  (define who 'evp-md-ctx-cleanup)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-cleanup)))
-
-(define (evp-md-ctx-create ctx)
-  (define who 'evp-md-ctx-create)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-create)))
-
-(define (evp-md-ctx-destroy ctx)
-  (define who 'evp-md-ctx-destroy)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-destroy)))
-
 (define (evp-md-ctx-copy-ex ctx)
   (define who 'evp-md-ctx-copy-ex)
   (with-arguments-validation (who)
@@ -1315,47 +1325,11 @@
       ()
     (capi.evp-md-ctx-test-flags)))
 
-(define (evp-digestinit-ex ctx)
-  (define who 'evp-digestinit-ex)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-digestinit-ex)))
-
-(define (evp-digestupdate ctx)
-  (define who 'evp-digestupdate)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-digestupdate)))
-
-(define (evp-digestfinal-ex ctx)
-  (define who 'evp-digestfinal-ex)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-digestfinal-ex)))
-
 (define (evp-digest ctx)
   (define who 'evp-digest)
   (with-arguments-validation (who)
       ()
     (capi.evp-digest)))
-
-(define (evp-md-ctx-copy ctx)
-  (define who 'evp-md-ctx-copy)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-copy)))
-
-(define (evp-digestinit ctx)
-  (define who 'evp-digestinit)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-digestinit)))
-
-(define (evp-digestfinal ctx)
-  (define who 'evp-digestfinal)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-digestfinal)))
 
 (define (evp-md-null ctx)
   (define who 'evp-md-null)

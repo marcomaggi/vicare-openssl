@@ -132,6 +132,15 @@
 
 
 /** --------------------------------------------------------------------
+ ** Handling of Scheme objects: EVP structures.
+ ** ----------------------------------------------------------------- */
+
+/* Accessors for the fields of the Scheme structure "evp-md-ctx". */
+#define IK_EVP_MD_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
+#define IK_EVP_MD_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_EVP_MD_CTX_POINTER(CTX))
+
+
+/** --------------------------------------------------------------------
  ** Support for missing functions.
  ** ----------------------------------------------------------------- */
 

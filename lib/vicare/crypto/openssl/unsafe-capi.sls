@@ -128,6 +128,10 @@
     aes-unwrap-key
 
     ;; EVP hash functions unsafe C API
+    evp-md-ctx-create		evp-md-ctx-destroy
+    evp-digestinit-ex		evp-digestfinal-ex
+    evp-digestupdate
+
     evp-md-type
     evp-md-nid
     evp-md-name
@@ -139,21 +143,11 @@
     evp-md-ctx-size
     evp-md-ctx-block-size
     evp-md-ctx-type
-    evp-md-ctx-init
-    evp-md-ctx-cleanup
-    evp-md-ctx-create
-    evp-md-ctx-destroy
     evp-md-ctx-copy-ex
     evp-md-ctx-set-flags
     evp-md-ctx-clear-flags
     evp-md-ctx-test-flags
-    evp-digestinit-ex
-    evp-digestupdate
-    evp-digestfinal-ex
     evp-digest
-    evp-md-ctx-copy
-    evp-digestinit
-    evp-digestfinal
     evp-md-null
     evp-md2
     evp-md4
@@ -453,6 +447,27 @@
 
 ;;;; EVP hash functions unsafe C API
 
+(define-inline (evp-md-ctx-create)
+  (foreign-call "ikrt_evp_md_ctx_create"))
+
+(define-inline (evp-md-ctx-destroy ctx)
+  (foreign-call "ikrt_evp_md_ctx_destroy" ctx))
+
+;;; --------------------------------------------------------------------
+
+(define-inline (evp-digestinit-ex)
+  (foreign-call "ikrt_evp_digestinit_ex"))
+
+(define-inline (evp-digestfinal-ex)
+  (foreign-call "ikrt_evp_digestfinal_ex"))
+
+;;; --------------------------------------------------------------------
+
+(define-inline (evp-digestupdate)
+  (foreign-call "ikrt_evp_digestupdate"))
+
+;;; --------------------------------------------------------------------
+
 (define-inline (evp-md-type)
   (foreign-call "ikrt_evp_md_type"))
 
@@ -486,18 +501,6 @@
 (define-inline (evp-md-ctx-type)
   (foreign-call "ikrt_evp_md_ctx_type"))
 
-(define-inline (evp-md-ctx-init)
-  (foreign-call "ikrt_evp_md_ctx_init"))
-
-(define-inline (evp-md-ctx-cleanup)
-  (foreign-call "ikrt_evp_md_ctx_cleanup"))
-
-(define-inline (evp-md-ctx-create)
-  (foreign-call "ikrt_evp_md_ctx_create"))
-
-(define-inline (evp-md-ctx-destroy)
-  (foreign-call "ikrt_evp_md_ctx_destroy"))
-
 (define-inline (evp-md-ctx-copy-ex)
   (foreign-call "ikrt_evp_md_ctx_copy_ex"))
 
@@ -510,26 +513,8 @@
 (define-inline (evp-md-ctx-test-flags)
   (foreign-call "ikrt_evp_md_ctx_test_flags"))
 
-(define-inline (evp-digestinit-ex)
-  (foreign-call "ikrt_evp_digestinit_ex"))
-
-(define-inline (evp-digestupdate)
-  (foreign-call "ikrt_evp_digestupdate"))
-
-(define-inline (evp-digestfinal-ex)
-  (foreign-call "ikrt_evp_digestfinal_ex"))
-
 (define-inline (evp-digest)
   (foreign-call "ikrt_evp_digest"))
-
-(define-inline (evp-md-ctx-copy)
-  (foreign-call "ikrt_evp_md_ctx_copy"))
-
-(define-inline (evp-digestinit)
-  (foreign-call "ikrt_evp_digestinit"))
-
-(define-inline (evp-digestfinal)
-  (foreign-call "ikrt_evp_digestfinal"))
 
 (define-inline (evp-md-null)
   (foreign-call "ikrt_evp_md_null"))

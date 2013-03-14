@@ -2433,7 +2433,123 @@ valid values are: @math{16}, @math{24}, @math{32}.
 @subsection High--level hash functions
 
 
+@menu
+* plain evp hash struct::       Context data structures.
+* plain evp hash create::       Context creation and destruction.
+@end menu
 
+@c page
+@node plain evp hash struct
+@subsubsection Hash checksums data structures
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@deftp {Struct Type} evp-md-ctx
+@cindex @var{EVP-MD} argument
+@cindex Argument @var{EVP-MD}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{EVP_MD_CTX}; it references a message digest context.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{EVP-MD}.
+
+There are two categories of @code{evp-md-ctx} instances: those who own
+the underlying checksum context and those who merely reference it.
+
+@itemize
+@item
+@code{evp-md-ctx} instances returned by @func{evp-md-ctx-create} do own
+the context.  When instances of this category are garbage collected: the
+context is closed, all the associated data is finalised; any error is
+ignored in this procedure.
+@end itemize
+@end deftp
+
+
+@defun evp-md-ctx? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{evp-md-ctx};
+otherwise return @false{}.
+@end defun
+
+
+@defun evp-md-ctx?/alive @var{obj}
+Return @true{} if @var{obj} is an instance of @code{evp-md-ctx} and the
+context it represents is open; otherwise return @false{}.
+@end defun
+
+
+@defun evp-md-ctx-custom-destructor @var{EVP-MD}
+@defunx set-evp-md-ctx-custom-destructor! @var{EVP-MD} @var{func}
+Retrieve or set a destructor function associated to the @var{EVP-MD}.
+
+Whenever the @var{EVP-MD} is closed: @var{func} is applied to
+@var{EVP-MD} before the internal state of @var{EVP-MD} is finalised.
+
+Notice that @var{func} can do anything, not only destroy some state
+associated to @var{EVP-MD}; if we do:
+
+@example
+(define context ...)
+(set-evp-md-ctx-custom-destructor! context
+  (let ((state (make-some-data-struct)))
+    (case-lambda
+      ((sex)
+       (destroy state))
+      (()
+       state))))
+
+(let ((state ((evp-md-ctx-custom-destructor context))))
+  (do-something-with context state))
+@end example
+
+@noindent
+we can easily associate values to @var{EVP-MD}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} evp-md-ctx @var{obj}
+@deffnx {Validation Clause} false-or-evp-md-ctx @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{evp-md-ctx?}; the
+second clause also accepts @false{}.
+@end deffn
+
+
+@deffn {Validation Clause} evp-md-ctx/alive @var{obj}
+@deffnx {Validation Clause} false-or-evp-md-ctx/alive @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{evp-md-ctx?/alive};
+the second clause also accepts @false{}.
+@end deffn
+
+@c page
+@node plain evp hash create
+@subsubsection Context creation and destruction
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun evp-md-ctx-create
+Build a new struct of type @code{evp-md-ctx}; if successful return the
+data struct, otherwise return @false{}.  Returned data structures are
+not yet initialised with a message digest algorithm.
+@end defun
+
+
+@defun evp-md-ctx-destroy @var{EVP-MD}
+Finalise a struct of type @code{evp-md-ctx}, releasing all the
+associated resources; return unspecified values.
+@end defun
 
 @c page
 @c ------------------------------------------------------------

@@ -5,7 +5,14 @@
 
   Abstract
 
-	EVP hash functions.
+	EVP hash functions.  Notice that the functions:
+
+	   EVP_DigestInit()
+	   EVP_DigestFinal()
+	   EVP_MD_CTX_copy()
+
+        are marked  as obsolete  in the manual  page of  OpenSSL version
+        1.0.1e.
 
   Copyright (C) 2013 Marco Maggi <marco.maggi-ipsu@poste.it>
 
@@ -29,6 +36,62 @@
  ** ----------------------------------------------------------------- */
 
 #include "vicare-openssl-internals.h"
+
+
+/** --------------------------------------------------------------------
+ ** EVP hash functions C wrappers: creation and destruction.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_evp_md_ctx_create (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_CTX_CREATE
+  EVP_MD_CTX *	ctx;
+  ctx = EVP_MD_CTX_create();
+  return (ctx)? ika_pointer_alloc(pcb, (long)ctx) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_evp_md_ctx_destroy (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_CTX_DESTROY
+  EVP_MD_CTX *	ctx = IK_EVP_MD_CTX(s_ctx);
+  EVP_MD_CTX_destroy(ctx);
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** EVP hash functions C wrappers: initialisation and finalisation.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_evp_digestinit_ex (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_DIGESTINIT_EX
+  EVP_MD_CTX *		ctx = IK_EVP_MD_CTX(s_ctx);
+  const EVP_MD *	md;
+  /* rv = EVP_DigestInit_ex(); */
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_evp_digestfinal_ex (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_DIGESTFINAL_EX
+  /* rv = EVP_DigestFinal_ex(); */
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
 
 
 /** --------------------------------------------------------------------
@@ -146,46 +209,6 @@ ikrt_evp_md_ctx_type (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_md_ctx_init (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_INIT
-  /* rv = EVP_MD_CTX_init(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_evp_md_ctx_cleanup (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_CLEANUP
-  /* rv = EVP_MD_CTX_cleanup(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_evp_md_ctx_create (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_CREATE
-  /* rv = EVP_MD_CTX_create(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_evp_md_ctx_destroy (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_DESTROY
-  /* rv = EVP_MD_CTX_destroy(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
 ikrt_evp_md_ctx_copy_ex (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_COPY_EX
@@ -226,16 +249,6 @@ ikrt_evp_md_ctx_test_flags (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_digestinit_ex (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_DIGESTINIT_EX
-  /* rv = EVP_DigestInit_ex(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
 ikrt_evp_digestupdate (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DIGESTUPDATE
@@ -246,50 +259,10 @@ ikrt_evp_digestupdate (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_evp_digestfinal_ex (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_DIGESTFINAL_EX
-  /* rv = EVP_DigestFinal_ex(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
 ikrt_evp_digest (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DIGEST
   /* rv = EVP_Digest(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_evp_md_ctx_copy (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_COPY
-  /* rv = EVP_MD_CTX_copy(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_evp_digestinit (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_DIGESTINIT
-  /* rv = EVP_DigestInit(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_evp_digestfinal (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_DIGESTFINAL
-  /* rv = EVP_DigestFinal(); */
   return IK_VOID;
 #else
   feature_failure(__func__);
