@@ -64,6 +64,19 @@ ikrt_openssl_evp_md_ctx_destroy (ikptr s_ctx, ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
+ikptr
+ikrt_openssl_evp_md_ctx_copy_ex (ikptr s_ou, ikptr s_in, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_CTX_COPY_EX
+  EVP_MD_CTX *		ou = IK_EVP_MD_CTX(s_ou);
+  const EVP_MD_CTX *	in = IK_EVP_MD_CTX(s_in);
+  int			rv;
+  rv = EVP_MD_CTX_copy_ex(ou, in);
+  return (rv)? ika_pointer_alloc(pcb, (long)rv) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
 
 
 /** --------------------------------------------------------------------
@@ -232,16 +245,6 @@ ikrt_openssl_evp_md_ctx_type (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_CTX_TYPE
   /* rv = EVP_MD_CTX_type(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_md_ctx_copy_ex (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_COPY_EX
-  /* rv = EVP_MD_CTX_copy_ex(); */
   return IK_VOID;
 #else
   feature_failure(__func__);

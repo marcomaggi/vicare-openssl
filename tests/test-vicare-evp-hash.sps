@@ -81,6 +81,15 @@
 	(ssl.evp-digest-final ctx))
     => '#vu8(110 107 196 228 157 212 119 235 201 142 244 4 108 6 123 95))
 
+  (check	;context copy
+      (let ((ctx1 (ssl.evp-md-ctx-create)))
+	(assert (ssl.evp-digest-init ctx1 'md5))
+	(assert (ssl.evp-digest-update ctx1 "ciao"))
+	(let ((ctx2 (ssl.evp-md-ctx-create)))
+	  (ssl.evp-md-ctx-copy ctx2 ctx1)
+	  (ssl.evp-digest-final ctx2)))
+    => '#vu8(110 107 196 228 157 212 119 235 201 142 244 4 108 6 123 95))
+
   (check	;running predicate
       (let ((ctx (ssl.evp-md-ctx-create)))
 	(ssl.evp-digest-init ctx 'md5)

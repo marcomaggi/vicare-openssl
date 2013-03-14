@@ -242,7 +242,7 @@
 
     evp-md-ctx-create		evp-md-ctx-destroy
     evp-digest-init		evp-digest-final
-    evp-digest-update
+    evp-digest-update		evp-md-ctx-copy
 
     evp-md-type
     evp-md-nid
@@ -255,7 +255,6 @@
     evp-md-ctx-size
     evp-md-ctx-block-size
     evp-md-ctx-type
-    evp-md-ctx-copy-ex
     evp-md-ctx-set-flags
     evp-md-ctx-clear-flags
     evp-md-ctx-test-flags
@@ -1243,6 +1242,17 @@
     ($set-evp-md-ctx-running?! ctx #f)
     ($evp-md-ctx-finalise ctx)))
 
+(define (evp-md-ctx-copy dst src)
+  (define who 'evp-md-ctx-copy)
+  (with-arguments-validation (who)
+      ((evp-md-ctx/alive-not-running	dst)
+       (evp-md-ctx/running		src))
+    (cond ((capi.evp-md-ctx-copy dst src)
+	   => (lambda (rv)
+		($set-evp-md-ctx-running?! dst #t)
+		rv))
+	  (else #f))))
+
 ;;; --------------------------------------------------------------------
 
 (define (evp-digest-init ctx md)
@@ -1347,12 +1357,6 @@
   (with-arguments-validation (who)
       ()
     (capi.evp-md-ctx-type)))
-
-(define (evp-md-ctx-copy-ex ctx)
-  (define who 'evp-md-ctx-copy-ex)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-copy-ex)))
 
 (define (evp-md-ctx-set-flags ctx)
   (define who 'evp-md-ctx-set-flags)

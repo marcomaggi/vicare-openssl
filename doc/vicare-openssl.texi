@@ -2064,7 +2064,7 @@ HMAC_CTX_copy}.
 
 @defun hmac-ctx-set-flags @var{HMAC} @var{flags}
 Set flags in an HMAC context; return unspecified values.
-@manpage{HMAC_CTX_copy}.
+@manpage{HMAC_CTX_copy, HMAC_CTX_copy}.
 @end defun
 
 @c page
@@ -2457,8 +2457,7 @@ collector:
 @example
 #!r6rs
 (import (vicare)
-  (prefix (vicare crypto openssl) ssl.)
-  (prefix (vicare crypto openssl constants) ssl.)
+  (prefix (vicare crypto openssl) ssl.))
 
 (ssl.ssl-library-init)
 
@@ -2645,6 +2644,30 @@ return a bytevector representing the sum, otherwise return @false{}.
 
 It is an error to apply this function to a non--initialised
 @var{EVP-MD}.
+@end defun
+
+
+@defun evp-md-ctx-copy @var{DST-EVP-MD} @var{SRC-EVP-MD}
+Copy a message digest state from @var{SRC-EVP-MD} to @var{DST-EVP-MD};
+if successful return @true{}, otherwise return @false{}.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.))
+
+(ssl.ssl-library-init)
+
+(define src (ssl.evp-md-ctx-create))
+(ssl.evp-digest-init src 'md5)
+(ssl.evp-digest-update src "ciao")
+
+(define dst (ssl.evp-md-ctx-create))
+(ssl.evp-md-ctx-copy dst src)
+(ssl.evp-digest-final dst)
+@result{} #vu8(110 107 196 228 157 212 119
+   235 201 142 244 4 108 6 123 95)
+@end example
 @end defun
 
 @c page

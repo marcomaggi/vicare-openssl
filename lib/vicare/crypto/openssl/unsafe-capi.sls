@@ -143,7 +143,7 @@
     evp-md-ctx-size
     evp-md-ctx-block-size
     evp-md-ctx-type
-    evp-md-ctx-copy-ex
+    evp-md-ctx-copy
     evp-md-ctx-set-flags
     evp-md-ctx-clear-flags
     evp-md-ctx-test-flags
@@ -501,8 +501,8 @@
 (define-inline (evp-md-ctx-type)
   (foreign-call "ikrt_openssl_evp_md_ctx_type"))
 
-(define-inline (evp-md-ctx-copy-ex)
-  (foreign-call "ikrt_openssl_evp_md_ctx_copy_ex"))
+(define-inline (evp-md-ctx-copy ou in)
+  (foreign-call "ikrt_openssl_evp_md_ctx_copy_ex" ou in))
 
 (define-inline (evp-md-ctx-set-flags)
   (foreign-call "ikrt_openssl_evp_md_ctx_set_flags"))
