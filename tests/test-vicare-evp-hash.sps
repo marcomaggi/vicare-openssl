@@ -71,7 +71,7 @@
   (collect))
 
 
-(parametrise ((check-test-name		'context)
+(parametrise ((check-test-name		'running)
 	      (struct-guardian-logger	#f))
 
   (check
@@ -80,6 +80,19 @@
 	(assert (ssl.evp-digest-update ctx "ciao"))
 	(ssl.evp-digest-final ctx))
     => '#vu8(110 107 196 228 157 212 119 235 201 142 244 4 108 6 123 95))
+
+  (check	;running predicate
+      (let ((ctx (ssl.evp-md-ctx-create)))
+	(ssl.evp-digest-init ctx 'md5)
+	(ssl.evp-md-ctx?/running ctx))
+    => #t)
+
+  (check	;running predicate
+      (let ((ctx (ssl.evp-md-ctx-create)))
+	(ssl.evp-digest-init ctx 'md5)
+	(ssl.evp-digest-final ctx)
+	(ssl.evp-md-ctx?/running ctx))
+    => #f)
 
   (collect))
 

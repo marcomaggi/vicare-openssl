@@ -231,10 +231,14 @@
     evp-md-ctx
     evp-md-ctx?
     evp-md-ctx?/alive
+    evp-md-ctx?/running
+    evp-md-ctx?/alive-not-running
     evp-md-ctx-custom-destructor
     set-evp-md-ctx-custom-destructor!
     evp-md-ctx.vicare-arguments-validation
     evp-md-ctx/alive.vicare-arguments-validation
+    evp-md-ctx/running.vicare-arguments-validation
+    evp-md-ctx/alive-not-running.vicare-arguments-validation
 
     evp-md-ctx-create		evp-md-ctx-destroy
     evp-digest-init		evp-digest-final
@@ -1205,19 +1209,38 @@
 ;;;; EVP hash functions
 
 (ffi.define-foreign-pointer-wrapper evp-md-ctx
+  (ffi.fields running?)
   (ffi.foreign-destructor capi.evp-md-ctx-destroy)
   (ffi.collector-struct-type #f))
+
+(define-argument-validation (evp-md-ctx/running who obj)
+  (evp-md-ctx?/running obj)
+  (assertion-violation who "expected running EVP message digest context" obj))
+
+(define-argument-validation (evp-md-ctx/alive-not-running who obj)
+  (evp-md-ctx?/alive-not-running obj)
+  (assertion-violation who
+    "expected alive but not running EVP message digest context" obj))
+
+(define (evp-md-ctx?/running obj)
+  (and (evp-md-ctx? obj)
+       ($evp-md-ctx-running? obj)))
+
+(define (evp-md-ctx?/alive-not-running obj)
+  (and (evp-md-ctx?/alive obj)
+       (not ($evp-md-ctx-running? obj))))
 
 ;;; --------------------------------------------------------------------
 
 (define (evp-md-ctx-create)
   (let ((rv (capi.evp-md-ctx-create)))
-    (and rv (make-evp-md-ctx/owner rv))))
+    (and rv (make-evp-md-ctx/owner rv #f))))
 
 (define (evp-md-ctx-destroy ctx)
   (define who 'evp-md-ctx-destroy)
   (with-arguments-validation (who)
       ((evp-md-ctx	ctx))
+    ($set-evp-md-ctx-running?! ctx #f)
     ($evp-md-ctx-finalise ctx)))
 
 ;;; --------------------------------------------------------------------
@@ -1225,15 +1248,21 @@
 (define (evp-digest-init ctx md)
   (define who 'evp-digest-init)
   (with-arguments-validation (who)
-      ((evp-md-ctx/alive	ctx)
-       (symbol			md))
-    (capi.evp-digest-init ctx (%symbol->md who md))))
+      ((evp-md-ctx/alive-not-running	ctx)
+       (symbol				md))
+    (cond ((capi.evp-digest-init ctx (%symbol->md who md))
+	   => (lambda (rv)
+		($set-evp-md-ctx-running?! ctx #t)
+		rv))
+	  (else #f))))
 
 (define (evp-digest-final ctx)
   (define who 'evp-digest-final)
   (with-arguments-validation (who)
-      ((evp-md-ctx/alive	ctx))
-    (capi.evp-digest-final ctx)))
+      ((evp-md-ctx/running	ctx))
+    (begin0
+	(capi.evp-digest-final ctx)
+      ($set-evp-md-ctx-running?! ctx #f))))
 
 ;;; --------------------------------------------------------------------
 
@@ -1244,7 +1273,7 @@
    ((ctx buf buf.len)
     (define who 'evp-digest-update)
     (with-arguments-validation (who)
-	((evp-md-ctx/alive	ctx)
+	((evp-md-ctx/running	ctx)
 	 (general-c-string*	buf buf.len))
       (with-general-c-strings
 	  ((buf^	buf))

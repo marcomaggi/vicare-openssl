@@ -2515,6 +2515,20 @@ context it represents is open; otherwise return @false{}.
 @end defun
 
 
+@defun evp-md-ctx?/running @var{obj}
+Return @true{} if @var{obj} is an instance of @code{evp-md-ctx} and the
+context it represents is open and initialised with
+@func{evp-digest-init}; otherwise return @false{}.
+@end defun
+
+
+@defun evp-md-ctx?/alive-not-running @var{obj}
+Return @true{} if @var{obj} is an instance of @code{evp-md-ctx} and the
+context it represents is open but @strong{not} yet initialised with
+@func{evp-digest-init}; otherwise return @false{}.
+@end defun
+
+
 @defun evp-md-ctx-custom-destructor @var{EVP-MD}
 @defunx set-evp-md-ctx-custom-destructor! @var{EVP-MD} @var{func}
 Retrieve or set a destructor function associated to the @var{EVP-MD}.
@@ -2564,6 +2578,17 @@ Succeed if @var{obj} satisfies the predicate @func{evp-md-ctx?/alive};
 the second clause also accepts @false{}.
 @end deffn
 
+
+@deffn {Validation Clause} evp-md-ctx/running @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{evp-md-ctx?/running}.
+@end deffn
+
+
+@deffn {Validation Clause} evp-md-ctx/alive-not-running @var{obj}
+Succeed if @var{obj} satisfies the predicate
+@func{evp-md-ctx?/alive-not-running}.
+@end deffn
+
 @c page
 @node plain evp hash create
 @subsubsection Context creation and destruction
@@ -2582,7 +2607,8 @@ not yet initialised with a message digest algorithm.
 
 @defun evp-md-ctx-destroy @var{EVP-MD}
 Finalise a struct of type @code{evp-md-ctx}, releasing all the
-associated resources; return unspecified values.
+associated resources; return unspecified values.  It is fine to apply
+this function multiple times to the same instance of @var{EVP-MD}.
 @end defun
 
 @c page
@@ -2607,12 +2633,18 @@ sha1            sha224          sha256
 sha384          sha512          ripemd160
 whirlpool       dss             dss1
 @end example
+
+It is an error to apply this function to an already initialised
+@var{EVP-MD}.
 @end defun
 
 
 @defun evp-digest-final @var{EVP-MD}
 Finalise the generation of a message digest checksum; if succesful
 return a bytevector representing the sum, otherwise return @false{}.
+
+It is an error to apply this function to a non--initialised
+@var{EVP-MD}.
 @end defun
 
 @c page
@@ -2632,6 +2664,9 @@ Update a message digest context with input data; if successful return
 @var{str} and @var{str.len} must represent a generalised C string,
 @cstringsref{}.  When @var{str} is a string: it is converted to a
 bytevector with @func{string->utf8}.
+
+It is an error to apply this function to a non--initialised
+@var{EVP-MD}.
 @end defun
 
 @c page
