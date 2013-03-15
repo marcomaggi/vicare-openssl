@@ -2625,7 +2625,21 @@ EVP_MD_block_size}.
 @defun evp-md-type @var{EVP-MD}
 @defunx evp-md-nid @var{EVP-MD}
 Return an exact integer representing the NID of the OBJECT IDENTIFIER
-representing the given message digest.
+representing the given message digest algorithm.
+@manpage{EVP_DigestInit, EVP_MD_type}.
+@end defun
+
+
+@defun evp-md-flags @var{EVP-MD}
+Return an exact integer representing the flags associated to the given
+message digest algorithm.  @manpage{EVP_DigestInit, EVP_MD_flags}.
+@end defun
+
+
+@defun evp-md-pkey-type @var{EVP-MD}
+Return an exact integer representing the pkey type (whatever it is) of
+the given message digest algorithm.  @manpage{EVP_DigestInit,
+EVP_MD_pkey_type}.
 @end defun
 
 @c page

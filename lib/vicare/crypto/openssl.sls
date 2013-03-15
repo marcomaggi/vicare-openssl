@@ -1383,19 +1383,19 @@
       ((evp-md		algo))
     (capi.evp-md-nid algo)))
 
-;;; --------------------------------------------------------------------
-
-(define (evp-md-pkey-type ctx)
-  (define who 'evp-md-pkey-type)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-pkey-type)))
-
-(define (evp-md-flags ctx)
+(define (evp-md-flags algo)
   (define who 'evp-md-flags)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-md-flags)))
+      ((evp-md		algo))
+    (capi.evp-md-flags algo)))
+
+(define (evp-md-pkey-type algo)
+  (define who 'evp-md-pkey-type)
+  (with-arguments-validation (who)
+      ((evp-md		algo))
+    (capi.evp-md-pkey-type algo)))
+
+;;; --------------------------------------------------------------------
 
 (define (evp-md-ctx-md ctx)
   (define who 'evp-md-ctx-md)

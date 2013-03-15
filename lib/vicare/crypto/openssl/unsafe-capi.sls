@@ -544,13 +544,13 @@
 (define-inline (evp-md-nid algo)
   (foreign-call "ikrt_openssl_evp_md_nid" algo))
 
+(define-inline (evp-md-flags algo)
+  (foreign-call "ikrt_openssl_evp_md_flags" algo))
+
+(define-inline (evp-md-pkey-type algo)
+  (foreign-call "ikrt_openssl_evp_md_pkey_type" algo))
+
 ;;; --------------------------------------------------------------------
-
-(define-inline (evp-md-pkey-type)
-  (foreign-call "ikrt_openssl_evp_md_pkey_type"))
-
-(define-inline (evp-md-flags)
-  (foreign-call "ikrt_openssl_evp_md_flags"))
 
 (define-inline (evp-md-ctx-md)
   (foreign-call "ikrt_openssl_evp_md_ctx_md"))

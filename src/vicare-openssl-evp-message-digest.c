@@ -415,32 +415,36 @@ ikrt_openssl_evp_md_name (ikptr s_algo, ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
+ikptr
+ikrt_openssl_evp_md_flags (ikptr s_algo, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_FLAGS
+  const EVP_MD *	algo = IK_EVP_MD(s_algo);
+  unsigned long		rv;
+  rv = EVP_MD_flags(algo);
+  return ika_integer_from_ulong(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_md_pkey_type (ikptr s_algo, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_PKEY_TYPE
+  const EVP_MD *	algo = IK_EVP_MD(s_algo);
+  int			rv;
+  rv = EVP_MD_pkey_type(algo);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
 
 
 /** --------------------------------------------------------------------
  ** EVP message digest functions C wrappers.
  ** ----------------------------------------------------------------- */
 
-ikptr
-ikrt_openssl_evp_md_pkey_type (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_PKEY_TYPE
-  /* rv = EVP_MD_pkey_type(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_md_flags (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_FLAGS
-  /* rv = EVP_MD_flags(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
 ikptr
 ikrt_openssl_evp_md_ctx_md (ikpcb * pcb)
 {

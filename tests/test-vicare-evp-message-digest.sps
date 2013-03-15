@@ -88,6 +88,16 @@
 	(ssl.evp-md-type algo))
     => 4)
 
+  (check
+      (let ((algo (ssl.evp-md5)))
+	(ssl.evp-md-flags algo))
+    => 0)
+
+  (check
+      (let ((algo (ssl.evp-md5)))
+	(ssl.evp-md-pkey-type algo))
+    => 8)
+
   #t)
 
 
