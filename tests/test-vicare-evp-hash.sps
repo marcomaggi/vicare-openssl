@@ -42,6 +42,34 @@
 
 
 
+(parametrise ((check-test-name		'context))
+
+  (when #f
+    (check-pretty-print (ssl.evp-sha256)))
+
+  (check
+      (let ((algo (ssl.evp-md-null)))
+	(ssl.evp-md? algo))
+    => #t)
+
+  (check
+      (let ((algo (ssl.evp-md5)))
+	(ssl.evp-md? algo))
+    => #t)
+
+  (check
+      (let ((algo (ssl.evp-md5)))
+	(ssl.evp-md-size algo))
+    => 16)
+
+  (check
+      (let ((algo (ssl.evp-md5)))
+	(ssl.evp-md-block-size algo))
+    => 64)
+
+  #t)
+
+
 (parametrise ((check-test-name		'context)
 	      (struct-guardian-logger	#f))
 
@@ -120,7 +148,6 @@
 	(ssl.evp-digest-init ctx 'md5)
 	(ssl.evp-md-ctx-block-size ctx))
     => 64)
-
 
   (collect))
 

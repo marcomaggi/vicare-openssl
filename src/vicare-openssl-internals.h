@@ -145,6 +145,10 @@ extern const EVP_MD * ik_openssl_integer_to_evp_md (ikptr s_md);
 #define IK_EVP_MD_CTX_POINTER(CTX)	IK_FIELD((CTX),0)
 #define IK_EVP_MD_CTX(CTX)		IK_POINTER_DATA_VOIDP(IK_EVP_MD_CTX_POINTER(CTX))
 
+/* Accessors for the fields of the Scheme structure "evp-md". */
+#define IK_EVP_MD_POINTER(MD)		IK_FIELD((MD),0)
+#define IK_EVP_MD(MD)			IK_POINTER_DATA_VOIDP(IK_EVP_MD_POINTER(MD))
+
 
 /** --------------------------------------------------------------------
  ** Support for missing functions.

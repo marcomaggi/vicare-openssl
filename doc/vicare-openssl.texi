@@ -2429,26 +2429,211 @@ valid values are: @math{16}, @math{24}, @math{32}.
 
 
 @menu
-* plain evp hash::              High-level hash functions.
+* plain evp md algo::           Message digest algorithms.
+* plain evp md ctx::            Message digest generation.
 @end menu
 
 @c page
-@node plain evp hash
-@subsection High--level hash functions
+@node plain evp md algo
+@subsection Message digest algorithms
 
 
 @menu
-* plain evp hash examples::     Some message digest usage examples.
-* plain evp hash struct::       Context data structures.
-* plain evp hash create::       Context creation and destruction.
-* plain evp hash init::         Context initialisation and finalisation.
-* plain evp hash update::       Processing input data.
-* plain evp hash inspect::      Context inspection.
-* plain evp hash algos::        Message digest algorithms.
+* plain evp md algo struct::    Algorithm data structure.
+* plain evp md algo makers::    Algorithm reference makers.
+* plain evp md algo inspect::   Algorithm inspection.
 @end menu
 
 @c page
-@node plain evp hash examples
+@node plain evp md algo struct
+@subsubsection Algorithm data structure
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@deftp {Struct Type} evp-md
+@cindex @var{EVP-MD} argument
+@cindex Argument @var{EVP-MD}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{EVP_MD}; it references a message digest algorithm.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{EVP-MD}.
+
+@code{evp-md} instances are just references to algorithm
+implementations, they do not have associted dynamic data; their
+finalisation can be left to the garbage collector.
+@end deftp
+
+
+@defun evp-md? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{evp-md}; otherwise
+return @false{}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} evp-md @var{obj}
+@deffnx {Validation Clause} false-or-evp-md @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{evp-md?}; the second
+clause also accepts @false{}.
+@end deffn
+
+@c page
+@node plain evp md algo makers
+@subsubsection Algorithm reference makers
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun evp-md-null
+Return a struct of type @code{evp-md} representing a null message digest
+algorithm.  The generated message digest hash zero length.
+@end defun
+
+
+@defun evp-md2
+Return a struct of type @code{evp-md} representing the MD2 message
+digest algorithm.
+@end defun
+
+
+@defun evp-md4
+Return a struct of type @code{evp-md} representing the MD4 message
+digest algorithm.
+@end defun
+
+
+@defun evp-md5
+Return a struct of type @code{evp-md} representing the MD5 message
+digest algorithm.
+@end defun
+
+
+@defun evp-sha
+Return a struct of type @code{evp-md} representing the SHA message
+digest algorithm.
+@end defun
+
+
+@defun evp-sha1
+Return a struct of type @code{evp-md} representing the SHA1 message
+digest algorithm.
+@end defun
+
+
+@defun evp-dss
+Return a struct of type @code{evp-md} representing the DSS message
+digest algorithm.
+@end defun
+
+
+@defun evp-dss1
+Return a struct of type @code{evp-md} representing the DSS1 message
+digest algorithm.
+@end defun
+
+
+@defun evp-ecdsa
+Return a struct of type @code{evp-md} representing the ECDSA message
+digest algorithm.
+@end defun
+
+
+@defun evp-sha224
+Return a struct of type @code{evp-md} representing the SHA224 message
+digest algorithm.
+@end defun
+
+
+@defun evp-sha256
+Return a struct of type @code{evp-md} representing the SHA256 message
+digest algorithm.
+@end defun
+
+
+@defun evp-sha384
+Return a struct of type @code{evp-md} representing the SHA384 message
+digest algorithm.
+@end defun
+
+
+@defun evp-sha512
+Return a struct of type @code{evp-md} representing the SHA512 message
+digest algorithm.
+@end defun
+
+
+@defun evp-mdc2
+Return a struct of type @code{evp-md} representing the MDC2 message
+digest algorithm.
+@end defun
+
+
+@defun evp-ripemd160
+Return a struct of type @code{evp-md} representing the RIPEMD160 message
+digest algorithm.
+@end defun
+
+
+@defun evp-whirlpool
+Return a struct of type @code{evp-md} representing the WHIRLPOOL message
+digest algorithm.
+@end defun
+
+@c page
+@node plain evp md algo inspect
+@subsubsection Algorithm inspection
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun evp-md-algorithm-name @var{EVP-MD}
+Return a string representing the name of the message digest algorithm.
+@end defun
+
+
+@defun evp-md-size @var{EVP-MD}
+Return an exact integer representing the message digest size produced by
+the algorithm specfied by the @code{EVP_MD} structure referenced by the
+pointer object @var{EVP-MD-PTR}.
+@end defun
+
+
+@defun evp-md-block-size @var{EVP-MD}
+Return an exact integer representing the block size produced by the
+algorithm specfied by the @code{EVP_MD} structure referenced by the
+pointer object @var{EVP-MD-PTR}.
+@end defun
+
+@c page
+@node plain evp md ctx
+@subsection Message digest generation
+
+
+@menu
+* plain evp md ctx examples::   Some message digest usage examples.
+* plain evp md ctx struct::     Context data structures.
+* plain evp md ctx create::     Context creation and destruction.
+* plain evp md ctx init::       Context initialisation and finalisation.
+* plain evp md ctx update::     Processing input data.
+* plain evp md ctx inspect::    Context inspection.
+@end menu
+
+@c page
+@node plain evp md ctx examples
 @subsubsection Some message digest usage examples
 
 
@@ -2474,7 +2659,7 @@ collector:
 @end example
 
 @c page
-@node plain evp hash struct
+@node plain evp md ctx struct
 @subsubsection Hash checksums data structures
 
 
@@ -2483,13 +2668,13 @@ crypto openssl}.
 
 
 @deftp {Struct Type} evp-md-ctx
-@cindex @var{EVP-MD} argument
-@cindex Argument @var{EVP-MD}
+@cindex @var{EVP-MD-CTX} argument
+@cindex Argument @var{EVP-MD-CTX}
 An opaque Scheme structure holding a pointer object referencing the C
 language type @code{EVP_MD_CTX}; it references a message digest context.
 
 When instances of this type are used as arguments to functions: this
-documentation identifies them as @var{EVP-MD}.
+documentation identifies them as @var{EVP-MD-CTX}.
 
 There are two categories of @code{evp-md-ctx} instances: those who own
 the underlying checksum context and those who merely reference it.
@@ -2530,15 +2715,15 @@ context it represents is open but @strong{not} yet initialised with
 @end defun
 
 
-@defun evp-md-ctx-custom-destructor @var{EVP-MD}
-@defunx set-evp-md-ctx-custom-destructor! @var{EVP-MD} @var{func}
-Retrieve or set a destructor function associated to the @var{EVP-MD}.
+@defun evp-md-ctx-custom-destructor @var{EVP-MD-CTX}
+@defunx set-evp-md-ctx-custom-destructor! @var{EVP-MD-CTX} @var{func}
+Retrieve or set a destructor function associated to the @var{EVP-MD-CTX}.
 
-Whenever the @var{EVP-MD} is closed: @var{func} is applied to
-@var{EVP-MD} before the internal state of @var{EVP-MD} is finalised.
+Whenever the @var{EVP-MD-CTX} is closed: @var{func} is applied to
+@var{EVP-MD-CTX} before the internal state of @var{EVP-MD-CTX} is finalised.
 
 Notice that @var{func} can do anything, not only destroy some state
-associated to @var{EVP-MD}; if we do:
+associated to @var{EVP-MD-CTX}; if we do:
 
 @example
 (define context ...)
@@ -2555,7 +2740,7 @@ associated to @var{EVP-MD}; if we do:
 @end example
 
 @noindent
-we can easily associate values to @var{EVP-MD}.
+we can easily associate values to @var{EVP-MD-CTX}.
 @end defun
 
 @c ------------------------------------------------------------
@@ -2591,7 +2776,7 @@ Succeed if @var{obj} satisfies the predicate
 @end deffn
 
 @c page
-@node plain evp hash create
+@node plain evp md ctx create
 @subsubsection Context creation and destruction
 
 
@@ -2606,14 +2791,14 @@ not yet initialised with a message digest algorithm.
 @end defun
 
 
-@defun evp-md-ctx-destroy @var{EVP-MD}
+@defun evp-md-ctx-destroy @var{EVP-MD-CTX}
 Finalise a struct of type @code{evp-md-ctx}, releasing all the
 associated resources; return unspecified values.  It is fine to apply
-this function multiple times to the same instance of @var{EVP-MD}.
+this function multiple times to the same instance of @var{EVP-MD-CTX}.
 @end defun
 
 @c page
-@node plain evp hash init
+@node plain evp md ctx init
 @subsubsection Context initialisation and finalisation
 
 
@@ -2621,7 +2806,7 @@ The following bindings are exported by the library @library{vicare
 crypto openssl}.
 
 
-@defun evp-digest-init @var{EVP-MD} @var{md}
+@defun evp-digest-init @var{EVP-MD-CTX} @var{md}
 Initialise an already built message digest context to produce a hash
 checksum of type @var{md}; if successful return @true{}, else return
 @false{}.
@@ -2636,16 +2821,16 @@ whirlpool       dss             dss1
 @end example
 
 It is an error to apply this function to an already initialised
-@var{EVP-MD}.
+@var{EVP-MD-CTX}.
 @end defun
 
 
-@defun evp-digest-final @var{EVP-MD}
+@defun evp-digest-final @var{EVP-MD-CTX}
 Finalise the generation of a message digest checksum; if succesful
 return a bytevector representing the sum, otherwise return @false{}.
 
 It is an error to apply this function to a non--initialised
-@var{EVP-MD}.
+@var{EVP-MD-CTX}.
 @end defun
 
 
@@ -2673,7 +2858,7 @@ if successful return @true{}, otherwise return @false{}.
 @end defun
 
 @c page
-@node plain evp hash update
+@node plain evp md ctx update
 @subsubsection Processing input data
 
 
@@ -2681,8 +2866,8 @@ The following bindings are exported by the library @library{vicare
 crypto openssl}.
 
 
-@defun evp-digest-update @var{EVP-MD} @var{str}
-@defunx evp-digest-update @var{EVP-MD} @var{str} @var{str.len}
+@defun evp-digest-update @var{EVP-MD-CTX} @var{str}
+@defunx evp-digest-update @var{EVP-MD-CTX} @var{str} @var{str.len}
 Update a message digest context with input data; if successful return
 @true{}, otherwise return @false{}.
 
@@ -2691,11 +2876,11 @@ Update a message digest context with input data; if successful return
 bytevector with @func{string->utf8}.
 
 It is an error to apply this function to a non--initialised
-@var{EVP-MD}.
+@var{EVP-MD-CTX}.
 @end defun
 
 @c page
-@node plain evp hash inspect
+@node plain evp md ctx inspect
 @subsubsection Context inspection
 
 
@@ -2703,37 +2888,15 @@ The following bindings are exported by the library @library{vicare
 crypto openssl}.
 
 
-@defun evp-md-ctx-size @var{EVP-MD}
+@defun evp-md-ctx-size @var{EVP-MD-CTX}
 Return an exact integer representing the message digest size produced by
-@var{EVP-MD}.
+@var{EVP-MD-CTX}.
 @end defun
 
 
-@defun evp-md-ctx-block-size @var{EVP-MD}
+@defun evp-md-ctx-block-size @var{EVP-MD-CTX}
 Return an exact integer representing the block size produced by
-@var{EVP-MD}.
-@end defun
-
-@c page
-@node plain evp hash algos
-@subsubsection Message digest algorithms
-
-
-The following bindings are exported by the library @library{vicare
-crypto openssl}.
-
-
-@defun evp-md-size @var{EVP-MD-PTR}
-Return an exact integer representing the message digest size produced by
-the algorithm specfied by the @code{EVP_MD} structure referenced by the
-pointer object @var{EVP-MD-PTR}.
-@end defun
-
-
-@defun evp-md-block-size @var{EVP-MD-PTR}
-Return an exact integer representing the block size produced by the
-algorithm specfied by the @code{EVP_MD} structure referenced by the
-pointer object @var{EVP-MD-PTR}.
+@var{EVP-MD-CTX}.
 @end defun
 
 @c page

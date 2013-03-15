@@ -227,7 +227,7 @@
     aes-data-len.vicare-arguments-validation
     aes-key-len.vicare-arguments-validation
 
-    ;; EVP hash functions
+    ;; EVP message digest context functions
     evp-md-ctx
     evp-md-ctx?
     evp-md-ctx?/alive
@@ -245,6 +245,23 @@
     evp-digest-update		evp-md-ctx-copy
 
     evp-md-ctx-size		evp-md-ctx-block-size
+
+    ;; EVP message digest algorithms
+    evp-md
+    evp-md?
+    evp-md.vicare-arguments-validation
+    false-or-evp-md.vicare-arguments-validation
+
+    evp-md-null
+    evp-md2			evp-md4
+    evp-md5			evp-sha
+    evp-sha1			evp-dss
+    evp-dss1			evp-ecdsa
+    evp-sha224			evp-sha256
+    evp-sha384			evp-sha512
+    evp-mdc2			evp-ripemd160
+    evp-whirlpool
+    evp-md-algorithm-name
     evp-md-size			evp-md-block-size
 
     evp-md-type
@@ -258,22 +275,6 @@
     evp-md-ctx-clear-flags
     evp-md-ctx-test-flags
     evp-digest
-    evp-md-null
-    evp-md2
-    evp-md4
-    evp-md5
-    evp-sha
-    evp-sha1
-    evp-dss
-    evp-dss1
-    evp-ecdsa
-    evp-sha224
-    evp-sha256
-    evp-sha384
-    evp-sha512
-    evp-mdc2
-    evp-ripemd160
-    evp-whirlpool
     evp-get-digestbyname
 
 ;;; --------------------------------------------------------------------
@@ -1204,7 +1205,7 @@
     (capi.aes-unwrap-key)))
 
 
-;;;; EVP hash functions
+;;;; EVP message digest context functions
 
 (ffi.define-foreign-pointer-wrapper evp-md-ctx
   (ffi.fields running?)
@@ -1303,17 +1304,65 @@
       ((evp-md-ctx/running	ctx))
     (capi.evp-md-ctx-block-size ctx)))
 
-(define (evp-md-size md)
+;;; --------------------------------------------------------------------
+
+
+;;;; EVP message digest algorithms functions
+
+(define-struct-extended evp-md
+  (pointer algorithm-name)
+  %evp-md-printer
+  #f)
+
+(define (%evp-md-printer S port sub-printer)
+  (define (%display thing)
+    (display thing port))
+  (define (%write thing)
+    (write thing port))
+  (%display "#[evp-md")
+  (%display " pointer=")	(%write ($evp-md-pointer S))
+  (%display " algorithm=")	(%write ($evp-md-algorithm-name S))
+  (%display " size=")		(%write (capi.evp-md-size S))
+  (%display " block-size=")	(%write (capi.evp-md-block-size S))
+  (%display "]"))
+
+;;; --------------------------------------------------------------------
+
+(define (evp-md-size algo)
   (define who 'evp-md-size)
   (with-arguments-validation (who)
-      ((pointer		md))
-    (capi.evp-md-size md)))
+      ((evp-md		algo))
+    (capi.evp-md-size algo)))
 
-(define (evp-md-block-size md)
+(define (evp-md-block-size algo)
   (define who 'evp-md-block-size)
   (with-arguments-validation (who)
-      ((pointer		md))
-    (capi.evp-md-block-size md)))
+      ((evp-md		algo))
+    (capi.evp-md-block-size algo)))
+
+;;; --------------------------------------------------------------------
+
+(let-syntax ((define-maker
+	       (syntax-rules ()
+		 ((_ ?who ?name ?func)
+		  (define (?who)
+		    (make-evp-md (?func) ?name))))))
+  (define-maker evp-md-null	"NULL"		capi.evp-md-null)
+  (define-maker evp-md2		"MD2"		capi.evp-md2)
+  (define-maker evp-md4		"MD4"		capi.evp-md4)
+  (define-maker evp-md5		"MD5"		capi.evp-md5)
+  (define-maker evp-sha		"SHA"		capi.evp-sha)
+  (define-maker evp-sha1	"SHA1"		capi.evp-sha1)
+  (define-maker evp-dss		"DSS"		capi.evp-dss)
+  (define-maker evp-dss1	"DSS1"		capi.evp-dss1)
+  (define-maker evp-ecdsa	"ECDSA"		capi.evp-ecdsa)
+  (define-maker evp-sha224	"SHA224"	capi.evp-sha224)
+  (define-maker evp-sha256	"SHA256"	capi.evp-sha256)
+  (define-maker evp-sha384	"SHA384"	capi.evp-sha384)
+  (define-maker evp-sha512	"SHA512"	capi.evp-sha512)
+  (define-maker evp-mdc2	"MDC2"		capi.evp-mdc2)
+  (define-maker evp-ripemd160	"RIPEMD160"	capi.evp-ripemd160)
+  (define-maker evp-whirlpool	"WHIRLPOOL"	capi.evp-whirlpool))
 
 ;;; --------------------------------------------------------------------
 
@@ -1382,102 +1431,6 @@
   (with-arguments-validation (who)
       ()
     (capi.evp-digest)))
-
-(define (evp-md-null ctx)
-  (define who 'evp-md-null)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-null)))
-
-(define (evp-md2 ctx)
-  (define who 'evp-md2)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md2)))
-
-(define (evp-md4 ctx)
-  (define who 'evp-md4)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md4)))
-
-(define (evp-md5 ctx)
-  (define who 'evp-md5)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md5)))
-
-(define (evp-sha ctx)
-  (define who 'evp-sha)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-sha)))
-
-(define (evp-sha1 ctx)
-  (define who 'evp-sha1)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-sha1)))
-
-(define (evp-dss ctx)
-  (define who 'evp-dss)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-dss)))
-
-(define (evp-dss1 ctx)
-  (define who 'evp-dss1)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-dss1)))
-
-(define (evp-ecdsa ctx)
-  (define who 'evp-ecdsa)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-ecdsa)))
-
-(define (evp-sha224 ctx)
-  (define who 'evp-sha224)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-sha224)))
-
-(define (evp-sha256 ctx)
-  (define who 'evp-sha256)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-sha256)))
-
-(define (evp-sha384 ctx)
-  (define who 'evp-sha384)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-sha384)))
-
-(define (evp-sha512 ctx)
-  (define who 'evp-sha512)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-sha512)))
-
-(define (evp-mdc2 ctx)
-  (define who 'evp-mdc2)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-mdc2)))
-
-(define (evp-ripemd160 ctx)
-  (define who 'evp-ripemd160)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-ripemd160)))
-
-(define (evp-whirlpool ctx)
-  (define who 'evp-whirlpool)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-whirlpool)))
 
 (define (evp-get-digestbyname ctx)
   (define who 'evp-get-digestbyname)

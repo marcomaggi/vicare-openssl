@@ -165,28 +165,210 @@ ikrt_openssl_evp_md_ctx_block_size (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 
-/* ------------------------------------------------------------------ */
+
+/** --------------------------------------------------------------------
+ ** EVP hash functions C wrappers: algorithm functions.
+ ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_openssl_evp_md_size (ikptr s_md_ptr, ikpcb * pcb)
+ikrt_openssl_evp_md_size (ikptr s_algo, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_SIZE
-  const EVP_MD *	P = IK_POINTER_DATA_VOIDP(s_md_ptr);
+  const EVP_MD *	algo = IK_EVP_MD(s_algo);
   int			rv;
-  rv = EVP_MD_size(P);
+  rv = EVP_MD_size(algo);
   return ika_integer_from_int(pcb, rv);
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_md_block_size (ikptr s_md_ptr, ikpcb * pcb)
+ikrt_openssl_evp_md_block_size (ikptr s_algo, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_MD_BLOCK_SIZE
-  const EVP_MD *	P = IK_POINTER_DATA_VOIDP(s_md_ptr);
+  const EVP_MD *	algo = IK_EVP_MD(s_algo);
   int			rv;
-  rv = EVP_MD_block_size(P);
+  rv = EVP_MD_block_size(algo);
   return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+/* ------------------------------------------------------------------ */
+
+ikptr
+ikrt_openssl_evp_md_null (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_NULL
+  const EVP_MD *	rv;
+  rv = EVP_md_null();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_md2 (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD2
+  const EVP_MD *	rv;
+  rv = EVP_md2();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_md4 (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD4
+  const EVP_MD *	rv;
+  rv = EVP_md4();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_md5 (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD5
+  const EVP_MD *	rv;
+  rv = EVP_md5();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_sha (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_SHA
+  const EVP_MD *	rv;
+  rv = EVP_sha();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_sha1 (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_SHA1
+  const EVP_MD *	rv;
+  rv = EVP_sha1();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_dss (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_DSS
+  const EVP_MD *	rv;
+  rv = EVP_dss();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_dss1 (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_DSS1
+  const EVP_MD *	rv;
+  rv = EVP_dss1();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_ecdsa (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_ECDSA
+  const EVP_MD *	rv;
+  rv = EVP_ecdsa();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_sha224 (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_SHA224
+  const EVP_MD *	rv;
+  rv = EVP_sha224();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_sha256 (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_SHA256
+  const EVP_MD *	rv;
+  rv = EVP_sha256();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_sha384 (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_SHA384
+  const EVP_MD *	rv;
+  rv = EVP_sha384();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_sha512 (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_SHA512
+  const EVP_MD *	rv;
+  rv = EVP_sha512();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_mdc2 (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MDC2
+  const EVP_MD *	rv;
+  rv = EVP_mdc2();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_ripemd160 (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_RIPEMD160
+  const EVP_MD *	rv;
+  rv = EVP_ripemd160();
+  return ika_pointer_alloc(pcb, (long)rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_whirlpool (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_WHIRLPOOL
+  const EVP_MD *	rv;
+  rv = EVP_whirlpool();
+  return ika_pointer_alloc(pcb, (long)rv);
 #else
   feature_failure(__func__);
 #endif
@@ -302,166 +484,6 @@ ikrt_openssl_evp_digest (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DIGEST
   /* rv = EVP_Digest(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_md_null (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_NULL
-  /* rv = EVP_md_null(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_md2 (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD2
-  /* rv = EVP_md2(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_md4 (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD4
-  /* rv = EVP_md4(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_md5 (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD5
-  /* rv = EVP_md5(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_sha (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_SHA
-  /* rv = EVP_sha(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_sha1 (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_SHA1
-  /* rv = EVP_sha1(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_dss (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_DSS
-  /* rv = EVP_dss(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_dss1 (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_DSS1
-  /* rv = EVP_dss1(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_ecdsa (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_ECDSA
-  /* rv = EVP_ecdsa(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_sha224 (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_SHA224
-  /* rv = EVP_sha224(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_sha256 (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_SHA256
-  /* rv = EVP_sha256(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_sha384 (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_SHA384
-  /* rv = EVP_sha384(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_sha512 (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_SHA512
-  /* rv = EVP_sha512(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_mdc2 (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MDC2
-  /* rv = EVP_mdc2(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_ripemd160 (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_RIPEMD160
-  /* rv = EVP_ripemd160(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_whirlpool (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_WHIRLPOOL
-  /* rv = EVP_whirlpool(); */
   return IK_VOID;
 #else
   feature_failure(__func__);
