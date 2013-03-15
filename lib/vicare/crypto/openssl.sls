@@ -328,6 +328,12 @@
 
 ;;; --------------------------------------------------------------------
 
+(define-argument-validation (evp-md/symbol who obj)
+  (or (evp-md? obj)
+      (symbol? obj))
+  (assertion-violation who
+    "expected instance of \"evp-md\" or symbol as argument" obj))
+
 
 ;;;; helpers
 
@@ -850,11 +856,13 @@
     (define who 'hmac-init)
     (with-arguments-validation (who)
 	((general-c-string*	key key.len)
-	 (symbol		md))
+	 (evp-md/symbol	md))
       (with-general-c-strings
 	  ((key^	key))
 	(string-to-bytevector string->utf8)
-	(let ((rv (capi.hmac-init key^ key.len (%symbol->md who md))))
+	(let ((rv (capi.hmac-init key^ key.len (if (symbol? md)
+						   (%symbol->md who md)
+						 ($evp-md-pointer md)))))
 	  (and rv (make-hmac-ctx/owner rv))))))))
 
 ;;These  old   versions  perform  the  work   of  "HMAC_CTX_init()"  and
@@ -942,14 +950,17 @@
 (define (hmac md key key.len input input.len)
   (define who 'hmac)
   (with-arguments-validation (who)
-      ((symbol			md)
+      ((evp-md/symbol	md)
        (general-c-string*	key key.len)
        (general-c-string*	input input.len))
     (with-general-c-strings
 	((key^		key)
 	 (input^	input))
       (string-to-bytevector string->utf8)
-      (capi.hmac (%symbol->md who md) key^ key.len input^ input.len))))
+      (capi.hmac (if (symbol? md)
+		     (%symbol->md who md)
+		   ($evp-md-pointer md))
+		 key^ key.len input^ input.len))))
 
 
 ;;;; AES
@@ -1257,8 +1268,10 @@
   (define who 'evp-digest-init)
   (with-arguments-validation (who)
       ((evp-md-ctx/alive-not-running	ctx)
-       (symbol				md))
-    (cond ((capi.evp-digest-init ctx (%symbol->md who md))
+       (evp-md/symbol			md))
+    (cond ((capi.evp-digest-init ctx (if (symbol? md)
+					 (%symbol->md who md)
+				       ($evp-md-pointer md)))
 	   => (lambda (rv)
 		($set-evp-md-ctx-running?! ctx #t)
 		rv))

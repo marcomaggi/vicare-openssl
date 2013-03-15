@@ -90,7 +90,11 @@ ikrt_openssl_evp_digestinit_ex (ikptr s_ctx, ikptr s_md, ikpcb * pcb)
   EVP_MD_CTX *		ctx = IK_EVP_MD_CTX(s_ctx);
   const EVP_MD *	md;
   int			rv;
-  md = ik_openssl_integer_to_evp_md(s_md);
+  if (IK_IS_INTEGER(s_md)) {
+    md = ik_openssl_integer_to_evp_md(s_md);
+  } else {
+    md = IK_POINTER_DATA_VOIDP(s_md);
+  }
   if (md) {
     rv = EVP_DigestInit_ex(ctx, md, NULL);
     return IK_BOOLEAN_FROM_INT(rv);

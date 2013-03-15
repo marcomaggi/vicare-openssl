@@ -2025,7 +2025,7 @@ range of the C language type @code{size_t}.  When @var{key} is a pointer
 object: @var{key.len} must represent the number of bytes available in
 the referenced memory block; otherwise @var{key.len} is ignored.
 
-@var{md} must be a symbol among:
+@var{md} must be either an instance of @code{evp-md} or a symbol among:
 
 @example
 md4             md5             mdc2
@@ -2080,7 +2080,7 @@ crypto openssl}.
 Perform a one--step HMAC computing; return a bytevector holding the
 result, or @false{} if an error occurs.  @manpage{HMAC, HMAC}.
 
-@var{md} must be a symbol among:
+@var{md} must be an instance of @code{evp-md} or a symbol among:
 
 @example
 md4             md5             mdc2
@@ -2874,7 +2874,7 @@ Initialise an already built message digest context to produce a hash
 checksum of type @var{md}; if successful return @true{}, else return
 @false{}.  @manpage{EVP_DigestInit, EVP_DigestInit_ex}.
 
-@var{md} must be a symbol among:
+@var{md} must be an instance of @code{evp-md} or a symbol among:
 
 @example
 md4             md5             mdc2
