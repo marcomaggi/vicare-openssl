@@ -197,6 +197,28 @@
   (collect))
 
 
+(parametrise ((check-test-name		'flags)
+	      (struct-guardian-logger	#f))
+
+  (check
+      (let ((ctx (ssl.evp-md-ctx-create)))
+	(ssl.evp-digest-init ctx 'md5)
+	(ssl.evp-md-ctx-set-flags ctx ssl.EVP_MD_FLAG_DIGALGID_NULL)
+	(ssl.evp-md-ctx-test-flags ctx ssl.EVP_MD_FLAG_DIGALGID_NULL))
+    => 0)
+
+  (check
+      (let ((ctx (ssl.evp-md-ctx-create)))
+	(ssl.evp-digest-init ctx 'md5)
+	(ssl.evp-md-ctx-set-flags ctx ssl.EVP_MD_FLAG_DIGALGID_NULL)
+	(ssl.evp-md-ctx-clear-flags ctx ssl.EVP_MD_FLAG_DIGALGID_NULL)
+	(ssl.evp-md-ctx-test-flags ctx ssl.EVP_MD_FLAG_DIGALGID_NULL))
+    => 0)
+
+
+  (collect))
+
+
 ;;;; done
 
 (check-report)

@@ -1319,6 +1319,29 @@
 		(make-evp-md rv)))
 	  (else #f))))
 
+;;; --------------------------------------------------------------------
+
+(define (evp-md-ctx-set-flags ctx flags)
+  (define who 'evp-md-ctx-set-flags)
+  (with-arguments-validation (who)
+      ((evp-md-ctx/running	ctx)
+       (signed-int		flags))
+    (capi.evp-md-ctx-set-flags ctx flags)))
+
+(define (evp-md-ctx-clear-flags ctx flags)
+  (define who 'evp-md-ctx-clear-flags)
+  (with-arguments-validation (who)
+      ((evp-md-ctx/running	ctx)
+       (signed-int		flags))
+    (capi.evp-md-ctx-clear-flags ctx flags)))
+
+(define (evp-md-ctx-test-flags ctx flags)
+  (define who 'evp-md-ctx-test-flags)
+  (with-arguments-validation (who)
+      ((evp-md-ctx/running	ctx)
+       (signed-int		flags))
+    (capi.evp-md-ctx-test-flags ctx flags)))
+
 
 ;;;; EVP message digest algorithms functions
 
@@ -1411,24 +1434,6 @@
     (capi.evp-md-pkey-type algo)))
 
 ;;; --------------------------------------------------------------------
-
-(define (evp-md-ctx-set-flags ctx)
-  (define who 'evp-md-ctx-set-flags)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-set-flags)))
-
-(define (evp-md-ctx-clear-flags ctx)
-  (define who 'evp-md-ctx-clear-flags)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-clear-flags)))
-
-(define (evp-md-ctx-test-flags ctx)
-  (define who 'evp-md-ctx-test-flags)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-test-flags)))
 
 (define (evp-digest ctx)
   (define who 'evp-digest)

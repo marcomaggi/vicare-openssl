@@ -191,6 +191,49 @@ ikrt_openssl_evp_md_ctx_md (ikptr s_ctx, ikpcb * pcb)
 
 
 /** --------------------------------------------------------------------
+ ** EVP message digest functions C wrappers: context flags.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_openssl_evp_md_ctx_set_flags (ikptr s_ctx, ikptr s_flags, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_CTX_SET_FLAGS
+  EVP_MD_CTX *	ctx   = IK_EVP_MD_CTX(s_ctx);
+  int		flags = ik_integer_to_int(s_flags);
+  EVP_MD_CTX_set_flags(ctx, flags);
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_md_ctx_clear_flags (ikptr s_ctx, ikptr s_flags, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_CTX_CLEAR_FLAGS
+  EVP_MD_CTX *	ctx   = IK_EVP_MD_CTX(s_ctx);
+  int		flags = ik_integer_to_int(s_flags);
+  EVP_MD_CTX_clear_flags(ctx, flags);
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_md_ctx_test_flags (ikptr s_ctx, ikptr s_flags, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_CTX_TEST_FLAGS
+  const EVP_MD_CTX *	ctx   = IK_EVP_MD_CTX(s_ctx);
+  int			flags = ik_integer_to_int(s_flags);
+  int			rv;
+  rv = EVP_MD_CTX_test_flags(ctx, flags);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
  ** EVP message digest functions C wrappers: algorithm functions.
  ** ----------------------------------------------------------------- */
 
@@ -466,39 +509,9 @@ ikrt_openssl_evp_md_pkey_type (ikptr s_algo, ikpcb * pcb)
 
 
 /** --------------------------------------------------------------------
- ** EVP message digest functions C wrappers.
+ ** EVP message digest functions C wrappers: miscellaneous functions.
  ** ----------------------------------------------------------------- */
 
-ikptr
-ikrt_openssl_evp_md_ctx_set_flags (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_SET_FLAGS
-  /* rv = EVP_MD_CTX_set_flags(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_md_ctx_clear_flags (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_CLEAR_FLAGS
-  /* rv = EVP_MD_CTX_clear_flags(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_md_ctx_test_flags (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_TEST_FLAGS
-  /* rv = EVP_MD_CTX_test_flags(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
 ikptr
 ikrt_openssl_evp_digest (ikpcb * pcb)
 {

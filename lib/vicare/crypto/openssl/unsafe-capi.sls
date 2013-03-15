@@ -485,6 +485,17 @@
 
 ;;; --------------------------------------------------------------------
 
+(define-inline (evp-md-ctx-set-flags ctx flags)
+  (foreign-call "ikrt_openssl_evp_md_ctx_set_flags" ctx flags))
+
+(define-inline (evp-md-ctx-clear-flags ctx flags)
+  (foreign-call "ikrt_openssl_evp_md_ctx_clear_flags" ctx flags))
+
+(define-inline (evp-md-ctx-test-flags ctx flags)
+  (foreign-call "ikrt_openssl_evp_md_ctx_test_flags" ctx flags))
+
+;;; --------------------------------------------------------------------
+
 (define-inline (evp-md-null)
   (foreign-call "ikrt_openssl_evp_md_null"))
 
@@ -557,15 +568,6 @@
   (foreign-call "ikrt_openssl_evp_md_pkey_type" algo))
 
 ;;; --------------------------------------------------------------------
-
-(define-inline (evp-md-ctx-set-flags)
-  (foreign-call "ikrt_openssl_evp_md_ctx_set_flags"))
-
-(define-inline (evp-md-ctx-clear-flags)
-  (foreign-call "ikrt_openssl_evp_md_ctx_clear_flags"))
-
-(define-inline (evp-md-ctx-test-flags)
-  (foreign-call "ikrt_openssl_evp_md_ctx_test_flags"))
 
 (define-inline (evp-digest)
   (foreign-call "ikrt_openssl_evp_digest"))

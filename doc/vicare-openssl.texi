@@ -2654,6 +2654,7 @@ EVP_MD_pkey_type}.
 * plain evp md ctx init::       Context initialisation and finalisation.
 * plain evp md ctx update::     Processing input data.
 * plain evp md ctx inspect::    Context inspection.
+* plain evp md ctx flags::      Context flags.
 @end menu
 
 @c page
@@ -2940,6 +2941,41 @@ EVP_MD_CTX_type}.
 If successful return an instance of @code{evp-md} representing the
 algorithm with which the context was initialised; otherwise return
 @false{}.  @manpage{EVP_DigestInit, EVP_MD_CTX_md}.
+@end defun
+
+@c page
+@node plain evp md ctx flags
+@subsubsection Context flags
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun evp-md-ctx-set-flags @var{EVP-MD-CTX} @var{flags}
+Set the flags for a message digest context.  @manpage{EVP_DigestInit,
+EVP_MD_CTX_set_flags}.  Return unspecified values.
+
+@var{flags} must be an exact integer in the range of the C language type
+@code{signed int}.
+@end defun
+
+
+@defun evp-md-ctx-clear-flags @var{EVP-MD-CTX} @var{flags}
+Clear the flags for a message digest context.  @manpage{EVP_DigestInit,
+EVP_MD_CTX_clear_flags}.  Return unspecified values.
+
+@var{flags} must be an exact integer in the range of the C language type
+@code{signed int}.
+@end defun
+
+
+@defun evp-md-ctx-test-flags @var{EVP-MD-CTX} @var{flags}
+Test the flags for a message digest context.  @manpage{EVP_DigestInit,
+EVP_MD_CTX_test_flags}.  Return an exact integer.
+
+@var{flags} must be an exact integer in the range of the C language type
+@code{signed int}.
 @end defun
 
 @c page
