@@ -1,7 +1,7 @@
 ;;; -*- coding: utf-8-unix -*-
 ;;;
 ;;;Part of: Vicare/OpenSSL
-;;;Contents: tests for OpenSSL bindings, EVP hash functions
+;;;Contents: tests for OpenSSL bindings, EVP message digest functions
 ;;;Date: Thu Mar 14, 2013
 ;;;
 ;;;Abstract
@@ -33,7 +33,7 @@
   (vicare checks))
 
 (check-set-mode! 'report-failed)
-(check-display "*** testing Vicare OpenSSL bindings: EVP hash functions\n")
+(check-display "*** testing Vicare OpenSSL bindings: EVP message digest API\n")
 
 (ssl.ssl-library-init)
 
