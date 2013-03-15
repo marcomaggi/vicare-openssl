@@ -143,7 +143,7 @@ ikrt_openssl_evp_digestupdate (ikptr s_ctx, ikptr s_buf, ikptr s_buf_len, ikpcb 
 ikptr
 ikrt_openssl_evp_md_ctx_size (ikptr s_ctx, ikpcb * pcb)
 {
-#ifdef HAVE_EVP_MD_SIZE
+#if ((defined HAVE_DECL_EVP_MD_CTX_SIZE) && HAVE_DECL_EVP_MD_CTX_SIZE)
   const EVP_MD_CTX *	ctx = IK_EVP_MD_CTX(s_ctx);
   int			rv;
   rv = EVP_MD_CTX_size(ctx);
@@ -155,11 +155,35 @@ ikrt_openssl_evp_md_ctx_size (ikptr s_ctx, ikpcb * pcb)
 ikptr
 ikrt_openssl_evp_md_ctx_block_size (ikptr s_ctx, ikpcb * pcb)
 {
-#ifdef HAVE_EVP_MD_BLOCK_SIZE
+#if ((defined HAVE_DECL_EVP_MD_CTX_BLOCK_SIZE) && HAVE_DECL_EVP_MD_CTX_BLOCK_SIZE)
   const EVP_MD_CTX *	ctx = IK_EVP_MD_CTX(s_ctx);
   int			rv;
   rv = EVP_MD_CTX_block_size(ctx);
   return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_md_ctx_type (ikptr s_ctx, ikpcb * pcb)
+{
+#if ((defined HAVE_DECL_EVP_MD_CTX_TYPE) && HAVE_DECL_EVP_MD_CTX_TYPE)
+  const EVP_MD_CTX *	ctx = IK_EVP_MD_CTX(s_ctx);
+  int			rv;
+  rv = EVP_MD_CTX_type(ctx);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_md_ctx_md (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_MD_CTX_MD
+  const EVP_MD_CTX *	ctx = IK_EVP_MD_CTX(s_ctx);
+  const EVP_MD*		rv;
+  rv = EVP_MD_CTX_md(ctx);
+  return (rv)? ika_pointer_alloc(pcb, (long)rv) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
@@ -445,26 +469,6 @@ ikrt_openssl_evp_md_pkey_type (ikptr s_algo, ikpcb * pcb)
  ** EVP message digest functions C wrappers.
  ** ----------------------------------------------------------------- */
 
-ikptr
-ikrt_openssl_evp_md_ctx_md (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_MD
-  /* rv = EVP_MD_CTX_md(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_md_ctx_type (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_MD_CTX_TYPE
-  /* rv = EVP_MD_CTX_type(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
 ikptr
 ikrt_openssl_evp_md_ctx_set_flags (ikpcb * pcb)
 {

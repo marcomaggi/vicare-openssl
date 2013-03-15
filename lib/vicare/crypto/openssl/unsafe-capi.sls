@@ -477,6 +477,12 @@
 (define-inline (evp-md-ctx-block-size ctx)
   (foreign-call "ikrt_openssl_evp_md_ctx_block_size" ctx))
 
+(define-inline (evp-md-ctx-md ctx)
+  (foreign-call "ikrt_openssl_evp_md_ctx_md" ctx))
+
+(define-inline (evp-md-ctx-type ctx)
+  (foreign-call "ikrt_openssl_evp_md_ctx_type" ctx))
+
 ;;; --------------------------------------------------------------------
 
 (define-inline (evp-md-null)
@@ -551,12 +557,6 @@
   (foreign-call "ikrt_openssl_evp_md_pkey_type" algo))
 
 ;;; --------------------------------------------------------------------
-
-(define-inline (evp-md-ctx-md)
-  (foreign-call "ikrt_openssl_evp_md_ctx_md"))
-
-(define-inline (evp-md-ctx-type)
-  (foreign-call "ikrt_openssl_evp_md_ctx_type"))
 
 (define-inline (evp-md-ctx-set-flags)
   (foreign-call "ikrt_openssl_evp_md_ctx_set_flags"))

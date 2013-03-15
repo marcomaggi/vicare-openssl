@@ -2812,6 +2812,7 @@ crypto openssl}.
 Build a new struct of type @code{evp-md-ctx}; if successful return the
 data struct, otherwise return @false{}.  Returned data structures are
 not yet initialised with a message digest algorithm.
+@manpage{EVP_DigestInit, EVP_MD_CTX_create}.
 @end defun
 
 
@@ -2819,6 +2820,7 @@ not yet initialised with a message digest algorithm.
 Finalise a struct of type @code{evp-md-ctx}, releasing all the
 associated resources; return unspecified values.  It is fine to apply
 this function multiple times to the same instance of @var{EVP-MD-CTX}.
+@manpage{EVP_DigestInit, EVP_MD_CTX_destroy}.
 @end defun
 
 @c page
@@ -2833,7 +2835,7 @@ crypto openssl}.
 @defun evp-digest-init @var{EVP-MD-CTX} @var{md}
 Initialise an already built message digest context to produce a hash
 checksum of type @var{md}; if successful return @true{}, else return
-@false{}.
+@false{}.  @manpage{EVP_DigestInit, EVP_DigestInit_ex}.
 
 @var{md} must be a symbol among:
 
@@ -2852,6 +2854,7 @@ It is an error to apply this function to an already initialised
 @defun evp-digest-final @var{EVP-MD-CTX}
 Finalise the generation of a message digest checksum; if succesful
 return a bytevector representing the sum, otherwise return @false{}.
+@manpage{EVP_DigestInit, EVP_DigestFinal_ex}.
 
 It is an error to apply this function to a non--initialised
 @var{EVP-MD-CTX}.
@@ -2893,7 +2896,9 @@ crypto openssl}.
 @defun evp-digest-update @var{EVP-MD-CTX} @var{str}
 @defunx evp-digest-update @var{EVP-MD-CTX} @var{str} @var{str.len}
 Update a message digest context with input data; if successful return
-@true{}, otherwise return @false{}.
+@true{}, otherwise return @false{}.  @manpage{EVP_DigestInit,
+EVP_DigestUpdate}.
+
 
 @var{str} and @var{str.len} must represent a generalised C string,
 @cstringsref{}.  When @var{str} is a string: it is converted to a
@@ -2914,13 +2919,27 @@ crypto openssl}.
 
 @defun evp-md-ctx-size @var{EVP-MD-CTX}
 Return an exact integer representing the message digest size produced by
-@var{EVP-MD-CTX}.
+@var{EVP-MD-CTX}.  @manpage{EVP_DigestInit, EVP_MD_CTX_size}.
 @end defun
 
 
 @defun evp-md-ctx-block-size @var{EVP-MD-CTX}
 Return an exact integer representing the block size produced by
-@var{EVP-MD-CTX}.
+@var{EVP-MD-CTX}.  @manpage{EVP_DigestInit, EVP_MD_CTX_block_size}.
+@end defun
+
+
+@defun evp-md-ctx-type @var{EVP-MD-CTX}
+Return an exact integer representing the NID of the OBJECT IDENTIFIER
+representing the given message digest context.  @manpage{EVP_DigestInit,
+EVP_MD_CTX_type}.
+@end defun
+
+
+@defun evp-md-ctx-md @var{EVP-MD-CTX}
+If successful return an instance of @code{evp-md} representing the
+algorithm with which the context was initialised; otherwise return
+@false{}.  @manpage{EVP_DigestInit, EVP_MD_CTX_md}.
 @end defun
 
 @c page

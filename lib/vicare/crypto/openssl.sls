@@ -1302,7 +1302,22 @@
       ((evp-md-ctx/running	ctx))
     (capi.evp-md-ctx-block-size ctx)))
 
+(define (evp-md-ctx-type ctx)
+  (define who 'evp-md-ctx-type)
+  (with-arguments-validation (who)
+      ((evp-md-ctx/running	ctx))
+    (capi.evp-md-ctx-type ctx)))
+
 ;;; --------------------------------------------------------------------
+
+(define (evp-md-ctx-md ctx)
+  (define who 'evp-md-ctx-md)
+  (with-arguments-validation (who)
+      ((evp-md-ctx/running	ctx))
+    (cond ((capi.evp-md-ctx-md ctx)
+	   => (lambda (rv)
+		(make-evp-md rv)))
+	  (else #f))))
 
 
 ;;;; EVP message digest algorithms functions
@@ -1396,18 +1411,6 @@
     (capi.evp-md-pkey-type algo)))
 
 ;;; --------------------------------------------------------------------
-
-(define (evp-md-ctx-md ctx)
-  (define who 'evp-md-ctx-md)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-md)))
-
-(define (evp-md-ctx-type ctx)
-  (define who 'evp-md-ctx-type)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-ctx-type)))
 
 (define (evp-md-ctx-set-flags ctx)
   (define who 'evp-md-ctx-set-flags)

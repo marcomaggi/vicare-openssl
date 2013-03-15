@@ -180,6 +180,20 @@
 	(ssl.evp-md-ctx-block-size ctx))
     => 64)
 
+  (check
+      (let ((ctx (ssl.evp-md-ctx-create)))
+	(ssl.evp-digest-init ctx 'md5)
+	(ssl.evp-md-ctx-type ctx))
+    => 4)
+
+  (check
+      (let ((ctx (ssl.evp-md-ctx-create)))
+	(ssl.evp-digest-init ctx 'md5)
+	(let ((algo (ssl.evp-md-ctx-md ctx)))
+	  (and (ssl.evp-md? algo)
+	       (ssl.evp-md-name algo))))
+    => "MD5")
+
   (collect))
 
 
