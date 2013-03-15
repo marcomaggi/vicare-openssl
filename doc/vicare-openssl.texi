@@ -2431,6 +2431,8 @@ valid values are: @math{16}, @math{24}, @math{32}.
 @menu
 * plain evp md algo::           Message digest algorithms.
 * plain evp md ctx::            Message digest generation.
+* plain evp cipher algo::       Cipher algorithms.
+* plain evp cipher ctx::        Encryption and decription contexts.
 @end menu
 
 @c page
@@ -3013,6 +3015,536 @@ EVP_MD_CTX_test_flags}.  Return an exact integer.
 @var{flags} must be an exact integer in the range of the C language type
 @code{signed int}.
 @end defun
+
+@c page
+@node plain evp cipher algo
+@subsection Cipher algorithms
+
+
+@menu
+* plain evp cipher algo struct::  Cipher algorithms data structures.
+* plain evp cipher algo makers::  Algorithm reference makers.
+@end menu
+
+@c page
+@node plain evp cipher algo struct
+@subsubsection Cipher algorithms data structures
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@deftp {Struct Type} evp-cipher
+@cindex @var{EVP-CIPHER} argument
+@cindex Argument @var{EVP-CIPHER}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{EVP_CIPHER}; it references an encryption and
+decryption algorithm.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{EVP-CIPHER}.
+
+@code{evp-cipher} instances are just references to algorithm
+implementations, they do not have associted dynamic data; their
+finalisation can be left to the garbage collector.
+@end deftp
+
+
+@defun evp-cipher? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{evp-cipher};
+otherwise return @false{}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} evp-cipher @var{obj}
+@deffnx {Validation Clause} false-or-evp-cipher @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{evp-cipher?}; the
+second clause also accepts @false{}.
+@end deffn
+
+@c page
+@node plain evp cipher algo makers
+@subsubsection Algorithm reference makers
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun evp-enc-null
+@end defun
+
+@defun evp-des-ecb
+@end defun
+
+@defun evp-des-ede
+@end defun
+
+@defun evp-des-ede3
+@end defun
+
+@defun evp-des-ede-ecb
+@end defun
+
+@defun evp-des-ede3-ecb
+@end defun
+
+@defun evp-des-cfb64
+@end defun
+
+@defun evp-des-cfb
+@end defun
+
+@defun evp-des-ede3-cfb64
+@end defun
+
+@defun evp-des-ede3-cfb
+@end defun
+
+@defun evp-des-ede3-cfb1
+@end defun
+
+@defun evp-des-ede3-cfb8
+@end defun
+
+@defun evp-des-ofb
+@end defun
+
+@defun evp-des-ede-ofb
+@end defun
+
+@defun evp-des-ede3-ofb
+@end defun
+
+@defun evp-des-cbc
+@end defun
+
+@defun evp-des-ede-cbc
+@end defun
+
+@defun evp-des-ede3-cbc
+@end defun
+
+@defun evp-desx-cbc
+@end defun
+
+@defun evp-rc4
+@end defun
+
+@defun evp-rc4-40
+@end defun
+
+@defun evp-rc4-hmac-md5
+@end defun
+
+@defun evp-idea-ecb
+@end defun
+
+@defun evp-idea-cfb64
+@end defun
+
+@defun evp-idea-cfb
+@end defun
+
+@defun evp-idea-ofb
+@end defun
+
+@defun evp-idea-cbc
+@end defun
+
+@defun evp-rc2-ecb
+@end defun
+
+@defun evp-rc2-cbc
+@end defun
+
+@defun evp-rc2-40-cbc
+@end defun
+
+@defun evp-rc2-64-cbc
+@end defun
+
+@defun evp-rc2-cfb64
+@end defun
+
+@defun evp-rc2-cfb
+@end defun
+
+@defun evp-rc2-ofb
+@end defun
+
+@defun evp-bf-ecb
+@end defun
+
+@defun evp-bf-cbc
+@end defun
+
+@defun evp-bf-cfb64
+@end defun
+
+@defun evp-bf-cfb
+@end defun
+
+@defun evp-bf-ofb
+@end defun
+
+@defun evp-cast5-ecb
+@end defun
+
+@defun evp-cast5-cbc
+@end defun
+
+@defun evp-cast5-cfb64
+@end defun
+
+@defun evp-cast5-cfb
+@end defun
+
+@defun evp-cast5-ofb
+@end defun
+
+@defun evp-rc5-32-12-16-cbc
+@end defun
+
+@defun evp-rc5-32-12-16-ecb
+@end defun
+
+@defun evp-rc5-32-12-16-cfb64
+@end defun
+
+@defun evp-rc5-32-12-16-cfb
+@end defun
+
+@defun evp-rc5-32-12-16-ofb
+@end defun
+
+@defun evp-aes-128-ecb
+@end defun
+
+@defun evp-aes-128-cbc
+@end defun
+
+@defun evp-aes-128-cfb1
+@end defun
+
+@defun evp-aes-128-cfb8
+@end defun
+
+@defun evp-aes-128-cfb128
+@end defun
+
+@defun evp-aes-128-cfb
+@end defun
+
+@defun evp-aes-128-ofb
+@end defun
+
+@defun evp-aes-128-ctr
+@end defun
+
+@defun evp-aes-128-ccm
+@end defun
+
+@defun evp-aes-128-gcm
+@end defun
+
+@defun evp-aes-128-xts
+@end defun
+
+@defun evp-aes-192-ecb
+@end defun
+
+@defun evp-aes-192-cbc
+@end defun
+
+@defun evp-aes-192-cfb1
+@end defun
+
+@defun evp-aes-192-cfb8
+@end defun
+
+@defun evp-aes-192-cfb128
+@end defun
+
+@defun evp-aes-192-cfb
+@end defun
+
+@defun evp-aes-192-ofb
+@end defun
+
+@defun evp-aes-192-ctr
+@end defun
+
+@defun evp-aes-192-ccm
+@end defun
+
+@defun evp-aes-192-gcm
+@end defun
+
+@defun evp-aes-256-ecb
+@end defun
+
+@defun evp-aes-256-cbc
+@end defun
+
+@defun evp-aes-256-cfb1
+@end defun
+
+@defun evp-aes-256-cfb8
+@end defun
+
+@defun evp-aes-256-cfb128
+@end defun
+
+@defun evp-aes-256-cfb
+@end defun
+
+@defun evp-aes-256-ofb
+@end defun
+
+@defun evp-aes-256-ctr
+@end defun
+
+@defun evp-aes-256-ccm
+@end defun
+
+@defun evp-aes-256-gcm
+@end defun
+
+@defun evp-aes-256-xts
+@end defun
+
+@defun evp-aes-128-cbc-hmac-sha1
+@end defun
+
+@defun evp-aes-256-cbc-hmac-sha1
+@end defun
+
+@defun evp-camellia-128-ecb
+@end defun
+
+@defun evp-camellia-128-cbc
+@end defun
+
+@defun evp-camellia-128-cfb1
+@end defun
+
+@defun evp-camellia-128-cfb8
+@end defun
+
+@defun evp-camellia-128-cfb128
+@end defun
+
+@defun evp-camellia-128-cfb
+@end defun
+
+@defun evp-camellia-128-ofb
+@end defun
+
+@defun evp-camellia-192-ecb
+@end defun
+
+@defun evp-camellia-192-cbc
+@end defun
+
+@defun evp-camellia-192-cfb1
+@end defun
+
+@defun evp-camellia-192-cfb8
+@end defun
+
+@defun evp-camellia-192-cfb128
+@end defun
+
+@defun evp-camellia-192-cfb
+@end defun
+
+@defun evp-camellia-192-ofb
+@end defun
+
+@defun evp-camellia-256-ecb
+@end defun
+
+@defun evp-camellia-256-cbc
+@end defun
+
+@defun evp-camellia-256-cfb1
+@end defun
+
+@defun evp-camellia-256-cfb8
+@end defun
+
+@defun evp-camellia-256-cfb128
+@end defun
+
+@defun evp-camellia-256-cfb
+@end defun
+
+@defun evp-camellia-256-ofb
+@end defun
+
+@defun evp-seed-ecb
+@end defun
+
+@defun evp-seed-cbc
+@end defun
+
+@defun evp-seed-cfb128
+@end defun
+
+@defun evp-seed-cfb
+@end defun
+
+@defun evp-seed-ofb
+@end defun
+
+@defun evp-cipher-type
+@end defun
+
+@defun evp-get-cipherbyname
+@end defun
+
+@defun evp-get-cipherbynid
+@end defun
+
+@defun evp-get-cipherbyobj
+@end defun
+
+@defun evp-cipher-nid
+@end defun
+
+@defun evp-cipher-name
+@end defun
+
+@defun evp-cipher-block-size
+@end defun
+
+@defun evp-cipher-key-length
+@end defun
+
+@defun evp-cipher-iv-length
+@end defun
+
+@defun evp-cipher-flags
+@end defun
+
+@defun evp-cipher-mode
+@end defun
+
+@defun evp-cipher-ctx-init
+@end defun
+
+@defun evp-cipher-ctx-cleanup
+@end defun
+
+@defun evp-cipher-ctx-new
+@end defun
+
+@defun evp-cipher-ctx-free
+@end defun
+
+@defun evp-encryptinit-ex
+@end defun
+
+@defun evp-encryptfinal-ex
+@end defun
+
+@defun evp-encryptupdate
+@end defun
+
+@defun evp-decryptinit-ex
+@end defun
+
+@defun evp-decryptupdate
+@end defun
+
+@defun evp-decryptfinal-ex
+@end defun
+
+@defun evp-cipherinit-ex
+@end defun
+
+@defun evp-cipherupdate
+@end defun
+
+@defun evp-cipherfinal-ex
+@end defun
+
+@defun evp-cipher-ctx-set-key-length
+@end defun
+
+@defun evp-cipher-ctx-set-padding
+@end defun
+
+@defun evp-cipher-ctx-ctrl
+@end defun
+
+@defun evp-cipher-ctx-cipher
+@end defun
+
+@defun evp-cipher-ctx-nid
+@end defun
+
+@defun evp-cipher-ctx-block-size
+@end defun
+
+@defun evp-cipher-ctx-key-length
+@end defun
+
+@defun evp-cipher-ctx-iv-length
+@end defun
+
+@defun evp-cipher-ctx-copy
+@end defun
+
+@defun evp-cipher-ctx-get-app-data
+@end defun
+
+@defun evp-cipher-ctx-set-app-data
+@end defun
+
+@defun evp-cipher-ctx-type
+@end defun
+
+@defun evp-cipher-ctx-flags
+@end defun
+
+@defun evp-cipher-ctx-mode
+@end defun
+
+@defun evp-cipher-ctx-rand-key
+@end defun
+
+@defun evp-cipher-param-to-asn1
+@end defun
+
+@defun evp-cipher-asn1-to-param
+@end defun
+
+@defun evp-cipher-ctx-set-flags
+@end defun
+
+@defun evp-cipher-ctx-clear-flags
+@end defun
+
+@defun evp-cipher-ctx-test-flags
+@end defun
+
+@defun evp-cipher
+@end defun
+
+@c page
+@node plain evp cipher ctx
+@subsection Encryption and decription contexts
+
 
 @c page
 @c ------------------------------------------------------------

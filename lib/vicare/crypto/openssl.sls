@@ -275,6 +275,162 @@
     evp-digest
     evp-get-digestbyname
 
+    ;; EVP cipher algorithms
+    evp-enc-null
+    evp-des-ecb
+    evp-des-ede
+    evp-des-ede3
+    evp-des-ede-ecb
+    evp-des-ede3-ecb
+    evp-des-cfb64
+    evp-des-cfb
+    evp-des-ede3-cfb64
+    evp-des-ede3-cfb
+    evp-des-ede3-cfb1
+    evp-des-ede3-cfb8
+    evp-des-ofb
+    evp-des-ede-ofb
+    evp-des-ede3-ofb
+    evp-des-cbc
+    evp-des-ede-cbc
+    evp-des-ede3-cbc
+    evp-desx-cbc
+    evp-rc4
+    evp-rc4-40
+    evp-rc4-hmac-md5
+    evp-idea-ecb
+    evp-idea-cfb64
+    evp-idea-cfb
+    evp-idea-ofb
+    evp-idea-cbc
+    evp-rc2-ecb
+    evp-rc2-cbc
+    evp-rc2-40-cbc
+    evp-rc2-64-cbc
+    evp-rc2-cfb64
+    evp-rc2-cfb
+    evp-rc2-ofb
+    evp-bf-ecb
+    evp-bf-cbc
+    evp-bf-cfb64
+    evp-bf-cfb
+    evp-bf-ofb
+    evp-cast5-ecb
+    evp-cast5-cbc
+    evp-cast5-cfb64
+    evp-cast5-cfb
+    evp-cast5-ofb
+    evp-rc5-32-12-16-cbc
+    evp-rc5-32-12-16-ecb
+    evp-rc5-32-12-16-cfb64
+    evp-rc5-32-12-16-cfb
+    evp-rc5-32-12-16-ofb
+    evp-aes-128-ecb
+    evp-aes-128-cbc
+    evp-aes-128-cfb1
+    evp-aes-128-cfb8
+    evp-aes-128-cfb128
+    evp-aes-128-cfb
+    evp-aes-128-ofb
+    evp-aes-128-ctr
+    evp-aes-128-ccm
+    evp-aes-128-gcm
+    evp-aes-128-xts
+    evp-aes-192-ecb
+    evp-aes-192-cbc
+    evp-aes-192-cfb1
+    evp-aes-192-cfb8
+    evp-aes-192-cfb128
+    evp-aes-192-cfb
+    evp-aes-192-ofb
+    evp-aes-192-ctr
+    evp-aes-192-ccm
+    evp-aes-192-gcm
+    evp-aes-256-ecb
+    evp-aes-256-cbc
+    evp-aes-256-cfb1
+    evp-aes-256-cfb8
+    evp-aes-256-cfb128
+    evp-aes-256-cfb
+    evp-aes-256-ofb
+    evp-aes-256-ctr
+    evp-aes-256-ccm
+    evp-aes-256-gcm
+    evp-aes-256-xts
+    evp-aes-128-cbc-hmac-sha1
+    evp-aes-256-cbc-hmac-sha1
+    evp-camellia-128-ecb
+    evp-camellia-128-cbc
+    evp-camellia-128-cfb1
+    evp-camellia-128-cfb8
+    evp-camellia-128-cfb128
+    evp-camellia-128-cfb
+    evp-camellia-128-ofb
+    evp-camellia-192-ecb
+    evp-camellia-192-cbc
+    evp-camellia-192-cfb1
+    evp-camellia-192-cfb8
+    evp-camellia-192-cfb128
+    evp-camellia-192-cfb
+    evp-camellia-192-ofb
+    evp-camellia-256-ecb
+    evp-camellia-256-cbc
+    evp-camellia-256-cfb1
+    evp-camellia-256-cfb8
+    evp-camellia-256-cfb128
+    evp-camellia-256-cfb
+    evp-camellia-256-ofb
+    evp-seed-ecb
+    evp-seed-cbc
+    evp-seed-cfb128
+    evp-seed-cfb
+    evp-seed-ofb
+    evp-cipher-type
+    evp-get-cipherbyname
+    evp-get-cipherbynid
+    evp-get-cipherbyobj
+    evp-cipher-nid
+    evp-cipher-name
+    evp-cipher-block-size
+    evp-cipher-key-length
+    evp-cipher-iv-length
+    evp-cipher-flags
+    evp-cipher-mode
+    evp-cipher-ctx-init
+    evp-cipher-ctx-cleanup
+    evp-cipher-ctx-new
+    evp-cipher-ctx-free
+    evp-encryptinit-ex
+    evp-encryptfinal-ex
+    evp-encryptupdate
+    evp-decryptinit-ex
+    evp-decryptupdate
+    evp-decryptfinal-ex
+    evp-cipherinit-ex
+    evp-cipherupdate
+    evp-cipherfinal-ex
+    evp-cipher-ctx-set-key-length
+    evp-cipher-ctx-set-padding
+    evp-cipher-ctx-ctrl
+    evp-cipher-ctx-cipher
+    evp-cipher-ctx-nid
+    evp-cipher-ctx-block-size
+    evp-cipher-ctx-key-length
+    evp-cipher-ctx-iv-length
+    evp-cipher-ctx-copy
+    evp-cipher-ctx-get-app-data
+    evp-cipher-ctx-set-app-data
+    evp-cipher-ctx-type
+    evp-cipher-ctx-flags
+    evp-cipher-ctx-mode
+    evp-cipher-ctx-rand-key
+    evp-cipher-param-to-asn1
+    evp-cipher-asn1-to-param
+    evp-cipher-ctx-set-flags
+    evp-cipher-ctx-clear-flags
+    evp-cipher-ctx-test-flags
+    evp-cipher
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -1472,6 +1628,933 @@
 	     => (lambda (rv)
 		  (make-evp-md rv)))
 	    (else #f)))))
+
+
+;;;; EVP cipher algorithms
+
+(define (evp-enc-null ctx)
+  (define who 'evp-enc-null)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-enc-null)))
+
+(define (evp-des-ecb ctx)
+  (define who 'evp-des-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ecb)))
+
+(define (evp-des-ede ctx)
+  (define who 'evp-des-ede)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ede)))
+
+(define (evp-des-ede3 ctx)
+  (define who 'evp-des-ede3)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ede3)))
+
+(define (evp-des-ede-ecb ctx)
+  (define who 'evp-des-ede-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ede-ecb)))
+
+(define (evp-des-ede3-ecb ctx)
+  (define who 'evp-des-ede3-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ede3-ecb)))
+
+(define (evp-des-cfb64 ctx)
+  (define who 'evp-des-cfb64)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-cfb64)))
+
+(define (evp-des-cfb ctx)
+  (define who 'evp-des-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-cfb)))
+
+(define (evp-des-ede3-cfb64 ctx)
+  (define who 'evp-des-ede3-cfb64)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ede3-cfb64)))
+
+(define (evp-des-ede3-cfb ctx)
+  (define who 'evp-des-ede3-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ede3-cfb)))
+
+(define (evp-des-ede3-cfb1 ctx)
+  (define who 'evp-des-ede3-cfb1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ede3-cfb1)))
+
+(define (evp-des-ede3-cfb8 ctx)
+  (define who 'evp-des-ede3-cfb8)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ede3-cfb8)))
+
+(define (evp-des-ofb ctx)
+  (define who 'evp-des-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ofb)))
+
+(define (evp-des-ede-ofb ctx)
+  (define who 'evp-des-ede-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ede-ofb)))
+
+(define (evp-des-ede3-ofb ctx)
+  (define who 'evp-des-ede3-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ede3-ofb)))
+
+(define (evp-des-cbc ctx)
+  (define who 'evp-des-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-cbc)))
+
+(define (evp-des-ede-cbc ctx)
+  (define who 'evp-des-ede-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ede-cbc)))
+
+(define (evp-des-ede3-cbc ctx)
+  (define who 'evp-des-ede3-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-des-ede3-cbc)))
+
+(define (evp-desx-cbc ctx)
+  (define who 'evp-desx-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-desx-cbc)))
+
+(define (evp-rc4 ctx)
+  (define who 'evp-rc4)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc4)))
+
+(define (evp-rc4-40 ctx)
+  (define who 'evp-rc4-40)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc4-40)))
+
+(define (evp-rc4-hmac-md5 ctx)
+  (define who 'evp-rc4-hmac-md5)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc4-hmac-md5)))
+
+(define (evp-idea-ecb ctx)
+  (define who 'evp-idea-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-idea-ecb)))
+
+(define (evp-idea-cfb64 ctx)
+  (define who 'evp-idea-cfb64)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-idea-cfb64)))
+
+(define (evp-idea-cfb ctx)
+  (define who 'evp-idea-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-idea-cfb)))
+
+(define (evp-idea-ofb ctx)
+  (define who 'evp-idea-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-idea-ofb)))
+
+(define (evp-idea-cbc ctx)
+  (define who 'evp-idea-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-idea-cbc)))
+
+(define (evp-rc2-ecb ctx)
+  (define who 'evp-rc2-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc2-ecb)))
+
+(define (evp-rc2-cbc ctx)
+  (define who 'evp-rc2-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc2-cbc)))
+
+(define (evp-rc2-40-cbc ctx)
+  (define who 'evp-rc2-40-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc2-40-cbc)))
+
+(define (evp-rc2-64-cbc ctx)
+  (define who 'evp-rc2-64-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc2-64-cbc)))
+
+(define (evp-rc2-cfb64 ctx)
+  (define who 'evp-rc2-cfb64)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc2-cfb64)))
+
+(define (evp-rc2-cfb ctx)
+  (define who 'evp-rc2-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc2-cfb)))
+
+(define (evp-rc2-ofb ctx)
+  (define who 'evp-rc2-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc2-ofb)))
+
+(define (evp-bf-ecb ctx)
+  (define who 'evp-bf-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-bf-ecb)))
+
+(define (evp-bf-cbc ctx)
+  (define who 'evp-bf-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-bf-cbc)))
+
+(define (evp-bf-cfb64 ctx)
+  (define who 'evp-bf-cfb64)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-bf-cfb64)))
+
+(define (evp-bf-cfb ctx)
+  (define who 'evp-bf-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-bf-cfb)))
+
+(define (evp-bf-ofb ctx)
+  (define who 'evp-bf-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-bf-ofb)))
+
+(define (evp-cast5-ecb ctx)
+  (define who 'evp-cast5-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cast5-ecb)))
+
+(define (evp-cast5-cbc ctx)
+  (define who 'evp-cast5-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cast5-cbc)))
+
+(define (evp-cast5-cfb64 ctx)
+  (define who 'evp-cast5-cfb64)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cast5-cfb64)))
+
+(define (evp-cast5-cfb ctx)
+  (define who 'evp-cast5-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cast5-cfb)))
+
+(define (evp-cast5-ofb ctx)
+  (define who 'evp-cast5-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cast5-ofb)))
+
+(define (evp-rc5-32-12-16-cbc ctx)
+  (define who 'evp-rc5-32-12-16-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc5-32-12-16-cbc)))
+
+(define (evp-rc5-32-12-16-ecb ctx)
+  (define who 'evp-rc5-32-12-16-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc5-32-12-16-ecb)))
+
+(define (evp-rc5-32-12-16-cfb64 ctx)
+  (define who 'evp-rc5-32-12-16-cfb64)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc5-32-12-16-cfb64)))
+
+(define (evp-rc5-32-12-16-cfb ctx)
+  (define who 'evp-rc5-32-12-16-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc5-32-12-16-cfb)))
+
+(define (evp-rc5-32-12-16-ofb ctx)
+  (define who 'evp-rc5-32-12-16-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-rc5-32-12-16-ofb)))
+
+(define (evp-aes-128-ecb ctx)
+  (define who 'evp-aes-128-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-128-ecb)))
+
+(define (evp-aes-128-cbc ctx)
+  (define who 'evp-aes-128-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-128-cbc)))
+
+(define (evp-aes-128-cfb1 ctx)
+  (define who 'evp-aes-128-cfb1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-128-cfb1)))
+
+(define (evp-aes-128-cfb8 ctx)
+  (define who 'evp-aes-128-cfb8)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-128-cfb8)))
+
+(define (evp-aes-128-cfb128 ctx)
+  (define who 'evp-aes-128-cfb128)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-128-cfb128)))
+
+(define (evp-aes-128-cfb ctx)
+  (define who 'evp-aes-128-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-128-cfb)))
+
+(define (evp-aes-128-ofb ctx)
+  (define who 'evp-aes-128-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-128-ofb)))
+
+(define (evp-aes-128-ctr ctx)
+  (define who 'evp-aes-128-ctr)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-128-ctr)))
+
+(define (evp-aes-128-ccm ctx)
+  (define who 'evp-aes-128-ccm)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-128-ccm)))
+
+(define (evp-aes-128-gcm ctx)
+  (define who 'evp-aes-128-gcm)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-128-gcm)))
+
+(define (evp-aes-128-xts ctx)
+  (define who 'evp-aes-128-xts)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-128-xts)))
+
+(define (evp-aes-192-ecb ctx)
+  (define who 'evp-aes-192-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-192-ecb)))
+
+(define (evp-aes-192-cbc ctx)
+  (define who 'evp-aes-192-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-192-cbc)))
+
+(define (evp-aes-192-cfb1 ctx)
+  (define who 'evp-aes-192-cfb1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-192-cfb1)))
+
+(define (evp-aes-192-cfb8 ctx)
+  (define who 'evp-aes-192-cfb8)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-192-cfb8)))
+
+(define (evp-aes-192-cfb128 ctx)
+  (define who 'evp-aes-192-cfb128)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-192-cfb128)))
+
+(define (evp-aes-192-cfb ctx)
+  (define who 'evp-aes-192-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-192-cfb)))
+
+(define (evp-aes-192-ofb ctx)
+  (define who 'evp-aes-192-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-192-ofb)))
+
+(define (evp-aes-192-ctr ctx)
+  (define who 'evp-aes-192-ctr)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-192-ctr)))
+
+(define (evp-aes-192-ccm ctx)
+  (define who 'evp-aes-192-ccm)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-192-ccm)))
+
+(define (evp-aes-192-gcm ctx)
+  (define who 'evp-aes-192-gcm)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-192-gcm)))
+
+(define (evp-aes-256-ecb ctx)
+  (define who 'evp-aes-256-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-256-ecb)))
+
+(define (evp-aes-256-cbc ctx)
+  (define who 'evp-aes-256-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-256-cbc)))
+
+(define (evp-aes-256-cfb1 ctx)
+  (define who 'evp-aes-256-cfb1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-256-cfb1)))
+
+(define (evp-aes-256-cfb8 ctx)
+  (define who 'evp-aes-256-cfb8)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-256-cfb8)))
+
+(define (evp-aes-256-cfb128 ctx)
+  (define who 'evp-aes-256-cfb128)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-256-cfb128)))
+
+(define (evp-aes-256-cfb ctx)
+  (define who 'evp-aes-256-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-256-cfb)))
+
+(define (evp-aes-256-ofb ctx)
+  (define who 'evp-aes-256-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-256-ofb)))
+
+(define (evp-aes-256-ctr ctx)
+  (define who 'evp-aes-256-ctr)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-256-ctr)))
+
+(define (evp-aes-256-ccm ctx)
+  (define who 'evp-aes-256-ccm)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-256-ccm)))
+
+(define (evp-aes-256-gcm ctx)
+  (define who 'evp-aes-256-gcm)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-256-gcm)))
+
+(define (evp-aes-256-xts ctx)
+  (define who 'evp-aes-256-xts)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-256-xts)))
+
+(define (evp-aes-128-cbc-hmac-sha1 ctx)
+  (define who 'evp-aes-128-cbc-hmac-sha1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-128-cbc-hmac-sha1)))
+
+(define (evp-aes-256-cbc-hmac-sha1 ctx)
+  (define who 'evp-aes-256-cbc-hmac-sha1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-aes-256-cbc-hmac-sha1)))
+
+(define (evp-camellia-128-ecb ctx)
+  (define who 'evp-camellia-128-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-128-ecb)))
+
+(define (evp-camellia-128-cbc ctx)
+  (define who 'evp-camellia-128-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-128-cbc)))
+
+(define (evp-camellia-128-cfb1 ctx)
+  (define who 'evp-camellia-128-cfb1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-128-cfb1)))
+
+(define (evp-camellia-128-cfb8 ctx)
+  (define who 'evp-camellia-128-cfb8)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-128-cfb8)))
+
+(define (evp-camellia-128-cfb128 ctx)
+  (define who 'evp-camellia-128-cfb128)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-128-cfb128)))
+
+(define (evp-camellia-128-cfb ctx)
+  (define who 'evp-camellia-128-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-128-cfb)))
+
+(define (evp-camellia-128-ofb ctx)
+  (define who 'evp-camellia-128-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-128-ofb)))
+
+(define (evp-camellia-192-ecb ctx)
+  (define who 'evp-camellia-192-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-192-ecb)))
+
+(define (evp-camellia-192-cbc ctx)
+  (define who 'evp-camellia-192-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-192-cbc)))
+
+(define (evp-camellia-192-cfb1 ctx)
+  (define who 'evp-camellia-192-cfb1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-192-cfb1)))
+
+(define (evp-camellia-192-cfb8 ctx)
+  (define who 'evp-camellia-192-cfb8)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-192-cfb8)))
+
+(define (evp-camellia-192-cfb128 ctx)
+  (define who 'evp-camellia-192-cfb128)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-192-cfb128)))
+
+(define (evp-camellia-192-cfb ctx)
+  (define who 'evp-camellia-192-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-192-cfb)))
+
+(define (evp-camellia-192-ofb ctx)
+  (define who 'evp-camellia-192-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-192-ofb)))
+
+(define (evp-camellia-256-ecb ctx)
+  (define who 'evp-camellia-256-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-256-ecb)))
+
+(define (evp-camellia-256-cbc ctx)
+  (define who 'evp-camellia-256-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-256-cbc)))
+
+(define (evp-camellia-256-cfb1 ctx)
+  (define who 'evp-camellia-256-cfb1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-256-cfb1)))
+
+(define (evp-camellia-256-cfb8 ctx)
+  (define who 'evp-camellia-256-cfb8)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-256-cfb8)))
+
+(define (evp-camellia-256-cfb128 ctx)
+  (define who 'evp-camellia-256-cfb128)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-256-cfb128)))
+
+(define (evp-camellia-256-cfb ctx)
+  (define who 'evp-camellia-256-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-256-cfb)))
+
+(define (evp-camellia-256-ofb ctx)
+  (define who 'evp-camellia-256-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-camellia-256-ofb)))
+
+(define (evp-seed-ecb ctx)
+  (define who 'evp-seed-ecb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-seed-ecb)))
+
+(define (evp-seed-cbc ctx)
+  (define who 'evp-seed-cbc)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-seed-cbc)))
+
+(define (evp-seed-cfb128 ctx)
+  (define who 'evp-seed-cfb128)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-seed-cfb128)))
+
+(define (evp-seed-cfb ctx)
+  (define who 'evp-seed-cfb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-seed-cfb)))
+
+(define (evp-seed-ofb ctx)
+  (define who 'evp-seed-ofb)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-seed-ofb)))
+
+(define (evp-cipher-type ctx)
+  (define who 'evp-cipher-type)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-type)))
+
+(define (evp-get-cipherbyname ctx)
+  (define who 'evp-get-cipherbyname)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-get-cipherbyname)))
+
+(define (evp-get-cipherbynid ctx)
+  (define who 'evp-get-cipherbynid)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-get-cipherbynid)))
+
+(define (evp-get-cipherbyobj ctx)
+  (define who 'evp-get-cipherbyobj)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-get-cipherbyobj)))
+
+(define (evp-cipher-nid ctx)
+  (define who 'evp-cipher-nid)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-nid)))
+
+(define (evp-cipher-name ctx)
+  (define who 'evp-cipher-name)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-name)))
+
+(define (evp-cipher-block-size ctx)
+  (define who 'evp-cipher-block-size)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-block-size)))
+
+(define (evp-cipher-key-length ctx)
+  (define who 'evp-cipher-key-length)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-key-length)))
+
+(define (evp-cipher-iv-length ctx)
+  (define who 'evp-cipher-iv-length)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-iv-length)))
+
+(define (evp-cipher-flags ctx)
+  (define who 'evp-cipher-flags)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-flags)))
+
+(define (evp-cipher-mode ctx)
+  (define who 'evp-cipher-mode)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-mode)))
+
+(define (evp-cipher-ctx-init ctx)
+  (define who 'evp-cipher-ctx-init)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-init)))
+
+(define (evp-cipher-ctx-cleanup ctx)
+  (define who 'evp-cipher-ctx-cleanup)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-cleanup)))
+
+(define (evp-cipher-ctx-new ctx)
+  (define who 'evp-cipher-ctx-new)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-new)))
+
+(define (evp-cipher-ctx-free ctx)
+  (define who 'evp-cipher-ctx-free)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-free)))
+
+(define (evp-encryptinit-ex ctx)
+  (define who 'evp-encryptinit-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-encryptinit-ex)))
+
+(define (evp-encryptfinal-ex ctx)
+  (define who 'evp-encryptfinal-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-encryptfinal-ex)))
+
+(define (evp-encryptupdate ctx)
+  (define who 'evp-encryptupdate)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-encryptupdate)))
+
+(define (evp-decryptinit-ex ctx)
+  (define who 'evp-decryptinit-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-decryptinit-ex)))
+
+(define (evp-decryptupdate ctx)
+  (define who 'evp-decryptupdate)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-decryptupdate)))
+
+(define (evp-decryptfinal-ex ctx)
+  (define who 'evp-decryptfinal-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-decryptfinal-ex)))
+
+(define (evp-cipherinit-ex ctx)
+  (define who 'evp-cipherinit-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipherinit-ex)))
+
+(define (evp-cipherupdate ctx)
+  (define who 'evp-cipherupdate)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipherupdate)))
+
+(define (evp-cipherfinal-ex ctx)
+  (define who 'evp-cipherfinal-ex)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipherfinal-ex)))
+
+(define (evp-cipher-ctx-set-key-length ctx)
+  (define who 'evp-cipher-ctx-set-key-length)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-set-key-length)))
+
+(define (evp-cipher-ctx-set-padding ctx)
+  (define who 'evp-cipher-ctx-set-padding)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-set-padding)))
+
+(define (evp-cipher-ctx-ctrl ctx)
+  (define who 'evp-cipher-ctx-ctrl)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-ctrl)))
+
+(define (evp-cipher-ctx-cipher ctx)
+  (define who 'evp-cipher-ctx-cipher)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-cipher)))
+
+(define (evp-cipher-ctx-nid ctx)
+  (define who 'evp-cipher-ctx-nid)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-nid)))
+
+(define (evp-cipher-ctx-block-size ctx)
+  (define who 'evp-cipher-ctx-block-size)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-block-size)))
+
+(define (evp-cipher-ctx-key-length ctx)
+  (define who 'evp-cipher-ctx-key-length)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-key-length)))
+
+(define (evp-cipher-ctx-iv-length ctx)
+  (define who 'evp-cipher-ctx-iv-length)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-iv-length)))
+
+(define (evp-cipher-ctx-copy ctx)
+  (define who 'evp-cipher-ctx-copy)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-copy)))
+
+(define (evp-cipher-ctx-get-app-data ctx)
+  (define who 'evp-cipher-ctx-get-app-data)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-get-app-data)))
+
+(define (evp-cipher-ctx-set-app-data ctx)
+  (define who 'evp-cipher-ctx-set-app-data)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-set-app-data)))
+
+(define (evp-cipher-ctx-type ctx)
+  (define who 'evp-cipher-ctx-type)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-type)))
+
+(define (evp-cipher-ctx-flags ctx)
+  (define who 'evp-cipher-ctx-flags)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-flags)))
+
+(define (evp-cipher-ctx-mode ctx)
+  (define who 'evp-cipher-ctx-mode)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-mode)))
+
+(define (evp-cipher-ctx-rand-key ctx)
+  (define who 'evp-cipher-ctx-rand-key)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-rand-key)))
+
+(define (evp-cipher-param-to-asn1 ctx)
+  (define who 'evp-cipher-param-to-asn1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-param-to-asn1)))
+
+(define (evp-cipher-asn1-to-param ctx)
+  (define who 'evp-cipher-asn1-to-param)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-asn1-to-param)))
+
+(define (evp-cipher-ctx-set-flags ctx)
+  (define who 'evp-cipher-ctx-set-flags)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-set-flags)))
+
+(define (evp-cipher-ctx-clear-flags ctx)
+  (define who 'evp-cipher-ctx-clear-flags)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-clear-flags)))
+
+(define (evp-cipher-ctx-test-flags ctx)
+  (define who 'evp-cipher-ctx-test-flags)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-test-flags)))
+
+(define (evp-cipher ctx)
+  (define who 'evp-cipher)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher)))
 
 
 ;;;; still to be implemented

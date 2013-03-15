@@ -178,6 +178,162 @@ main (int argc, const char *const argv[])
     HAVE_EVP_WHIRLPOOL\n\
     HAVE_EVP_GET_DIGESTBYNAME\n\
     \n\
+    ;; EVP cipher algorithms features\n\
+    HAVE_EVP_ENC_NULL\n\
+    HAVE_EVP_DES_ECB\n\
+    HAVE_EVP_DES_EDE\n\
+    HAVE_EVP_DES_EDE3\n\
+    HAVE_EVP_DES_EDE_ECB\n\
+    HAVE_EVP_DES_EDE3_ECB\n\
+    HAVE_EVP_DES_CFB64\n\
+    HAVE_EVP_DES_CFB\n\
+    HAVE_EVP_DES_EDE3_CFB64\n\
+    HAVE_EVP_DES_EDE3_CFB\n\
+    HAVE_EVP_DES_EDE3_CFB1\n\
+    HAVE_EVP_DES_EDE3_CFB8\n\
+    HAVE_EVP_DES_OFB\n\
+    HAVE_EVP_DES_EDE_OFB\n\
+    HAVE_EVP_DES_EDE3_OFB\n\
+    HAVE_EVP_DES_CBC\n\
+    HAVE_EVP_DES_EDE_CBC\n\
+    HAVE_EVP_DES_EDE3_CBC\n\
+    HAVE_EVP_DESX_CBC\n\
+    HAVE_EVP_RC4\n\
+    HAVE_EVP_RC4_40\n\
+    HAVE_EVP_RC4_HMAC_MD5\n\
+    HAVE_EVP_IDEA_ECB\n\
+    HAVE_EVP_IDEA_CFB64\n\
+    HAVE_EVP_IDEA_CFB\n\
+    HAVE_EVP_IDEA_OFB\n\
+    HAVE_EVP_IDEA_CBC\n\
+    HAVE_EVP_RC2_ECB\n\
+    HAVE_EVP_RC2_CBC\n\
+    HAVE_EVP_RC2_40_CBC\n\
+    HAVE_EVP_RC2_64_CBC\n\
+    HAVE_EVP_RC2_CFB64\n\
+    HAVE_EVP_RC2_CFB\n\
+    HAVE_EVP_RC2_OFB\n\
+    HAVE_EVP_BF_ECB\n\
+    HAVE_EVP_BF_CBC\n\
+    HAVE_EVP_BF_CFB64\n\
+    HAVE_EVP_BF_CFB\n\
+    HAVE_EVP_BF_OFB\n\
+    HAVE_EVP_CAST5_ECB\n\
+    HAVE_EVP_CAST5_CBC\n\
+    HAVE_EVP_CAST5_CFB64\n\
+    HAVE_EVP_CAST5_CFB\n\
+    HAVE_EVP_CAST5_OFB\n\
+    HAVE_EVP_RC5_32_12_16_CBC\n\
+    HAVE_EVP_RC5_32_12_16_ECB\n\
+    HAVE_EVP_RC5_32_12_16_CFB64\n\
+    HAVE_EVP_RC5_32_12_16_CFB\n\
+    HAVE_EVP_RC5_32_12_16_OFB\n\
+    HAVE_EVP_AES_128_ECB\n\
+    HAVE_EVP_AES_128_CBC\n\
+    HAVE_EVP_AES_128_CFB1\n\
+    HAVE_EVP_AES_128_CFB8\n\
+    HAVE_EVP_AES_128_CFB128\n\
+    HAVE_EVP_AES_128_CFB\n\
+    HAVE_EVP_AES_128_OFB\n\
+    HAVE_EVP_AES_128_CTR\n\
+    HAVE_EVP_AES_128_CCM\n\
+    HAVE_EVP_AES_128_GCM\n\
+    HAVE_EVP_AES_128_XTS\n\
+    HAVE_EVP_AES_192_ECB\n\
+    HAVE_EVP_AES_192_CBC\n\
+    HAVE_EVP_AES_192_CFB1\n\
+    HAVE_EVP_AES_192_CFB8\n\
+    HAVE_EVP_AES_192_CFB128\n\
+    HAVE_EVP_AES_192_CFB\n\
+    HAVE_EVP_AES_192_OFB\n\
+    HAVE_EVP_AES_192_CTR\n\
+    HAVE_EVP_AES_192_CCM\n\
+    HAVE_EVP_AES_192_GCM\n\
+    HAVE_EVP_AES_256_ECB\n\
+    HAVE_EVP_AES_256_CBC\n\
+    HAVE_EVP_AES_256_CFB1\n\
+    HAVE_EVP_AES_256_CFB8\n\
+    HAVE_EVP_AES_256_CFB128\n\
+    HAVE_EVP_AES_256_CFB\n\
+    HAVE_EVP_AES_256_OFB\n\
+    HAVE_EVP_AES_256_CTR\n\
+    HAVE_EVP_AES_256_CCM\n\
+    HAVE_EVP_AES_256_GCM\n\
+    HAVE_EVP_AES_256_XTS\n\
+    HAVE_EVP_AES_128_CBC_HMAC_SHA1\n\
+    HAVE_EVP_AES_256_CBC_HMAC_SHA1\n\
+    HAVE_EVP_CAMELLIA_128_ECB\n\
+    HAVE_EVP_CAMELLIA_128_CBC\n\
+    HAVE_EVP_CAMELLIA_128_CFB1\n\
+    HAVE_EVP_CAMELLIA_128_CFB8\n\
+    HAVE_EVP_CAMELLIA_128_CFB128\n\
+    HAVE_EVP_CAMELLIA_128_CFB\n\
+    HAVE_EVP_CAMELLIA_128_OFB\n\
+    HAVE_EVP_CAMELLIA_192_ECB\n\
+    HAVE_EVP_CAMELLIA_192_CBC\n\
+    HAVE_EVP_CAMELLIA_192_CFB1\n\
+    HAVE_EVP_CAMELLIA_192_CFB8\n\
+    HAVE_EVP_CAMELLIA_192_CFB128\n\
+    HAVE_EVP_CAMELLIA_192_CFB\n\
+    HAVE_EVP_CAMELLIA_192_OFB\n\
+    HAVE_EVP_CAMELLIA_256_ECB\n\
+    HAVE_EVP_CAMELLIA_256_CBC\n\
+    HAVE_EVP_CAMELLIA_256_CFB1\n\
+    HAVE_EVP_CAMELLIA_256_CFB8\n\
+    HAVE_EVP_CAMELLIA_256_CFB128\n\
+    HAVE_EVP_CAMELLIA_256_CFB\n\
+    HAVE_EVP_CAMELLIA_256_OFB\n\
+    HAVE_EVP_SEED_ECB\n\
+    HAVE_EVP_SEED_CBC\n\
+    HAVE_EVP_SEED_CFB128\n\
+    HAVE_EVP_SEED_CFB\n\
+    HAVE_EVP_SEED_OFB\n\
+    HAVE_EVP_CIPHER_TYPE\n\
+    HAVE_EVP_GET_CIPHERBYNAME\n\
+    HAVE_EVP_GET_CIPHERBYNID\n\
+    HAVE_EVP_GET_CIPHERBYOBJ\n\
+    HAVE_EVP_CIPHER_NID\n\
+    HAVE_EVP_CIPHER_NAME\n\
+    HAVE_EVP_CIPHER_BLOCK_SIZE\n\
+    HAVE_EVP_CIPHER_KEY_LENGTH\n\
+    HAVE_EVP_CIPHER_IV_LENGTH\n\
+    HAVE_EVP_CIPHER_FLAGS\n\
+    HAVE_EVP_CIPHER_MODE\n\
+    HAVE_EVP_CIPHER_CTX_INIT\n\
+    HAVE_EVP_CIPHER_CTX_CLEANUP\n\
+    HAVE_EVP_CIPHER_CTX_NEW\n\
+    HAVE_EVP_CIPHER_CTX_FREE\n\
+    HAVE_EVP_ENCRYPTINIT_EX\n\
+    HAVE_EVP_ENCRYPTFINAL_EX\n\
+    HAVE_EVP_ENCRYPTUPDATE\n\
+    HAVE_EVP_DECRYPTINIT_EX\n\
+    HAVE_EVP_DECRYPTUPDATE\n\
+    HAVE_EVP_DECRYPTFINAL_EX\n\
+    HAVE_EVP_CIPHERINIT_EX\n\
+    HAVE_EVP_CIPHERUPDATE\n\
+    HAVE_EVP_CIPHERFINAL_EX\n\
+    HAVE_EVP_CIPHER_CTX_SET_KEY_LENGTH\n\
+    HAVE_EVP_CIPHER_CTX_SET_PADDING\n\
+    HAVE_EVP_CIPHER_CTX_CTRL\n\
+    HAVE_EVP_CIPHER_CTX_CIPHER\n\
+    HAVE_EVP_CIPHER_CTX_NID\n\
+    HAVE_EVP_CIPHER_CTX_BLOCK_SIZE\n\
+    HAVE_EVP_CIPHER_CTX_KEY_LENGTH\n\
+    HAVE_EVP_CIPHER_CTX_IV_LENGTH\n\
+    HAVE_EVP_CIPHER_CTX_COPY\n\
+    HAVE_EVP_CIPHER_CTX_GET_APP_DATA\n\
+    HAVE_EVP_CIPHER_CTX_SET_APP_DATA\n\
+    HAVE_EVP_CIPHER_CTX_TYPE\n\
+    HAVE_EVP_CIPHER_CTX_FLAGS\n\
+    HAVE_EVP_CIPHER_CTX_MODE\n\
+    HAVE_EVP_CIPHER_CTX_RAND_KEY\n\
+    HAVE_EVP_CIPHER_PARAM_TO_ASN1\n\
+    HAVE_EVP_CIPHER_ASN1_TO_PARAM\n\
+    HAVE_EVP_CIPHER_CTX_SET_FLAGS\n\
+    HAVE_EVP_CIPHER_CTX_CLEAR_FLAGS\n\
+    HAVE_EVP_CIPHER_CTX_TEST_FLAGS\n\
+    HAVE_EVP_CIPHER\n\
+    \n\
     ;; AES features\n\
     HAVE_AES_OPTIONS\n\
     HAVE_AES_SET_ENCRYPT_KEY\n\
@@ -1133,6 +1289,1243 @@ printf("(define-inline-constant HAVE_EVP_WHIRLPOOL %s)\n",
 
 printf("(define-inline-constant HAVE_EVP_GET_DIGESTBYNAME %s)\n",
 #ifdef HAVE_EVP_GET_DIGESTBYNAME
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** EVP cipher algorithms features.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_EVP_ENC_NULL %s)\n",
+#ifdef HAVE_EVP_ENC_NULL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_ECB %s)\n",
+#ifdef HAVE_EVP_DES_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_EDE %s)\n",
+#ifdef HAVE_EVP_DES_EDE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_EDE3 %s)\n",
+#ifdef HAVE_EVP_DES_EDE3
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_EDE_ECB %s)\n",
+#ifdef HAVE_EVP_DES_EDE_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_EDE3_ECB %s)\n",
+#ifdef HAVE_EVP_DES_EDE3_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_CFB64 %s)\n",
+#ifdef HAVE_EVP_DES_CFB64
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_CFB %s)\n",
+#ifdef HAVE_EVP_DES_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_EDE3_CFB64 %s)\n",
+#ifdef HAVE_EVP_DES_EDE3_CFB64
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_EDE3_CFB %s)\n",
+#ifdef HAVE_EVP_DES_EDE3_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_EDE3_CFB1 %s)\n",
+#ifdef HAVE_EVP_DES_EDE3_CFB1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_EDE3_CFB8 %s)\n",
+#ifdef HAVE_EVP_DES_EDE3_CFB8
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_OFB %s)\n",
+#ifdef HAVE_EVP_DES_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_EDE_OFB %s)\n",
+#ifdef HAVE_EVP_DES_EDE_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_EDE3_OFB %s)\n",
+#ifdef HAVE_EVP_DES_EDE3_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_CBC %s)\n",
+#ifdef HAVE_EVP_DES_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_EDE_CBC %s)\n",
+#ifdef HAVE_EVP_DES_EDE_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DES_EDE3_CBC %s)\n",
+#ifdef HAVE_EVP_DES_EDE3_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DESX_CBC %s)\n",
+#ifdef HAVE_EVP_DESX_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC4 %s)\n",
+#ifdef HAVE_EVP_RC4
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC4_40 %s)\n",
+#ifdef HAVE_EVP_RC4_40
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC4_HMAC_MD5 %s)\n",
+#ifdef HAVE_EVP_RC4_HMAC_MD5
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_IDEA_ECB %s)\n",
+#ifdef HAVE_EVP_IDEA_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_IDEA_CFB64 %s)\n",
+#ifdef HAVE_EVP_IDEA_CFB64
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_IDEA_CFB %s)\n",
+#ifdef HAVE_EVP_IDEA_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_IDEA_OFB %s)\n",
+#ifdef HAVE_EVP_IDEA_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_IDEA_CBC %s)\n",
+#ifdef HAVE_EVP_IDEA_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC2_ECB %s)\n",
+#ifdef HAVE_EVP_RC2_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC2_CBC %s)\n",
+#ifdef HAVE_EVP_RC2_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC2_40_CBC %s)\n",
+#ifdef HAVE_EVP_RC2_40_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC2_64_CBC %s)\n",
+#ifdef HAVE_EVP_RC2_64_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC2_CFB64 %s)\n",
+#ifdef HAVE_EVP_RC2_CFB64
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC2_CFB %s)\n",
+#ifdef HAVE_EVP_RC2_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC2_OFB %s)\n",
+#ifdef HAVE_EVP_RC2_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_BF_ECB %s)\n",
+#ifdef HAVE_EVP_BF_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_BF_CBC %s)\n",
+#ifdef HAVE_EVP_BF_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_BF_CFB64 %s)\n",
+#ifdef HAVE_EVP_BF_CFB64
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_BF_CFB %s)\n",
+#ifdef HAVE_EVP_BF_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_BF_OFB %s)\n",
+#ifdef HAVE_EVP_BF_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAST5_ECB %s)\n",
+#ifdef HAVE_EVP_CAST5_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAST5_CBC %s)\n",
+#ifdef HAVE_EVP_CAST5_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAST5_CFB64 %s)\n",
+#ifdef HAVE_EVP_CAST5_CFB64
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAST5_CFB %s)\n",
+#ifdef HAVE_EVP_CAST5_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAST5_OFB %s)\n",
+#ifdef HAVE_EVP_CAST5_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC5_32_12_16_CBC %s)\n",
+#ifdef HAVE_EVP_RC5_32_12_16_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC5_32_12_16_ECB %s)\n",
+#ifdef HAVE_EVP_RC5_32_12_16_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC5_32_12_16_CFB64 %s)\n",
+#ifdef HAVE_EVP_RC5_32_12_16_CFB64
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC5_32_12_16_CFB %s)\n",
+#ifdef HAVE_EVP_RC5_32_12_16_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_RC5_32_12_16_OFB %s)\n",
+#ifdef HAVE_EVP_RC5_32_12_16_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_128_ECB %s)\n",
+#ifdef HAVE_EVP_AES_128_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_128_CBC %s)\n",
+#ifdef HAVE_EVP_AES_128_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_128_CFB1 %s)\n",
+#ifdef HAVE_EVP_AES_128_CFB1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_128_CFB8 %s)\n",
+#ifdef HAVE_EVP_AES_128_CFB8
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_128_CFB128 %s)\n",
+#ifdef HAVE_EVP_AES_128_CFB128
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_128_CFB %s)\n",
+#ifdef HAVE_EVP_AES_128_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_128_OFB %s)\n",
+#ifdef HAVE_EVP_AES_128_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_128_CTR %s)\n",
+#ifdef HAVE_EVP_AES_128_CTR
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_128_CCM %s)\n",
+#ifdef HAVE_EVP_AES_128_CCM
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_128_GCM %s)\n",
+#ifdef HAVE_EVP_AES_128_GCM
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_128_XTS %s)\n",
+#ifdef HAVE_EVP_AES_128_XTS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_192_ECB %s)\n",
+#ifdef HAVE_EVP_AES_192_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_192_CBC %s)\n",
+#ifdef HAVE_EVP_AES_192_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_192_CFB1 %s)\n",
+#ifdef HAVE_EVP_AES_192_CFB1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_192_CFB8 %s)\n",
+#ifdef HAVE_EVP_AES_192_CFB8
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_192_CFB128 %s)\n",
+#ifdef HAVE_EVP_AES_192_CFB128
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_192_CFB %s)\n",
+#ifdef HAVE_EVP_AES_192_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_192_OFB %s)\n",
+#ifdef HAVE_EVP_AES_192_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_192_CTR %s)\n",
+#ifdef HAVE_EVP_AES_192_CTR
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_192_CCM %s)\n",
+#ifdef HAVE_EVP_AES_192_CCM
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_192_GCM %s)\n",
+#ifdef HAVE_EVP_AES_192_GCM
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_256_ECB %s)\n",
+#ifdef HAVE_EVP_AES_256_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_256_CBC %s)\n",
+#ifdef HAVE_EVP_AES_256_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_256_CFB1 %s)\n",
+#ifdef HAVE_EVP_AES_256_CFB1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_256_CFB8 %s)\n",
+#ifdef HAVE_EVP_AES_256_CFB8
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_256_CFB128 %s)\n",
+#ifdef HAVE_EVP_AES_256_CFB128
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_256_CFB %s)\n",
+#ifdef HAVE_EVP_AES_256_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_256_OFB %s)\n",
+#ifdef HAVE_EVP_AES_256_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_256_CTR %s)\n",
+#ifdef HAVE_EVP_AES_256_CTR
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_256_CCM %s)\n",
+#ifdef HAVE_EVP_AES_256_CCM
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_256_GCM %s)\n",
+#ifdef HAVE_EVP_AES_256_GCM
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_256_XTS %s)\n",
+#ifdef HAVE_EVP_AES_256_XTS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_128_CBC_HMAC_SHA1 %s)\n",
+#ifdef HAVE_EVP_AES_128_CBC_HMAC_SHA1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_AES_256_CBC_HMAC_SHA1 %s)\n",
+#ifdef HAVE_EVP_AES_256_CBC_HMAC_SHA1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_128_ECB %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_128_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_128_CBC %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_128_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_128_CFB1 %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_128_CFB1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_128_CFB8 %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_128_CFB8
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_128_CFB128 %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_128_CFB128
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_128_CFB %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_128_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_128_OFB %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_128_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_192_ECB %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_192_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_192_CBC %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_192_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_192_CFB1 %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_192_CFB1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_192_CFB8 %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_192_CFB8
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_192_CFB128 %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_192_CFB128
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_192_CFB %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_192_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_192_OFB %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_192_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_256_ECB %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_256_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_256_CBC %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_256_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_256_CFB1 %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_256_CFB1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_256_CFB8 %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_256_CFB8
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_256_CFB128 %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_256_CFB128
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_256_CFB %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_256_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CAMELLIA_256_OFB %s)\n",
+#ifdef HAVE_EVP_CAMELLIA_256_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_SEED_ECB %s)\n",
+#ifdef HAVE_EVP_SEED_ECB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_SEED_CBC %s)\n",
+#ifdef HAVE_EVP_SEED_CBC
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_SEED_CFB128 %s)\n",
+#ifdef HAVE_EVP_SEED_CFB128
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_SEED_CFB %s)\n",
+#ifdef HAVE_EVP_SEED_CFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_SEED_OFB %s)\n",
+#ifdef HAVE_EVP_SEED_OFB
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_TYPE %s)\n",
+#ifdef HAVE_EVP_CIPHER_TYPE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_GET_CIPHERBYNAME %s)\n",
+#ifdef HAVE_EVP_GET_CIPHERBYNAME
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_GET_CIPHERBYNID %s)\n",
+#ifdef HAVE_EVP_GET_CIPHERBYNID
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_GET_CIPHERBYOBJ %s)\n",
+#ifdef HAVE_EVP_GET_CIPHERBYOBJ
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_NID %s)\n",
+#ifdef HAVE_EVP_CIPHER_NID
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_NAME %s)\n",
+#ifdef HAVE_EVP_CIPHER_NAME
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_BLOCK_SIZE %s)\n",
+#ifdef HAVE_EVP_CIPHER_BLOCK_SIZE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_KEY_LENGTH %s)\n",
+#ifdef HAVE_EVP_CIPHER_KEY_LENGTH
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_IV_LENGTH %s)\n",
+#ifdef HAVE_EVP_CIPHER_IV_LENGTH
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_FLAGS %s)\n",
+#ifdef HAVE_EVP_CIPHER_FLAGS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_MODE %s)\n",
+#ifdef HAVE_EVP_CIPHER_MODE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_INIT %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_CLEANUP %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_CLEANUP
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_NEW %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_NEW
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_FREE %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_FREE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_ENCRYPTINIT_EX %s)\n",
+#ifdef HAVE_EVP_ENCRYPTINIT_EX
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_ENCRYPTFINAL_EX %s)\n",
+#ifdef HAVE_EVP_ENCRYPTFINAL_EX
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_ENCRYPTUPDATE %s)\n",
+#ifdef HAVE_EVP_ENCRYPTUPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DECRYPTINIT_EX %s)\n",
+#ifdef HAVE_EVP_DECRYPTINIT_EX
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DECRYPTUPDATE %s)\n",
+#ifdef HAVE_EVP_DECRYPTUPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_DECRYPTFINAL_EX %s)\n",
+#ifdef HAVE_EVP_DECRYPTFINAL_EX
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHERINIT_EX %s)\n",
+#ifdef HAVE_EVP_CIPHERINIT_EX
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHERUPDATE %s)\n",
+#ifdef HAVE_EVP_CIPHERUPDATE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHERFINAL_EX %s)\n",
+#ifdef HAVE_EVP_CIPHERFINAL_EX
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_SET_KEY_LENGTH %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_SET_KEY_LENGTH
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_SET_PADDING %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_SET_PADDING
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_CTRL %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_CTRL
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_CIPHER %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_CIPHER
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_NID %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_NID
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_BLOCK_SIZE %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_BLOCK_SIZE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_KEY_LENGTH %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_KEY_LENGTH
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_IV_LENGTH %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_IV_LENGTH
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_COPY %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_COPY
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_GET_APP_DATA %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_GET_APP_DATA
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_SET_APP_DATA %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_SET_APP_DATA
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_TYPE %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_TYPE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_FLAGS %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_FLAGS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_MODE %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_MODE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_RAND_KEY %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_RAND_KEY
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_PARAM_TO_ASN1 %s)\n",
+#ifdef HAVE_EVP_CIPHER_PARAM_TO_ASN1
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_ASN1_TO_PARAM %s)\n",
+#ifdef HAVE_EVP_CIPHER_ASN1_TO_PARAM
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_SET_FLAGS %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_SET_FLAGS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_CLEAR_FLAGS %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_CLEAR_FLAGS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_TEST_FLAGS %s)\n",
+#ifdef HAVE_EVP_CIPHER_CTX_TEST_FLAGS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_EVP_CIPHER %s)\n",
+#ifdef HAVE_EVP_CIPHER
   "#t"
 #else
   "#f"
