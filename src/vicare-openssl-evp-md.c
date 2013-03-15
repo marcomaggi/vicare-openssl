@@ -5,7 +5,7 @@
 
   Abstract
 
-	EVP hash functions.  Notice that the functions:
+	EVP message digest functions.  Notice that the functions:
 
 	   EVP_DigestInit()
 	   EVP_DigestFinal()
@@ -39,7 +39,7 @@
 
 
 /** --------------------------------------------------------------------
- ** EVP hash functions C wrappers: creation and destruction.
+ ** EVP message digest functions C wrappers: creation and destruction.
  ** ----------------------------------------------------------------- */
 
 ikptr
@@ -80,7 +80,7 @@ ikrt_openssl_evp_md_ctx_copy_ex (ikptr s_ou, ikptr s_in, ikpcb * pcb)
 
 
 /** --------------------------------------------------------------------
- ** EVP hash functions C wrappers: initialisation and finalisation.
+ ** EVP message digest functions C wrappers: initialisation and finalisation.
  ** ----------------------------------------------------------------- */
 
 ikptr
@@ -117,7 +117,7 @@ ikrt_openssl_evp_digestfinal_ex (ikptr s_ctx, ikpcb * pcb)
 
 
 /** --------------------------------------------------------------------
- ** EVP hash functions C wrappers: context updating.
+ ** EVP message digest functions C wrappers: context updating.
  ** ----------------------------------------------------------------- */
 
 ikptr
@@ -137,7 +137,7 @@ ikrt_openssl_evp_digestupdate (ikptr s_ctx, ikptr s_buf, ikptr s_buf_len, ikpcb 
 
 
 /** --------------------------------------------------------------------
- ** EVP hash functions C wrappers: context inspection.
+ ** EVP message digest functions C wrappers: context inspection.
  ** ----------------------------------------------------------------- */
 
 ikptr
@@ -167,7 +167,7 @@ ikrt_openssl_evp_md_ctx_block_size (ikptr s_ctx, ikpcb * pcb)
 
 
 /** --------------------------------------------------------------------
- ** EVP hash functions C wrappers: algorithm functions.
+ ** EVP message digest functions C wrappers: algorithm functions.
  ** ----------------------------------------------------------------- */
 
 ikptr
@@ -376,7 +376,7 @@ ikrt_openssl_evp_whirlpool (ikpcb * pcb)
 
 
 /** --------------------------------------------------------------------
- ** EVP hash functions C wrappers.
+ ** EVP message digest functions C wrappers.
  ** ----------------------------------------------------------------- */
 
 ikptr
