@@ -211,9 +211,9 @@
     aes-encrypt			aes-decrypt
     aes-ecb-encrypt		aes-ecb-decrypt
     aes-cbc-encrypt		aes-cbc-decrypt
-    aes-cfb128-encrypt		aes-cfb128-decrypt
-    aes-cfb1-encrypt		aes-cfb1-decrypt
-    aes-cfb8-encrypt		aes-cfb8-decrypt
+    ;; aes-cfb128-encrypt	aes-cfb128-decrypt
+    ;; aes-cfb1-encrypt		aes-cfb1-decrypt
+    ;; aes-cfb8-encrypt		aes-cfb8-decrypt
     aes-ofb128-encrypt
     aes-ctr128-encrypt
     aes-ige-encrypt
@@ -1091,80 +1091,80 @@
 
   #| end of module |# )
 
-(module (aes-cfb128-encrypt aes-cfb128-decrypt)
+;; (module (aes-cfb128-encrypt aes-cfb128-decrypt)
 
-  (define (aes-cfb128-encrypt in in.len ou ou.len ctx iv iv.len num)
-    (%aes-cfb128-encrypt 'aes-cfb128-encrypt in in.len ou ou.len ctx iv iv.len num AES_ENCRYPT))
+;;   (define (aes-cfb128-encrypt in in.len ou ou.len ctx iv iv.len num)
+;;     (%aes-cfb128-encrypt 'aes-cfb128-encrypt in in.len ou ou.len ctx iv iv.len num AES_ENCRYPT))
 
-  (define (aes-cfb128-decrypt in in.len ou ou.len ctx iv iv.len num)
-    (%aes-cfb128-encrypt 'aes-cfb128-decrypt in in.len ou ou.len ctx iv iv.len num AES_DECRYPT))
+;;   (define (aes-cfb128-decrypt in in.len ou ou.len ctx iv iv.len num)
+;;     (%aes-cfb128-encrypt 'aes-cfb128-decrypt in in.len ou ou.len ctx iv iv.len num AES_DECRYPT))
 
-  (define (%aes-cfb128-encrypt who in in.len ou ou.len ctx iv iv.len num mode)
-    (with-arguments-validation (who)
-	((general-c-buffer	in)
-	 (size_t/false		in.len)
-	 (aes-data-len		ou in.len)
-	 (general-c-buffer	ou)
-	 (size_t/false		ou.len)
-	 (aes-data-len		ou ou.len)
-	 (aes-key/alive		ctx)
-	 (general-c-buffer	iv)
-	 (size_t/false		iv.len)
-	 (aes-block-len		iv iv.len)
-	 (signed-int		num))
-      (capi.aes-cfb128-encrypt in in.len ou ou.len ctx iv iv.len num mode)))
+;;   (define (%aes-cfb128-encrypt who in in.len ou ou.len ctx iv iv.len num mode)
+;;     (with-arguments-validation (who)
+;; 	((general-c-buffer	in)
+;; 	 (size_t/false		in.len)
+;; 	 (aes-data-len		ou in.len)
+;; 	 (general-c-buffer	ou)
+;; 	 (size_t/false		ou.len)
+;; 	 (aes-data-len		ou ou.len)
+;; 	 (aes-key/alive		ctx)
+;; 	 (general-c-buffer	iv)
+;; 	 (size_t/false		iv.len)
+;; 	 (aes-block-len		iv iv.len)
+;; 	 (signed-int		num))
+;;       (capi.aes-cfb128-encrypt in in.len ou ou.len ctx iv iv.len num mode)))
 
-  #| end of module |# )
+;;   #| end of module |# )
 
-(module (aes-cfb1-encrypt aes-cfb1-decrypt)
+;; (module (aes-cfb1-encrypt aes-cfb1-decrypt)
 
-  (define (aes-cfb1-encrypt in in.len ou ou.len ctx iv iv.len num)
-    (%aes-cfb1-encrypt 'aes-cfb1-encrypt in in.len ou ou.len ctx iv iv.len num AES_ENCRYPT))
+;;   (define (aes-cfb1-encrypt in in.len ou ou.len ctx iv iv.len num)
+;;     (%aes-cfb1-encrypt 'aes-cfb1-encrypt in in.len ou ou.len ctx iv iv.len num AES_ENCRYPT))
 
-  (define (aes-cfb1-decrypt in in.len ou ou.len ctx iv iv.len num)
-    (%aes-cfb1-encrypt 'aes-cfb1-decrypt in in.len ou ou.len ctx iv iv.len num AES_DECRYPT))
+;;   (define (aes-cfb1-decrypt in in.len ou ou.len ctx iv iv.len num)
+;;     (%aes-cfb1-encrypt 'aes-cfb1-decrypt in in.len ou ou.len ctx iv iv.len num AES_DECRYPT))
 
-  (define (%aes-cfb1-encrypt who in in.len ou ou.len ctx iv iv.len num mode)
-    (with-arguments-validation (who)
-	((general-c-buffer	in)
-	 (size_t/false		in.len)
-	 (aes-data-len		ou in.len)
-	 (general-c-buffer	ou)
-	 (size_t/false		ou.len)
-	 (aes-data-len		ou ou.len)
-	 (aes-key/alive		ctx)
-	 (general-c-buffer	iv)
-	 (size_t/false		iv.len)
-	 (aes-block-len		iv iv.len)
-	 (signed-int		num))
-      (capi.aes-cfb1-encrypt in in.len ou ou.len ctx iv iv.len num mode)))
+;;   (define (%aes-cfb1-encrypt who in in.len ou ou.len ctx iv iv.len num mode)
+;;     (with-arguments-validation (who)
+;; 	((general-c-buffer	in)
+;; 	 (size_t/false		in.len)
+;; 	 (aes-data-len		ou in.len)
+;; 	 (general-c-buffer	ou)
+;; 	 (size_t/false		ou.len)
+;; 	 (aes-data-len		ou ou.len)
+;; 	 (aes-key/alive		ctx)
+;; 	 (general-c-buffer	iv)
+;; 	 (size_t/false		iv.len)
+;; 	 (aes-block-len		iv iv.len)
+;; 	 (signed-int		num))
+;;       (capi.aes-cfb1-encrypt in in.len ou ou.len ctx iv iv.len num mode)))
 
-  #| end of module |# )
+;;   #| end of module |# )
 
-(module (aes-cfb8-encrypt aes-cfb8-decrypt)
+;; (module (aes-cfb8-encrypt aes-cfb8-decrypt)
 
-  (define (aes-cfb8-encrypt in in.len ou ou.len ctx iv iv.len num)
-    (%aes-cfb8-encrypt 'aes-cfb8-encrypt in in.len ou ou.len ctx iv iv.len num AES_ENCRYPT))
+;;   (define (aes-cfb8-encrypt in in.len ou ou.len ctx iv iv.len num)
+;;     (%aes-cfb8-encrypt 'aes-cfb8-encrypt in in.len ou ou.len ctx iv iv.len num AES_ENCRYPT))
 
-  (define (aes-cfb8-decrypt in in.len ou ou.len ctx iv iv.len num)
-    (%aes-cfb8-encrypt 'aes-cfb8-decrypt in in.len ou ou.len ctx iv iv.len num AES_DECRYPT))
+;;   (define (aes-cfb8-decrypt in in.len ou ou.len ctx iv iv.len num)
+;;     (%aes-cfb8-encrypt 'aes-cfb8-decrypt in in.len ou ou.len ctx iv iv.len num AES_DECRYPT))
 
-  (define (%aes-cfb8-encrypt who in in.len ou ou.len ctx iv iv.len num mode)
-    (with-arguments-validation (who)
-	((general-c-buffer	in)
-	 (size_t/false		in.len)
-	 (aes-data-len		ou in.len)
-	 (general-c-buffer	ou)
-	 (size_t/false		ou.len)
-	 (aes-data-len		ou ou.len)
-	 (aes-key/alive		ctx)
-	 (general-c-buffer	iv)
-	 (size_t/false		iv.len)
-	 (aes-block-len		iv iv.len)
-	 (signed-int		num))
-      (capi.aes-cfb8-encrypt in in.len ou ou.len ctx iv iv.len num mode)))
+;;   (define (%aes-cfb8-encrypt who in in.len ou ou.len ctx iv iv.len num mode)
+;;     (with-arguments-validation (who)
+;; 	((general-c-buffer	in)
+;; 	 (size_t/false		in.len)
+;; 	 (aes-data-len		ou in.len)
+;; 	 (general-c-buffer	ou)
+;; 	 (size_t/false		ou.len)
+;; 	 (aes-data-len		ou ou.len)
+;; 	 (aes-key/alive		ctx)
+;; 	 (general-c-buffer	iv)
+;; 	 (size_t/false		iv.len)
+;; 	 (aes-block-len		iv iv.len)
+;; 	 (signed-int		num))
+;;       (capi.aes-cfb8-encrypt in in.len ou ou.len ctx iv iv.len num mode)))
 
-  #| end of module |# )
+;;   #| end of module |# )
 
 (define (aes-ofb128-encrypt ctx)
   (define who 'aes-ofb128-encrypt)

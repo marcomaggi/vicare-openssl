@@ -266,6 +266,7 @@ ikrt_openssl_aes_cbc_encrypt (ikptr s_in, ikptr s_in_len,
    I understand  what the heck is  going on.  (Marco Maggi;  Wed Mar 13,
    2013) */
 
+#if 0
 /* For all the CFB functions:
 
    S_IN  and S_IN_LEN  represent a  generalised C  buffer holding  input
@@ -391,6 +392,7 @@ ikrt_openssl_aes_cfb8_encrypt (ikptr s_in, ikptr s_in_len,
   feature_failure(__func__);
 #endif
 }
+#endif
 
 
 /** --------------------------------------------------------------------
