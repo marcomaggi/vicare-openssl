@@ -7,7 +7,7 @@ TESTS			= \
 	\
 	test-vicare-crypto-aes.sps			\
 	\
-	test-vicare-evp-hash.sps
+	test-vicare-evp-md.sps
 
 EXTRA_DIST = \
 	test-vicare-openssl-version.sps			\
@@ -16,7 +16,7 @@ EXTRA_DIST = \
 	\
 	test-vicare-crypto-aes.sps			\
 	\
-	test-vicare-evp-hash.sps			\
+	test-vicare-evp-md.sps				\
 	\
 	demo-for-documentation.sps
 
