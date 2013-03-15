@@ -1,7 +1,7 @@
 ;;; -*- coding: utf-8-unix -*-
 ;;;
 ;;;Part of: Vicare/OpenSSL
-;;;Contents: tests for Openssl bindings, hmac
+;;;Contents: tests for Openssl bindings, raw HMAC API
 ;;;Date: Mon Mar 11, 2013
 ;;;
 ;;;Abstract
@@ -37,7 +37,7 @@
   (vicare checks))
 
 (check-set-mode! 'report-failed)
-(check-display "*** testing Vicare OpenSSL bindings: HMAC\n")
+(check-display "*** testing Vicare OpenSSL bindings: raw HMAC API\n")
 
 (ssl.ssl-library-init)
 
