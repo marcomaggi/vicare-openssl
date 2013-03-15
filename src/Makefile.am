@@ -11,14 +11,10 @@ libvicare_openssl_la_SOURCES	= \
 	vicare-openssl-version.c		\
 	vicare-openssl-core.c			\
 	vicare-openssl-helpers.c		\
-	\
 	vicare-openssl-raw-message-digest.c	\
-	vicare-openssl-hmac.c			\
-	\
+	vicare-openssl-raw-hmac.c		\
 	vicare-openssl-crypto-aes.c		\
-	\
 	vicare-openssl-evp-message-digest.c	\
-	\
 	vicare-openssl-internals.h
 
 ### end of file
