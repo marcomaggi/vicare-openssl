@@ -12,7 +12,7 @@ libvicare_openssl_la_SOURCES	= \
 	vicare-openssl-core.c			\
 	vicare-openssl-helpers.c		\
 	\
-	vicare-openssl-hash-checksums.c		\
+	vicare-openssl-raw-message-digest.c	\
 	vicare-openssl-hmac.c			\
 	\
 	vicare-openssl-crypto-aes.c		\

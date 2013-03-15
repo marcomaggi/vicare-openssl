@@ -5,7 +5,7 @@
 
   Abstract
 
-	Hash checksum functions.
+	Raw message digest functions.
 
   Copyright (C) 2013 Marco Maggi <marco.maggi-ipsu@poste.it>
 
