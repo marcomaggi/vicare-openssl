@@ -2,7 +2,7 @@
 
 TESTS			= \
 	test-vicare-openssl-version.sps			\
-	test-vicare-raw-md.sps				\
+	test-vicare-raw-message-digest.sps		\
 	test-vicare-hmac.sps				\
 	\
 	test-vicare-crypto-aes.sps			\
@@ -11,7 +11,7 @@ TESTS			= \
 
 EXTRA_DIST = \
 	test-vicare-openssl-version.sps			\
-	test-vicare-raw-md.sps				\
+	test-vicare-raw-message-digest.sps		\
 	test-vicare-hmac.sps				\
 	\
 	test-vicare-crypto-aes.sps			\
