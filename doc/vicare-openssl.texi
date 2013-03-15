@@ -3538,7 +3538,7 @@ crypto openssl}.
 @defun evp-cipher-ctx-test-flags
 @end defun
 
-@defun evp-cipher
+@defun evp-crypt
 @end defun
 
 @c page

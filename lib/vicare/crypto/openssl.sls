@@ -276,6 +276,11 @@
     evp-get-digestbyname
 
     ;; EVP cipher algorithms
+    evp-cipher
+    evp-cipher?
+    evp-cipher.vicare-arguments-validation
+    false-or-evp-cipher.vicare-arguments-validation
+
     evp-enc-null
     evp-des-ecb
     evp-des-ede
@@ -396,6 +401,8 @@
     evp-cipher-iv-length
     evp-cipher-flags
     evp-cipher-mode
+
+    ;; EVP cipher algorithms, context API
     evp-cipher-ctx-init
     evp-cipher-ctx-cleanup
     evp-cipher-ctx-new
@@ -429,7 +436,7 @@
     evp-cipher-ctx-set-flags
     evp-cipher-ctx-clear-flags
     evp-cipher-ctx-test-flags
-    evp-cipher
+    evp-crypt
 
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
@@ -489,6 +496,12 @@
       (symbol? obj))
   (assertion-violation who
     "expected instance of \"evp-md\" or symbol as argument" obj))
+
+(define-argument-validation (evp-cipher/symbol who obj)
+  (or (evp-cipher? obj)
+      (symbol? obj))
+  (assertion-violation who
+    "expected instance of \"evp-cipher\" or symbol as argument" obj))
 
 
 ;;;; helpers
@@ -1630,7 +1643,26 @@
 	    (else #f)))))
 
 
-;;;; EVP cipher algorithms
+;;;; EVP cipher algorithms: algorithm functions
+
+(define-struct-extended evp-cipher
+  (pointer)
+  %evp-cipher-printer
+  #f)
+
+(define (%evp-cipher-printer S port sub-printer)
+  (define (%display thing)
+    (display thing port))
+  (define (%write thing)
+    (write thing port))
+  (%display "#[evp-cipher")
+  (%display " pointer=")	(%write ($evp-cipher-pointer S))
+  ;; (%display " algorithm=")	(%write (evp-cipher-name S))
+  ;; (%display " size=")		(%write (capi.evp-cipher-size S))
+  ;; (%display " block-size=")	(%write (capi.evp-cipher-block-size S))
+  (%display "]"))
+
+;;; --------------------------------------------------------------------
 
 (define (evp-enc-null ctx)
   (define who 'evp-enc-null)
@@ -2286,6 +2318,8 @@
       ()
     (capi.evp-seed-ofb)))
 
+;;; --------------------------------------------------------------------
+
 (define (evp-cipher-type ctx)
   (define who 'evp-cipher-type)
   (with-arguments-validation (who)
@@ -2351,6 +2385,9 @@
   (with-arguments-validation (who)
       ()
     (capi.evp-cipher-mode)))
+
+
+;;;; EVP cipher algorithms: context functions
 
 (define (evp-cipher-ctx-init ctx)
   (define who 'evp-cipher-ctx-init)
@@ -2550,8 +2587,8 @@
       ()
     (capi.evp-cipher-ctx-test-flags)))
 
-(define (evp-cipher ctx)
-  (define who 'evp-cipher)
+(define (evp-crypt ctx)
+  (define who 'evp-crypt)
   (with-arguments-validation (who)
       ()
     (capi.evp-cipher)))
