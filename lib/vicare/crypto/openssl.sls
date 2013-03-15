@@ -1435,17 +1435,30 @@
 
 ;;; --------------------------------------------------------------------
 
-(define (evp-digest ctx)
-  (define who 'evp-digest)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-digest)))
+(define evp-digest
+  (case-lambda
+   ((buf algo)
+    (evp-digest buf #f algo))
+   ((buf buf.len algo)
+    (define who 'evp-digest)
+    (with-arguments-validation (who)
+	((general-c-string*	buf buf.len)
+	 (evp-md		algo))
+      (with-general-c-strings
+	  ((buf^	buf))
+	(string-to-bytevector string->utf8)
+	(capi.evp-digest buf^ buf.len algo))))))
 
-(define (evp-get-digestbyname ctx)
+(define (evp-get-digestbyname name)
   (define who 'evp-get-digestbyname)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-get-digestbyname)))
+      ((general-c-string	name))
+    (with-general-c-strings
+	((name^		name))
+      (cond ((capi.evp-get-digestbyname name^)
+	     => (lambda (rv)
+		  (make-evp-md rv)))
+	    (else #f)))))
 
 
 ;;;; still to be implemented

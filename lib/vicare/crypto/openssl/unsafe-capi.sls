@@ -569,11 +569,11 @@
 
 ;;; --------------------------------------------------------------------
 
-(define-inline (evp-digest)
-  (foreign-call "ikrt_openssl_evp_digest"))
+(define-inline (evp-digest buf buf.len algo)
+  (foreign-call "ikrt_openssl_evp_digest" buf buf.len algo))
 
-(define-inline (evp-get-digestbyname)
-  (foreign-call "ikrt_openssl_evp_get_digestbyname"))
+(define-inline (evp-get-digestbyname name)
+  (foreign-call "ikrt_openssl_evp_get_digestbyname" name))
 
 
 ;;;; still to be implemented

@@ -2442,6 +2442,7 @@ valid values are: @math{16}, @math{24}, @math{32}.
 * plain evp md algo struct::    Algorithm data structure.
 * plain evp md algo makers::    Algorithm reference makers.
 * plain evp md algo inspect::   Algorithm inspection.
+* plain evp md algo step::      Single-step message digest.
 @end menu
 
 @c page
@@ -2592,6 +2593,21 @@ Return a struct of type @code{evp-md} representing the WHIRLPOOL message
 digest algorithm.  @manpage{EVP_DigestInit, EVP_whirlpool}.
 @end defun
 
+@c ------------------------------------------------------------
+
+@defun evp-get-digestbyname @var{name}
+If successful return a struct of type @code{evp-md} representing the
+specified message digest algorithm; otherwise return @false{}.
+@manpage{EVP_DigestInit, EVP_get_digestbyname}.
+
+@var{str} must represent a generalised C string holding an @asciiz{}
+string, @cstringsref{}.  When @var{str} is a string: it is converted to
+a bytevector with @func{string->ascii}.
+
+Examples of valid names: @samp{MD5}, @samp{SHA1}, @samp{SHA224},
+@samp{SHA256}, @samp{SHA384}, @samp{SHA512}.
+@end defun
+
 @c page
 @node plain evp md algo inspect
 @subsubsection Algorithm inspection
@@ -2640,6 +2656,26 @@ message digest algorithm.  @manpage{EVP_DigestInit, EVP_MD_flags}.
 Return an exact integer representing the pkey type (whatever it is) of
 the given message digest algorithm.  @manpage{EVP_DigestInit,
 EVP_MD_pkey_type}.
+@end defun
+
+@c page
+@node plain evp md algo step
+@subsubsection Single-step message digest
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl}.
+
+
+@defun evp-digest @var{str} @var{algo}
+@defunx evp-digest @var{str} @var{str.len} @var{algo}
+Compute a message digest in a single step; if successful return a
+bytevector representing the digest, otherwise return @false{}.
+@manpage{EVP_DigestInit, EVP_Digest}.
+
+@var{str} and @var{str.len} must represent a generalised C string,
+@cstringsref{}.  When @var{str} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page

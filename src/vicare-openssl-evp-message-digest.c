@@ -513,21 +513,31 @@ ikrt_openssl_evp_md_pkey_type (ikptr s_algo, ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_openssl_evp_digest (ikpcb * pcb)
+ikrt_openssl_evp_digest (ikptr s_buf, ikptr s_buf_len, ikptr s_algo, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DIGEST
-  /* rv = EVP_Digest(); */
-  return IK_VOID;
+  const void *		buf	= IK_GENERALISED_C_BUFFER(s_buf);
+  size_t		buf_len	= ik_generalised_c_buffer_len(s_buf, s_buf_len);
+  const EVP_MD *	algo	= IK_EVP_MD(s_algo);
+  unsigned char		md_buf[EVP_MAX_MD_SIZE];
+  unsigned int		md_len=EVP_MAX_MD_SIZE;
+  int			rv;
+  rv = EVP_Digest(buf, buf_len, md_buf, &md_len, algo, NULL);
+  return (rv)? ika_bytevector_from_memory_block(pcb, md_buf, md_len) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_get_digestbyname (ikpcb * pcb)
+ikrt_openssl_evp_get_digestbyname (ikptr s_name_string, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_GET_DIGESTBYNAME
-  /* rv = EVP_get_digestbyname(); */
-  return IK_VOID;
+  const char *		name = IK_GENERALISED_C_BUFFER(s_name_string);
+  const EVP_MD *	rv;
+  /* fprintf(stderr, "%s: %s\n", __func__, name); */
+  rv = EVP_get_digestbyname(name);
+  /* fprintf(stderr, "%s: %p\n", __func__, (void*)rv); */
+  return (rv)? ika_pointer_alloc(pcb, (long)rv) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif

@@ -98,6 +98,44 @@
 	(ssl.evp-md-pkey-type algo))
     => 8)
 
+;;; --------------------------------------------------------------------
+
+  (check
+      (let ((algo (ssl.evp-get-digestbyname "MD5")))
+	(and (ssl.evp-md? algo)
+	     (ssl.evp-md-name algo)))
+    => "MD5")
+
+  (check
+      (let ((algo (ssl.evp-get-digestbyname "SHA1")))
+	(and (ssl.evp-md? algo)
+	     (ssl.evp-md-name algo)))
+    => "SHA1")
+
+  (check
+      (let ((algo (ssl.evp-get-digestbyname "SHA224")))
+	(and (ssl.evp-md? algo)
+	     (ssl.evp-md-name algo)))
+    => "SHA224")
+
+  (check
+      (let ((algo (ssl.evp-get-digestbyname "SHA256")))
+	(and (ssl.evp-md? algo)
+	     (ssl.evp-md-name algo)))
+    => "SHA256")
+
+  (check
+      (let ((algo (ssl.evp-get-digestbyname "SHA384")))
+	(and (ssl.evp-md? algo)
+	     (ssl.evp-md-name algo)))
+    => "SHA384")
+
+  (check
+      (let ((algo (ssl.evp-get-digestbyname "SHA512")))
+	(and (ssl.evp-md? algo)
+	     (ssl.evp-md-name algo)))
+    => "SHA512")
+
   #t)
 
 
@@ -217,6 +255,19 @@
 
 
   (collect))
+
+
+(parametrise ((check-test-name		'digest))
+
+  (check
+      (ssl.evp-digest "ciao" (ssl.evp-md5))
+    => '#vu8(110 107 196 228 157 212 119 235 201 142 244 4 108 6 123 95))
+
+  (check
+      (ssl.evp-digest "ciao" (ssl.evp-md-null))
+    => '#vu8())
+
+  #t)
 
 
 ;;;; done
