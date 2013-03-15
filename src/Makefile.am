@@ -17,7 +17,7 @@ libvicare_openssl_la_SOURCES	= \
 	\
 	vicare-openssl-crypto-aes.c		\
 	\
-	vicare-openssl-evp-hash.c		\
+	vicare-openssl-evp-md.c			\
 	\
 	vicare-openssl-internals.h
 
