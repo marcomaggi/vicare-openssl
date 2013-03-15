@@ -45,7 +45,8 @@
 (parametrise ((check-test-name		'algo))
 
   (when #f
-    (check-pretty-print (ssl.evp-sha256)))
+    (check-pretty-print (ssl.evp-sha256))
+    (check-pretty-print (ssl.evp-md-null)))
 
   (check
       (let ((algo (ssl.evp-md-null)))
@@ -57,6 +58,9 @@
 	(ssl.evp-md? algo))
     => #t)
 
+;;; --------------------------------------------------------------------
+;;; sizes
+
   (check
       (let ((algo (ssl.evp-md5)))
 	(ssl.evp-md-size algo))
@@ -66,6 +70,23 @@
       (let ((algo (ssl.evp-md5)))
 	(ssl.evp-md-block-size algo))
     => 64)
+
+;;; --------------------------------------------------------------------
+
+  (check
+      (let ((algo (ssl.evp-md5)))
+	(ssl.evp-md-name algo))
+    => "MD5")
+
+  (check
+      (let ((algo (ssl.evp-md5)))
+	(ssl.evp-md-nid algo))
+    => 4)
+
+  (check
+      (let ((algo (ssl.evp-md5)))
+	(ssl.evp-md-type algo))
+    => 4)
 
   #t)
 

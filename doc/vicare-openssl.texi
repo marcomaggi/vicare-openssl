@@ -2499,96 +2499,97 @@ crypto openssl}.
 @defun evp-md-null
 Return a struct of type @code{evp-md} representing a null message digest
 algorithm.  The generated message digest hash zero length.
+@manpage{EVP_DigestInit, EVP_md_null}.
 @end defun
 
 
 @defun evp-md2
 Return a struct of type @code{evp-md} representing the MD2 message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_md2}.
 @end defun
 
 
 @defun evp-md4
 Return a struct of type @code{evp-md} representing the MD4 message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_md4}.
 @end defun
 
 
 @defun evp-md5
 Return a struct of type @code{evp-md} representing the MD5 message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_md5}.
 @end defun
 
 
 @defun evp-sha
 Return a struct of type @code{evp-md} representing the SHA message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_sha}.
 @end defun
 
 
 @defun evp-sha1
 Return a struct of type @code{evp-md} representing the SHA1 message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_sha1}.
 @end defun
 
 
 @defun evp-dss
 Return a struct of type @code{evp-md} representing the DSS message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_dss}.
 @end defun
 
 
 @defun evp-dss1
 Return a struct of type @code{evp-md} representing the DSS1 message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_dss1}.
 @end defun
 
 
 @defun evp-ecdsa
 Return a struct of type @code{evp-md} representing the ECDSA message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_ecdsa}.
 @end defun
 
 
 @defun evp-sha224
 Return a struct of type @code{evp-md} representing the SHA224 message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_sha224}.
 @end defun
 
 
 @defun evp-sha256
 Return a struct of type @code{evp-md} representing the SHA256 message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_sha256}.
 @end defun
 
 
 @defun evp-sha384
 Return a struct of type @code{evp-md} representing the SHA384 message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_sha384}.
 @end defun
 
 
 @defun evp-sha512
 Return a struct of type @code{evp-md} representing the SHA512 message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_sha512}.
 @end defun
 
 
 @defun evp-mdc2
 Return a struct of type @code{evp-md} representing the MDC2 message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_mdc2}.
 @end defun
 
 
 @defun evp-ripemd160
 Return a struct of type @code{evp-md} representing the RIPEMD160 message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_ripemd160}.
 @end defun
 
 
 @defun evp-whirlpool
 Return a struct of type @code{evp-md} representing the WHIRLPOOL message
-digest algorithm.
+digest algorithm.  @manpage{EVP_DigestInit, EVP_whirlpool}.
 @end defun
 
 @c page
@@ -2600,22 +2601,31 @@ The following bindings are exported by the library @library{vicare
 crypto openssl}.
 
 
-@defun evp-md-algorithm-name @var{EVP-MD}
+@defun evp-md-name @var{EVP-MD}
 Return a string representing the name of the message digest algorithm.
+@manpage{EVP_DigestInit, EVP_MD_name}.
 @end defun
 
 
 @defun evp-md-size @var{EVP-MD}
 Return an exact integer representing the message digest size produced by
 the algorithm specfied by the @code{EVP_MD} structure referenced by the
-pointer object @var{EVP-MD-PTR}.
+pointer object @var{EVP-MD-PTR}.  @manpage{EVP_DigestInit, EVP_MD_size}.
 @end defun
 
 
 @defun evp-md-block-size @var{EVP-MD}
 Return an exact integer representing the block size produced by the
 algorithm specfied by the @code{EVP_MD} structure referenced by the
-pointer object @var{EVP-MD-PTR}.
+pointer object @var{EVP-MD-PTR}.  @manpage{EVP_DigestInit,
+EVP_MD_block_size}.
+@end defun
+
+
+@defun evp-md-type @var{EVP-MD}
+@defunx evp-md-nid @var{EVP-MD}
+Return an exact integer representing the NID of the OBJECT IDENTIFIER
+representing the given message digest.
 @end defun
 
 @c page

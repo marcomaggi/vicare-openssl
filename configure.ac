@@ -192,8 +192,10 @@ AC_CHECK_FUNCS([HMAC HMAC_CTX_init HMAC_CTX_cleanup HMAC_Init HMAC_Init_ex HMAC_
 #### C language stuff from the files "openssl/evp.h"
 
 dnl EVP hash functions functions checking
-AC_CHECK_FUNCS([EVP_MD_type EVP_MD_nid EVP_MD_name EVP_MD_pkey_type EVP_MD_size EVP_MD_block_size EVP_MD_flags EVP_MD_CTX_md EVP_MD_CTX_size EVP_MD_CTX_block_size EVP_MD_CTX_type EVP_MD_CTX_init EVP_MD_CTX_cleanup EVP_MD_CTX_create EVP_MD_CTX_destroy EVP_MD_CTX_copy_ex EVP_MD_CTX_set_flags EVP_MD_CTX_clear_flags EVP_MD_CTX_test_flags EVP_DigestInit_ex EVP_DigestUpdate EVP_DigestFinal_ex EVP_Digest EVP_MD_CTX_copy EVP_DigestInit EVP_DigestFinal EVP_md_null EVP_md2 EVP_md4 EVP_md5 EVP_sha EVP_sha1 EVP_dss EVP_dss1 EVP_ecdsa EVP_sha224 EVP_sha256 EVP_sha384 EVP_sha512 EVP_mdc2 EVP_ripemd160 EVP_whirlpool EVP_get_digestbyname ])
+AC_CHECK_FUNCS([EVP_MD_type EVP_MD_pkey_type EVP_MD_size EVP_MD_block_size EVP_MD_flags EVP_MD_CTX_md EVP_MD_CTX_init EVP_MD_CTX_cleanup EVP_MD_CTX_create EVP_MD_CTX_destroy EVP_MD_CTX_copy_ex EVP_MD_CTX_set_flags EVP_MD_CTX_clear_flags EVP_MD_CTX_test_flags EVP_DigestInit_ex EVP_DigestUpdate EVP_DigestFinal_ex EVP_Digest EVP_MD_CTX_copy EVP_DigestInit EVP_DigestFinal EVP_md_null EVP_md2 EVP_md4 EVP_md5 EVP_sha EVP_sha1 EVP_dss EVP_dss1 EVP_ecdsa EVP_sha224 EVP_sha256 EVP_sha384 EVP_sha512 EVP_mdc2 EVP_ripemd160 EVP_whirlpool EVP_get_digestbyname ])
 
+AC_CHECK_DECLS([EVP_MD_name, EVP_MD_nid],,,[VICARE_INCLUDES])
+AC_CHECK_DECLS([EVP_MD_CTX_size, EVP_MD_CTX_block_size, EVP_MD_CTX_type],,,[VICARE_INCLUDES])
 
 VICARE_CONSTANT_TESTS([
  EVP_MAX_MD_SIZE

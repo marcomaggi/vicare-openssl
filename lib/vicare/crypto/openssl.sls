@@ -261,12 +261,10 @@
     evp-sha384			evp-sha512
     evp-mdc2			evp-ripemd160
     evp-whirlpool
-    evp-md-algorithm-name
+    evp-md-name			evp-md-type
+    evp-md-nid
     evp-md-size			evp-md-block-size
 
-    evp-md-type
-    evp-md-nid
-    evp-md-name
     evp-md-pkey-type
     evp-md-flags
     evp-md-ctx-md
@@ -1310,7 +1308,7 @@
 ;;;; EVP message digest algorithms functions
 
 (define-struct-extended evp-md
-  (pointer algorithm-name)
+  (pointer)
   %evp-md-printer
   #f)
 
@@ -1321,10 +1319,34 @@
     (write thing port))
   (%display "#[evp-md")
   (%display " pointer=")	(%write ($evp-md-pointer S))
-  (%display " algorithm=")	(%write ($evp-md-algorithm-name S))
+  (%display " algorithm=")	(%write (evp-md-name S))
   (%display " size=")		(%write (capi.evp-md-size S))
   (%display " block-size=")	(%write (capi.evp-md-block-size S))
   (%display "]"))
+
+;;; --------------------------------------------------------------------
+
+(let-syntax ((define-maker
+	       (syntax-rules ()
+		 ((_ ?who ?func)
+		  (define (?who)
+		    (make-evp-md (?func)))))))
+  (define-maker evp-md-null	capi.evp-md-null)
+  (define-maker evp-md2		capi.evp-md2)
+  (define-maker evp-md4		capi.evp-md4)
+  (define-maker evp-md5		capi.evp-md5)
+  (define-maker evp-sha		capi.evp-sha)
+  (define-maker evp-sha1	capi.evp-sha1)
+  (define-maker evp-dss		capi.evp-dss)
+  (define-maker evp-dss1	capi.evp-dss1)
+  (define-maker evp-ecdsa	capi.evp-ecdsa)
+  (define-maker evp-sha224	capi.evp-sha224)
+  (define-maker evp-sha256	capi.evp-sha256)
+  (define-maker evp-sha384	capi.evp-sha384)
+  (define-maker evp-sha512	capi.evp-sha512)
+  (define-maker evp-mdc2	capi.evp-mdc2)
+  (define-maker evp-ripemd160	capi.evp-ripemd160)
+  (define-maker evp-whirlpool	capi.evp-whirlpool))
 
 ;;; --------------------------------------------------------------------
 
@@ -1340,49 +1362,28 @@
       ((evp-md		algo))
     (capi.evp-md-block-size algo)))
 
-;;; --------------------------------------------------------------------
-
-(let-syntax ((define-maker
-	       (syntax-rules ()
-		 ((_ ?who ?name ?func)
-		  (define (?who)
-		    (make-evp-md (?func) ?name))))))
-  (define-maker evp-md-null	"NULL"		capi.evp-md-null)
-  (define-maker evp-md2		"MD2"		capi.evp-md2)
-  (define-maker evp-md4		"MD4"		capi.evp-md4)
-  (define-maker evp-md5		"MD5"		capi.evp-md5)
-  (define-maker evp-sha		"SHA"		capi.evp-sha)
-  (define-maker evp-sha1	"SHA1"		capi.evp-sha1)
-  (define-maker evp-dss		"DSS"		capi.evp-dss)
-  (define-maker evp-dss1	"DSS1"		capi.evp-dss1)
-  (define-maker evp-ecdsa	"ECDSA"		capi.evp-ecdsa)
-  (define-maker evp-sha224	"SHA224"	capi.evp-sha224)
-  (define-maker evp-sha256	"SHA256"	capi.evp-sha256)
-  (define-maker evp-sha384	"SHA384"	capi.evp-sha384)
-  (define-maker evp-sha512	"SHA512"	capi.evp-sha512)
-  (define-maker evp-mdc2	"MDC2"		capi.evp-mdc2)
-  (define-maker evp-ripemd160	"RIPEMD160"	capi.evp-ripemd160)
-  (define-maker evp-whirlpool	"WHIRLPOOL"	capi.evp-whirlpool))
-
-;;; --------------------------------------------------------------------
-
-(define (evp-md-type ctx)
-  (define who 'evp-md-type)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-type)))
-
-(define (evp-md-nid ctx)
-  (define who 'evp-md-nid)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-md-nid)))
-
-(define (evp-md-name ctx)
+(define (evp-md-name algo)
   (define who 'evp-md-name)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-md-name)))
+      ((evp-md		algo))
+    (cond ((capi.evp-md-name algo)
+	   => (lambda (rv)
+		(ascii->string rv)))
+	  (else #f))))
+
+(define (evp-md-type algo)
+  (define who 'evp-md-type)
+  (with-arguments-validation (who)
+      ((evp-md		algo))
+    (capi.evp-md-type algo)))
+
+(define (evp-md-nid algo)
+  (define who 'evp-md-nid)
+  (with-arguments-validation (who)
+      ((evp-md		algo))
+    (capi.evp-md-nid algo)))
+
+;;; --------------------------------------------------------------------
 
 (define (evp-md-pkey-type ctx)
   (define who 'evp-md-pkey-type)
