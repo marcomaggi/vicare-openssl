@@ -42,7 +42,7 @@
 
 
 
-(parametrise ((check-test-name		'context))
+(parametrise ((check-test-name		'algo))
 
   (when #f
     (check-pretty-print (ssl.evp-sha256)))
