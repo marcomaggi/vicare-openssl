@@ -1,7 +1,7 @@
 ;;; -*- coding: utf-8-unix -*-
 ;;;
 ;;;Part of: Vicare/OpenSSL
-;;;Contents: tests for Openssl bindings, hash checksums
+;;;Contents: tests for Openssl bindings, raw message digest API
 ;;;Date: Mon Mar 11, 2013
 ;;;
 ;;;Abstract
@@ -35,7 +35,7 @@
   (vicare checks))
 
 (check-set-mode! 'report-failed)
-(check-display "*** testing Vicare OpenSSL bindings: hash checksums\n")
+(check-display "*** testing Vicare OpenSSL bindings: raw message digest API\n")
 
 (ssl.ssl-library-init)
 
