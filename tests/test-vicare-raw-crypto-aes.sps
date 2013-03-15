@@ -1,7 +1,7 @@
 ;;; -*- coding: utf-8-unix -*-
 ;;;
 ;;;Part of: Vicare/OpenSSL
-;;;Contents: tests for Openssl bindings, AES functions
+;;;Contents: tests for Openssl bindings, raw AES API
 ;;;Date: Sat Mar  9, 2013
 ;;;
 ;;;Abstract
@@ -33,7 +33,7 @@
   (vicare checks))
 
 (check-set-mode! 'report-failed)
-(check-display "*** testing Vicare OpenSSL bindings: AES functions\n")
+(check-display "*** testing Vicare OpenSSL bindings: raw AES API\n")
 
 (ssl.ssl-library-init)
 
