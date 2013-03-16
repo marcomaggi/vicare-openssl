@@ -6,6 +6,7 @@ TESTS			= \
 	test-vicare-raw-hmac.sps			\
 	test-vicare-raw-crypto-aes.sps			\
 	test-vicare-evp-message-digest.sps
+	test-vicare-evp-cipher.sps
 
 EXTRA_DIST = \
 	test-vicare-openssl-version.sps			\
@@ -13,6 +14,7 @@ EXTRA_DIST = \
 	test-vicare-raw-hmac.sps			\
 	test-vicare-raw-crypto-aes.sps			\
 	test-vicare-evp-message-digest.sps		\
+	test-vicare-evp-cipher.sps			\
 	demo-for-documentation.sps
 
 include $(top_srcdir)/meta/makefiles/tests.am

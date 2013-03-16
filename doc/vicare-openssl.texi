@@ -3024,6 +3024,7 @@ EVP_MD_CTX_test_flags}.  Return an exact integer.
 @menu
 * plain evp cipher algo struct::  Cipher algorithms data structures.
 * plain evp cipher algo makers::  Algorithm reference makers.
+* plain evp cipher unimplemented::      Still unimplemented.
 @end menu
 
 @c page
@@ -3079,332 +3080,127 @@ The following bindings are exported by the library @library{vicare
 crypto openssl}.
 
 
-@defun evp-enc-null
-@end defun
-
-@defun evp-des-ecb
-@end defun
-
-@defun evp-des-ede
-@end defun
-
-@defun evp-des-ede3
-@end defun
-
-@defun evp-des-ede-ecb
-@end defun
-
-@defun evp-des-ede3-ecb
-@end defun
-
-@defun evp-des-cfb64
-@end defun
-
-@defun evp-des-cfb
-@end defun
-
-@defun evp-des-ede3-cfb64
-@end defun
-
-@defun evp-des-ede3-cfb
-@end defun
-
-@defun evp-des-ede3-cfb1
-@end defun
-
-@defun evp-des-ede3-cfb8
-@end defun
-
-@defun evp-des-ofb
-@end defun
-
-@defun evp-des-ede-ofb
-@end defun
-
-@defun evp-des-ede3-ofb
-@end defun
-
-@defun evp-des-cbc
-@end defun
-
-@defun evp-des-ede-cbc
-@end defun
-
-@defun evp-des-ede3-cbc
-@end defun
-
-@defun evp-desx-cbc
-@end defun
-
-@defun evp-rc4
-@end defun
-
-@defun evp-rc4-40
-@end defun
-
-@defun evp-rc4-hmac-md5
-@end defun
-
-@defun evp-idea-ecb
-@end defun
-
-@defun evp-idea-cfb64
-@end defun
-
-@defun evp-idea-cfb
-@end defun
-
-@defun evp-idea-ofb
-@end defun
-
-@defun evp-idea-cbc
-@end defun
-
-@defun evp-rc2-ecb
-@end defun
-
-@defun evp-rc2-cbc
-@end defun
-
-@defun evp-rc2-40-cbc
-@end defun
-
-@defun evp-rc2-64-cbc
-@end defun
-
-@defun evp-rc2-cfb64
-@end defun
-
-@defun evp-rc2-cfb
-@end defun
-
-@defun evp-rc2-ofb
-@end defun
-
-@defun evp-bf-ecb
-@end defun
-
-@defun evp-bf-cbc
-@end defun
-
-@defun evp-bf-cfb64
-@end defun
-
-@defun evp-bf-cfb
-@end defun
-
-@defun evp-bf-ofb
-@end defun
-
-@defun evp-cast5-ecb
-@end defun
-
-@defun evp-cast5-cbc
-@end defun
-
-@defun evp-cast5-cfb64
-@end defun
-
-@defun evp-cast5-cfb
-@end defun
-
-@defun evp-cast5-ofb
-@end defun
-
-@defun evp-rc5-32-12-16-cbc
-@end defun
-
-@defun evp-rc5-32-12-16-ecb
-@end defun
-
-@defun evp-rc5-32-12-16-cfb64
-@end defun
-
-@defun evp-rc5-32-12-16-cfb
-@end defun
-
-@defun evp-rc5-32-12-16-ofb
-@end defun
-
-@defun evp-aes-128-ecb
-@end defun
-
-@defun evp-aes-128-cbc
-@end defun
-
-@defun evp-aes-128-cfb1
-@end defun
-
-@defun evp-aes-128-cfb8
-@end defun
-
-@defun evp-aes-128-cfb128
-@end defun
-
-@defun evp-aes-128-cfb
-@end defun
-
-@defun evp-aes-128-ofb
-@end defun
-
-@defun evp-aes-128-ctr
-@end defun
-
-@defun evp-aes-128-ccm
-@end defun
-
-@defun evp-aes-128-gcm
-@end defun
-
-@defun evp-aes-128-xts
-@end defun
-
-@defun evp-aes-192-ecb
-@end defun
-
-@defun evp-aes-192-cbc
-@end defun
-
-@defun evp-aes-192-cfb1
-@end defun
-
-@defun evp-aes-192-cfb8
-@end defun
-
-@defun evp-aes-192-cfb128
-@end defun
-
-@defun evp-aes-192-cfb
-@end defun
-
-@defun evp-aes-192-ofb
-@end defun
-
-@defun evp-aes-192-ctr
-@end defun
-
-@defun evp-aes-192-ccm
-@end defun
-
-@defun evp-aes-192-gcm
-@end defun
-
-@defun evp-aes-256-ecb
-@end defun
-
-@defun evp-aes-256-cbc
-@end defun
-
-@defun evp-aes-256-cfb1
-@end defun
-
-@defun evp-aes-256-cfb8
-@end defun
-
-@defun evp-aes-256-cfb128
-@end defun
-
-@defun evp-aes-256-cfb
-@end defun
-
-@defun evp-aes-256-ofb
-@end defun
-
-@defun evp-aes-256-ctr
-@end defun
-
-@defun evp-aes-256-ccm
-@end defun
-
-@defun evp-aes-256-gcm
-@end defun
-
-@defun evp-aes-256-xts
-@end defun
-
-@defun evp-aes-128-cbc-hmac-sha1
-@end defun
-
-@defun evp-aes-256-cbc-hmac-sha1
-@end defun
-
-@defun evp-camellia-128-ecb
-@end defun
-
-@defun evp-camellia-128-cbc
-@end defun
-
-@defun evp-camellia-128-cfb1
-@end defun
-
-@defun evp-camellia-128-cfb8
-@end defun
-
-@defun evp-camellia-128-cfb128
-@end defun
-
-@defun evp-camellia-128-cfb
-@end defun
-
-@defun evp-camellia-128-ofb
-@end defun
-
-@defun evp-camellia-192-ecb
-@end defun
-
-@defun evp-camellia-192-cbc
-@end defun
-
-@defun evp-camellia-192-cfb1
-@end defun
-
-@defun evp-camellia-192-cfb8
-@end defun
-
-@defun evp-camellia-192-cfb128
-@end defun
+@macro CipherMakerDefun{WHO}
+@defun \WHO\
+Build a new struct instance of type @code{evp-cipher}; if successful
+return the struct, otherwise return @false{}.
+@end defun
+@end macro
+
+@CipherMakerDefun{evp-enc-null}
+@CipherMakerDefun{evp-des-ecb}
+@CipherMakerDefun{evp-des-ede}
+@CipherMakerDefun{evp-des-ede3}
+@CipherMakerDefun{evp-des-ede-ecb}
+@CipherMakerDefun{evp-des-ede3-ecb}
+@CipherMakerDefun{evp-des-cfb64}
+@CipherMakerDefun{evp-des-cfb}
+@CipherMakerDefun{evp-des-ede3-cfb64}
+@CipherMakerDefun{evp-des-ede3-cfb}
+@CipherMakerDefun{evp-des-ede3-cfb1}
+@CipherMakerDefun{evp-des-ede3-cfb8}
+@CipherMakerDefun{evp-des-ofb}
+@CipherMakerDefun{evp-des-ede-ofb}
+@CipherMakerDefun{evp-des-ede3-ofb}
+@CipherMakerDefun{evp-des-cbc}
+@CipherMakerDefun{evp-des-ede-cbc}
+@CipherMakerDefun{evp-des-ede3-cbc}
+@CipherMakerDefun{evp-desx-cbc}
+@CipherMakerDefun{evp-rc4}
+@CipherMakerDefun{evp-rc4-40}
+@CipherMakerDefun{evp-rc4-hmac-md5}
+@CipherMakerDefun{evp-idea-ecb}
+@CipherMakerDefun{evp-idea-cfb64}
+@CipherMakerDefun{evp-idea-cfb}
+@CipherMakerDefun{evp-idea-ofb}
+@CipherMakerDefun{evp-idea-cbc}
+@CipherMakerDefun{evp-rc2-ecb}
+@CipherMakerDefun{evp-rc2-cbc}
+@CipherMakerDefun{evp-rc2-40-cbc}
+@CipherMakerDefun{evp-rc2-64-cbc}
+@CipherMakerDefun{evp-rc2-cfb64}
+@CipherMakerDefun{evp-rc2-cfb}
+@CipherMakerDefun{evp-rc2-ofb}
+@CipherMakerDefun{evp-bf-ecb}
+@CipherMakerDefun{evp-bf-cbc}
+@CipherMakerDefun{evp-bf-cfb64}
+@CipherMakerDefun{evp-bf-cfb}
+@CipherMakerDefun{evp-bf-ofb}
+@CipherMakerDefun{evp-cast5-ecb}
+@CipherMakerDefun{evp-cast5-cbc}
+@CipherMakerDefun{evp-cast5-cfb64}
+@CipherMakerDefun{evp-cast5-cfb}
+@CipherMakerDefun{evp-cast5-ofb}
+@CipherMakerDefun{evp-rc5-32-12-16-cbc}
+@CipherMakerDefun{evp-rc5-32-12-16-ecb}
+@CipherMakerDefun{evp-rc5-32-12-16-cfb64}
+@CipherMakerDefun{evp-rc5-32-12-16-cfb}
+@CipherMakerDefun{evp-rc5-32-12-16-ofb}
+@CipherMakerDefun{evp-aes-128-ecb}
+@CipherMakerDefun{evp-aes-128-cbc}
+@CipherMakerDefun{evp-aes-128-cfb1}
+@CipherMakerDefun{evp-aes-128-cfb8}
+@CipherMakerDefun{evp-aes-128-cfb128}
+@CipherMakerDefun{evp-aes-128-cfb}
+@CipherMakerDefun{evp-aes-128-ofb}
+@CipherMakerDefun{evp-aes-128-ctr}
+@CipherMakerDefun{evp-aes-128-ccm}
+@CipherMakerDefun{evp-aes-128-gcm}
+@CipherMakerDefun{evp-aes-128-xts}
+@CipherMakerDefun{evp-aes-192-ecb}
+@CipherMakerDefun{evp-aes-192-cbc}
+@CipherMakerDefun{evp-aes-192-cfb1}
+@CipherMakerDefun{evp-aes-192-cfb8}
+@CipherMakerDefun{evp-aes-192-cfb128}
+@CipherMakerDefun{evp-aes-192-cfb}
+@CipherMakerDefun{evp-aes-192-ofb}
+@CipherMakerDefun{evp-aes-192-ctr}
+@CipherMakerDefun{evp-aes-192-ccm}
+@CipherMakerDefun{evp-aes-192-gcm}
+@CipherMakerDefun{evp-aes-256-ecb}
+@CipherMakerDefun{evp-aes-256-cbc}
+@CipherMakerDefun{evp-aes-256-cfb1}
+@CipherMakerDefun{evp-aes-256-cfb8}
+@CipherMakerDefun{evp-aes-256-cfb128}
+@CipherMakerDefun{evp-aes-256-cfb}
+@CipherMakerDefun{evp-aes-256-ofb}
+@CipherMakerDefun{evp-aes-256-ctr}
+@CipherMakerDefun{evp-aes-256-ccm}
+@CipherMakerDefun{evp-aes-256-gcm}
+@CipherMakerDefun{evp-aes-256-xts}
+@CipherMakerDefun{evp-aes-128-cbc-hmac-sha1}
+@CipherMakerDefun{evp-aes-256-cbc-hmac-sha1}
+@CipherMakerDefun{evp-camellia-128-ecb}
+@CipherMakerDefun{evp-camellia-128-cbc}
+@CipherMakerDefun{evp-camellia-128-cfb1}
+@CipherMakerDefun{evp-camellia-128-cfb8}
+@CipherMakerDefun{evp-camellia-128-cfb128}
+@CipherMakerDefun{evp-camellia-128-cfb}
+@CipherMakerDefun{evp-camellia-128-ofb}
+@CipherMakerDefun{evp-camellia-192-ecb}
+@CipherMakerDefun{evp-camellia-192-cbc}
+@CipherMakerDefun{evp-camellia-192-cfb1}
+@CipherMakerDefun{evp-camellia-192-cfb8}
+@CipherMakerDefun{evp-camellia-192-cfb128}
+@CipherMakerDefun{evp-camellia-192-cfb}
+@CipherMakerDefun{evp-camellia-192-ofb}
+@CipherMakerDefun{evp-camellia-256-ecb}
+@CipherMakerDefun{evp-camellia-256-cbc}
+@CipherMakerDefun{evp-camellia-256-cfb1}
+@CipherMakerDefun{evp-camellia-256-cfb8}
+@CipherMakerDefun{evp-camellia-256-cfb128}
+@CipherMakerDefun{evp-camellia-256-cfb}
+@CipherMakerDefun{evp-camellia-256-ofb}
+@CipherMakerDefun{evp-seed-ecb}
+@CipherMakerDefun{evp-seed-cbc}
+@CipherMakerDefun{evp-seed-cfb128}
+@CipherMakerDefun{evp-seed-cfb}
+@CipherMakerDefun{evp-seed-ofb}
+
+@c page
+@node plain evp cipher unimplemented
+@subsubsection Still unimplemented
 
-@defun evp-camellia-192-cfb
-@end defun
-
-@defun evp-camellia-192-ofb
-@end defun
-
-@defun evp-camellia-256-ecb
-@end defun
-
-@defun evp-camellia-256-cbc
-@end defun
-
-@defun evp-camellia-256-cfb1
-@end defun
-
-@defun evp-camellia-256-cfb8
-@end defun
-
-@defun evp-camellia-256-cfb128
-@end defun
-
-@defun evp-camellia-256-cfb
-@end defun
-
-@defun evp-camellia-256-ofb
-@end defun
-
-@defun evp-seed-ecb
-@end defun
-
-@defun evp-seed-cbc
-@end defun
-
-@defun evp-seed-cfb128
-@end defun
-
-@defun evp-seed-cfb
-@end defun
-
-@defun evp-seed-ofb
-@end defun
 
 @defun evp-cipher-type
 @end defun

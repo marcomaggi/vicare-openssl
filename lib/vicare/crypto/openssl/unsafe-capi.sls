@@ -735,466 +735,466 @@
 ;;;; EVP cipher algorithms unsafe C API
 
 (define-inline (evp-enc-null)
-  (foreign-call "ikrt_evp_enc_null"))
+  (foreign-call "ikrt_openssl_evp_enc_null"))
 
 (define-inline (evp-des-ecb)
-  (foreign-call "ikrt_evp_des_ecb"))
+  (foreign-call "ikrt_openssl_evp_des_ecb"))
 
 (define-inline (evp-des-ede)
-  (foreign-call "ikrt_evp_des_ede"))
+  (foreign-call "ikrt_openssl_evp_des_ede"))
 
 (define-inline (evp-des-ede3)
-  (foreign-call "ikrt_evp_des_ede3"))
+  (foreign-call "ikrt_openssl_evp_des_ede3"))
 
 (define-inline (evp-des-ede-ecb)
-  (foreign-call "ikrt_evp_des_ede_ecb"))
+  (foreign-call "ikrt_openssl_evp_des_ede_ecb"))
 
 (define-inline (evp-des-ede3-ecb)
-  (foreign-call "ikrt_evp_des_ede3_ecb"))
+  (foreign-call "ikrt_openssl_evp_des_ede3_ecb"))
 
 (define-inline (evp-des-cfb64)
-  (foreign-call "ikrt_evp_des_cfb64"))
+  (foreign-call "ikrt_openssl_evp_des_cfb64"))
 
 (define-inline (evp-des-cfb)
-  (foreign-call "ikrt_evp_des_cfb"))
+  (foreign-call "ikrt_openssl_evp_des_cfb"))
 
 (define-inline (evp-des-ede3-cfb64)
-  (foreign-call "ikrt_evp_des_ede3_cfb64"))
+  (foreign-call "ikrt_openssl_evp_des_ede3_cfb64"))
 
 (define-inline (evp-des-ede3-cfb)
-  (foreign-call "ikrt_evp_des_ede3_cfb"))
+  (foreign-call "ikrt_openssl_evp_des_ede3_cfb"))
 
 (define-inline (evp-des-ede3-cfb1)
-  (foreign-call "ikrt_evp_des_ede3_cfb1"))
+  (foreign-call "ikrt_openssl_evp_des_ede3_cfb1"))
 
 (define-inline (evp-des-ede3-cfb8)
-  (foreign-call "ikrt_evp_des_ede3_cfb8"))
+  (foreign-call "ikrt_openssl_evp_des_ede3_cfb8"))
 
 (define-inline (evp-des-ofb)
-  (foreign-call "ikrt_evp_des_ofb"))
+  (foreign-call "ikrt_openssl_evp_des_ofb"))
 
 (define-inline (evp-des-ede-ofb)
-  (foreign-call "ikrt_evp_des_ede_ofb"))
+  (foreign-call "ikrt_openssl_evp_des_ede_ofb"))
 
 (define-inline (evp-des-ede3-ofb)
-  (foreign-call "ikrt_evp_des_ede3_ofb"))
+  (foreign-call "ikrt_openssl_evp_des_ede3_ofb"))
 
 (define-inline (evp-des-cbc)
-  (foreign-call "ikrt_evp_des_cbc"))
+  (foreign-call "ikrt_openssl_evp_des_cbc"))
 
 (define-inline (evp-des-ede-cbc)
-  (foreign-call "ikrt_evp_des_ede_cbc"))
+  (foreign-call "ikrt_openssl_evp_des_ede_cbc"))
 
 (define-inline (evp-des-ede3-cbc)
-  (foreign-call "ikrt_evp_des_ede3_cbc"))
+  (foreign-call "ikrt_openssl_evp_des_ede3_cbc"))
 
 (define-inline (evp-desx-cbc)
-  (foreign-call "ikrt_evp_desx_cbc"))
+  (foreign-call "ikrt_openssl_evp_desx_cbc"))
 
 (define-inline (evp-rc4)
-  (foreign-call "ikrt_evp_rc4"))
+  (foreign-call "ikrt_openssl_evp_rc4"))
 
 (define-inline (evp-rc4-40)
-  (foreign-call "ikrt_evp_rc4_40"))
+  (foreign-call "ikrt_openssl_evp_rc4_40"))
 
 (define-inline (evp-rc4-hmac-md5)
-  (foreign-call "ikrt_evp_rc4_hmac_md5"))
+  (foreign-call "ikrt_openssl_evp_rc4_hmac_md5"))
 
 (define-inline (evp-idea-ecb)
-  (foreign-call "ikrt_evp_idea_ecb"))
+  (foreign-call "ikrt_openssl_evp_idea_ecb"))
 
 (define-inline (evp-idea-cfb64)
-  (foreign-call "ikrt_evp_idea_cfb64"))
+  (foreign-call "ikrt_openssl_evp_idea_cfb64"))
 
 (define-inline (evp-idea-cfb)
-  (foreign-call "ikrt_evp_idea_cfb"))
+  (foreign-call "ikrt_openssl_evp_idea_cfb"))
 
 (define-inline (evp-idea-ofb)
-  (foreign-call "ikrt_evp_idea_ofb"))
+  (foreign-call "ikrt_openssl_evp_idea_ofb"))
 
 (define-inline (evp-idea-cbc)
-  (foreign-call "ikrt_evp_idea_cbc"))
+  (foreign-call "ikrt_openssl_evp_idea_cbc"))
 
 (define-inline (evp-rc2-ecb)
-  (foreign-call "ikrt_evp_rc2_ecb"))
+  (foreign-call "ikrt_openssl_evp_rc2_ecb"))
 
 (define-inline (evp-rc2-cbc)
-  (foreign-call "ikrt_evp_rc2_cbc"))
+  (foreign-call "ikrt_openssl_evp_rc2_cbc"))
 
 (define-inline (evp-rc2-40-cbc)
-  (foreign-call "ikrt_evp_rc2_40_cbc"))
+  (foreign-call "ikrt_openssl_evp_rc2_40_cbc"))
 
 (define-inline (evp-rc2-64-cbc)
-  (foreign-call "ikrt_evp_rc2_64_cbc"))
+  (foreign-call "ikrt_openssl_evp_rc2_64_cbc"))
 
 (define-inline (evp-rc2-cfb64)
-  (foreign-call "ikrt_evp_rc2_cfb64"))
+  (foreign-call "ikrt_openssl_evp_rc2_cfb64"))
 
 (define-inline (evp-rc2-cfb)
-  (foreign-call "ikrt_evp_rc2_cfb"))
+  (foreign-call "ikrt_openssl_evp_rc2_cfb"))
 
 (define-inline (evp-rc2-ofb)
-  (foreign-call "ikrt_evp_rc2_ofb"))
+  (foreign-call "ikrt_openssl_evp_rc2_ofb"))
 
 (define-inline (evp-bf-ecb)
-  (foreign-call "ikrt_evp_bf_ecb"))
+  (foreign-call "ikrt_openssl_evp_bf_ecb"))
 
 (define-inline (evp-bf-cbc)
-  (foreign-call "ikrt_evp_bf_cbc"))
+  (foreign-call "ikrt_openssl_evp_bf_cbc"))
 
 (define-inline (evp-bf-cfb64)
-  (foreign-call "ikrt_evp_bf_cfb64"))
+  (foreign-call "ikrt_openssl_evp_bf_cfb64"))
 
 (define-inline (evp-bf-cfb)
-  (foreign-call "ikrt_evp_bf_cfb"))
+  (foreign-call "ikrt_openssl_evp_bf_cfb"))
 
 (define-inline (evp-bf-ofb)
-  (foreign-call "ikrt_evp_bf_ofb"))
+  (foreign-call "ikrt_openssl_evp_bf_ofb"))
 
 (define-inline (evp-cast5-ecb)
-  (foreign-call "ikrt_evp_cast5_ecb"))
+  (foreign-call "ikrt_openssl_evp_cast5_ecb"))
 
 (define-inline (evp-cast5-cbc)
-  (foreign-call "ikrt_evp_cast5_cbc"))
+  (foreign-call "ikrt_openssl_evp_cast5_cbc"))
 
 (define-inline (evp-cast5-cfb64)
-  (foreign-call "ikrt_evp_cast5_cfb64"))
+  (foreign-call "ikrt_openssl_evp_cast5_cfb64"))
 
 (define-inline (evp-cast5-cfb)
-  (foreign-call "ikrt_evp_cast5_cfb"))
+  (foreign-call "ikrt_openssl_evp_cast5_cfb"))
 
 (define-inline (evp-cast5-ofb)
-  (foreign-call "ikrt_evp_cast5_ofb"))
+  (foreign-call "ikrt_openssl_evp_cast5_ofb"))
 
 (define-inline (evp-rc5-32-12-16-cbc)
-  (foreign-call "ikrt_evp_rc5_32_12_16_cbc"))
+  (foreign-call "ikrt_openssl_evp_rc5_32_12_16_cbc"))
 
 (define-inline (evp-rc5-32-12-16-ecb)
-  (foreign-call "ikrt_evp_rc5_32_12_16_ecb"))
+  (foreign-call "ikrt_openssl_evp_rc5_32_12_16_ecb"))
 
 (define-inline (evp-rc5-32-12-16-cfb64)
-  (foreign-call "ikrt_evp_rc5_32_12_16_cfb64"))
+  (foreign-call "ikrt_openssl_evp_rc5_32_12_16_cfb64"))
 
 (define-inline (evp-rc5-32-12-16-cfb)
-  (foreign-call "ikrt_evp_rc5_32_12_16_cfb"))
+  (foreign-call "ikrt_openssl_evp_rc5_32_12_16_cfb"))
 
 (define-inline (evp-rc5-32-12-16-ofb)
-  (foreign-call "ikrt_evp_rc5_32_12_16_ofb"))
+  (foreign-call "ikrt_openssl_evp_rc5_32_12_16_ofb"))
 
 (define-inline (evp-aes-128-ecb)
-  (foreign-call "ikrt_evp_aes_128_ecb"))
+  (foreign-call "ikrt_openssl_evp_aes_128_ecb"))
 
 (define-inline (evp-aes-128-cbc)
-  (foreign-call "ikrt_evp_aes_128_cbc"))
+  (foreign-call "ikrt_openssl_evp_aes_128_cbc"))
 
 (define-inline (evp-aes-128-cfb1)
-  (foreign-call "ikrt_evp_aes_128_cfb1"))
+  (foreign-call "ikrt_openssl_evp_aes_128_cfb1"))
 
 (define-inline (evp-aes-128-cfb8)
-  (foreign-call "ikrt_evp_aes_128_cfb8"))
+  (foreign-call "ikrt_openssl_evp_aes_128_cfb8"))
 
 (define-inline (evp-aes-128-cfb128)
-  (foreign-call "ikrt_evp_aes_128_cfb128"))
+  (foreign-call "ikrt_openssl_evp_aes_128_cfb128"))
 
 (define-inline (evp-aes-128-cfb)
-  (foreign-call "ikrt_evp_aes_128_cfb"))
+  (foreign-call "ikrt_openssl_evp_aes_128_cfb"))
 
 (define-inline (evp-aes-128-ofb)
-  (foreign-call "ikrt_evp_aes_128_ofb"))
+  (foreign-call "ikrt_openssl_evp_aes_128_ofb"))
 
 (define-inline (evp-aes-128-ctr)
-  (foreign-call "ikrt_evp_aes_128_ctr"))
+  (foreign-call "ikrt_openssl_evp_aes_128_ctr"))
 
 (define-inline (evp-aes-128-ccm)
-  (foreign-call "ikrt_evp_aes_128_ccm"))
+  (foreign-call "ikrt_openssl_evp_aes_128_ccm"))
 
 (define-inline (evp-aes-128-gcm)
-  (foreign-call "ikrt_evp_aes_128_gcm"))
+  (foreign-call "ikrt_openssl_evp_aes_128_gcm"))
 
 (define-inline (evp-aes-128-xts)
-  (foreign-call "ikrt_evp_aes_128_xts"))
+  (foreign-call "ikrt_openssl_evp_aes_128_xts"))
 
 (define-inline (evp-aes-192-ecb)
-  (foreign-call "ikrt_evp_aes_192_ecb"))
+  (foreign-call "ikrt_openssl_evp_aes_192_ecb"))
 
 (define-inline (evp-aes-192-cbc)
-  (foreign-call "ikrt_evp_aes_192_cbc"))
+  (foreign-call "ikrt_openssl_evp_aes_192_cbc"))
 
 (define-inline (evp-aes-192-cfb1)
-  (foreign-call "ikrt_evp_aes_192_cfb1"))
+  (foreign-call "ikrt_openssl_evp_aes_192_cfb1"))
 
 (define-inline (evp-aes-192-cfb8)
-  (foreign-call "ikrt_evp_aes_192_cfb8"))
+  (foreign-call "ikrt_openssl_evp_aes_192_cfb8"))
 
 (define-inline (evp-aes-192-cfb128)
-  (foreign-call "ikrt_evp_aes_192_cfb128"))
+  (foreign-call "ikrt_openssl_evp_aes_192_cfb128"))
 
 (define-inline (evp-aes-192-cfb)
-  (foreign-call "ikrt_evp_aes_192_cfb"))
+  (foreign-call "ikrt_openssl_evp_aes_192_cfb"))
 
 (define-inline (evp-aes-192-ofb)
-  (foreign-call "ikrt_evp_aes_192_ofb"))
+  (foreign-call "ikrt_openssl_evp_aes_192_ofb"))
 
 (define-inline (evp-aes-192-ctr)
-  (foreign-call "ikrt_evp_aes_192_ctr"))
+  (foreign-call "ikrt_openssl_evp_aes_192_ctr"))
 
 (define-inline (evp-aes-192-ccm)
-  (foreign-call "ikrt_evp_aes_192_ccm"))
+  (foreign-call "ikrt_openssl_evp_aes_192_ccm"))
 
 (define-inline (evp-aes-192-gcm)
-  (foreign-call "ikrt_evp_aes_192_gcm"))
+  (foreign-call "ikrt_openssl_evp_aes_192_gcm"))
 
 (define-inline (evp-aes-256-ecb)
-  (foreign-call "ikrt_evp_aes_256_ecb"))
+  (foreign-call "ikrt_openssl_evp_aes_256_ecb"))
 
 (define-inline (evp-aes-256-cbc)
-  (foreign-call "ikrt_evp_aes_256_cbc"))
+  (foreign-call "ikrt_openssl_evp_aes_256_cbc"))
 
 (define-inline (evp-aes-256-cfb1)
-  (foreign-call "ikrt_evp_aes_256_cfb1"))
+  (foreign-call "ikrt_openssl_evp_aes_256_cfb1"))
 
 (define-inline (evp-aes-256-cfb8)
-  (foreign-call "ikrt_evp_aes_256_cfb8"))
+  (foreign-call "ikrt_openssl_evp_aes_256_cfb8"))
 
 (define-inline (evp-aes-256-cfb128)
-  (foreign-call "ikrt_evp_aes_256_cfb128"))
+  (foreign-call "ikrt_openssl_evp_aes_256_cfb128"))
 
 (define-inline (evp-aes-256-cfb)
-  (foreign-call "ikrt_evp_aes_256_cfb"))
+  (foreign-call "ikrt_openssl_evp_aes_256_cfb"))
 
 (define-inline (evp-aes-256-ofb)
-  (foreign-call "ikrt_evp_aes_256_ofb"))
+  (foreign-call "ikrt_openssl_evp_aes_256_ofb"))
 
 (define-inline (evp-aes-256-ctr)
-  (foreign-call "ikrt_evp_aes_256_ctr"))
+  (foreign-call "ikrt_openssl_evp_aes_256_ctr"))
 
 (define-inline (evp-aes-256-ccm)
-  (foreign-call "ikrt_evp_aes_256_ccm"))
+  (foreign-call "ikrt_openssl_evp_aes_256_ccm"))
 
 (define-inline (evp-aes-256-gcm)
-  (foreign-call "ikrt_evp_aes_256_gcm"))
+  (foreign-call "ikrt_openssl_evp_aes_256_gcm"))
 
 (define-inline (evp-aes-256-xts)
-  (foreign-call "ikrt_evp_aes_256_xts"))
+  (foreign-call "ikrt_openssl_evp_aes_256_xts"))
 
 (define-inline (evp-aes-128-cbc-hmac-sha1)
-  (foreign-call "ikrt_evp_aes_128_cbc_hmac_sha1"))
+  (foreign-call "ikrt_openssl_evp_aes_128_cbc_hmac_sha1"))
 
 (define-inline (evp-aes-256-cbc-hmac-sha1)
-  (foreign-call "ikrt_evp_aes_256_cbc_hmac_sha1"))
+  (foreign-call "ikrt_openssl_evp_aes_256_cbc_hmac_sha1"))
 
 (define-inline (evp-camellia-128-ecb)
-  (foreign-call "ikrt_evp_camellia_128_ecb"))
+  (foreign-call "ikrt_openssl_evp_camellia_128_ecb"))
 
 (define-inline (evp-camellia-128-cbc)
-  (foreign-call "ikrt_evp_camellia_128_cbc"))
+  (foreign-call "ikrt_openssl_evp_camellia_128_cbc"))
 
 (define-inline (evp-camellia-128-cfb1)
-  (foreign-call "ikrt_evp_camellia_128_cfb1"))
+  (foreign-call "ikrt_openssl_evp_camellia_128_cfb1"))
 
 (define-inline (evp-camellia-128-cfb8)
-  (foreign-call "ikrt_evp_camellia_128_cfb8"))
+  (foreign-call "ikrt_openssl_evp_camellia_128_cfb8"))
 
 (define-inline (evp-camellia-128-cfb128)
-  (foreign-call "ikrt_evp_camellia_128_cfb128"))
+  (foreign-call "ikrt_openssl_evp_camellia_128_cfb128"))
 
 (define-inline (evp-camellia-128-cfb)
-  (foreign-call "ikrt_evp_camellia_128_cfb"))
+  (foreign-call "ikrt_openssl_evp_camellia_128_cfb"))
 
 (define-inline (evp-camellia-128-ofb)
-  (foreign-call "ikrt_evp_camellia_128_ofb"))
+  (foreign-call "ikrt_openssl_evp_camellia_128_ofb"))
 
 (define-inline (evp-camellia-192-ecb)
-  (foreign-call "ikrt_evp_camellia_192_ecb"))
+  (foreign-call "ikrt_openssl_evp_camellia_192_ecb"))
 
 (define-inline (evp-camellia-192-cbc)
-  (foreign-call "ikrt_evp_camellia_192_cbc"))
+  (foreign-call "ikrt_openssl_evp_camellia_192_cbc"))
 
 (define-inline (evp-camellia-192-cfb1)
-  (foreign-call "ikrt_evp_camellia_192_cfb1"))
+  (foreign-call "ikrt_openssl_evp_camellia_192_cfb1"))
 
 (define-inline (evp-camellia-192-cfb8)
-  (foreign-call "ikrt_evp_camellia_192_cfb8"))
+  (foreign-call "ikrt_openssl_evp_camellia_192_cfb8"))
 
 (define-inline (evp-camellia-192-cfb128)
-  (foreign-call "ikrt_evp_camellia_192_cfb128"))
+  (foreign-call "ikrt_openssl_evp_camellia_192_cfb128"))
 
 (define-inline (evp-camellia-192-cfb)
-  (foreign-call "ikrt_evp_camellia_192_cfb"))
+  (foreign-call "ikrt_openssl_evp_camellia_192_cfb"))
 
 (define-inline (evp-camellia-192-ofb)
-  (foreign-call "ikrt_evp_camellia_192_ofb"))
+  (foreign-call "ikrt_openssl_evp_camellia_192_ofb"))
 
 (define-inline (evp-camellia-256-ecb)
-  (foreign-call "ikrt_evp_camellia_256_ecb"))
+  (foreign-call "ikrt_openssl_evp_camellia_256_ecb"))
 
 (define-inline (evp-camellia-256-cbc)
-  (foreign-call "ikrt_evp_camellia_256_cbc"))
+  (foreign-call "ikrt_openssl_evp_camellia_256_cbc"))
 
 (define-inline (evp-camellia-256-cfb1)
-  (foreign-call "ikrt_evp_camellia_256_cfb1"))
+  (foreign-call "ikrt_openssl_evp_camellia_256_cfb1"))
 
 (define-inline (evp-camellia-256-cfb8)
-  (foreign-call "ikrt_evp_camellia_256_cfb8"))
+  (foreign-call "ikrt_openssl_evp_camellia_256_cfb8"))
 
 (define-inline (evp-camellia-256-cfb128)
-  (foreign-call "ikrt_evp_camellia_256_cfb128"))
+  (foreign-call "ikrt_openssl_evp_camellia_256_cfb128"))
 
 (define-inline (evp-camellia-256-cfb)
-  (foreign-call "ikrt_evp_camellia_256_cfb"))
+  (foreign-call "ikrt_openssl_evp_camellia_256_cfb"))
 
 (define-inline (evp-camellia-256-ofb)
-  (foreign-call "ikrt_evp_camellia_256_ofb"))
+  (foreign-call "ikrt_openssl_evp_camellia_256_ofb"))
 
 (define-inline (evp-seed-ecb)
-  (foreign-call "ikrt_evp_seed_ecb"))
+  (foreign-call "ikrt_openssl_evp_seed_ecb"))
 
 (define-inline (evp-seed-cbc)
-  (foreign-call "ikrt_evp_seed_cbc"))
+  (foreign-call "ikrt_openssl_evp_seed_cbc"))
 
 (define-inline (evp-seed-cfb128)
-  (foreign-call "ikrt_evp_seed_cfb128"))
+  (foreign-call "ikrt_openssl_evp_seed_cfb128"))
 
 (define-inline (evp-seed-cfb)
-  (foreign-call "ikrt_evp_seed_cfb"))
+  (foreign-call "ikrt_openssl_evp_seed_cfb"))
 
 (define-inline (evp-seed-ofb)
-  (foreign-call "ikrt_evp_seed_ofb"))
+  (foreign-call "ikrt_openssl_evp_seed_ofb"))
 
 (define-inline (evp-cipher-type)
-  (foreign-call "ikrt_evp_cipher_type"))
+  (foreign-call "ikrt_openssl_evp_cipher_type"))
 
 (define-inline (evp-get-cipherbyname)
-  (foreign-call "ikrt_evp_get_cipherbyname"))
+  (foreign-call "ikrt_openssl_evp_get_cipherbyname"))
 
 (define-inline (evp-get-cipherbynid)
-  (foreign-call "ikrt_evp_get_cipherbynid"))
+  (foreign-call "ikrt_openssl_evp_get_cipherbynid"))
 
 (define-inline (evp-get-cipherbyobj)
-  (foreign-call "ikrt_evp_get_cipherbyobj"))
+  (foreign-call "ikrt_openssl_evp_get_cipherbyobj"))
 
 (define-inline (evp-cipher-nid)
-  (foreign-call "ikrt_evp_cipher_nid"))
+  (foreign-call "ikrt_openssl_evp_cipher_nid"))
 
 (define-inline (evp-cipher-name)
-  (foreign-call "ikrt_evp_cipher_name"))
+  (foreign-call "ikrt_openssl_evp_cipher_name"))
 
 (define-inline (evp-cipher-block-size)
-  (foreign-call "ikrt_evp_cipher_block_size"))
+  (foreign-call "ikrt_openssl_evp_cipher_block_size"))
 
 (define-inline (evp-cipher-key-length)
-  (foreign-call "ikrt_evp_cipher_key_length"))
+  (foreign-call "ikrt_openssl_evp_cipher_key_length"))
 
 (define-inline (evp-cipher-iv-length)
-  (foreign-call "ikrt_evp_cipher_iv_length"))
+  (foreign-call "ikrt_openssl_evp_cipher_iv_length"))
 
 (define-inline (evp-cipher-flags)
-  (foreign-call "ikrt_evp_cipher_flags"))
+  (foreign-call "ikrt_openssl_evp_cipher_flags"))
 
 (define-inline (evp-cipher-mode)
-  (foreign-call "ikrt_evp_cipher_mode"))
+  (foreign-call "ikrt_openssl_evp_cipher_mode"))
 
 (define-inline (evp-cipher-ctx-init)
-  (foreign-call "ikrt_evp_cipher_ctx_init"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_init"))
 
 (define-inline (evp-cipher-ctx-cleanup)
-  (foreign-call "ikrt_evp_cipher_ctx_cleanup"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_cleanup"))
 
 (define-inline (evp-cipher-ctx-new)
-  (foreign-call "ikrt_evp_cipher_ctx_new"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_new"))
 
 (define-inline (evp-cipher-ctx-free)
-  (foreign-call "ikrt_evp_cipher_ctx_free"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_free"))
 
 (define-inline (evp-encryptinit-ex)
-  (foreign-call "ikrt_evp_encryptinit_ex"))
+  (foreign-call "ikrt_openssl_evp_encryptinit_ex"))
 
 (define-inline (evp-encryptfinal-ex)
-  (foreign-call "ikrt_evp_encryptfinal_ex"))
+  (foreign-call "ikrt_openssl_evp_encryptfinal_ex"))
 
 (define-inline (evp-encryptupdate)
-  (foreign-call "ikrt_evp_encryptupdate"))
+  (foreign-call "ikrt_openssl_evp_encryptupdate"))
 
 (define-inline (evp-decryptinit-ex)
-  (foreign-call "ikrt_evp_decryptinit_ex"))
+  (foreign-call "ikrt_openssl_evp_decryptinit_ex"))
 
 (define-inline (evp-decryptupdate)
-  (foreign-call "ikrt_evp_decryptupdate"))
+  (foreign-call "ikrt_openssl_evp_decryptupdate"))
 
 (define-inline (evp-decryptfinal-ex)
-  (foreign-call "ikrt_evp_decryptfinal_ex"))
+  (foreign-call "ikrt_openssl_evp_decryptfinal_ex"))
 
 (define-inline (evp-cipherinit-ex)
-  (foreign-call "ikrt_evp_cipherinit_ex"))
+  (foreign-call "ikrt_openssl_evp_cipherinit_ex"))
 
 (define-inline (evp-cipherupdate)
-  (foreign-call "ikrt_evp_cipherupdate"))
+  (foreign-call "ikrt_openssl_evp_cipherupdate"))
 
 (define-inline (evp-cipherfinal-ex)
-  (foreign-call "ikrt_evp_cipherfinal_ex"))
+  (foreign-call "ikrt_openssl_evp_cipherfinal_ex"))
 
 (define-inline (evp-cipher-ctx-set-key-length)
-  (foreign-call "ikrt_evp_cipher_ctx_set_key_length"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_set_key_length"))
 
 (define-inline (evp-cipher-ctx-set-padding)
-  (foreign-call "ikrt_evp_cipher_ctx_set_padding"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_set_padding"))
 
 (define-inline (evp-cipher-ctx-ctrl)
-  (foreign-call "ikrt_evp_cipher_ctx_ctrl"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_ctrl"))
 
 (define-inline (evp-cipher-ctx-cipher)
-  (foreign-call "ikrt_evp_cipher_ctx_cipher"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_cipher"))
 
 (define-inline (evp-cipher-ctx-nid)
-  (foreign-call "ikrt_evp_cipher_ctx_nid"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_nid"))
 
 (define-inline (evp-cipher-ctx-block-size)
-  (foreign-call "ikrt_evp_cipher_ctx_block_size"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_block_size"))
 
 (define-inline (evp-cipher-ctx-key-length)
-  (foreign-call "ikrt_evp_cipher_ctx_key_length"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_key_length"))
 
 (define-inline (evp-cipher-ctx-iv-length)
-  (foreign-call "ikrt_evp_cipher_ctx_iv_length"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_iv_length"))
 
 (define-inline (evp-cipher-ctx-copy)
-  (foreign-call "ikrt_evp_cipher_ctx_copy"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_copy"))
 
 (define-inline (evp-cipher-ctx-get-app-data)
-  (foreign-call "ikrt_evp_cipher_ctx_get_app_data"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_get_app_data"))
 
 (define-inline (evp-cipher-ctx-set-app-data)
-  (foreign-call "ikrt_evp_cipher_ctx_set_app_data"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_set_app_data"))
 
 (define-inline (evp-cipher-ctx-type)
-  (foreign-call "ikrt_evp_cipher_ctx_type"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_type"))
 
 (define-inline (evp-cipher-ctx-flags)
-  (foreign-call "ikrt_evp_cipher_ctx_flags"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_flags"))
 
 (define-inline (evp-cipher-ctx-mode)
-  (foreign-call "ikrt_evp_cipher_ctx_mode"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_mode"))
 
 (define-inline (evp-cipher-ctx-rand-key)
-  (foreign-call "ikrt_evp_cipher_ctx_rand_key"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_rand_key"))
 
 (define-inline (evp-cipher-param-to-asn1)
-  (foreign-call "ikrt_evp_cipher_param_to_asn1"))
+  (foreign-call "ikrt_openssl_evp_cipher_param_to_asn1"))
 
 (define-inline (evp-cipher-asn1-to-param)
-  (foreign-call "ikrt_evp_cipher_asn1_to_param"))
+  (foreign-call "ikrt_openssl_evp_cipher_asn1_to_param"))
 
 (define-inline (evp-cipher-ctx-set-flags)
-  (foreign-call "ikrt_evp_cipher_ctx_set_flags"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_set_flags"))
 
 (define-inline (evp-cipher-ctx-clear-flags)
-  (foreign-call "ikrt_evp_cipher_ctx_clear_flags"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_clear_flags"))
 
 (define-inline (evp-cipher-ctx-test-flags)
-  (foreign-call "ikrt_evp_cipher_ctx_test_flags"))
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_test_flags"))
 
 (define-inline (evp-cipher)
-  (foreign-call "ikrt_evp_cipher"))
+  (foreign-call "ikrt_openssl_evp_cipher"))
 
 
 ;;;; still to be implemented
