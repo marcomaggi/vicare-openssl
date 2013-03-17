@@ -10,6 +10,7 @@ nobase_dist_libvicare_DATA = \
 	vicare/crypto/openssl/helpers.sls			\
 	\
 	vicare/crypto/openssl/evp/ciphers.sls			\
+	vicare/crypto/openssl/evp/ciphers/cond-expand.sls	\
 	vicare/crypto/openssl/evp/message-digests.sls		\
 	vicare/crypto/openssl/evp/message-digests/cond-expand.sls	\
 	\

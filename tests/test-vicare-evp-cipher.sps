@@ -27,13 +27,23 @@
 
 #!r6rs
 (import (vicare)
+  (vicare cond-expand)
+  (for (prefix (vicare crypto openssl evp ciphers cond-expand)
+	       ssl.)
+       expand)
   (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
   (prefix (vicare crypto openssl evp ciphers) ssl.)
   (vicare checks))
 
 (check-set-mode! 'report-failed)
-(display "*** testing Vicare OpenSSL bindings: EVP cipher API\n")
+(check-display "*** testing Vicare OpenSSL bindings: EVP cipher API\n")
+
+
+;;;; helpers
+
+(define-cond-expand ssl.cond-expand
+  ssl.vicare-openssl-evp-ciphers-features)
 
 
 (parametrise ((check-test-name	'algo))
@@ -51,7 +61,11 @@
        (void))
       ((_ ?maker0 ?maker ...)
        (begin
-	 (check-single-maker ?maker0)
+	 (ssl.cond-expand
+	  (?maker0
+	   (check-single-maker ?maker0))
+	  (else
+	   (void)))
 	 (check-makers ?maker ...)))))
 
 ;;; --------------------------------------------------------------------
@@ -166,17 +180,7 @@
    ssl.evp-seed-cfb128
    ssl.evp-seed-cfb
    ssl.evp-seed-ofb
-   ssl.evp-cipher-type
-   ssl.evp-get-cipherbyname
-   ssl.evp-get-cipherbynid
-   ssl.evp-get-cipherbyobj
-   ssl.evp-cipher-nid
-   ssl.evp-cipher-name
-   ssl.evp-cipher-block-size
-   ssl.evp-cipher-key-length
-   ssl.evp-cipher-iv-length
-   ssl.evp-cipher-flags
-   ssl.evp-cipher-mode)
+   )
 
 #t)
 
