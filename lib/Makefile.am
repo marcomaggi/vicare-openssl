@@ -6,6 +6,7 @@ EXTRA_DIST	= \
 # These files are hand-written.
 nobase_dist_libvicare_DATA = \
 	vicare/crypto/openssl.sls				\
+	vicare/crypto/openssl/cond-expand.sls			\
 	vicare/crypto/openssl/unsafe-capi.sls			\
 	vicare/crypto/openssl/helpers.sls			\
 	\
