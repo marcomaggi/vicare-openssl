@@ -15,6 +15,7 @@ nobase_dist_libvicare_DATA = \
 	vicare/crypto/openssl/message-digests.sls		\
 	vicare/crypto/openssl/message-digests/cond-expand.sls	\
 	vicare/crypto/openssl/hmac.sls				\
+	vicare/crypto/openssl/hmac/cond-expand.sls		\
 	vicare/crypto/openssl/aes.sls
 
 # These files are created at configuration or make time.

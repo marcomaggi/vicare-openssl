@@ -27,6 +27,9 @@
 
 #!r6rs
 (import (vicare)
+  (vicare cond-expand)
+  (for (prefix (vicare crypto openssl hmac cond-expand) ssl.)
+       expand)
   (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
   (prefix (vicare crypto openssl hmac) ssl.)
@@ -44,6 +47,19 @@
 
 ;;;; helpers
 
+(define-cond-expand ssl.cond-expand
+  ssl.vicare-openssl-hmac-features)
+
+
+(parametrise ((check-test-name	'features))
+
+  (check
+      (ssl.cond-expand
+       (ssl.hmac	#t)
+       (else		#f))
+    => #t)
+
+  #t)
 
 
 (parametrise ((check-test-name		'md5)

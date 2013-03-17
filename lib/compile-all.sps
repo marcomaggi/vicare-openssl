@@ -38,7 +38,7 @@
   #;(only (vicare crypto openssl evp message-digests cond-expand))
   ;; (only (vicare crypto openssl evp ciphers cond-expand))
   (only (vicare crypto openssl message-digests cond-expand))
-  ;; (only (vicare crypto openssl hmac cond-expand))
+  (only (vicare crypto openssl hmac cond-expand))
   ;; (only (vicare crypto openssl aes cond-expand))
   )
 
