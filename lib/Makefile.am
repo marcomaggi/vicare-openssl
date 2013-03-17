@@ -6,7 +6,15 @@ EXTRA_DIST	= \
 # These files are hand-written.
 nobase_dist_libvicare_DATA = \
 	vicare/crypto/openssl.sls			\
-	vicare/crypto/openssl/unsafe-capi.sls
+	vicare/crypto/openssl/unsafe-capi.sls		\
+	vicare/crypto/openssl/helpers.sls		\
+	\
+	vicare/crypto/openssl/evp/ciphers.sls		\
+	vicare/crypto/openssl/evp/message-digests.sls	\
+	\
+	vicare/crypto/openssl/message-digests.sls	\
+	vicare/crypto/openssl/hmac.sls			\
+	vicare/crypto/openssl/aes.sls
 
 # These files are created at configuration or make time.
 nobase_nodist_libvicare2_DATA = \

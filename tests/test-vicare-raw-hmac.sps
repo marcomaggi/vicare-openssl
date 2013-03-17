@@ -27,10 +27,10 @@
 
 #!r6rs
 (import (vicare)
-  (prefix (vicare crypto openssl)
-	  ssl.)
-  (prefix (vicare crypto openssl constants)
-	  ssl.)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl constants) ssl.)
+  (prefix (vicare crypto openssl hmac) ssl.)
+  (prefix (vicare crypto openssl evp message-digests) ssl.)
   (only (vicare syntactic-extensions)
 	begin0)
 ;;;  (prefix (vicare ffi) ffi.)

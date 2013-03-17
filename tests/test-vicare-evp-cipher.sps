@@ -29,6 +29,7 @@
 (import (vicare)
   (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.)
   (vicare checks))
 
 (check-set-mode! 'report-failed)

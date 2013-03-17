@@ -55,11 +55,7 @@ ikrt_openssl_hmac_init (ikptr s_key, ikptr s_key_len, ikptr s_md, ikpcb * pcb)
     size_t		key_len	= ik_generalised_c_buffer_len(s_key, s_key_len);
     const EVP_MD *	md;
     int			rv;
-    if (IK_IS_INTEGER(s_md)) {
-      md = ik_openssl_integer_to_evp_md (s_md);
-    } else {
-      md = IK_POINTER_DATA_VOIDP(s_md);
-    }
+    md = (IK_IS_INTEGER(s_md))? ik_openssl_integer_to_evp_md (s_md) : IK_EVP_MD(s_md);
     if (md) {
       rv = HMAC_Init(ctx, key, (unsigned long)key_len, md);
       return (rv)? ika_pointer_alloc(pcb, (long)ctx) : IK_FALSE;
@@ -262,11 +258,7 @@ ikrt_openssl_hmac (ikptr s_md,
   unsigned char		sum[HMAC_MAX_MD_CBLOCK];
   unsigned int		len;
   unsigned char *	rv;
-  if (IK_IS_INTEGER(s_md)) {
-    md = ik_openssl_integer_to_evp_md(s_md);
-  } else {
-    md = IK_POINTER_DATA_VOIDP(s_md);
-  }
+  md = (IK_IS_INTEGER(s_md))? ik_openssl_integer_to_evp_md (s_md) : IK_EVP_MD(s_md);
   if (md) {
     rv = HMAC(md, key, key_len, in, in_len, sum, &len);
     if (rv)

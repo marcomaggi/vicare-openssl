@@ -29,6 +29,7 @@
 (import (vicare)
   (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
+  (prefix (vicare crypto openssl evp message-digests) ssl.)
 ;;;  (prefix (vicare ffi) ffi.)
   (vicare checks))
 

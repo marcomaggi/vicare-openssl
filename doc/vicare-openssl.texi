@@ -176,13 +176,6 @@ the library @library{vicare crypto openssl constants} exports one
 binding for some constant values defined in the C language header
 @file{openssl/ssl.h} and others.
 
-The following Scheme libraries are installed:
-
-@table @library
-@item vicare crypto openssl
-@cindex Library @library{vicare crypto openssl}
-@cindex @library{vicare crypto openssl}, library
-It exports bindings for some @value{FOREIGN_PACKAGE} public functions.
 Most of the Scheme function names are directly derived from the C
 function names by replacing upper case with lower case and underscore
 characters @samp{_} with dash characters @samp{-}; so
@@ -190,20 +183,52 @@ characters @samp{_} with dash characters @samp{-}; so
 case a dash is inserted to make the name more readable, for example
 @cfunc{EVP_DigestInit} becomes @func{evp-digest-init}.
 
+The following Scheme libraries are installed:
+
+@table @library
+@item vicare crypto openssl
+@cindex Library @library{vicare crypto openssl}
+@cindex @library{vicare crypto openssl}, library
+It exports bindings for some @value{FOREIGN_PACKAGE} core public
+functions needed for library initialisation.
+
+@item vicare crypto openssl evp message-digests
+@cindex Library @library{vicare crypto openssl evp message-digests}
+@cindex @library{vicare crypto openssl evp message-digests}, library
+It exports bindings for some @value{FOREIGN_PACKAGE} high--level
+functions implementing the EVP message digests @api{}.
+
+@item vicare crypto openssl evp ciphers
+@cindex Library @library{vicare crypto openssl evp ciphers}
+@cindex @library{vicare crypto openssl evp ciphers}, library
+It exports bindings for some @value{FOREIGN_PACKAGE} high--level
+functions implementing the EVP ciphers @api{}.
+
+@item vicare crypto openssl message-digests
+@cindex Library @library{vicare crypto openssl message-digests}
+@cindex @library{vicare crypto openssl message-digests}, library
+It exports bindings for some @value{FOREIGN_PACKAGE} low--level
+functions implementing message digests.
+
+@item vicare crypto openssl hmac
+@cindex Library @library{vicare crypto openssl hmac}
+@cindex @library{vicare crypto openssl hmac}, library
+It exports bindings for some @value{FOREIGN_PACKAGE} low--level
+functions implementing HMAC.
+
+@item vicare crypto openssl aes
+@cindex Library @library{vicare crypto openssl aes}
+@cindex @library{vicare crypto openssl aes}, library
+It exports bindings for some @value{FOREIGN_PACKAGE} low--level
+functions implementing the AES cipher.
+
 @item vicare crypto openssl unsafe-capi
 @cindex Library @library{vicare crypto openssl unsafe-capi}
 @cindex @library{vicare crypto openssl unsafe-capi}, library
 It exports syntax bindings for some @value{FOREIGN_PACKAGE} public
-functions.  Most of the Scheme syntax names are directly derived from
-the C function names by replacing upper case with lower case and
-underscore characters @samp{_} with dash characters @samp{-}; so
-@cfunc{SSL_library_init} becomes @func{ssl-library-init}.  In some rare
-case a dash is inserted to make the name more readable, for example
-@cfunc{EVP_DigestInit} becomes @func{evp-digest-init}.
-
-These syntaxes expand to a direct call to the C language wrapper
-functions in the @value{PACKAGE} library; they are not meant to be
-called in normal usage of the package.
+functions.  These syntaxes expand to a direct call to the C language
+wrapper functions in the @value{PACKAGE} library; they are not meant to
+be called in normal usage of the package.
 
 @item vicare crypto openssl constants
 @cindex Library @library{vicare crypto openssl constants}
@@ -327,7 +352,7 @@ Initialise the library; return unspecified values.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @deftp {Struct Type} md4-ctx
@@ -422,7 +447,7 @@ second clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun md4-init
@@ -454,7 +479,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun md4 @var{input}
@@ -484,7 +509,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @deftp {Struct Type} md5-ctx
@@ -579,7 +604,7 @@ second clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun md5-init
@@ -611,7 +636,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun md5 @var{input}
@@ -641,7 +666,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @deftp {Struct Type} mdc2-ctx
@@ -736,7 +761,7 @@ second clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun mdc2-init
@@ -768,7 +793,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun mdc2 @var{input}
@@ -798,7 +823,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @deftp {Struct Type} sha1-ctx
@@ -893,7 +918,7 @@ second clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun sha1-init
@@ -925,7 +950,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun sha1 @var{input}
@@ -955,7 +980,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @deftp {Struct Type} sha224-ctx
@@ -1050,7 +1075,7 @@ second clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun sha224-init
@@ -1082,7 +1107,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun sha224 @var{input}
@@ -1112,7 +1137,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @deftp {Struct Type} sha256-ctx
@@ -1207,7 +1232,7 @@ second clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun sha256-init
@@ -1239,7 +1264,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun sha256 @var{input}
@@ -1269,7 +1294,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @deftp {Struct Type} sha384-ctx
@@ -1364,7 +1389,7 @@ second clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun sha384-init
@@ -1396,7 +1421,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun sha384 @var{input}
@@ -1426,7 +1451,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @deftp {Struct Type} sha512-ctx
@@ -1521,7 +1546,7 @@ second clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun sha512-init
@@ -1553,7 +1578,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun sha512 @var{input}
@@ -1583,7 +1608,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @deftp {Struct Type} ripemd160-ctx
@@ -1678,7 +1703,7 @@ second clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun ripemd160-init
@@ -1710,7 +1735,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun ripemd160 @var{input}
@@ -1740,7 +1765,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @deftp {Struct Type} whirlpool-ctx
@@ -1835,7 +1860,7 @@ second clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun whirlpool-init
@@ -1867,7 +1892,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl message-digests}.
 
 
 @defun whirlpool @var{input}
@@ -1897,7 +1922,7 @@ bytevector with @func{string->utf8}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl hmac}.
 
 
 @deftp {Struct Type} hmac-ctx
@@ -1996,7 +2021,7 @@ Usage example:
 @example
 #!r6rs
 (import (vicare)
-  (prefix (vicare crypto openssl) ssl.))
+  (prefix (vicare crypto openssl hmac) ssl.))
 
 (let ((ctx (ssl.hmac-init "key" 'md5)))
   (ssl.hmac-update ctx "ciao")
@@ -2073,7 +2098,7 @@ Set flags in an HMAC context; return unspecified values.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl hmac}.
 
 
 @defun hmac @var{md} @var{key} @var{key.len} @var{input} @var{input.len}
@@ -2127,7 +2152,7 @@ The cryptographic algorithm AES operates on blocks of size @math{16}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl aes}.
 
 
 @deftp {Struct Type} aes-key
@@ -2220,7 +2245,7 @@ second clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl aes}.
 
 
 @defun aes-set-encrypt-key @var{key}
@@ -2256,7 +2281,7 @@ length measured in bits of: @math{128}, @math{192}, @math{256}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl aes}.
 
 
 @defun aes-encrypt @var{in} @var{in.len} @var{ou} @var{ou.len} @var{AES}
@@ -2272,7 +2297,7 @@ and also be the same argument.
 @example
 #!r6rs
 (import (vicare)
-  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl aes) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
 
 (define key.en (ssl.aes-set-encrypt-key "0123456789012345"))
@@ -2310,7 +2335,7 @@ and also be the same argument.
 @example
 #!r6rs
 (import (vicare)
-  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl aes) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
 
 (define key.en (ssl.aes-set-encrypt-key "0123456789012345"))
@@ -2343,7 +2368,7 @@ the initialisation vector, @cbuffersref{}.  Its length must be equal to
 @example
 #!r6rs
 (import (vicare)
-  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl aes) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
 
 (define key.en (ssl.aes-set-encrypt-key "0123456789012345"))
@@ -2368,7 +2393,7 @@ the initialisation vector, @cbuffersref{}.  Its length must be equal to
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl aes}.
 
 
 @defun aes-options
@@ -2453,7 +2478,7 @@ valid values are: @math{16}, @math{24}, @math{32}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl evp message-digests}.
 
 
 @deftp {Struct Type} evp-md
@@ -2496,7 +2521,7 @@ clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl evp message-digests}.
 
 
 @defun evp-md-null
@@ -2616,7 +2641,7 @@ Examples of valid names: @samp{MD5}, @samp{SHA1}, @samp{SHA224},
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl evp message-digests}.
 
 
 @defun evp-md-name @var{EVP-MD}
@@ -2666,7 +2691,7 @@ EVP_MD_pkey_type}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl evp message-digests}.
 
 
 @defun evp-digest @var{str} @var{algo}
@@ -2707,7 +2732,7 @@ collector:
 @example
 #!r6rs
 (import (vicare)
-  (prefix (vicare crypto openssl) ssl.))
+  (prefix (vicare crypto openssl evp message-digests) ssl.))
 
 (ssl.ssl-library-init)
 
@@ -2727,7 +2752,7 @@ collector:
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl evp message-digests}.
 
 
 @deftp {Struct Type} evp-md-ctx
@@ -2844,7 +2869,7 @@ Succeed if @var{obj} satisfies the predicate
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl evp message-digests}.
 
 
 @defun evp-md-ctx-create
@@ -2868,7 +2893,7 @@ this function multiple times to the same instance of @var{EVP-MD-CTX}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl evp message-digests}.
 
 
 @defun evp-digest-init @var{EVP-MD-CTX} @var{md}
@@ -2907,7 +2932,7 @@ if successful return @true{}, otherwise return @false{}.
 @example
 #!r6rs
 (import (vicare)
-  (prefix (vicare crypto openssl) ssl.))
+  (prefix (vicare crypto openssl evp message-digests) ssl.))
 
 (ssl.ssl-library-init)
 
@@ -2929,7 +2954,7 @@ if successful return @true{}, otherwise return @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl evp message-digests}.
 
 
 @defun evp-digest-update @var{EVP-MD-CTX} @var{str}
@@ -2953,7 +2978,7 @@ It is an error to apply this function to a non--initialised
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl evp message-digests}.
 
 
 @defun evp-md-ctx-size @var{EVP-MD-CTX}
@@ -2987,7 +3012,7 @@ algorithm with which the context was initialised; otherwise return
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl evp message-digests}.
 
 
 @defun evp-md-ctx-set-flags @var{EVP-MD-CTX} @var{flags}
@@ -3033,7 +3058,7 @@ EVP_MD_CTX_test_flags}.  Return an exact integer.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl evp ciphers}.
 
 
 @deftp {Struct Type} evp-cipher
@@ -3077,7 +3102,7 @@ second clause also accepts @false{}.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl evp ciphers}.
 
 
 @macro CipherMakerDefun{WHO}

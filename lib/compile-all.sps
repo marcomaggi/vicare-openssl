@@ -25,9 +25,14 @@
 ;;;
 
 #!r6rs
-(import
-    (only (vicare crypto openssl))
+(import (only (vicare crypto openssl))
   (only (vicare crypto openssl features))
+  (only (vicare crypto openssl constants))
+  (only (vicare crypto openssl evp message-digests))
+  (only (vicare crypto openssl evp ciphers))
+  (only (vicare crypto openssl message-digests))
+  (only (vicare crypto openssl hmac))
+  (only (vicare crypto openssl aes))
   )
 
 ;;; end of file
