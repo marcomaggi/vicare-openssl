@@ -27,6 +27,10 @@
 
 #!r6rs
 (import (vicare)
+  (vicare cond-expand)
+  (for (prefix (vicare crypto openssl evp message-digests cond-expand)
+	       ssl.)
+       expand)
   (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
   (prefix (vicare crypto openssl evp message-digests) ssl.)
@@ -41,6 +45,20 @@
 
 ;;;; helpers
 
+(define-cond-expand ssl.cond-expand
+  ssl.vicare-openssl-evp-message-digests-features)
+
+
+(parametrise ((check-test-name		'features))
+
+  (check
+      (ssl.cond-expand
+       (ssl.evp-digest-init
+	#t)
+       (else #f))
+    => #t)
+
+  #t)
 
 
 (parametrise ((check-test-name		'algo))
