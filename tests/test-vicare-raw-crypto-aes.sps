@@ -27,6 +27,9 @@
 
 #!r6rs
 (import (vicare)
+  (vicare cond-expand)
+  (for (prefix (vicare crypto openssl aes cond-expand) ssl.)
+       expand)
   (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
   (prefix (vicare crypto openssl aes) ssl.)
@@ -41,6 +44,20 @@
 
 ;;;; helpers
 
+(define-cond-expand ssl.cond-expand
+  ssl.vicare-openssl-aes-features)
+
+
+(parametrise ((check-test-name	'features))
+
+  (check
+      (ssl.cond-expand
+       (ssl.aes-set-encrypt-key
+	#t)
+       (else #f))
+    => #t)
+
+  #t)
 
 
 (parametrise ((check-test-name	'misc))
