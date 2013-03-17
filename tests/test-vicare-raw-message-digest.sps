@@ -27,10 +27,14 @@
 
 #!r6rs
 (import (vicare)
+  (vicare cond-expand)
   (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
   (prefix (vicare crypto openssl message-digests) ssl.)
 ;;;  (prefix (vicare ffi) ffi.)
+  (for (prefix (vicare crypto openssl message-digests cond-expand)
+	       ssl.)
+       expand)
   (vicare checks))
 
 (check-set-mode! 'report-failed)
@@ -41,6 +45,19 @@
 
 ;;;; helpers
 
+(define-cond-expand ssl.cond-expand
+  ssl.vicare-openssl-message-digests-features)
+
+
+(parametrise ((check-test-name		'cond-expand))
+
+  (check
+      (ssl.cond-expand
+       (ssl.md5	#t)
+       (else	#f))
+    => #t)
+
+  #t)
 
 
 (parametrise ((check-test-name		'md4)
