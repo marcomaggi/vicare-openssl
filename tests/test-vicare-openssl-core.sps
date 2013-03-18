@@ -1,7 +1,7 @@
 ;;; -*- coding: utf-8-unix -*-
 ;;;
 ;;;Part of: Vicare/OpenSSL
-;;;Contents: tests for Openssl bindings, version functions
+;;;Contents: tests for Openssl bindings, core functions
 ;;;Date: Sat Mar  9, 2013
 ;;;
 ;;;Abstract
@@ -27,37 +27,59 @@
 
 #!r6rs
 (import (vicare)
-  (vicare crypto openssl)
-  (vicare crypto openssl constants)
-;;;  (prefix (vicare ffi) ffi.)
+  (vicare cond-expand)
+  (for (prefix (vicare crypto openssl cond-expand) ssl.)
+       expand)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl constants) ssl.)
   (vicare checks))
 
 (check-set-mode! 'report-failed)
 (check-display "*** testing Vicare OpenSSL bindings: version functions\n")
 
-(ssl-library-init)
+(ssl.ssl-library-init)
 
 
 ;;;; helpers
+
+(define-cond-expand ssl.cond-expand
+  ssl.vicare-openssl-features)
+
+
+;;;; initialisation
+
+(let-syntax ((doit (syntax-rules ()
+		     ((_ ?fun)
+		      (ssl.cond-expand
+		       (?fun (?fun))
+		       (else (void)))))))
+  (doit ssl.openssl-add-all-algorithms-noconf)
+  (doit ssl.openssl-add-all-algorithms-conf)
+  (doit ssl.openssl-add-all-algorithms)
+  (doit ssl.openssl-add-all-ciphers)
+  (doit ssl.openssl-add-all-digests)
+  (doit ssl.ssleay-add-all-algorithms)
+  (doit ssl.ssleay-add-all-ciphers)
+  (doit ssl.ssleay-add-all-digests))
 
 
 
 (parametrise ((check-test-name	'version))
 
   (check
-      (fixnum? (vicare-openssl-version-interface-current))
+      (fixnum? (ssl.vicare-openssl-version-interface-current))
     => #t)
 
   (check
-      (fixnum? (vicare-openssl-version-interface-revision))
+      (fixnum? (ssl.vicare-openssl-version-interface-revision))
     => #t)
 
   (check
-      (fixnum? (vicare-openssl-version-interface-age))
+      (fixnum? (ssl.vicare-openssl-version-interface-age))
     => #t)
 
   (check
-      (string? (vicare-openssl-version))
+      (string? (ssl.vicare-openssl-version))
     => #t)
 
   #t)

@@ -64,7 +64,16 @@ main (int argc, const char *const argv[])
 #!r6rs\n\
 (library (vicare crypto openssl features)\n\
   (export\n\
+    ;; Library initialisation features\n\
     HAVE_SSL_LIBRARY_INIT\n\
+    HAVE_OPENSSL_ADD_ALL_ALGORITHMS_NOCONF\n\
+    HAVE_OPENSSL_ADD_ALL_ALGORITHMS_CONF\n\
+    HAVE_DECL_OPENSSL_ADD_ALL_ALGORITHMS\n\
+    HAVE_OPENSSL_ADD_ALL_CIPHERS\n\
+    HAVE_OPENSSL_ADD_ALL_DIGESTS\n\
+    HAVE_DECL_SSLEAY_ADD_ALL_ALGORITHMS\n\
+    HAVE_DECL_SSLEAY_ADD_ALL_CIPHERS\n\
+    HAVE_DECL_SSLEAY_ADD_ALL_DIGESTS\n\
     \n\
     HAVE_MD4_INIT\n\
     HAVE_MD4_UPDATE\n\
@@ -367,11 +376,75 @@ main (int argc, const char *const argv[])
 
 
 /** --------------------------------------------------------------------
- ** SSL.
+ ** Library initialisation features.
  ** ----------------------------------------------------------------- */
 
 printf("(define-inline-constant HAVE_SSL_LIBRARY_INIT %s)\n",
 #ifdef HAVE_SSL_LIBRARY_INIT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_OPENSSL_ADD_ALL_ALGORITHMS_NOCONF %s)\n",
+#ifdef HAVE_OPENSSL_ADD_ALL_ALGORITHMS_NOCONF
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_OPENSSL_ADD_ALL_ALGORITHMS_CONF %s)\n",
+#ifdef HAVE_OPENSSL_ADD_ALL_ALGORITHMS_CONF
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_DECL_OPENSSL_ADD_ALL_ALGORITHMS %s)\n",
+#if ((defined HAVE_DECL_OPENSSL_ADD_ALL_ALGORITHMS) && HAVE_DECL_OPENSSL_ADD_ALL_ALGORITHMS)
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_OPENSSL_ADD_ALL_CIPHERS %s)\n",
+#ifdef HAVE_OPENSSL_ADD_ALL_CIPHERS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_OPENSSL_ADD_ALL_DIGESTS %s)\n",
+#ifdef HAVE_OPENSSL_ADD_ALL_DIGESTS
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_DECL_SSLEAY_ADD_ALL_ALGORITHMS %s)\n",
+#if ((defined HAVE_DECL_SSLEAY_ADD_ALL_ALGORITHMS) && HAVE_DECL_SSLEAY_ADD_ALL_ALGORITHMS)
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_DECL_SSLEAY_ADD_ALL_CIPHERS %s)\n",
+#if ((defined HAVE_DECL_SSLEAY_ADD_ALL_CIPHERS) && HAVE_DECL_SSLEAY_ADD_ALL_CIPHERS)
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_DECL_SSLEAY_ADD_ALL_DIGESTS %s)\n",
+#if ((defined HAVE_DECL_SSLEAY_ADD_ALL_DIGESTS) && HAVE_DECL_SSLEAY_ADD_ALL_DIGESTS)
   "#t"
 #else
   "#f"

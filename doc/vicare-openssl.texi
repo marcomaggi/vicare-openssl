@@ -315,6 +315,55 @@ crypto openssl}.
 
 @defun ssl-library-init
 Initialise the library; return unspecified values.
+@manpage{SSL_library_init, SSL_library_init}.
+@end defun
+
+
+@defun openssl-add-all-algorithms-noconf
+Perform some initialisation operations.
+@manpage{OPENSSL_add_all_algorithms_noconf, OPENSSL_add_all_algorithms_noconf}.
+@end defun
+
+
+@defun openssl-add-all-algorithms-conf
+Perform some initialisation operations.
+@manpage{OPENSSL_add_all_algorithms_conf, OPENSSL_add_all_algorithms_conf}.
+@end defun
+
+
+@defun openssl-add-all-algorithms
+Perform some initialisation operations.
+@manpage{OpenSSL_add_all_algorithms, OpenSSL_add_all_algorithms}.
+@end defun
+
+
+@defun openssl-add-all-ciphers
+Perform some initialisation operations.
+@manpage{OpenSSL_add_all_ciphers, OpenSSL_add_all_ciphers}.
+@end defun
+
+
+@defun openssl-add-all-digests
+Perform some initialisation operations.
+@manpage{OpenSSL_add_all_digests, OpenSSL_add_all_digests}.
+@end defun
+
+
+@defun ssleay-add-all-algorithms
+Perform some initialisation operations.
+@manpage{SSLeay_add_all_algorithms, SSLeay_add_all_algorithms}.
+@end defun
+
+
+@defun ssleay-add-all-ciphers
+Perform some initialisation operations.
+@manpage{SSLeay_add_all_ciphers, SSLeay_add_all_ciphers}.
+@end defun
+
+
+@defun ssleay-add-all-digests
+Perform some initialisation operations.
+@manpage{SSLeay_add_all_digests, SSLeay_add_all_digests}.
 @end defun
 
 @c page

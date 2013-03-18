@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 TESTS			= \
-	test-vicare-openssl-version.sps			\
+	test-vicare-openssl-core.sps			\
 	test-vicare-raw-message-digest.sps		\
 	test-vicare-raw-hmac.sps			\
 	test-vicare-raw-crypto-aes.sps			\
@@ -9,7 +9,7 @@ TESTS			= \
 	test-vicare-evp-cipher.sps
 
 EXTRA_DIST = \
-	test-vicare-openssl-version.sps			\
+	test-vicare-openssl-core.sps			\
 	test-vicare-raw-message-digest.sps		\
 	test-vicare-raw-hmac.sps			\
 	test-vicare-raw-crypto-aes.sps			\

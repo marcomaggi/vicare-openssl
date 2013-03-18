@@ -45,5 +45,85 @@ ikrt_openssl_ssl_library_init (ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
+ikptr
+ikrt_openssl_add_all_algorithms_noconf (ikpcb * pcb)
+{
+#ifdef HAVE_OPENSSL_ADD_ALL_ALGORITHMS_NOCONF
+  OPENSSL_add_all_algorithms_noconf();
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_add_all_algorithms_conf (ikpcb * pcb)
+{
+#ifdef HAVE_OPENSSL_ADD_ALL_ALGORITHMS_CONF
+  OPENSSL_add_all_algorithms_conf();
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_add_all_algorithms (ikpcb * pcb)
+{
+#if ((defined HAVE_DECL_OPENSSL_ADD_ALL_ALGORITHMS) && HAVE_DECL_OPENSSL_ADD_ALL_ALGORITHMS)
+  OpenSSL_add_all_algorithms();
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_add_all_ciphers (ikpcb * pcb)
+{
+#ifdef HAVE_OPENSSL_ADD_ALL_CIPHERS
+  OpenSSL_add_all_ciphers();
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_add_all_digests (ikpcb * pcb)
+{
+#ifdef HAVE_OPENSSL_ADD_ALL_DIGESTS
+  OpenSSL_add_all_digests();
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_ssleay_add_all_algorithms (ikpcb * pcb)
+{
+#if ((defined HAVE_DECL_SSLEAY_ADD_ALL_ALGORITHMS) && HAVE_DECL_SSLEAY_ADD_ALL_ALGORITHMS)
+  SSLeay_add_all_algorithms();
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_ssleay_add_all_ciphers (ikpcb * pcb)
+{
+#if ((defined HAVE_DECL_SSLEAY_ADD_ALL_CIPHERS) && HAVE_DECL_SSLEAY_ADD_ALL_CIPHERS)
+  SSLeay_add_all_ciphers();
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_ssleay_add_all_digests (ikpcb * pcb)
+{
+#if ((defined HAVE_DECL_SSLEAY_ADD_ALL_DIGESTS) && HAVE_DECL_SSLEAY_ADD_ALL_DIGESTS)
+  SSLeay_add_all_digests();
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
 
 /* end of file */

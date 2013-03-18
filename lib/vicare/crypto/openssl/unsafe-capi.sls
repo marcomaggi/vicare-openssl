@@ -35,8 +35,16 @@
     vicare-openssl-version-interface-age
     vicare-openssl-version
 
-    ;; SSL
+    ;; Library initialisation unsafe C API
     ssl-library-init
+    openssl-add-all-algorithms-noconf
+    openssl-add-all-algorithms-conf
+    openssl-add-all-algorithms
+    openssl-add-all-ciphers
+    openssl-add-all-digests
+    ssleay-add-all-algorithms
+    ssleay-add-all-ciphers
+    ssleay-add-all-digests
 
     ;; MD4
     md4-init
@@ -356,10 +364,34 @@
   (foreign-call "ikrt_openssl_version"))
 
 
-;;;; SSL
+;;;; Library initialisation unsafe C API
 
 (define-inline (ssl-library-init)
   (foreign-call "ikrt_openssl_ssl_library_init"))
+
+(define-inline (openssl-add-all-algorithms-noconf)
+  (foreign-call "ikrt_openssl_add_all_algorithms_noconf"))
+
+(define-inline (openssl-add-all-algorithms-conf)
+  (foreign-call "ikrt_openssl_add_all_algorithms_conf"))
+
+(define-inline (openssl-add-all-algorithms)
+  (foreign-call "ikrt_openssl_add_all_algorithms"))
+
+(define-inline (openssl-add-all-ciphers)
+  (foreign-call "ikrt_openssl_add_all_ciphers"))
+
+(define-inline (openssl-add-all-digests)
+  (foreign-call "ikrt_openssl_add_all_digests"))
+
+(define-inline (ssleay-add-all-algorithms)
+  (foreign-call "ikrt_ssleay_add_all_algorithms"))
+
+(define-inline (ssleay-add-all-ciphers)
+  (foreign-call "ikrt_ssleay_add_all_ciphers"))
+
+(define-inline (ssleay-add-all-digests)
+  (foreign-call "ikrt_ssleay_add_all_digests"))
 
 
 ;;;; MD4

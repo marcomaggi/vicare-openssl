@@ -36,7 +36,16 @@
 
 
 (define-cond-expand-identifiers-helper vicare-openssl-features
-  (ssl-library-init		HAVE_SSL_LIBRARY_INIT))
+  (ssl-library-init				HAVE_SSL_LIBRARY_INIT)
+  (openssl-add-all-algorithms-noconf		HAVE_OPENSSL_ADD_ALL_ALGORITHMS_NOCONF)
+  (openssl-add-all-algorithms-conf		HAVE_OPENSSL_ADD_ALL_ALGORITHMS_CONF)
+  (openssl-add-all-algorithms			HAVE_DECL_OPENSSL_ADD_ALL_ALGORITHMS)
+  (openssl-add-all-ciphers			HAVE_OPENSSL_ADD_ALL_CIPHERS)
+  (openssl-add-all-digests			HAVE_OPENSSL_ADD_ALL_DIGESTS)
+  (ssleay-add-all-algorithms			HAVE_DECL_SSLEAY_ADD_ALL_ALGORITHMS)
+  (ssleay-add-all-ciphers			HAVE_DECL_SSLEAY_ADD_ALL_CIPHERS)
+  (ssleay-add-all-digests			HAVE_DECL_SSLEAY_ADD_ALL_DIGESTS)
+  )
 
 
 ;;;; done

@@ -36,8 +36,17 @@
     vicare-openssl-version-interface-age
     vicare-openssl-version
 
-    ;; initialisation functions
+    ;; Library initialisation
     ssl-library-init
+    openssl-add-all-algorithms-noconf
+    openssl-add-all-algorithms-conf
+    openssl-add-all-algorithms
+    openssl-add-all-ciphers
+    openssl-add-all-digests
+    ssleay-add-all-algorithms
+    ssleay-add-all-ciphers
+    ssleay-add-all-digests
+
     )
   (import (vicare)
     (prefix (vicare crypto openssl unsafe-capi)
@@ -68,6 +77,29 @@
 (define (ssl-library-init)
   (capi.ssl-library-init))
 
+(define (openssl-add-all-algorithms-noconf)
+  (capi.openssl-add-all-algorithms-noconf))
+
+(define (openssl-add-all-algorithms-conf)
+  (capi.openssl-add-all-algorithms-conf))
+
+(define (openssl-add-all-algorithms)
+  (capi.openssl-add-all-algorithms))
+
+(define (openssl-add-all-ciphers)
+  (capi.openssl-add-all-ciphers))
+
+(define (openssl-add-all-digests)
+  (capi.openssl-add-all-digests))
+
+(define (ssleay-add-all-algorithms)
+  (capi.ssleay-add-all-algorithms))
+
+(define (ssleay-add-all-ciphers)
+  (capi.ssleay-add-all-ciphers))
+
+(define (ssleay-add-all-digests)
+  (capi.ssleay-add-all-digests))
 
 
 ;;;; done
