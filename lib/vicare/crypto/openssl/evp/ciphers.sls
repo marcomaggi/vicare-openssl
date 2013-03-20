@@ -721,26 +721,29 @@
 (define (evp-cipher-ctx-flags ctx)
   (define who 'evp-cipher-ctx-flags)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-flags)))
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-cipher-ctx-flags ctx)))
 
-(define (evp-cipher-ctx-set-flags ctx)
+(define (evp-cipher-ctx-set-flags ctx flags)
   (define who 'evp-cipher-ctx-set-flags)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-set-flags)))
+      ((evp-cipher-ctx/running	ctx)
+       (signed-int		flags))
+    (capi.evp-cipher-ctx-set-flags ctx flags)))
 
-(define (evp-cipher-ctx-clear-flags ctx)
+(define (evp-cipher-ctx-clear-flags ctx flags)
   (define who 'evp-cipher-ctx-clear-flags)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-clear-flags)))
+      ((evp-cipher-ctx/running	ctx)
+       (signed-int		flags))
+    (capi.evp-cipher-ctx-clear-flags ctx flags)))
 
-(define (evp-cipher-ctx-test-flags ctx)
+(define (evp-cipher-ctx-test-flags ctx flags)
   (define who 'evp-cipher-ctx-test-flags)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-test-flags)))
+      ((evp-cipher-ctx/running	ctx)
+       (signed-int		flags))
+    (capi.evp-cipher-ctx-test-flags ctx flags)))
 
 
 ;;;; EVP cipher algorithms: context misc functions
@@ -748,16 +751,18 @@
 (define (evp-cipher-ctx-get-app-data ctx)
   (define who 'evp-cipher-ctx-get-app-data)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-get-app-data)))
+      ((evp-cipher-ctx/alive	ctx))
+    (capi.evp-cipher-ctx-get-app-data ctx)))
 
-(define (evp-cipher-ctx-set-app-data ctx)
+(define (evp-cipher-ctx-set-app-data ctx data)
   (define who 'evp-cipher-ctx-set-app-data)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-set-app-data)))
+      ((evp-cipher-ctx/alive	ctx)
+       (pointer/false		data))
+    (capi.evp-cipher-ctx-set-app-data ctx data)))
 
 ;;; --------------------------------------------------------------------
+;;; still not implemented
 
 (define (evp-cipher-param-to-asn1 ctx)
   (define who 'evp-cipher-param-to-asn1)

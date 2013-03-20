@@ -317,6 +317,12 @@
   #t)
 
 
+(parametrise ((check-test-name		'ctx)
+	      (struct-guardian-logger	#f))
+
+  (collect))
+
+
 ;;;; done
 
 (check-report)

@@ -1203,14 +1203,6 @@
 (define-inline (evp-cipher-ctx-iv-length)
   (foreign-call "ikrt_openssl_evp_cipher_ctx_iv_length"))
 
-;;; --------------------------------------------------------------------
-
-(define-inline (evp-cipher-ctx-get-app-data)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_get_app_data"))
-
-(define-inline (evp-cipher-ctx-set-app-data)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_set_app_data"))
-
 (define-inline (evp-cipher-ctx-type)
   (foreign-call "ikrt_openssl_evp_cipher_ctx_type"))
 
@@ -1222,6 +1214,14 @@
 
 ;;; --------------------------------------------------------------------
 
+(define-inline (evp-cipher-ctx-get-app-data ctx)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_get_app_data" ctx))
+
+(define-inline (evp-cipher-ctx-set-app-data ctx data)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_set_app_data" ctx data))
+
+;;; --------------------------------------------------------------------
+
 (define-inline (evp-cipher-param-to-asn1)
   (foreign-call "ikrt_openssl_evp_cipher_param_to_asn1"))
 
@@ -1230,17 +1230,17 @@
 
 ;;; --------------------------------------------------------------------
 
-(define-inline (evp-cipher-ctx-flags)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_flags"))
+(define-inline (evp-cipher-ctx-flags ctx)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_flags" ctx))
 
-(define-inline (evp-cipher-ctx-set-flags)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_set_flags"))
+(define-inline (evp-cipher-ctx-set-flags ctx flags)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_set_flags" ctx flags))
 
-(define-inline (evp-cipher-ctx-clear-flags)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_clear_flags"))
+(define-inline (evp-cipher-ctx-clear-flags ctx flags)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_clear_flags" ctx flags))
 
-(define-inline (evp-cipher-ctx-test-flags)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_test_flags"))
+(define-inline (evp-cipher-ctx-test-flags ctx flags)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_test_flags" ctx flags))
 
 
 ;;;; EVP cipher context unsafe C API: single-step encryption and decryption

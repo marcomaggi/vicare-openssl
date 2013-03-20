@@ -3840,19 +3840,27 @@ The following bindings are exported by the library @library{vicare
 crypto openssl evp ciphers}.
 
 
-@defun evp-cipher-ctx-flags
+@defun evp-cipher-ctx-flags @var{EVP-CIPHER-CTX}
+Return an exact integer representing the context's flags.
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_flags}.
 @end defun
 
 
-@defun evp-cipher-ctx-set-flags
+@defun evp-cipher-ctx-set-flags @var{EVP-CIPHER-CTX} @var{flags}
+Set a context's flags; return unspecified values.
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_set_flags}.
 @end defun
 
 
-@defun evp-cipher-ctx-clear-flags
+@defun evp-cipher-ctx-clear-flags @var{EVP-CIPHER-CTX} @var{flags}
+Clear a context's flags; return unspecified values.
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_clear_flags}.
 @end defun
 
 
-@defun evp-cipher-ctx-test-flags
+@defun evp-cipher-ctx-test-flags @var{EVP-CIPHER-CTX} @var{flags}
+Tests a context's flags; return an exact integer.
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_test_flags}.
 @end defun
 
 @c page
@@ -3884,10 +3892,19 @@ successful return @true{}, otherwise return @false{}.
 
 @c ------------------------------------------------------------
 
-@defun evp-cipher-ctx-get-app-data
+@defun evp-cipher-ctx-get-app-data @var{EVP-CIPHER-CTX}
+Return @false{} or a pointer previously registered as application data
+associated to the given context.  @manpage{EVP_EncryptInit_ex,
+EVP_CIPHER_CTX_get_app_data}.
 @end defun
 
-@defun evp-cipher-ctx-set-app-data
+
+@defun evp-cipher-ctx-set-app-data @var{EVP-CIPHER-CTX} @var{data}
+Register a pointer as application data associated to the given context.
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_set_app_data}.
+
+@var{data} must be a pointer object or @false{}; when @var{data} is
+@false{}: the @cnull{} pointer is registered.
 @end defun
 
 @c ------------------------------------------------------------
