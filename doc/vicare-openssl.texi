@@ -2783,7 +2783,7 @@ collector:
 (import (vicare)
   (prefix (vicare crypto openssl evp message-digests) ssl.))
 
-(ssl.ssl-library-init)
+(ssl.openssl-add-all-algorithms)
 
 (define ctx
   (ssl.evp-md-ctx-create))
@@ -2983,7 +2983,7 @@ if successful return @true{}, otherwise return @false{}.
 (import (vicare)
   (prefix (vicare crypto openssl evp message-digests) ssl.))
 
-(ssl.ssl-library-init)
+(ssl.openssl-add-all-algorithms)
 
 (define src (ssl.evp-md-ctx-create))
 (ssl.evp-digest-init src 'md5)
