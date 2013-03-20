@@ -172,14 +172,26 @@
     evp-cipher-flags
     evp-cipher-mode
 
+    ;; EVP cipher context
+    evp-cipher-ctx
+    evp-cipher-ctx?
+    evp-cipher-ctx?/alive
+    evp-cipher-ctx?/running
+    evp-cipher-ctx?/alive-not-running
+    evp-cipher-ctx-custom-destructor
+    set-evp-cipher-ctx-custom-destructor!
+    evp-cipher-ctx.vicare-arguments-validation
+    evp-cipher-ctx/alive.vicare-arguments-validation
+    evp-cipher-ctx/running.vicare-arguments-validation
+    evp-cipher-ctx/alive-not-running.vicare-arguments-validation
+
     ;; EVP cipher context: init, update, final
-    evp-cipher-ctx-init		evp-cipher-ctx-cleanup
     evp-cipher-ctx-new		evp-cipher-ctx-free
     evp-cipher-ctx-copy
 
-    evp-encryptinit-ex		evp-encryptfinal-ex	evp-encryptupdate
-    evp-decryptinit-ex		evp-decryptupdate	evp-decryptfinal-ex
-    evp-cipherinit-ex		evp-cipherupdate	evp-cipherfinal-ex
+    evp-encrypt-init		evp-encrypt-final	evp-encrypt-update
+    evp-decrypt-init		evp-decrypt-final	evp-decrypt-update
+    evp-cipher-init		evp-cipher-final	evp-cipher-update
 
     ;; EVP cipher context: inspection
     evp-cipher-ctx-set-key-length
@@ -210,12 +222,14 @@
     )
   (import (vicare)
     (vicare crypto openssl constants)
-    (vicare crypto openssl features)
+    #;(vicare crypto openssl features)
     (prefix (vicare crypto openssl unsafe-capi)
 	    capi.)
     (prefix (vicare crypto openssl helpers)
 	    help.)
     #;(prefix (vicare ffi) ffi.)
+    (prefix (vicare unsafe-operations)
+	    $)
     (prefix (vicare ffi foreign-pointer-wrapper)
 	    ffi.)
     (vicare syntactic-extensions)
@@ -230,6 +244,25 @@
       (symbol? obj))
   (assertion-violation who
     "expected instance of \"evp-cipher\" or symbol as argument" obj))
+
+(define-argument-validation (evp-cipher-ctx/running who obj)
+  (evp-cipher-ctx?/running obj)
+  (assertion-violation who "expected running EVP cipher context" obj))
+
+(define-argument-validation (evp-cipher-ctx/alive-not-running who obj)
+  (evp-cipher-ctx?/alive-not-running obj)
+  (assertion-violation who
+    "expected alive but not running EVP cipher context" obj))
+
+;;; --------------------------------------------------------------------
+
+(define-argument-validation (evp-cipher-enc who obj)
+  (and (fixnum? obj)
+       (or ($fx= +1 obj)
+	   ($fxzero? obj)
+	   ($fx= -1 obj)))
+  (assertion-violation who
+    "expected EVP cipher encryption or descryption selection" obj))
 
 
 ;;;; EVP cipher algorithms: makers for EVP_CIPHER references
@@ -455,83 +488,121 @@
 
 ;;;; EVP cipher algorithms: context functions
 
-(define (evp-cipher-ctx-init ctx)
-  (define who 'evp-cipher-ctx-init)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-init)))
+(ffi.define-foreign-pointer-wrapper evp-cipher-ctx
+  (ffi.fields running?)
+  (ffi.foreign-destructor capi.evp-cipher-ctx-free)
+  (ffi.collector-struct-type #f))
 
-(define (evp-cipher-ctx-cleanup ctx)
-  (define who 'evp-cipher-ctx-cleanup)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-cleanup)))
+(define (evp-cipher-ctx?/running obj)
+  (and (evp-cipher-ctx? obj)
+       ($evp-cipher-ctx-running? obj)))
 
-(define (evp-cipher-ctx-new ctx)
-  (define who 'evp-cipher-ctx-new)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-new)))
+(define (evp-cipher-ctx?/alive-not-running obj)
+  (and (evp-cipher-ctx?/alive obj)
+       (not ($evp-cipher-ctx-running? obj))))
+
+;;; --------------------------------------------------------------------
+
+(define (evp-cipher-ctx-new)
+  (let ((rv (capi.evp-cipher-ctx-new)))
+    (and rv (make-evp-cipher-ctx/owner rv #f))))
 
 (define (evp-cipher-ctx-free ctx)
   (define who 'evp-cipher-ctx-free)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-free)))
+      ((evp-cipher-ctx	ctx))
+    ($evp-cipher-ctx-finalise ctx)))
 
-(define (evp-encryptinit-ex ctx)
-  (define who 'evp-encryptinit-ex)
+(define (evp-cipher-ctx-copy dst src)
+  (define who 'evp-cipher-ctx-copy)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-encryptinit-ex)))
+      ((evp-cipher-ctx/running	dst)
+       (evp-cipher-ctx/running	src))
+    (capi.evp-cipher-ctx-copy dst src)))
 
-(define (evp-encryptfinal-ex ctx)
-  (define who 'evp-encryptfinal-ex)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-encryptfinal-ex)))
+;;; --------------------------------------------------------------------
 
-(define (evp-encryptupdate ctx)
-  (define who 'evp-encryptupdate)
+(define (evp-encrypt-init ctx algo key iv)
+  (define who 'evp-encryp-tinit)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-encryptupdate)))
+      ((evp-cipher-ctx/alive-not-running	ctx)
+       (evp-cipher				algo)
+       (general-c-string			key)
+       (general-c-string			iv))
+    (with-general-c-strings
+	((key^		key)
+	 (iv^		iv))
+      (string-to-bytevector string->utf8)
+      (capi.evp-encrypt-init ctx algo key^ iv^))))
 
-(define (evp-decryptinit-ex ctx)
-  (define who 'evp-decryptinit-ex)
+(define (evp-encrypt-final ctx)
+  (define who 'evp-encrypt-final)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-decryptinit-ex)))
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-encrypt-final ctx)))
 
-(define (evp-decryptupdate ctx)
-  (define who 'evp-decryptupdate)
+(define (evp-encrypt-update ctx)
+  (define who 'evp-encrypt-update)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-decryptupdate)))
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-encrypt-update ctx)))
 
-(define (evp-decryptfinal-ex ctx)
-  (define who 'evp-decryptfinal-ex)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-decryptfinal-ex)))
+;;; --------------------------------------------------------------------
 
-(define (evp-cipherinit-ex ctx)
-  (define who 'evp-cipherinit-ex)
+(define (evp-decrypt-init ctx algo key iv)
+  (define who 'evp-decrypt-init)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipherinit-ex)))
+      ((evp-cipher-ctx/alive-not-running	ctx)
+       (evp-cipher				algo)
+       (general-c-string			key)
+       (general-c-string			iv))
+    (with-general-c-strings
+	((key^		key)
+	 (iv^		iv))
+      (string-to-bytevector string->utf8)
+    (capi.evp-decrypt-init ctx algo key^ iv^))))
 
-(define (evp-cipherupdate ctx)
-  (define who 'evp-cipherupdate)
+(define (evp-decrypt-final ctx)
+  (define who 'evp-decrypt-final)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipherupdate)))
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-decrypt-final ctx)))
 
-(define (evp-cipherfinal-ex ctx)
-  (define who 'evp-cipherfinal-ex)
+(define (evp-decrypt-update ctx)
+  (define who 'evp-decrypt-update)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipherfinal-ex)))
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-decrypt-update ctx)))
+
+;;; --------------------------------------------------------------------
+
+(define (evp-cipher-init ctx algo key iv enc)
+  (define who 'evp-cipher-init)
+  (with-arguments-validation (who)
+      ((evp-cipher-ctx/alive-not-running	ctx)
+       (evp-cipher				algo)
+       (general-c-string			key)
+       (general-c-string			iv)
+       (evp-cipher-enc				enc))
+    (with-general-c-strings
+	((key^		key)
+	 (iv^		iv))
+      (string-to-bytevector string->utf8)
+      (capi.evp-cipher-init ctx algo key^ iv^ enc))))
+
+(define (evp-cipher-final ctx)
+  (define who 'evp-cipher-final)
+  (with-arguments-validation (who)
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-cipher-final ctx)))
+
+(define (evp-cipher-update ctx)
+  (define who 'evp-cipher-update)
+  (with-arguments-validation (who)
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-cipher-update ctx)))
+
+;;; --------------------------------------------------------------------
 
 (define (evp-cipher-ctx-set-key-length ctx)
   (define who 'evp-cipher-ctx-set-key-length)
@@ -580,12 +651,6 @@
   (with-arguments-validation (who)
       ()
     (capi.evp-cipher-ctx-iv-length)))
-
-(define (evp-cipher-ctx-copy ctx)
-  (define who 'evp-cipher-ctx-copy)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-copy)))
 
 (define (evp-cipher-ctx-get-app-data ctx)
   (define who 'evp-cipher-ctx-get-app-data)

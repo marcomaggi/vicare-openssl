@@ -1391,52 +1391,46 @@ ikrt_openssl_evp_cipher_flags (ikptr s_algo, ikpcb * pcb)
  ** EVP cipher algorithms C wrappers: context creation and destruction.
  ** ----------------------------------------------------------------- */
 
-ikptr
-ikrt_openssl_evp_cipher_ctx_init (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_INIT
-  /* rv = EVP_CIPHER_CTX_init(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_cleanup (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_CLEANUP
-  /* rv = EVP_CIPHER_CTX_cleanup(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
+/* NOTE  We  prefer "EVP_CIPHER_CTX_new()"  and  "EVP_CIPHER_CTX_free()"
+   over "EVP_CIPHER_CTX_init()" and "EVP_CIPHER_CTX_cleanup()".
+
+   Internally  "EVP_CIPHER_CTX_new()" allocates  a new  "EVP_CIPHER_CTX"
+   with "malloc()" and initialises it with "EVP_CIPHER_CTX_init()".
+
+   Internally "EVP_CIPHER_CTX_free()" finalises  a "EVP_CIPHER_CTX" with
+   "EVP_CIPHER_CTX_cleanup()" the releases the memory with "free()". */
+
 ikptr
 ikrt_openssl_evp_cipher_ctx_new (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_CIPHER_CTX_NEW
-  /* rv = EVP_CIPHER_CTX_new(); */
-  return IK_VOID;
+  EVP_CIPHER_CTX *	ctx;
+  ctx = EVP_CIPHER_CTX_new();
+  return (ctx)? ika_pointer_alloc(pcb, (long)ctx) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_cipher_ctx_free (ikpcb * pcb)
+ikrt_openssl_evp_cipher_ctx_free (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_CIPHER_CTX_FREE
-  /* rv = EVP_CIPHER_CTX_free(); */
+  EVP_CIPHER_CTX *	ctx = IK_EVP_CIPHER_CTX(s_ctx);
+  EVP_CIPHER_CTX_free(ctx);
   return IK_VOID;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_cipher_ctx_copy (ikpcb * pcb)
+ikrt_openssl_evp_cipher_ctx_copy (ikptr s_dst_ctx, ikptr s_src_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_CIPHER_CTX_COPY
-  /* rv = EVP_CIPHER_CTX_copy(); */
-  return IK_VOID;
+  EVP_CIPHER_CTX *	dst = IK_EVP_CIPHER_CTX(s_dst_ctx);
+  EVP_CIPHER_CTX *	src = IK_EVP_CIPHER_CTX(s_src_ctx);
+  int			rv;
+  rv = EVP_CIPHER_CTX_copy(dst, src);
+  return IK_BOOLEAN_FROM_INT(rv);
 #else
   feature_failure(__func__);
 #endif
@@ -1448,19 +1442,27 @@ ikrt_openssl_evp_cipher_ctx_copy (ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_openssl_evp_encryptinit_ex (ikpcb * pcb)
+ikrt_openssl_evp_encryptinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s_iv,
+				 ikpcb * pcb)
 {
 #ifdef HAVE_EVP_ENCRYPTINIT_EX
-  /* rv = EVP_EncryptInit_ex(); */
-  return IK_VOID;
+  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
+  const EVP_CIPHER *	algo   = IK_EVP_CIPHER(s_algo);
+  ENGINE *		engine = NULL;
+  unsigned char *	key    = IK_GENERALISED_C_BUFFER(s_key);
+  unsigned char *	iv     = IK_GENERALISED_C_BUFFER(s_iv);
+  int			rv;
+  rv = EVP_EncryptInit_ex(ctx, algo, engine, key, iv);
+  return IK_BOOLEAN_FROM_INT(rv);
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_encryptfinal_ex (ikpcb * pcb)
+ikrt_openssl_evp_encryptfinal_ex (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_ENCRYPTFINAL_EX
+  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
   /* rv = EVP_EncryptFinal_ex(); */
   return IK_VOID;
 #else
@@ -1468,9 +1470,10 @@ ikrt_openssl_evp_encryptfinal_ex (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_openssl_evp_encryptupdate (ikpcb * pcb)
+ikrt_openssl_evp_encryptupdate (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_ENCRYPTUPDATE
+  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
   /* rv = EVP_EncryptUpdate(); */
   return IK_VOID;
 #else
@@ -1481,19 +1484,27 @@ ikrt_openssl_evp_encryptupdate (ikpcb * pcb)
 /* ------------------------------------------------------------------ */
 
 ikptr
-ikrt_openssl_evp_decryptinit_ex (ikpcb * pcb)
+ikrt_openssl_evp_decryptinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s_iv,
+				 ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DECRYPTINIT_EX
-  /* rv = EVP_DecryptInit_ex(); */
-  return IK_VOID;
+  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
+  const EVP_CIPHER *	algo   = IK_EVP_CIPHER(s_algo);
+  ENGINE *		engine = NULL;
+  unsigned char *	key    = IK_GENERALISED_C_BUFFER(s_key);
+  unsigned char *	iv     = IK_GENERALISED_C_BUFFER(s_iv);
+  int			rv;
+  rv = EVP_DecryptInit_ex(ctx, algo, engine, key, iv);
+  return IK_BOOLEAN_FROM_INT(rv);
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_decryptupdate (ikpcb * pcb)
+ikrt_openssl_evp_decryptupdate (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DECRYPTUPDATE
+  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
   /* rv = EVP_DecryptUpdate(); */
   return IK_VOID;
 #else
@@ -1501,9 +1512,10 @@ ikrt_openssl_evp_decryptupdate (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_openssl_evp_decryptfinal_ex (ikpcb * pcb)
+ikrt_openssl_evp_decryptfinal_ex (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DECRYPTFINAL_EX
+  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
   /* rv = EVP_DecryptFinal_ex(); */
   return IK_VOID;
 #else
@@ -1514,19 +1526,31 @@ ikrt_openssl_evp_decryptfinal_ex (ikpcb * pcb)
 /* ------------------------------------------------------------------ */
 
 ikptr
-ikrt_openssl_evp_cipherinit_ex (ikpcb * pcb)
+ikrt_openssl_evp_cipherinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s_iv,
+				ikptr s_encrypt_or_decrypt, ikpcb * pcb)
+/* Initialise    for   encryption    or   decryption.     The   argument
+   S_ENCRYPT_OR_DECRYPT must  be an exact  integer: 1 for  encryption, 0
+   for decryption, -1 to leave unchanged a previously set value. */
 {
 #ifdef HAVE_EVP_CIPHERINIT_EX
-  /* rv = EVP_CipherInit_ex(); */
-  return IK_VOID;
+  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
+  const EVP_CIPHER *	algo   = IK_EVP_CIPHER(s_algo);
+  ENGINE *		engine = NULL;
+  unsigned char *	key    = IK_GENERALISED_C_BUFFER(s_key);
+  unsigned char *	iv     = IK_GENERALISED_C_BUFFER(s_iv);
+  int			enc    = ik_integer_to_int(s_encrypt_or_decrypt);
+  int			rv;
+  rv = EVP_CipherInit_ex(ctx, algo, engine, key, iv, enc);
+  return IK_BOOLEAN_FROM_INT(rv);
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_cipherupdate (ikpcb * pcb)
+ikrt_openssl_evp_cipherupdate (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_CIPHERUPDATE
+  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
   /* rv = EVP_CipherUpdate(); */
   return IK_VOID;
 #else
@@ -1534,9 +1558,10 @@ ikrt_openssl_evp_cipherupdate (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_openssl_evp_cipherfinal_ex (ikpcb * pcb)
+ikrt_openssl_evp_cipherfinal_ex (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_CIPHERFINAL_EX
+  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
   /* rv = EVP_CipherFinal_ex(); */
   return IK_VOID;
 #else

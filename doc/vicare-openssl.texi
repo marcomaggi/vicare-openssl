@@ -2507,6 +2507,8 @@ valid values are: @math{16}, @math{24}, @math{32}.
 * plain evp md ctx::            Message digest generation.
 * plain evp cipher algo::       Cipher algorithms.
 * plain evp cipher ctx::        Encryption and decription contexts.
+* plain evp symbols::           Constants to symbols.
+* plain evp unimplemented::     Still unimplemented.
 @end menu
 
 @c page
@@ -3099,8 +3101,6 @@ EVP_MD_CTX_test_flags}.  Return an exact integer.
 * plain evp cipher algo struct::  Cipher algorithms data structures.
 * plain evp cipher algo makers::  Algorithm reference makers.
 * plain evp cipher algo inspect:: Algorithm inspection.
-* plain evp cipher algo symbols:: Constants to symbols.
-* plain evp cipher unimplemented::      Still unimplemented.
 @end menu
 
 @c page
@@ -3278,7 +3278,7 @@ return the struct, otherwise return @false{}.
 @defun evp-get-cipherbyname @var{name}
 Build a new struct instance of type @code{evp-cipher} selecting the
 algorithm by its name; if successful return the struct, otherwise return
-@false{}.  @manpage{EVP_EncryptInit, EVP_get_cipherbyname}.
+@false{}.  @manpage{EVP_EncryptInit_ex, EVP_get_cipherbyname}.
 
 @var{name} must represent a generalised C string, @cstringsref{}.  When
 @var{str} is a string: it is converted to a bytevector with
@@ -3289,7 +3289,7 @@ algorithm by its name; if successful return the struct, otherwise return
 @defun evp-get-cipherbynid @var{nid}
 Build a new struct instance of type @code{evp-cipher} selecting the
 algorithm by its NID; if successful return the struct, otherwise return
-@false{}.  @manpage{EVP_EncryptInit, EVP_get_cipherbynid}.
+@false{}.  @manpage{EVP_EncryptInit_ex, EVP_get_cipherbynid}.
 
 @var{nid} must be an exact integer, in the range of the C language type
 @code{signed int}, representing the NID of a cipher algorithm.  NID
@@ -3309,8 +3309,16 @@ values can be extracted by an @code{evp-cipher} struct using
 @end defun
 
 
-@defun evp-get-cipherbyobj
+@ignore
+@c Not implemented yet (Marco Maggi; Wed Mar 20, 2013)
+
+@defun evp-get-cipherbyobj @var{ASN-OBJ}
+Build a new struct instance of type @code{evp-cipher} selecting the
+algorithm by its ASN.1 object; if successful return the struct,
+otherwise return @false{}.  @manpage{EVP_EncryptInit_ex,
+EVP_get_cipherbyobj}.
 @end defun
+@end ignore
 
 @c page
 @node plain evp cipher algo inspect
@@ -3410,8 +3418,262 @@ Return an exact integer, in the range of the C language type
 @end defun
 
 @c page
-@node plain evp cipher algo symbols
-@subsubsection Constants to symbols
+@node plain evp cipher ctx
+@subsection Encryption and decription contexts
+
+
+@menu
+* plain evp cipher ctx struct::   Cipher context data structures.
+* plain evp cipher ctx create::   Context creation and destruction.
+* plain evp cipher ctx init::     Context initialisation and finalisation.
+* plain evp cipher ctx update::   Processing input data.
+* plain evp cipher ctx inspect::  Context inspection.
+* plain evp cipher ctx flags::    Context flags.
+@end menu
+
+@c page
+@node plain evp cipher ctx struct
+@subsubsection Cipher context data structures
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl evp ciphers}.
+
+
+@deftp {Struct Type} evp-cipher-ctx
+@cindex @var{EVP-CIPHER-CTX} argument
+@cindex Argument @var{EVP-CIPHER-CTX}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{EVP_CIPHER_CTX}; it references a message digest
+context.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{EVP-CIPHER-CTX}.
+
+There are two categories of @code{evp-cipher-ctx} instances: those who
+own the underlying checksum context and those who merely reference it.
+
+@itemize
+@item
+@code{evp-cipher-ctx} instances returned by @func{evp-cipher-ctx-new} do
+own the context.  When instances of this category are garbage collected:
+the context is closed, all the associated data is finalised; any error
+is ignored in this procedure.
+@end itemize
+@end deftp
+
+
+@defun evp-cipher-ctx? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{evp-cipher-ctx};
+otherwise return @false{}.
+@end defun
+
+
+@defun evp-cipher-ctx?/alive @var{obj}
+Return @true{} if @var{obj} is an instance of @code{evp-cipher-ctx} and
+the context it represents is open; otherwise return @false{}.
+@end defun
+
+
+@defun evp-cipher-ctx?/running @var{obj}
+Return @true{} if @var{obj} is an instance of @code{evp-cipher-ctx} and
+the context it represents is open and initialised with
+@func{evp-encrypt-init} or similar functions; otherwise return @false{}.
+@end defun
+
+
+@defun evp-cipher-ctx?/alive-not-running @var{obj}
+Return @true{} if @var{obj} is an instance of @code{evp-cipher-ctx} and
+the context it represents is open but @strong{not} yet initialised with
+@func{evp-encrypt-init} or similar functions; otherwise return @false{}.
+@end defun
+
+
+@defun evp-cipher-ctx-custom-destructor @var{EVP-CIPHER-CTX}
+@defunx set-evp-cipher-ctx-custom-destructor! @var{EVP-CIPHER-CTX} @var{func}
+Retrieve or set a destructor function associated to the
+@var{EVP-CIPHER-CTX}.
+
+Whenever the @var{EVP-CIPHER-CTX} is closed: @var{func} is applied to
+@var{EVP-CIPHER-CTX} before the internal state of @var{EVP-CIPHER-CTX}
+is finalised.
+
+Notice that @var{func} can do anything, not only destroy some state
+associated to @var{EVP-CIPHER-CTX}; if we do:
+
+@example
+(define context ...)
+(set-evp-cipher-ctx-custom-destructor! context
+  (let ((state (make-some-data-struct)))
+    (case-lambda
+      ((sex)
+       (destroy state))
+      (()
+       state))))
+
+(let ((state ((evp-cipher-ctx-custom-destructor context))))
+  (do-something-with context state))
+@end example
+
+@noindent
+we can easily associate values to @var{EVP-CIPHER-CTX}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} evp-cipher-ctx @var{obj}
+@deffnx {Validation Clause} false-or-evp-cipher-ctx @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{evp-cipher-ctx?}; the
+second clause also accepts @false{}.
+@end deffn
+
+
+@deffn {Validation Clause} evp-cipher-ctx/alive @var{obj}
+@deffnx {Validation Clause} false-or-evp-cipher-ctx/alive @var{obj}
+Succeed if @var{obj} satisfies the predicate
+@func{evp-cipher-ctx?/alive}; the second clause also accepts @false{}.
+@end deffn
+
+
+@deffn {Validation Clause} evp-cipher-ctx/running @var{obj}
+Succeed if @var{obj} satisfies the predicate
+@func{evp-cipher-ctx?/running}.
+@end deffn
+
+
+@deffn {Validation Clause} evp-cipher-ctx/alive-not-running @var{obj}
+Succeed if @var{obj} satisfies the predicate
+@func{evp-cipher-ctx?/alive-not-running}.
+@end deffn
+
+@c page
+@node plain evp cipher ctx create
+@subsubsection Context creation and destruction
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl evp ciphers}.
+
+
+@defun evp-cipher-ctx-new @var{algo}
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_new}.
+@end defun
+
+
+@defun evp-cipher-ctx-free @var{EVP-CIPHER-CTX}
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_free}.
+@end defun
+
+
+@defun evp-cipher-ctx-copy @var{EVP-CIPHER-CTX-DST} @var{EVP-CIPHER-CTX-SRC}
+Copy the context from @var{EVP-CIPHER-CTX-SRC} to
+@var{EVP-CIPHER-CTX-DST}, which must be already initialised; if
+successful return @true{}, otherwise return @false{}.
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_copy}.
+@end defun
+
+@c page
+@node plain evp cipher ctx init
+@subsubsection Context initialisation and finalisation
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl evp ciphers}.
+
+@c ------------------------------------------------------------
+
+@subsubheading Encryption
+
+
+@defun evp-encrypt-init
+@manpage{EVP_EncryptInit_ex, EVP_EncryptInit_ex}.
+@end defun
+
+
+@defun evp-encrypt-final
+@manpage{EVP_EncryptInit_ex, EVP_EncryptFinal_ex}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Decryption
+
+
+@defun evp-decrypt-init
+@manpage{EVP_EncryptInit_ex, EVP_DecryptInit_ex}.
+@end defun
+
+
+@defun evp-decrypt-final
+@manpage{EVP_EncryptInit_ex, EVP_DecryptFinal_ex}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@subsubheading Encryption and decryption
+
+
+@defun evp-cipher-init
+@manpage{EVP_EncryptInit_ex, EVP_CipherInit_ex}.
+@end defun
+
+
+@defun evp-cipher-final
+@manpage{EVP_EncryptInit_ex, EVP_CipherFinal_ex}.
+@end defun
+
+@c page
+@node plain evp cipher ctx update
+@subsubsection Processing input data
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl evp ciphers}.
+
+
+@defun evp-encrypt-update
+@manpage{EVP_EncryptInit_ex, EVP_EncryptUpdate}.
+@end defun
+
+
+@defun evp-decrypt-update
+@manpage{EVP_EncryptInit_ex, EVP_DecryptUpdate}.
+@end defun
+
+
+@defun evp-cipher-update
+@manpage{EVP_EncryptInit_ex, EVP_CipherUpdate}.
+@end defun
+
+@c page
+@node plain evp cipher ctx inspect
+@subsubsection Context inspection
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl evp ciphers}.
+
+
+
+@c page
+@node plain evp cipher ctx flags
+@subsubsection Context flags
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl evp ciphers}.
+
+
+
+@c page
+@node plain evp symbols
+@subsection Constants to symbols
 
 
 The following bindings are exported by the library @library{vicare
@@ -3424,50 +3686,9 @@ representing its public name.
 @end defun
 
 @c page
-@node plain evp cipher unimplemented
-@subsubsection Still unimplemented
+@node plain evp unimplemented
+@subsection Still unimplemented
 
-
-@c ------------------------------------------------------------
-
-@defun evp-cipher-ctx-init
-@end defun
-
-@defun evp-cipher-ctx-cleanup
-@end defun
-
-@defun evp-cipher-ctx-new
-@end defun
-
-@defun evp-cipher-ctx-free
-@end defun
-
-@defun evp-encryptinit-ex
-@end defun
-
-@defun evp-encryptfinal-ex
-@end defun
-
-@defun evp-encryptupdate
-@end defun
-
-@defun evp-decryptinit-ex
-@end defun
-
-@defun evp-decryptupdate
-@end defun
-
-@defun evp-decryptfinal-ex
-@end defun
-
-@defun evp-cipherinit-ex
-@end defun
-
-@defun evp-cipherupdate
-@end defun
-
-@defun evp-cipherfinal-ex
-@end defun
 
 @defun evp-cipher-ctx-set-key-length
 @end defun
@@ -3491,9 +3712,6 @@ representing its public name.
 @end defun
 
 @defun evp-cipher-ctx-iv-length
-@end defun
-
-@defun evp-cipher-ctx-copy
 @end defun
 
 @defun evp-cipher-ctx-get-app-data
@@ -3531,11 +3749,6 @@ representing its public name.
 
 @defun evp-crypt
 @end defun
-
-@c page
-@node plain evp cipher ctx
-@subsection Encryption and decription contexts
-
 
 @c page
 @c ------------------------------------------------------------

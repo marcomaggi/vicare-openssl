@@ -176,6 +176,7 @@
 
     ;; EVP cipher algorithms unsafe C API
     evp-enc-null
+
     evp-des-ecb
     evp-des-ede
     evp-des-ede3
@@ -194,14 +195,17 @@
     evp-des-ede-cbc
     evp-des-ede3-cbc
     evp-desx-cbc
+
     evp-rc4
     evp-rc4-40
     evp-rc4-hmac-md5
+
     evp-idea-ecb
     evp-idea-cfb64
     evp-idea-cfb
     evp-idea-ofb
     evp-idea-cbc
+
     evp-rc2-ecb
     evp-rc2-cbc
     evp-rc2-40-cbc
@@ -209,21 +213,25 @@
     evp-rc2-cfb64
     evp-rc2-cfb
     evp-rc2-ofb
+
     evp-bf-ecb
     evp-bf-cbc
     evp-bf-cfb64
     evp-bf-cfb
     evp-bf-ofb
+
     evp-cast5-ecb
     evp-cast5-cbc
     evp-cast5-cfb64
     evp-cast5-cfb
     evp-cast5-ofb
+
     evp-rc5-32-12-16-cbc
     evp-rc5-32-12-16-ecb
     evp-rc5-32-12-16-cfb64
     evp-rc5-32-12-16-cfb
     evp-rc5-32-12-16-ofb
+
     evp-aes-128-ecb
     evp-aes-128-cbc
     evp-aes-128-cfb1
@@ -258,6 +266,7 @@
     evp-aes-256-xts
     evp-aes-128-cbc-hmac-sha1
     evp-aes-256-cbc-hmac-sha1
+
     evp-camellia-128-ecb
     evp-camellia-128-cbc
     evp-camellia-128-cfb1
@@ -279,55 +288,37 @@
     evp-camellia-256-cfb128
     evp-camellia-256-cfb
     evp-camellia-256-ofb
+
     evp-seed-ecb
     evp-seed-cbc
     evp-seed-cfb128
     evp-seed-cfb
     evp-seed-ofb
-    evp-cipher-type
-    evp-get-cipherbyname
-    evp-get-cipherbynid
-    evp-get-cipherbyobj
-    evp-cipher-nid
-    evp-cipher-name
-    evp-cipher-block-size
-    evp-cipher-key-length
-    evp-cipher-iv-length
-    evp-cipher-flags
-    evp-cipher-mode
-    evp-cipher-ctx-init
-    evp-cipher-ctx-cleanup
-    evp-cipher-ctx-new
-    evp-cipher-ctx-free
-    evp-encryptinit-ex
-    evp-encryptfinal-ex
-    evp-encryptupdate
-    evp-decryptinit-ex
-    evp-decryptupdate
-    evp-decryptfinal-ex
-    evp-cipherinit-ex
-    evp-cipherupdate
-    evp-cipherfinal-ex
-    evp-cipher-ctx-set-key-length
-    evp-cipher-ctx-set-padding
-    evp-cipher-ctx-ctrl
-    evp-cipher-ctx-cipher
-    evp-cipher-ctx-nid
-    evp-cipher-ctx-block-size
-    evp-cipher-ctx-key-length
-    evp-cipher-ctx-iv-length
-    evp-cipher-ctx-copy
-    evp-cipher-ctx-get-app-data
-    evp-cipher-ctx-set-app-data
-    evp-cipher-ctx-type
-    evp-cipher-ctx-flags
-    evp-cipher-ctx-mode
+
+    evp-get-cipherbyname	evp-get-cipherbynid		evp-get-cipherbyobj
+
+    evp-cipher-type		evp-cipher-nid
+    evp-cipher-name		evp-cipher-block-size
+    evp-cipher-key-length	evp-cipher-iv-length
+    evp-cipher-flags		evp-cipher-mode
+
+    ;; EVP cipher context
+    evp-cipher-ctx-new		evp-cipher-ctx-free		evp-cipher-ctx-copy
+    evp-encrypt-init		evp-encrypt-final		evp-encrypt-update
+    evp-decrypt-init		evp-decrypt-final		evp-decrypt-update
+    evp-cipher-init		evp-cipher-final		evp-cipher-update
+
+    evp-cipher-ctx-set-key-length	evp-cipher-ctx-set-padding
+    evp-cipher-ctx-ctrl			evp-cipher-ctx-cipher
+    evp-cipher-ctx-nid			evp-cipher-ctx-block-size
+    evp-cipher-ctx-key-length		evp-cipher-ctx-iv-length
+    evp-cipher-ctx-type			evp-cipher-ctx-mode
     evp-cipher-ctx-rand-key
-    evp-cipher-param-to-asn1
-    evp-cipher-asn1-to-param
-    evp-cipher-ctx-set-flags
-    evp-cipher-ctx-clear-flags
-    evp-cipher-ctx-test-flags
+
+    evp-cipher-ctx-get-app-data		evp-cipher-ctx-set-app-data
+    evp-cipher-param-to-asn1		evp-cipher-asn1-to-param
+    evp-cipher-ctx-flags		evp-cipher-ctx-set-flags
+    evp-cipher-ctx-clear-flags		evp-cipher-ctx-test-flags
     evp-cipher
 
 ;;; --------------------------------------------------------------------
@@ -1133,46 +1124,52 @@
 (define-inline (evp-cipher-mode algo)
   (foreign-call "ikrt_openssl_evp_cipher_mode" algo))
 
-;;; --------------------------------------------------------------------
-
-(define-inline (evp-cipher-ctx-init)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_init"))
-
-(define-inline (evp-cipher-ctx-cleanup)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_cleanup"))
+
+;;;; EVP cipher context unsafe C API:
 
 (define-inline (evp-cipher-ctx-new)
   (foreign-call "ikrt_openssl_evp_cipher_ctx_new"))
 
-(define-inline (evp-cipher-ctx-free)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_free"))
+(define-inline (evp-cipher-ctx-free ctx)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_free" ctx))
 
-(define-inline (evp-encryptinit-ex)
-  (foreign-call "ikrt_openssl_evp_encryptinit_ex"))
+(define-inline (evp-cipher-ctx-copy dst src)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_copy" dst src))
 
-(define-inline (evp-encryptfinal-ex)
-  (foreign-call "ikrt_openssl_evp_encryptfinal_ex"))
+;;; --------------------------------------------------------------------
 
-(define-inline (evp-encryptupdate)
-  (foreign-call "ikrt_openssl_evp_encryptupdate"))
+(define-inline (evp-encrypt-init ctx algo key iv)
+  (foreign-call "ikrt_openssl_evp_encryptinit_ex" ctx algo key iv))
 
-(define-inline (evp-decryptinit-ex)
-  (foreign-call "ikrt_openssl_evp_decryptinit_ex"))
+(define-inline (evp-encrypt-final ctx)
+  (foreign-call "ikrt_openssl_evp_encryptfinal_ex" ctx))
 
-(define-inline (evp-decryptupdate)
+(define-inline (evp-encrypt-update ctx)
+  (foreign-call "ikrt_openssl_evp_encryptupdate" ctx))
+
+;;; --------------------------------------------------------------------
+
+(define-inline (evp-decrypt-init ctx algo key iv)
+  (foreign-call "ikrt_openssl_evp_decryptinit_ex" ctx algo key iv))
+
+(define-inline (evp-decrypt-update ctx)
   (foreign-call "ikrt_openssl_evp_decryptupdate"))
 
-(define-inline (evp-decryptfinal-ex)
-  (foreign-call "ikrt_openssl_evp_decryptfinal_ex"))
+(define-inline (evp-decrypt-final ctx)
+  (foreign-call "ikrt_openssl_evp_decryptfinal_ex" ctx))
 
-(define-inline (evp-cipherinit-ex)
-  (foreign-call "ikrt_openssl_evp_cipherinit_ex"))
+;;; --------------------------------------------------------------------
 
-(define-inline (evp-cipherupdate)
-  (foreign-call "ikrt_openssl_evp_cipherupdate"))
+(define-inline (evp-cipher-init ctx algo key iv enc)
+  (foreign-call "ikrt_openssl_evp_cipherinit_ex" ctx algo key iv enc))
 
-(define-inline (evp-cipherfinal-ex)
-  (foreign-call "ikrt_openssl_evp_cipherfinal_ex"))
+(define-inline (evp-cipher-update ctx)
+  (foreign-call "ikrt_openssl_evp_cipherupdate" ctx))
+
+(define-inline (evp-cipher-final ctx)
+  (foreign-call "ikrt_openssl_evp_cipherfinal_ex" ctx))
+
+;;; --------------------------------------------------------------------
 
 (define-inline (evp-cipher-ctx-set-key-length)
   (foreign-call "ikrt_openssl_evp_cipher_ctx_set_key_length"))
@@ -1198,8 +1195,7 @@
 (define-inline (evp-cipher-ctx-iv-length)
   (foreign-call "ikrt_openssl_evp_cipher_ctx_iv_length"))
 
-(define-inline (evp-cipher-ctx-copy)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_copy"))
+;;; --------------------------------------------------------------------
 
 (define-inline (evp-cipher-ctx-get-app-data)
   (foreign-call "ikrt_openssl_evp_cipher_ctx_get_app_data"))
@@ -1210,20 +1206,24 @@
 (define-inline (evp-cipher-ctx-type)
   (foreign-call "ikrt_openssl_evp_cipher_ctx_type"))
 
-(define-inline (evp-cipher-ctx-flags)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_flags"))
-
 (define-inline (evp-cipher-ctx-mode)
   (foreign-call "ikrt_openssl_evp_cipher_ctx_mode"))
 
 (define-inline (evp-cipher-ctx-rand-key)
   (foreign-call "ikrt_openssl_evp_cipher_ctx_rand_key"))
 
+;;; --------------------------------------------------------------------
+
 (define-inline (evp-cipher-param-to-asn1)
   (foreign-call "ikrt_openssl_evp_cipher_param_to_asn1"))
 
 (define-inline (evp-cipher-asn1-to-param)
   (foreign-call "ikrt_openssl_evp_cipher_asn1_to_param"))
+
+;;; --------------------------------------------------------------------
+
+(define-inline (evp-cipher-ctx-flags)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_flags"))
 
 (define-inline (evp-cipher-ctx-set-flags)
   (foreign-call "ikrt_openssl_evp_cipher_ctx_set_flags"))
@@ -1233,6 +1233,9 @@
 
 (define-inline (evp-cipher-ctx-test-flags)
   (foreign-call "ikrt_openssl_evp_cipher_ctx_test_flags"))
+
+
+;;;; EVP cipher context unsafe C API: single-step encryption and decryption
 
 (define-inline (evp-cipher)
   (foreign-call "ikrt_openssl_evp_cipher"))
