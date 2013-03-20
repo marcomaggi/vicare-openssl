@@ -1441,6 +1441,25 @@ ikrt_openssl_evp_cipher_ctx_copy (ikptr s_dst_ctx, ikptr s_src_ctx, ikpcb * pcb)
  ** EVP cipher algorithms C wrappers: context init and final.
  ** ----------------------------------------------------------------- */
 
+ikptr
+ikrt_openssl_evp_minimum_output_length (ikptr s_ctx, ikptr s_in, ikptr s_in_len, ikpcb * pcb)
+/* Compute the  minimum number  of bytes  needed to  hold the  result of
+   encrypting or  decrypting the  given generalised C  buffer.
+
+   Validate the input  to avoid overflow of integers:  OpenSSL wants the
+   number of bytes to be stored in "int" locations; Vicare/OpenSSL wants
+   both  the input  and output  data to  be containable  in bytevectors,
+   which at most have GREATEST-FIXNUM bytes. */
+{
+  EVP_CIPHER_CTX *	ctx        = IK_EVP_CIPHER_CTX(s_ctx);
+  size_t		in_len     = ik_generalised_c_buffer_len(s_in, s_in_len);
+  int			block_size = EVP_CIPHER_CTX_block_size(ctx);
+  if ((IK_GREATEST_FIXNUM - in_len < block_size) ||
+      (INT_MAX            - in_len < block_size))
+    return IK_FALSE;
+  else
+    return ika_integer_from_size_t(pcb, in_len + block_size);
+}
 static int
 validate_output_buffer_length (EVP_CIPHER_CTX * ctx, size_t in_len, size_t ou_len)
 /* Avoid  overflow of  integers and  "not enough  output space"  errors.
@@ -1450,19 +1469,6 @@ validate_output_buffer_length (EVP_CIPHER_CTX * ctx, size_t in_len, size_t ou_le
   return ((IK_GREATEST_FIXNUM - in_len < block_size) ||
 	  (INT_MAX            - in_len < block_size) ||
 	  (ou_len                      < in_len + block_size));
-}
-ikptr
-ikrt_openssl_evp_minimum_output_length (ikptr s_ctx, ikptr s_in, ikptr s_in_len, ikpcb * pcb)
-{
-  EVP_CIPHER_CTX *	ctx        = IK_EVP_CIPHER_CTX(s_ctx);
-  unsigned char *	in         = IK_GENERALISED_C_BUFFER(s_in);
-  size_t		in_len     = ik_generalised_c_buffer_len(s_in, s_in_len);
-  int			block_size = EVP_CIPHER_CTX_block_size(ctx);
-  if ((IK_GREATEST_FIXNUM - in_len < block_size) ||
-      (INT_MAX            - in_len < block_size))
-    return IK_FALSE;
-  else
-    return ika_integer_from_size_t(pcb, in_len + block_size);
 }
 
 /* ------------------------------------------------------------------ */
