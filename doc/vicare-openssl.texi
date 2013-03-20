@@ -3196,11 +3196,16 @@ return the struct, otherwise return @false{}.
 @CipherMakerDefun{evp-rc2-cfb64}
 @CipherMakerDefun{evp-rc2-cfb}
 @CipherMakerDefun{evp-rc2-ofb}
+
+Notice that @code{bf} stands for Blowfish.
+@cindex Blowfish cipher.
+
 @CipherMakerDefun{evp-bf-ecb}
 @CipherMakerDefun{evp-bf-cbc}
 @CipherMakerDefun{evp-bf-cfb64}
 @CipherMakerDefun{evp-bf-cfb}
 @CipherMakerDefun{evp-bf-ofb}
+
 @CipherMakerDefun{evp-cast5-ecb}
 @CipherMakerDefun{evp-cast5-cbc}
 @CipherMakerDefun{evp-cast5-cfb64}
@@ -3596,13 +3601,13 @@ Initialise an already built cipher context to encrypt data with the
 algorithm selected by @var{EVP-CIPHER}; if successful return @true{},
 else return @false{}.  @manpage{EVP_EncryptInit_ex, EVP_EncryptInit_ex}.
 
-@var{key} must represent a generalised C string holding the encryption
-key, @cstringsref{}.  When @var{key} is a string: it is converted to a
-bytevector with @func{string->utf8}.
-
-@var{iv} must represent a generalised C string holding the
-initialisation vector, @cstringsref{}.  When @var{iv} is a string: it is
+@var{key} must be @false{} or represent a generalised C string holding
+the encryption key, @cstringsref{}.  When @var{key} is a string: it is
 converted to a bytevector with @func{string->utf8}.
+
+@var{iv} must be @false{} or represent a generalised C string holding
+the initialisation vector, @cstringsref{}.  When @var{iv} is a string:
+it is converted to a bytevector with @func{string->utf8}.
 @end defun
 
 
@@ -3659,13 +3664,13 @@ Initialise an already built cipher context to decrypt data with the
 algorithm selected by @var{EVP-CIPHER}; if successful return @true{},
 else return @false{}.  @manpage{EVP_EncryptInit_ex, EVP_DecryptInit_ex}.
 
-@var{key} must represent a generalised C string holding the decryption
-key, @cstringsref{}.  When @var{key} is a string: it is converted to a
-bytevector with @func{string->utf8}.
-
-@var{iv} must represent a generalised C string holding the
-initialisation vector, @cstringsref{}.  When @var{iv} is a string: it is
+@var{key} must be @false{} or represent a generalised C string holding
+the decryption key, @cstringsref{}.  When @var{key} is a string: it is
 converted to a bytevector with @func{string->utf8}.
+
+@var{iv} must be @false{} or represent a generalised C string holding
+the initialisation vector, @cstringsref{}.  When @var{iv} is a string:
+it is converted to a bytevector with @func{string->utf8}.
 @end defun
 
 
@@ -3722,13 +3727,13 @@ with the algorithm selected by @var{EVP-CIPHER}; if successful return
 @true{}, else return @false{}.  @manpage{EVP_EncryptInit_ex,
 EVP_CipherInit_ex}.
 
-@var{key} must represent a generalised C string holding the encryption
-key, @cstringsref{}.  When @var{key} is a string: it is converted to a
-bytevector with @func{string->utf8}.
-
-@var{iv} must represent a generalised C string holding the
-initialisation vector, @cstringsref{}.  When @var{iv} is a string: it is
+@var{key} must be @false{} or represent a generalised C string holding
+the encryption key, @cstringsref{}.  When @var{key} is a string: it is
 converted to a bytevector with @func{string->utf8}.
+
+@var{iv} must be @false{} or represent a generalised C string holding
+the initialisation vector, @cstringsref{}.  When @var{iv} is a string:
+it is converted to a bytevector with @func{string->utf8}.
 
 @var{enc} must be a fixnum: @math{1} for encryption, @math{0} for
 decryption, @math{-1} to leave unchanged a previously set value.

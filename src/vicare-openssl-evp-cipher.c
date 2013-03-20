@@ -1481,8 +1481,8 @@ ikrt_openssl_evp_encryptinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s
   EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
   const EVP_CIPHER *	algo   = IK_EVP_CIPHER(s_algo);
   ENGINE *		engine = NULL;
-  unsigned char *	key    = IK_GENERALISED_C_BUFFER(s_key);
-  unsigned char *	iv     = IK_GENERALISED_C_BUFFER(s_iv);
+  unsigned char *	key    = IK_GENERALISED_C_BUFFER_OR_FALSE(s_key);
+  unsigned char *	iv     = IK_GENERALISED_C_BUFFER_OR_FALSE(s_iv);
   int			rv;
   rv = EVP_EncryptInit_ex(ctx, algo, engine, key, iv);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -1540,8 +1540,8 @@ ikrt_openssl_evp_decryptinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s
   EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
   const EVP_CIPHER *	algo   = IK_EVP_CIPHER(s_algo);
   ENGINE *		engine = NULL;
-  unsigned char *	key    = IK_GENERALISED_C_BUFFER(s_key);
-  unsigned char *	iv     = IK_GENERALISED_C_BUFFER(s_iv);
+  unsigned char *	key    = IK_GENERALISED_C_BUFFER_OR_FALSE(s_key);
+  unsigned char *	iv     = IK_GENERALISED_C_BUFFER_OR_FALSE(s_iv);
   int			rv;
   rv = EVP_DecryptInit_ex(ctx, algo, engine, key, iv);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -1602,8 +1602,8 @@ ikrt_openssl_evp_cipherinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s_
   EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
   const EVP_CIPHER *	algo   = IK_EVP_CIPHER(s_algo);
   ENGINE *		engine = NULL;
-  unsigned char *	key    = IK_GENERALISED_C_BUFFER(s_key);
-  unsigned char *	iv     = IK_GENERALISED_C_BUFFER(s_iv);
+  unsigned char *	key    = IK_GENERALISED_C_BUFFER_OR_FALSE(s_key);
+  unsigned char *	iv     = IK_GENERALISED_C_BUFFER_OR_FALSE(s_iv);
   int			enc    = ik_integer_to_int(s_encrypt_or_decrypt);
   int			rv;
   rv = EVP_CipherInit_ex(ctx, algo, engine, key, iv, enc);

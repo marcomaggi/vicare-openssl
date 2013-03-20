@@ -541,9 +541,9 @@
   (with-arguments-validation (who)
       ((evp-cipher-ctx/alive-not-running	ctx)
        (evp-cipher				algo)
-       (general-c-string			key)
-       (general-c-string			iv))
-    (with-general-c-strings
+       (general-c-string/false			key)
+       (general-c-string/false			iv))
+    (with-general-c-strings/false
 	((key^		key)
 	 (iv^		iv))
       (string-to-bytevector string->utf8)
@@ -579,9 +579,9 @@
   (with-arguments-validation (who)
       ((evp-cipher-ctx/alive-not-running	ctx)
        (evp-cipher				algo)
-       (general-c-string			key)
-       (general-c-string			iv))
-    (with-general-c-strings
+       (general-c-string/false			key)
+       (general-c-string/false			iv))
+    (with-general-c-strings/false
 	((key^		key)
 	 (iv^		iv))
       (string-to-bytevector string->utf8)
@@ -614,10 +614,10 @@
   (with-arguments-validation (who)
       ((evp-cipher-ctx/alive-not-running	ctx)
        (evp-cipher				algo)
-       (general-c-string			key)
-       (general-c-string			iv)
+       (general-c-string/false			key)
+       (general-c-string/false			iv)
        (evp-cipher-enc				enc))
-    (with-general-c-strings
+    (with-general-c-strings/false
 	((key^		key)
 	 (iv^		iv))
       (string-to-bytevector string->utf8)
