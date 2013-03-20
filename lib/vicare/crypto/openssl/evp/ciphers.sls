@@ -192,6 +192,7 @@
     evp-encrypt-init		evp-encrypt-final	evp-encrypt-update
     evp-decrypt-init		evp-decrypt-final	evp-decrypt-update
     evp-cipher-init		evp-cipher-final	evp-cipher-update
+    evp-minimum-output-length
 
     ;; EVP cipher context: inspection
     evp-cipher-ctx-set-key-length
@@ -486,7 +487,7 @@
     (capi.evp-cipher-mode algo)))
 
 
-;;;; EVP cipher algorithms: context functions
+;;;; EVP cipher algorithms: context initialisation and finalisation
 
 (ffi.define-foreign-pointer-wrapper evp-cipher-ctx
   (ffi.fields running?)
@@ -522,6 +523,18 @@
 
 ;;; --------------------------------------------------------------------
 
+(define (evp-minimum-output-length ctx in in.len)
+  (define who 'evp-encryp-tinit)
+  (with-arguments-validation (who)
+      ((evp-cipher-ctx/running	ctx)
+       (general-c-string*	in in.len))
+    (with-general-c-strings
+	((in^	in))
+      (string-to-bytevector string->utf8)
+      (evp-minimum-output-length ctx in^ in.len))))
+
+;;; --------------------------------------------------------------------
+
 (define (evp-encrypt-init ctx algo key iv)
   (define who 'evp-encryp-tinit)
   (with-arguments-validation (who)
@@ -539,13 +552,20 @@
   (define who 'evp-encrypt-final)
   (with-arguments-validation (who)
       ((evp-cipher-ctx/running	ctx))
-    (capi.evp-encrypt-final ctx)))
+    (begin0
+	(capi.evp-encrypt-final ctx)
+      ($set-evp-cipher-ctx-running?! ctx #f))))
 
-(define (evp-encrypt-update ctx)
+(define (evp-encrypt-update ctx ou ou.len in in.len)
   (define who 'evp-encrypt-update)
   (with-arguments-validation (who)
-      ((evp-cipher-ctx/running	ctx))
-    (capi.evp-encrypt-update ctx)))
+      ((evp-cipher-ctx/running	ctx)
+       (general-c-buffer*	ou ou.len)
+       (general-c-string*	in in.len))
+    (with-general-c-strings
+	((in^	in))
+      (string-to-bytevector string->utf8)
+      (capi.evp-encrypt-update ctx ou ou.len in^ in.len))))
 
 ;;; --------------------------------------------------------------------
 
@@ -566,13 +586,17 @@
   (define who 'evp-decrypt-final)
   (with-arguments-validation (who)
       ((evp-cipher-ctx/running	ctx))
-    (capi.evp-decrypt-final ctx)))
+    (begin0
+	(capi.evp-decrypt-final ctx)
+      ($set-evp-cipher-ctx-running?! ctx #f))))
 
-(define (evp-decrypt-update ctx)
+(define (evp-decrypt-update ctx ou ou.len in in.len)
   (define who 'evp-decrypt-update)
   (with-arguments-validation (who)
-      ((evp-cipher-ctx/running	ctx))
-    (capi.evp-decrypt-update ctx)))
+      ((evp-cipher-ctx/running	ctx)
+       (general-c-buffer*	ou ou.len)
+       (general-c-buffer*	in in.len))
+    (capi.evp-decrypt-update ctx ou ou.len in in.len)))
 
 ;;; --------------------------------------------------------------------
 
@@ -594,15 +618,35 @@
   (define who 'evp-cipher-final)
   (with-arguments-validation (who)
       ((evp-cipher-ctx/running	ctx))
-    (capi.evp-cipher-final ctx)))
+    (begin0
+	(capi.evp-cipher-final ctx)
+      ($set-evp-cipher-ctx-running?! ctx #f))))
 
-(define (evp-cipher-update ctx)
+(define (evp-cipher-update ctx ou ou.len in in.len)
   (define who 'evp-cipher-update)
   (with-arguments-validation (who)
-      ((evp-cipher-ctx/running	ctx))
-    (capi.evp-cipher-update ctx)))
+      ((evp-cipher-ctx/running	ctx)
+       (general-c-buffer*	ou ou.len)
+       (general-c-string*	in in.len))
+    (with-general-c-strings
+	((in^	in))
+      (string-to-bytevector string->utf8)
+      (capi.evp-cipher-update ctx ou ou.len in^ in.len))))
 
-;;; --------------------------------------------------------------------
+
+;;;; EVP cipher algorithms: context inspection
+
+(define (evp-cipher-ctx-rand-key ctx)
+  (define who 'evp-cipher-ctx-rand-key)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-rand-key)))
+
+(define (evp-cipher-ctx-type ctx)
+  (define who 'evp-cipher-ctx-type)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-type)))
 
 (define (evp-cipher-ctx-set-key-length ctx)
   (define who 'evp-cipher-ctx-set-key-length)
@@ -652,53 +696,20 @@
       ()
     (capi.evp-cipher-ctx-iv-length)))
 
-(define (evp-cipher-ctx-get-app-data ctx)
-  (define who 'evp-cipher-ctx-get-app-data)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-get-app-data)))
-
-(define (evp-cipher-ctx-set-app-data ctx)
-  (define who 'evp-cipher-ctx-set-app-data)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-set-app-data)))
-
-(define (evp-cipher-ctx-type ctx)
-  (define who 'evp-cipher-ctx-type)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-type)))
-
-(define (evp-cipher-ctx-flags ctx)
-  (define who 'evp-cipher-ctx-flags)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-flags)))
-
 (define (evp-cipher-ctx-mode ctx)
   (define who 'evp-cipher-ctx-mode)
   (with-arguments-validation (who)
       ()
     (capi.evp-cipher-ctx-mode)))
 
-(define (evp-cipher-ctx-rand-key ctx)
-  (define who 'evp-cipher-ctx-rand-key)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-rand-key)))
+
+;;;; EVP cipher algorithms: context flags
 
-(define (evp-cipher-param-to-asn1 ctx)
-  (define who 'evp-cipher-param-to-asn1)
+(define (evp-cipher-ctx-flags ctx)
+  (define who 'evp-cipher-ctx-flags)
   (with-arguments-validation (who)
       ()
-    (capi.evp-cipher-param-to-asn1)))
-
-(define (evp-cipher-asn1-to-param ctx)
-  (define who 'evp-cipher-asn1-to-param)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-asn1-to-param)))
+    (capi.evp-cipher-ctx-flags)))
 
 (define (evp-cipher-ctx-set-flags ctx)
   (define who 'evp-cipher-ctx-set-flags)
@@ -717,6 +728,38 @@
   (with-arguments-validation (who)
       ()
     (capi.evp-cipher-ctx-test-flags)))
+
+
+;;;; EVP cipher algorithms: context misc functions
+
+(define (evp-cipher-ctx-get-app-data ctx)
+  (define who 'evp-cipher-ctx-get-app-data)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-get-app-data)))
+
+(define (evp-cipher-ctx-set-app-data ctx)
+  (define who 'evp-cipher-ctx-set-app-data)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-ctx-set-app-data)))
+
+;;; --------------------------------------------------------------------
+
+(define (evp-cipher-param-to-asn1 ctx)
+  (define who 'evp-cipher-param-to-asn1)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-param-to-asn1)))
+
+(define (evp-cipher-asn1-to-param ctx)
+  (define who 'evp-cipher-asn1-to-param)
+  (with-arguments-validation (who)
+      ()
+    (capi.evp-cipher-asn1-to-param)))
+
+
+;;;; EVP cipher algorithms: context single-step encryption and decryption
 
 (define (evp-crypt ctx)
   (define who 'evp-crypt)

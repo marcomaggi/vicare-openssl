@@ -36,6 +36,7 @@
 #endif
 #include <assert.h>
 #include <vicare.h>
+#include <limits.h>
 
 /* It is better if this comes first. */
 #ifdef HAVE_OPENSSL_SSL_H

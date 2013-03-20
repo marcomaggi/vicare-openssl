@@ -307,6 +307,7 @@
     evp-encrypt-init		evp-encrypt-final		evp-encrypt-update
     evp-decrypt-init		evp-decrypt-final		evp-decrypt-update
     evp-cipher-init		evp-cipher-final		evp-cipher-update
+    evp-minimum-output-length
 
     evp-cipher-ctx-set-key-length	evp-cipher-ctx-set-padding
     evp-cipher-ctx-ctrl			evp-cipher-ctx-cipher
@@ -1138,22 +1139,29 @@
 
 ;;; --------------------------------------------------------------------
 
+(define-inline (evp-minimum-output-length ctx in in.len)
+  ;;This  function  is  not  defined  by  OpenSSL,  it  is  specific  of
+  ;;Vicare/OpenSSL.
+  (foreign-call "ikrt_openssl_evp_minimum_output_length" ctx in in.len))
+
+;;; --------------------------------------------------------------------
+
 (define-inline (evp-encrypt-init ctx algo key iv)
   (foreign-call "ikrt_openssl_evp_encryptinit_ex" ctx algo key iv))
 
 (define-inline (evp-encrypt-final ctx)
   (foreign-call "ikrt_openssl_evp_encryptfinal_ex" ctx))
 
-(define-inline (evp-encrypt-update ctx)
-  (foreign-call "ikrt_openssl_evp_encryptupdate" ctx))
+(define-inline (evp-encrypt-update ctx ou ou.len in in.len)
+  (foreign-call "ikrt_openssl_evp_encryptupdate" ctx ou ou.len in in.len))
 
 ;;; --------------------------------------------------------------------
 
 (define-inline (evp-decrypt-init ctx algo key iv)
   (foreign-call "ikrt_openssl_evp_decryptinit_ex" ctx algo key iv))
 
-(define-inline (evp-decrypt-update ctx)
-  (foreign-call "ikrt_openssl_evp_decryptupdate"))
+(define-inline (evp-decrypt-update ctx ou ou.len in in.len)
+  (foreign-call "ikrt_openssl_evp_decryptupdate" ou ou.len in in.len))
 
 (define-inline (evp-decrypt-final ctx)
   (foreign-call "ikrt_openssl_evp_decryptfinal_ex" ctx))
@@ -1163,8 +1171,8 @@
 (define-inline (evp-cipher-init ctx algo key iv enc)
   (foreign-call "ikrt_openssl_evp_cipherinit_ex" ctx algo key iv enc))
 
-(define-inline (evp-cipher-update ctx)
-  (foreign-call "ikrt_openssl_evp_cipherupdate" ctx))
+(define-inline (evp-cipher-update ctx ou ou.len in in.len)
+  (foreign-call "ikrt_openssl_evp_cipherupdate" ctx ou ou.len in in.len))
 
 (define-inline (evp-cipher-final ctx)
   (foreign-call "ikrt_openssl_evp_cipherfinal_ex" ctx))

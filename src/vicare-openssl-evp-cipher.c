@@ -1441,6 +1441,32 @@ ikrt_openssl_evp_cipher_ctx_copy (ikptr s_dst_ctx, ikptr s_src_ctx, ikpcb * pcb)
  ** EVP cipher algorithms C wrappers: context init and final.
  ** ----------------------------------------------------------------- */
 
+static int
+validate_output_buffer_length (EVP_CIPHER_CTX * ctx, size_t in_len, size_t ou_len)
+/* Avoid  overflow of  integers and  "not enough  output space"  errors.
+   Return true if there is an error in the arguments. */
+{
+  int		block_size = EVP_CIPHER_CTX_block_size(ctx);
+  return ((IK_GREATEST_FIXNUM - in_len < block_size) ||
+	  (INT_MAX            - in_len < block_size) ||
+	  (ou_len                      < in_len + block_size));
+}
+ikptr
+ikrt_openssl_evp_minimum_output_length (ikptr s_ctx, ikptr s_in, ikptr s_in_len, ikpcb * pcb)
+{
+  EVP_CIPHER_CTX *	ctx        = IK_EVP_CIPHER_CTX(s_ctx);
+  unsigned char *	in         = IK_GENERALISED_C_BUFFER(s_in);
+  size_t		in_len     = ik_generalised_c_buffer_len(s_in, s_in_len);
+  int			block_size = EVP_CIPHER_CTX_block_size(ctx);
+  if ((IK_GREATEST_FIXNUM - in_len < block_size) ||
+      (INT_MAX            - in_len < block_size))
+    return IK_FALSE;
+  else
+    return ika_integer_from_size_t(pcb, in_len + block_size);
+}
+
+/* ------------------------------------------------------------------ */
+
 ikptr
 ikrt_openssl_evp_encryptinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s_iv,
 				 ikpcb * pcb)
@@ -1460,22 +1486,39 @@ ikrt_openssl_evp_encryptinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s
 }
 ikptr
 ikrt_openssl_evp_encryptfinal_ex (ikptr s_ctx, ikpcb * pcb)
+/* NOTE When finalising a context: the output data is at most equal to a
+   cipher's block size.   Block sizes are "small", so we  put the output
+   buffer on the stack.  (Marco Maggi; Wed Mar 20, 2013) */
 {
 #ifdef HAVE_EVP_ENCRYPTFINAL_EX
-  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
-  /* rv = EVP_EncryptFinal_ex(); */
-  return IK_VOID;
+  EVP_CIPHER_CTX *	ctx = IK_EVP_CIPHER_CTX(s_ctx);
+  unsigned char		ou[EVP_CIPHER_CTX_block_size(ctx)];
+  int			ou_len;
+  int			rv;
+  rv = EVP_EncryptFinal_ex(ctx, ou, &ou_len);
+  return (rv)? ika_bytevector_from_memory_block(pcb, ou, ou_len) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_encryptupdate (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_evp_encryptupdate (ikptr s_ctx,
+				ikptr s_ou, ikptr s_ou_len,
+				ikptr s_in, ikptr s_in_len,
+				ikpcb * pcb)
 {
 #ifdef HAVE_EVP_ENCRYPTUPDATE
-  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
-  /* rv = EVP_EncryptUpdate(); */
-  return IK_VOID;
+  EVP_CIPHER_CTX *	ctx	= IK_EVP_CIPHER_CTX(s_ctx);
+  unsigned char *	ou	= IK_GENERALISED_C_BUFFER(s_ou);
+  size_t		ou_len	= ik_generalised_c_buffer_len(s_ou, s_ou_len);
+  unsigned char *	in	= IK_GENERALISED_C_BUFFER(s_in);
+  size_t		in_len	= ik_generalised_c_buffer_len(s_in, s_in_len);
+  int			rv;
+  /* Avoid overflow of integers and "not enough output space" errors. */
+  if (validate_output_buffer_length(ctx, in_len, ou_len))
+    return IK_FALSE;
+  rv = EVP_EncryptUpdate(ctx, ou, (int*)&ou_len, in, in_len);
+  return (rv)? ika_integer_from_size_t(pcb, ou_len) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
@@ -1501,23 +1544,40 @@ ikrt_openssl_evp_decryptinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s
 #endif
 }
 ikptr
-ikrt_openssl_evp_decryptupdate (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_evp_decryptfinal_ex (ikptr s_ctx, ikpcb * pcb)
+/* NOTE When finalising a context: the output data is at most equal to a
+   cipher's block size.   Block sizes are "small", so we  put the output
+   buffer on the stack.  (Marco Maggi; Wed Mar 20, 2013) */
 {
-#ifdef HAVE_EVP_DECRYPTUPDATE
+#ifdef HAVE_EVP_DECRYPTFINAL_EX
   EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
-  /* rv = EVP_DecryptUpdate(); */
-  return IK_VOID;
+  unsigned char		ou[EVP_CIPHER_CTX_block_size(ctx)];
+  int			ou_len;
+  int			rv;
+  rv = EVP_DecryptFinal_ex(ctx, ou, &ou_len);
+  return (rv)? ika_bytevector_from_memory_block(pcb, ou, ou_len) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_decryptfinal_ex (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_evp_decryptupdate (ikptr s_ctx,
+				ikptr s_ou, ikptr s_ou_len,
+				ikptr s_in, ikptr s_in_len,
+				ikpcb * pcb)
 {
-#ifdef HAVE_EVP_DECRYPTFINAL_EX
-  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
-  /* rv = EVP_DecryptFinal_ex(); */
-  return IK_VOID;
+#ifdef HAVE_EVP_DECRYPTUPDATE
+  EVP_CIPHER_CTX *	ctx	= IK_EVP_CIPHER_CTX(s_ctx);
+  unsigned char *	ou	= IK_GENERALISED_C_BUFFER(s_ou);
+  size_t		ou_len	= ik_generalised_c_buffer_len(s_ou, s_ou_len);
+  unsigned char *	in	= IK_GENERALISED_C_BUFFER(s_in);
+  size_t		in_len	= ik_generalised_c_buffer_len(s_in, s_in_len);
+  int			rv;
+  /* Avoid overflow of integers and "not enough output space" errors. */
+  if (validate_output_buffer_length(ctx, in_len, ou_len))
+    return IK_FALSE;
+  rv = EVP_DecryptUpdate(ctx, ou, (int*)&ou_len, in, in_len);
+  return (rv)? ika_integer_from_size_t(pcb, ou_len) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
@@ -1547,23 +1607,40 @@ ikrt_openssl_evp_cipherinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s_
 #endif
 }
 ikptr
-ikrt_openssl_evp_cipherupdate (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_evp_cipherfinal_ex (ikptr s_ctx, ikpcb * pcb)
+/* NOTE When finalising a context: the output data is at most equal to a
+   cipher's block size.   Block sizes are "small", so we  put the output
+   buffer on the stack.  (Marco Maggi; Wed Mar 20, 2013) */
 {
-#ifdef HAVE_EVP_CIPHERUPDATE
+#ifdef HAVE_EVP_CIPHERFINAL_EX
   EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
-  /* rv = EVP_CipherUpdate(); */
-  return IK_VOID;
+  unsigned char		ou[EVP_CIPHER_CTX_block_size(ctx)];
+  int			ou_len;
+  int			rv;
+  rv = EVP_CipherFinal_ex(ctx, ou, &ou_len);
+  return (rv)? ika_bytevector_from_memory_block(pcb, ou, ou_len) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_cipherfinal_ex (ikptr s_ctx, ikpcb * pcb)
+ikrt_openssl_evp_cipherupdate (ikptr s_ctx,
+			       ikptr s_ou, ikptr s_ou_len,
+			       ikptr s_in, ikptr s_in_len,
+			       ikpcb * pcb)
 {
-#ifdef HAVE_EVP_CIPHERFINAL_EX
-  EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
-  /* rv = EVP_CipherFinal_ex(); */
-  return IK_VOID;
+#ifdef HAVE_EVP_CIPHERUPDATE
+  EVP_CIPHER_CTX *	ctx	= IK_EVP_CIPHER_CTX(s_ctx);
+  unsigned char *	ou	= IK_GENERALISED_C_BUFFER(s_ou);
+  size_t		ou_len	= ik_generalised_c_buffer_len(s_ou, s_ou_len);
+  unsigned char *	in	= IK_GENERALISED_C_BUFFER(s_in);
+  size_t		in_len	= ik_generalised_c_buffer_len(s_in, s_in_len);
+  int			rv;
+  /* Avoid overflow of integers and "not enough output space" errors. */
+  if (validate_output_buffer_length(ctx, in_len, ou_len))
+    return IK_FALSE;
+  rv = EVP_CipherUpdate(ctx, ou, (int*)&ou_len, in, in_len);
+  return (rv)? ika_integer_from_size_t(pcb, ou_len) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif

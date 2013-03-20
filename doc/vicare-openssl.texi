@@ -2508,7 +2508,6 @@ valid values are: @math{16}, @math{24}, @math{32}.
 * plain evp cipher algo::       Cipher algorithms.
 * plain evp cipher ctx::        Encryption and decription contexts.
 * plain evp symbols::           Constants to symbols.
-* plain evp unimplemented::     Still unimplemented.
 @end menu
 
 @c page
@@ -3425,10 +3424,13 @@ Return an exact integer, in the range of the C language type
 @menu
 * plain evp cipher ctx struct::   Cipher context data structures.
 * plain evp cipher ctx create::   Context creation and destruction.
-* plain evp cipher ctx init::     Context initialisation and finalisation.
-* plain evp cipher ctx update::   Processing input data.
+* plain evp cipher ctx encrypt::  Encrypting data.
+* plain evp cipher ctx decrypt::  Decrypting data.
+* plain evp cipher ctx cipher::   Encrypting or decrypting data.
 * plain evp cipher ctx inspect::  Context inspection.
 * plain evp cipher ctx flags::    Context flags.
+* plain evp cipher ctx misc::     Miscellaneous functions.
+* plain evp cipher ctx step::     Single-step encryption and decryption.
 @end menu
 
 @c page
@@ -3456,9 +3458,10 @@ own the underlying checksum context and those who merely reference it.
 @itemize
 @item
 @code{evp-cipher-ctx} instances returned by @func{evp-cipher-ctx-new} do
-own the context.  When instances of this category are garbage collected:
-the context is closed, all the associated data is finalised; any error
-is ignored in this procedure.
+own the context.  When instances of this category are garbage collected
+or @func{evp-cipher-ctx-free} is applied to them: the context is closed,
+all the associated data is finalised; any error is ignored in this
+procedure.
 @end itemize
 @end deftp
 
@@ -3561,94 +3564,214 @@ The following bindings are exported by the library @library{vicare
 crypto openssl evp ciphers}.
 
 
-@defun evp-cipher-ctx-new @var{algo}
-@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_new}.
+@defun evp-cipher-ctx-new
+Build a new instance of @code{evp-cipher-ctx}; if successful return the
+struct instance, else return @false{}.  Returned data structures are not
+yet initialised with a cipher algorithm.  @manpage{EVP_EncryptInit_ex,
+EVP_CIPHER_CTX_new}.
 @end defun
 
 
 @defun evp-cipher-ctx-free @var{EVP-CIPHER-CTX}
-@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_free}.
-@end defun
+Finalise a cipher context and release all the associated resources;
+return unspecified values.  @manpage{EVP_EncryptInit_ex,
+EVP_CIPHER_CTX_free}.
 
-
-@defun evp-cipher-ctx-copy @var{EVP-CIPHER-CTX-DST} @var{EVP-CIPHER-CTX-SRC}
-Copy the context from @var{EVP-CIPHER-CTX-SRC} to
-@var{EVP-CIPHER-CTX-DST}, which must be already initialised; if
-successful return @true{}, otherwise return @false{}.
-@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_copy}.
+It is fine to apply this function multiple times to the same argument:
+the first time the context is finalised, subsequent times nothing
+happens.
 @end defun
 
 @c page
-@node plain evp cipher ctx init
-@subsubsection Context initialisation and finalisation
+@node plain evp cipher ctx encrypt
+@subsubsection Encrypting data
 
 
 The following bindings are exported by the library @library{vicare
 crypto openssl evp ciphers}.
 
-@c ------------------------------------------------------------
 
-@subsubheading Encryption
+@defun evp-encrypt-init @var{EVP-CIPHER-CTX} @var{EVP-CIPHER} @var{key} @var{iv}
+Initialise an already built cipher context to encrypt data with the
+algorithm selected by @var{EVP-CIPHER}; if successful return @true{},
+else return @false{}.  @manpage{EVP_EncryptInit_ex, EVP_EncryptInit_ex}.
 
+@var{key} must represent a generalised C string holding the encryption
+key, @cstringsref{}.  When @var{key} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 
-@defun evp-encrypt-init
-@manpage{EVP_EncryptInit_ex, EVP_EncryptInit_ex}.
+@var{iv} must represent a generalised C string holding the
+initialisation vector, @cstringsref{}.  When @var{iv} is a string: it is
+converted to a bytevector with @func{string->utf8}.
 @end defun
 
 
-@defun evp-encrypt-final
+@defun evp-encrypt-final @var{EVP-CIPHER-CTX}
+Finalise an encryption context; if successful return a bytevector
+holding the last output data, else return @false{}.
 @manpage{EVP_EncryptInit_ex, EVP_EncryptFinal_ex}.
 @end defun
 
-@c ------------------------------------------------------------
 
-@subsubheading Decryption
+@defun evp-encrypt-update @var{EVP-CIPHER-CTX} @var{ou} @var{ou_len} @var{in} @var{in_len}
+Update an encryption context with clear text input data and produce
+encrypted output data; if successful return the actual number of bytes
+in the output, else return @false{}.  @manpage{EVP_EncryptInit_ex,
+EVP_EncryptUpdate}.
 
+The arguments @var{in} and @var{in_len} must represent a generalised C
+string holding the clear text input data, @cstringsref{}.  When @var{in}
+is a string: it is converted to a bytevector with @func{string->utf8}.
 
-@defun evp-decrypt-init
-@manpage{EVP_EncryptInit_ex, EVP_DecryptInit_ex}.
-@end defun
+The arguments @var{ou} and @var{ou_len} must represent a generalised C
+buffer holding empty room for the encrypted output data, @cbuffersref{}.
+The length of the output buffer is the maximum number of output bytes
+that can be accepted; such length must be:
 
+@enumerate
+@item
+Less than the greatest fixnum, @code{(greatest-fixnum)}.
 
-@defun evp-decrypt-final
-@manpage{EVP_EncryptInit_ex, EVP_DecryptFinal_ex}.
-@end defun
+@item
+Less than the value of @code{INT_MAX} defined by the underlying
+platform.
 
-@c ------------------------------------------------------------
+@item
+At least the sum between the number of input bytes and the block size of
+the selected cipher algorithm.
+@end enumerate
 
-@subsubheading Encryption and decryption
-
-
-@defun evp-cipher-init
-@manpage{EVP_EncryptInit_ex, EVP_CipherInit_ex}.
-@end defun
-
-
-@defun evp-cipher-final
-@manpage{EVP_EncryptInit_ex, EVP_CipherFinal_ex}.
+The minimum output length can be computed with
+@func{evp-minimum-output-length}.
 @end defun
 
 @c page
-@node plain evp cipher ctx update
-@subsubsection Processing input data
+@node plain evp cipher ctx decrypt
+@subsubsection Decrypting data
 
 
 The following bindings are exported by the library @library{vicare
 crypto openssl evp ciphers}.
 
 
-@defun evp-encrypt-update
-@manpage{EVP_EncryptInit_ex, EVP_EncryptUpdate}.
+@defun evp-decrypt-init @var{EVP-CIPHER-CTX} @var{EVP-CIPHER} @var{key} @var{iv}
+Initialise an already built cipher context to decrypt data with the
+algorithm selected by @var{EVP-CIPHER}; if successful return @true{},
+else return @false{}.  @manpage{EVP_EncryptInit_ex, EVP_DecryptInit_ex}.
+
+@var{key} must represent a generalised C string holding the decryption
+key, @cstringsref{}.  When @var{key} is a string: it is converted to a
+bytevector with @func{string->utf8}.
+
+@var{iv} must represent a generalised C string holding the
+initialisation vector, @cstringsref{}.  When @var{iv} is a string: it is
+converted to a bytevector with @func{string->utf8}.
 @end defun
 
 
-@defun evp-decrypt-update
-@manpage{EVP_EncryptInit_ex, EVP_DecryptUpdate}.
+@defun evp-decrypt-final @var{EVP-CIPHER-CTX}
+Finalise a decryption context; if successful return a bytevector holding
+the last output data, else return @false{}.
+@manpage{EVP_EncryptInit_ex, EVP_DecryptFinal_ex}.
 @end defun
 
 
-@defun evp-cipher-update
-@manpage{EVP_EncryptInit_ex, EVP_CipherUpdate}.
+@defun evp-decrypt-update @var{EVP-CIPHER-CTX} @var{ou} @var{ou_len} @var{in} @var{in_len}
+Update a decryption context with encrypted text input data and produce
+decrypted output data; if successful return the actual number of bytes
+in the output, else return @false{}.  @manpage{EVP_EncryptInit_ex,
+EVP_DecryptUpdate}.
+
+The arguments @var{in} and @var{in_len} must represent a generalised C
+buffer holding the encrypted input data, @cbuffersref{}.
+
+The arguments @var{ou} and @var{ou_len} must represent a generalised C
+buffer holding empty room for the decrypted output data, @cbuffersref{}.
+The length of the output buffer is the maximum number of output bytes
+that can be accepted; such length must be:
+
+@enumerate
+@item
+Less than the greatest fixnum, @code{(greatest-fixnum)}.
+
+@item
+Less than the value of @code{INT_MAX} defined by the underlying
+platform.
+
+@item
+At least the sum between the number of input bytes and the block size of
+the selected cipher algorithm.
+@end enumerate
+
+The minimum output length can be computed with
+@func{evp-minimum-output-length}.
+@end defun
+
+@c page
+@node plain evp cipher ctx cipher
+@subsubsection Encrypting or decrypting data
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl evp ciphers}.
+
+
+@defun evp-cipher-init @var{EVP-CIPHER-CTX} @var{EVP-CIPHER} @var{key} @var{iv} @var{enc}
+Initialise an already built cipher context to encrypt or decrypt data
+with the algorithm selected by @var{EVP-CIPHER}; if successful return
+@true{}, else return @false{}.  @manpage{EVP_EncryptInit_ex,
+EVP_CipherInit_ex}.
+
+@var{key} must represent a generalised C string holding the encryption
+key, @cstringsref{}.  When @var{key} is a string: it is converted to a
+bytevector with @func{string->utf8}.
+
+@var{iv} must represent a generalised C string holding the
+initialisation vector, @cstringsref{}.  When @var{iv} is a string: it is
+converted to a bytevector with @func{string->utf8}.
+
+@var{enc} must be a fixnum: @math{1} for encryption, @math{0} for
+decryption, @math{-1} to leave unchanged a previously set value.
+@end defun
+
+
+@defun evp-cipher-final @var{EVP-CIPHER-CTX}
+Finalise an encryption or decryption context; if successful return a
+bytevector holding the last output data, else return @false{}.
+@manpage{EVP_EncryptInit_ex, EVP_CipherFinal_ex}.
+@end defun
+
+
+@defun evp-cipher-update @var{EVP-CIPHER-CTX} @var{ou} @var{ou_len} @var{in} @var{in_len}
+Update an encryption or decryption context with input data and produce
+output data; if successful return the actual number of bytes in the
+output, else return @false{}.  @manpage{EVP_EncryptInit_ex,
+EVP_CipherUpdate}.
+
+The arguments @var{in} and @var{in_len} must represent a generalised C
+string holding the input data, @cstringsref{}.  When @var{in} is a
+string: it is converted to a bytevector with @func{string->utf8}.
+
+The arguments @var{ou} and @var{ou_len} must represent a generalised C
+buffer holding empty room for the output data, @cbuffersref{}.  The
+length of the output buffer is the maximum number of output bytes that
+can be accepted; such length must be:
+
+@enumerate
+@item
+Less than the greatest fixnum, @code{(greatest-fixnum)}.
+
+@item
+Less than the value of @code{INT_MAX} defined by the underlying
+platform.
+
+@item
+At least the sum between the number of input bytes and the block size of
+the selected cipher algorithm.
+@end enumerate
+
+The minimum output length can be computed with
+@func{evp-minimum-output-length}.
 @end defun
 
 @c page
@@ -3660,6 +3783,48 @@ The following bindings are exported by the library @library{vicare
 crypto openssl evp ciphers}.
 
 
+@defun evp-cipher-ctx-set-key-length
+@end defun
+
+
+@defun evp-cipher-ctx-set-padding
+@end defun
+
+
+@defun evp-cipher-ctx-ctrl
+@end defun
+
+
+@defun evp-cipher-ctx-cipher
+@end defun
+
+
+@defun evp-cipher-ctx-nid
+@end defun
+
+
+@defun evp-cipher-ctx-block-size
+@end defun
+
+
+@defun evp-cipher-ctx-key-length
+@end defun
+
+
+@defun evp-cipher-ctx-iv-length
+@end defun
+
+
+@defun evp-cipher-ctx-type
+@end defun
+
+
+@defun evp-cipher-ctx-mode
+@end defun
+
+
+@defun evp-cipher-ctx-rand-key
+@end defun
 
 @c page
 @node plain evp cipher ctx flags
@@ -3670,6 +3835,75 @@ The following bindings are exported by the library @library{vicare
 crypto openssl evp ciphers}.
 
 
+@defun evp-cipher-ctx-flags
+@end defun
+
+
+@defun evp-cipher-ctx-set-flags
+@end defun
+
+
+@defun evp-cipher-ctx-clear-flags
+@end defun
+
+
+@defun evp-cipher-ctx-test-flags
+@end defun
+
+@c page
+@node plain evp cipher ctx misc
+@subsubsection Miscellaneous functions
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl evp ciphers}.
+
+
+@defun evp-minimum-output-length @var{EVP-CIPHER-CTX} @var{in} @var{in.len}
+Compute the minimum output length needed to encrypt or decrypt the given
+argument; if successful return an exact integer representing the number
+of bytes, else return @false{}.
+
+The arguments @var{in} and @var{in_len} must represent a generalised C
+string holding the clear text input data, @cstringsref{}.  When @var{in}
+is a string: it is converted to a bytevector with @func{string->utf8}.
+@end defun
+
+
+@defun evp-cipher-ctx-copy @var{EVP-CIPHER-CTX-DST} @var{EVP-CIPHER-CTX-SRC}
+Copy the context from @var{EVP-CIPHER-CTX-SRC} to
+@var{EVP-CIPHER-CTX-DST}, which must be already initialised; if
+successful return @true{}, otherwise return @false{}.
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_copy}.
+@end defun
+
+@c ------------------------------------------------------------
+
+@defun evp-cipher-ctx-get-app-data
+@end defun
+
+@defun evp-cipher-ctx-set-app-data
+@end defun
+
+@c ------------------------------------------------------------
+
+@defun evp-cipher-param-to-asn1
+@end defun
+
+@defun evp-cipher-asn1-to-param
+@end defun
+
+@c page
+@node plain evp cipher ctx step
+@subsubsection Single--step encryption and decryption
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl evp ciphers}.
+
+
+@defun evp-crypt
+@end defun
 
 @c page
 @node plain evp symbols
@@ -3683,71 +3917,6 @@ crypto openssl evp ciphers}.
 @defun evp-ciph-mode->symbol @var{constant}
 Given a constant among @code{EVP_CIPH_*_MODE} return a symbol
 representing its public name.
-@end defun
-
-@c page
-@node plain evp unimplemented
-@subsection Still unimplemented
-
-
-@defun evp-cipher-ctx-set-key-length
-@end defun
-
-@defun evp-cipher-ctx-set-padding
-@end defun
-
-@defun evp-cipher-ctx-ctrl
-@end defun
-
-@defun evp-cipher-ctx-cipher
-@end defun
-
-@defun evp-cipher-ctx-nid
-@end defun
-
-@defun evp-cipher-ctx-block-size
-@end defun
-
-@defun evp-cipher-ctx-key-length
-@end defun
-
-@defun evp-cipher-ctx-iv-length
-@end defun
-
-@defun evp-cipher-ctx-get-app-data
-@end defun
-
-@defun evp-cipher-ctx-set-app-data
-@end defun
-
-@defun evp-cipher-ctx-type
-@end defun
-
-@defun evp-cipher-ctx-flags
-@end defun
-
-@defun evp-cipher-ctx-mode
-@end defun
-
-@defun evp-cipher-ctx-rand-key
-@end defun
-
-@defun evp-cipher-param-to-asn1
-@end defun
-
-@defun evp-cipher-asn1-to-param
-@end defun
-
-@defun evp-cipher-ctx-set-flags
-@end defun
-
-@defun evp-cipher-ctx-clear-flags
-@end defun
-
-@defun evp-cipher-ctx-test-flags
-@end defun
-
-@defun evp-crypt
 @end defun
 
 @c page
