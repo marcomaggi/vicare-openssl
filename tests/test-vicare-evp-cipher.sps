@@ -39,6 +39,8 @@
 (check-set-mode! 'report-failed)
 (check-display "*** testing Vicare OpenSSL bindings: EVP cipher API\n")
 
+(ssl.openssl-add-all-algorithms)
+
 
 ;;;; helpers
 
@@ -46,7 +48,7 @@
   ssl.vicare-openssl-evp-ciphers-features)
 
 
-(parametrise ((check-test-name	'algo))
+(parametrise ((check-test-name	'algo-makers))
 
   (define-syntax check-single-maker
     (syntax-rules ()
@@ -69,6 +71,9 @@
 	 (check-makers ?maker ...)))))
 
 ;;; --------------------------------------------------------------------
+
+  (when #t
+    (check-pretty-print (ssl.evp-cast5-ecb)))
 
   (check-makers
    ssl.evp-enc-null
@@ -179,10 +184,89 @@
    ssl.evp-seed-cbc
    ssl.evp-seed-cfb128
    ssl.evp-seed-cfb
-   ssl.evp-seed-ofb
-   )
+   ssl.evp-seed-ofb)
 
-#t)
+  #t)
+
+
+(parametrise ((check-test-name	'algo-inspect))
+
+  (check
+      (let ((algo (ssl.evp-enc-null)))
+	(ssl.evp-cipher-name algo))
+    => "UNDEF")
+
+  (check
+      (let ((algo (ssl.evp-des-ecb)))
+	(ssl.evp-cipher-name algo))
+    => "DES-ECB")
+
+  (ssl.cond-expand
+   (ssl.evp-idea-ecb
+    (check
+	(let ((algo (ssl.evp-idea-ecb)))
+	  (ssl.evp-cipher-name algo))
+      => "IDEA"))
+   (else
+    (void)))
+
+  (check
+      (let ((algo (ssl.evp-rc4)))
+	(ssl.evp-cipher-name algo))
+    => "RC4")
+
+  (check
+      (let ((algo (ssl.evp-rc2-ecb)))
+	(ssl.evp-cipher-name algo))
+    => "RC2-ECB")
+
+  (check
+      (let ((algo (ssl.evp-cast5-ecb)))
+	(ssl.evp-cipher-name algo))
+    => "CAST5-ECB")
+
+  (check
+      (let ((algo (ssl.evp-camellia-128-ecb)))
+	(ssl.evp-cipher-name algo))
+    => "CAMELLIA-128-ECB")
+
+;;; --------------------------------------------------------------------
+
+  (check
+      (let ((algo (ssl.evp-cast5-ecb)))
+	(ssl.evp-cipher-nid algo))
+    => 109)
+
+;;; --------------------------------------------------------------------
+
+  (check
+      (let ((algo (ssl.evp-enc-null)))
+	(ssl.evp-cipher-type algo))
+    => 0)
+
+  #t)
+
+
+(parametrise ((check-test-name	'algo-special-makers))
+
+  (check
+      (let ((algo (ssl.evp-get-cipherbyname "DES-ECB")))
+	(ssl.evp-cipher? algo))
+    => #t)
+
+  (check
+      (let ((algo (ssl.evp-get-cipherbyname "RC4")))
+	(ssl.evp-cipher? algo))
+    => #t)
+
+;;; --------------------------------------------------------------------
+
+  (check
+      (let ((algo (ssl.evp-get-cipherbynid 109)))
+	(ssl.evp-cipher? algo))
+    => #t)
+
+  #t)
 
 
 ;;;; done

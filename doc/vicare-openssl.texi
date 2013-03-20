@@ -3098,6 +3098,7 @@ EVP_MD_CTX_test_flags}.  Return an exact integer.
 @menu
 * plain evp cipher algo struct::  Cipher algorithms data structures.
 * plain evp cipher algo makers::  Algorithm reference makers.
+* plain evp cipher algo inspect:: Algorithm inspection.
 * plain evp cipher unimplemented::      Still unimplemented.
 @end menu
 
@@ -3271,43 +3272,134 @@ return the struct, otherwise return @false{}.
 @CipherMakerDefun{evp-seed-cfb}
 @CipherMakerDefun{evp-seed-ofb}
 
+@c ------------------------------------------------------------
+
+@defun evp-get-cipherbyname @var{name}
+Build a new struct instance of type @code{evp-cipher} selecting the
+algorithm by its name; if successful return the struct, otherwise return
+@false{}.  @manpage{EVP_EncryptInit, EVP_get_cipherbyname}.
+
+@var{name} must represent a generalised C string, @cstringsref{}.  When
+@var{str} is a string: it is converted to a bytevector with
+@func{string->ascii}.
+@end defun
+
+
+@defun evp-get-cipherbynid @var{nid}
+Build a new struct instance of type @code{evp-cipher} selecting the
+algorithm by its NID; if successful return the struct, otherwise return
+@false{}.  @manpage{EVP_EncryptInit, EVP_get_cipherbynid}.
+
+@var{nid} must be an exact integer, in the range of the C language type
+@code{signed int}, representing the NID of a cipher algorithm.  NID
+values can be extracted by an @code{evp-cipher} struct using
+@func{evp-cipher-nid}.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-algorithms)
+(ssl.evp-get-cipherbynid 109)
+@result{} #[evp-cipher ...]
+@end example
+@end defun
+
+
+@defun evp-get-cipherbyobj
+@end defun
+
+@c page
+@node plain evp cipher algo inspect
+@subsubsection Algorithm inspection
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl evp ciphers}.
+
+
+@defun evp-cipher-name @var{EVP-CIPHER}
+Return a string representing the name of the cipher algorithm.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-algorithms)
+
+(ssl.evp-cipher-name (ssl.evp-enc-null))
+@result{} "UNDEF"
+
+(ssl.evp-cipher-name (ssl.evp-des-ecb))
+@result{} "DES-ECB"
+
+(ssl.evp-cipher-name (ssl.evp-rc4))
+@result{} "RC4"
+
+(ssl.evp-cipher-name (ssl.evp-rc2-ecb))
+@result{} "RC2-ECB"
+
+(ssl.evp-cipher-name (ssl.evp-cast5-ecb))
+@result{} "CAST5-ECB"
+
+(ssl.evp-cipher-name (ssl.evp-camellia-128-ecb))
+@result{} "CAMELLIA-128-ECB"
+@end example
+@end defun
+
+
+@defun evp-cipher-nid @var{EVP-CIPHER}
+Return an exact integer, in the range of the C language type
+@code{signed int}, representing the NID of the cipher algorithm.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-algorithms)
+(ssl.evp-cipher-nid (ssl.evp-cast5-ecb))
+@result{} 109
+@end example
+@end defun
+
+
+@defun evp-cipher-type @var{EVP-CIPHER}
+Return an exact integer, in the range of the C language type
+@code{signed int}, representing the type of the cipher algorithm.
+@end defun
+
+
+@defun evp-cipher-block-size @var{EVP-CIPHER}
+@end defun
+
+
+@defun evp-cipher-key-length @var{EVP-CIPHER}
+@end defun
+
+
+@defun evp-cipher-iv-length @var{EVP-CIPHER}
+@end defun
+
+
+@defun evp-cipher-flags @var{EVP-CIPHER}
+@end defun
+
+
+@defun evp-cipher-mode @var{EVP-CIPHER}
+@end defun
+
 @c page
 @node plain evp cipher unimplemented
 @subsubsection Still unimplemented
 
 
-@defun evp-cipher-type
-@end defun
-
-@defun evp-get-cipherbyname
-@end defun
-
-@defun evp-get-cipherbynid
-@end defun
-
-@defun evp-get-cipherbyobj
-@end defun
-
-@defun evp-cipher-nid
-@end defun
-
-@defun evp-cipher-name
-@end defun
-
-@defun evp-cipher-block-size
-@end defun
-
-@defun evp-cipher-key-length
-@end defun
-
-@defun evp-cipher-iv-length
-@end defun
-
-@defun evp-cipher-flags
-@end defun
-
-@defun evp-cipher-mode
-@end defun
+@c ------------------------------------------------------------
 
 @defun evp-cipher-ctx-init
 @end defun

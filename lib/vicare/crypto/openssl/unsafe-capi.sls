@@ -1093,38 +1093,47 @@
 (define-inline (evp-seed-ofb)
   (foreign-call "ikrt_openssl_evp_seed_ofb"))
 
-(define-inline (evp-cipher-type)
-  (foreign-call "ikrt_openssl_evp_cipher_type"))
+
+;;;; EVP cipher algorithms unsafe C API: special makers for EVP_CIPHER references
 
-(define-inline (evp-get-cipherbyname)
-  (foreign-call "ikrt_openssl_evp_get_cipherbyname"))
+(define-inline (evp-get-cipherbyname name)
+  (foreign-call "ikrt_openssl_evp_get_cipherbyname" name))
 
-(define-inline (evp-get-cipherbynid)
-  (foreign-call "ikrt_openssl_evp_get_cipherbynid"))
+(define-inline (evp-get-cipherbynid nid)
+  (foreign-call "ikrt_openssl_evp_get_cipherbynid" nid))
 
 (define-inline (evp-get-cipherbyobj)
+  ;;Retrieve an EVP_CIPHER from an ASN.1 object.
   (foreign-call "ikrt_openssl_evp_get_cipherbyobj"))
 
-(define-inline (evp-cipher-nid)
-  (foreign-call "ikrt_openssl_evp_cipher_nid"))
+
+;;;; EVP cipher algorithms unsafe C API: algorithm inspection
 
-(define-inline (evp-cipher-name)
-  (foreign-call "ikrt_openssl_evp_cipher_name"))
+(define-inline (evp-cipher-type algo)
+  (foreign-call "ikrt_openssl_evp_cipher_type" algo))
 
-(define-inline (evp-cipher-block-size)
-  (foreign-call "ikrt_openssl_evp_cipher_block_size"))
+(define-inline (evp-cipher-nid algo)
+  (foreign-call "ikrt_openssl_evp_cipher_nid" algo))
 
-(define-inline (evp-cipher-key-length)
-  (foreign-call "ikrt_openssl_evp_cipher_key_length"))
+(define-inline (evp-cipher-name algo)
+  (foreign-call "ikrt_openssl_evp_cipher_name" algo))
 
-(define-inline (evp-cipher-iv-length)
-  (foreign-call "ikrt_openssl_evp_cipher_iv_length"))
+(define-inline (evp-cipher-block-size algo)
+  (foreign-call "ikrt_openssl_evp_cipher_block_size" algo))
 
-(define-inline (evp-cipher-flags)
-  (foreign-call "ikrt_openssl_evp_cipher_flags"))
+(define-inline (evp-cipher-key-length algo)
+  (foreign-call "ikrt_openssl_evp_cipher_key_length" algo))
 
-(define-inline (evp-cipher-mode)
-  (foreign-call "ikrt_openssl_evp_cipher_mode"))
+(define-inline (evp-cipher-iv-length algo)
+  (foreign-call "ikrt_openssl_evp_cipher_iv_length" algo))
+
+(define-inline (evp-cipher-flags algo)
+  (foreign-call "ikrt_openssl_evp_cipher_flags" algo))
+
+(define-inline (evp-cipher-mode algo)
+  (foreign-call "ikrt_openssl_evp_cipher_mode" algo))
+
+;;; --------------------------------------------------------------------
 
 (define-inline (evp-cipher-ctx-init)
   (foreign-call "ikrt_openssl_evp_cipher_ctx_init"))

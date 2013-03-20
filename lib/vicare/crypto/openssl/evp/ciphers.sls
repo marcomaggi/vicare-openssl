@@ -217,7 +217,7 @@
     "expected instance of \"evp-cipher\" or symbol as argument" obj))
 
 
-;;;; EVP cipher algorithms: algorithm functions
+;;;; EVP cipher algorithms: makers for EVP_CIPHER references
 
 (define-struct-extended evp-cipher
   (pointer)
@@ -231,7 +231,7 @@
     (write thing port))
   (%display "#[evp-cipher")
   (%display " pointer=")	(%write ($evp-cipher-pointer S))
-  ;; (%display " algorithm=")	(%write (evp-cipher-name S))
+  (%display " algorithm=")	(%write (evp-cipher-name S))
   ;; (%display " size=")		(%write (capi.evp-cipher-size S))
   ;; (%display " block-size=")	(%write (capi.evp-cipher-block-size S))
   (%display "]"))
@@ -353,73 +353,84 @@
   (define-maker evp-seed-cfb			capi.evp-seed-cfb)
   (define-maker evp-seed-ofb			capi.evp-seed-ofb))
 
-;;; --------------------------------------------------------------------
+
+;;;; EVP cipher algorithms: special makers for EVP_CIPHER references
 
-(define (evp-cipher-type ctx)
-  (define who 'evp-cipher-type)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-type)))
-
-(define (evp-get-cipherbyname ctx)
+(define (evp-get-cipherbyname name)
   (define who 'evp-get-cipherbyname)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-get-cipherbyname)))
+      ((general-c-string	name))
+    (with-general-c-strings
+	((name^		name))
+      (let ((rv (capi.evp-get-cipherbyname name^)))
+	(and rv (make-evp-cipher rv))))))
 
-(define (evp-get-cipherbynid ctx)
+(define (evp-get-cipherbynid nid)
   (define who 'evp-get-cipherbynid)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-get-cipherbynid)))
+      ((signed-int	nid))
+    (let ((rv (capi.evp-get-cipherbynid nid)))
+      (and rv (make-evp-cipher rv)))))
 
 (define (evp-get-cipherbyobj ctx)
+  ;;Convert an ASN.1 object to an EVP_CIPHER.
+  ;;
   (define who 'evp-get-cipherbyobj)
   (with-arguments-validation (who)
       ()
-    (capi.evp-get-cipherbyobj)))
+    (make-evp-cipher (capi.evp-get-cipherbyobj))))
 
-(define (evp-cipher-nid ctx)
-  (define who 'evp-cipher-nid)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-nid)))
+
+;;;; EVP cipher algorithms: algorithm inspection
 
-(define (evp-cipher-name ctx)
+(define (evp-cipher-name algo)
   (define who 'evp-cipher-name)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-name)))
+      ((evp-cipher	algo))
+    (let ((rv (capi.evp-cipher-name algo)))
+      (and rv (ascii->string rv)))))
 
-(define (evp-cipher-block-size ctx)
+(define (evp-cipher-type algo)
+  (define who 'evp-cipher-type)
+  (with-arguments-validation (who)
+      ((evp-cipher	algo))
+    (capi.evp-cipher-type algo)))
+
+(define (evp-cipher-nid algo)
+  (define who 'evp-cipher-nid)
+  (with-arguments-validation (who)
+      ((evp-cipher	algo))
+    (capi.evp-cipher-nid algo)))
+
+(define (evp-cipher-block-size algo)
   (define who 'evp-cipher-block-size)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-block-size)))
+      ((evp-cipher	algo))
+    (capi.evp-cipher-block-size algo)))
 
-(define (evp-cipher-key-length ctx)
+(define (evp-cipher-key-length algo)
   (define who 'evp-cipher-key-length)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-key-length)))
+      ((evp-cipher	algo))
+    (capi.evp-cipher-key-length algo)))
 
-(define (evp-cipher-iv-length ctx)
+(define (evp-cipher-iv-length algo)
   (define who 'evp-cipher-iv-length)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-iv-length)))
+      ((evp-cipher	algo))
+    (capi.evp-cipher-iv-length algo)))
 
-(define (evp-cipher-flags ctx)
+(define (evp-cipher-flags algo)
   (define who 'evp-cipher-flags)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-flags)))
+      ((evp-cipher	algo))
+    (capi.evp-cipher-flags algo)))
 
-(define (evp-cipher-mode ctx)
+(define (evp-cipher-mode algo)
   (define who 'evp-cipher-mode)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-mode)))
+      ((evp-cipher	algo))
+    (capi.evp-cipher-mode algo)))
 
 
 ;;;; EVP cipher algorithms: context functions

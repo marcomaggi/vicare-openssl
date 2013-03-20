@@ -1237,119 +1237,161 @@ ikrt_openssl_evp_seed_ofb (ikpcb * pcb)
 
 
 /** --------------------------------------------------------------------
- ** EVP cipher algorithms C wrappers: unimplemented.
+ ** EVP cipher algorithms C wrappers: special makers for EVP_CIPHER references.
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_openssl_evp_cipher_type (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_TYPE
-  /* rv = EVP_CIPHER_type(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_get_cipherbyname (ikpcb * pcb)
+ikrt_openssl_evp_get_cipherbyname (ikptr s_name_string, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_GET_CIPHERBYNAME
-  /* rv = EVP_get_cipherbyname(); */
-  return IK_VOID;
+  const char *		name = IK_GENERALISED_C_BUFFER(s_name_string);
+  const EVP_CIPHER *	rv;
+  rv = EVP_get_cipherbyname(name);
+  /* fprintf(stderr, "%s: %s, %p\n", __func__, name, (void*)rv); */
+  return (rv)? ika_pointer_alloc(pcb, (long)rv) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_get_cipherbynid (ikpcb * pcb)
+ikrt_openssl_evp_get_cipherbynid (ikptr s_nid, ikpcb * pcb)
 {
 #if ((defined HAVE_DECL_EVP_GET_CIPHERBYNID) && HAVE_DECL_EVP_GET_CIPHERBYNID)
-  /* rv = EVP_get_cipherbynid(); */
-  return IK_VOID;
+  int			nid = ik_integer_to_int(s_nid);
+  const EVP_CIPHER *	rv;
+  rv = EVP_get_cipherbynid(nid);
+  return (rv)? ika_pointer_alloc(pcb, (long)rv) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_get_cipherbyobj (ikpcb * pcb)
+ikrt_openssl_evp_get_cipherbyobj (ikptr s_obj, ikpcb * pcb)
+/* This converts an ASN.1 object to an EVP_CIPHER reference. */
 {
 #if ((defined HAVE_DECL_EVP_GET_CIPHERBYOBJ) && HAVE_EVP_GET_CIPHERBYOBJ)
-  /* rv = EVP_get_cipherbyobj(); */
-  return IK_VOID;
+  ASN1_OBJECT *		obj = IK_POINTER_DATA_VOIDP(s_obj);
+  const EVP_CIPHER *	rv;
+  rv = EVP_get_cipherbyobj(obj);
+  return (rv)? ika_pointer_alloc(pcb, (long)rv) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
+
+
+/** --------------------------------------------------------------------
+ ** EVP cipher algorithms C wrappers: cipher algorithm inspection.
+ ** ----------------------------------------------------------------- */
+
 ikptr
-ikrt_openssl_evp_cipher_nid (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_NID
-  /* rv = EVP_CIPHER_nid(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_name (ikpcb * pcb)
+ikrt_openssl_evp_cipher_name (ikptr s_algo, ikpcb * pcb)
 {
 #if ((defined HAVE_DECL_EVP_CIPHER_NAME) && HAVE_DECL_EVP_CIPHER_NAME)
-  /* rv = EVP_CIPHER_name(); */
-  return IK_VOID;
+  EVP_CIPHER *	algo = IK_EVP_CIPHER(s_algo);
+  const char *	rv;
+  rv = EVP_CIPHER_name(algo);
+  return (rv)? ika_bytevector_from_cstring(pcb, rv) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_cipher_block_size (ikpcb * pcb)
+ikrt_openssl_evp_cipher_type (ikptr s_algo, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_TYPE
+  EVP_CIPHER *	algo = IK_EVP_CIPHER(s_algo);
+  int		rv;
+  rv = EVP_CIPHER_type(algo);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_nid (ikptr s_algo, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_NID
+  EVP_CIPHER *	algo = IK_EVP_CIPHER(s_algo);
+  int		rv;
+  rv = EVP_CIPHER_nid(algo);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_block_size (ikptr s_algo, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_CIPHER_BLOCK_SIZE
-  /* rv = EVP_CIPHER_block_size(); */
-  return IK_VOID;
+  EVP_CIPHER *	algo = IK_EVP_CIPHER(s_algo);
+  int		rv;
+  rv = EVP_CIPHER_block_size(algo);
+  return ika_integer_from_int(pcb, rv);
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_cipher_key_length (ikpcb * pcb)
+ikrt_openssl_evp_cipher_key_length (ikptr s_algo, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_CIPHER_KEY_LENGTH
-  /* rv = EVP_CIPHER_key_length(); */
-  return IK_VOID;
+  EVP_CIPHER *	algo = IK_EVP_CIPHER(s_algo);
+  int		rv;
+  rv = EVP_CIPHER_key_length(algo);
+  return ika_integer_from_int(pcb, rv);
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_cipher_iv_length (ikpcb * pcb)
+ikrt_openssl_evp_cipher_iv_length (ikptr s_algo, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_CIPHER_IV_LENGTH
-  /* rv = EVP_CIPHER_iv_length(); */
-  return IK_VOID;
+  EVP_CIPHER *	algo = IK_EVP_CIPHER(s_algo);
+  int		rv;
+  rv = EVP_CIPHER_iv_length(algo);
+  return ika_integer_from_int(pcb, rv);
 #else
   feature_failure(__func__);
 #endif
 }
 ikptr
-ikrt_openssl_evp_cipher_flags (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_FLAGS
-  /* rv = EVP_CIPHER_flags(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_mode (ikpcb * pcb)
+ikrt_openssl_evp_cipher_mode (ikptr s_algo, ikpcb * pcb)
 {
 #if ((defined HAVE_DECL_EVP_CIPHER_MODE) && HAVE_DECL_EVP_CIPHER_MODE)
-  /* rv = EVP_CIPHER_mode(); */
-  return IK_VOID;
+  EVP_CIPHER *	algo = IK_EVP_CIPHER(s_algo);
+  int		rv;
+  rv = EVP_CIPHER_mode(algo);
+  return ika_integer_from_int(pcb, rv);
 #else
   feature_failure(__func__);
 #endif
 }
+
+
+/** --------------------------------------------------------------------
+ ** EVP cipher algorithms C wrappers: cipher algorithm flags.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_openssl_evp_cipher_flags (ikptr s_algo, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_FLAGS
+  EVP_CIPHER *	algo = IK_EVP_CIPHER(s_algo);
+  int		rv;
+  rv = EVP_CIPHER_flags(algo);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** EVP cipher algorithms C wrappers: context creation and destruction.
+ ** ----------------------------------------------------------------- */
+
 ikptr
 ikrt_openssl_evp_cipher_ctx_init (ikpcb * pcb)
 {
@@ -1391,6 +1433,22 @@ ikrt_openssl_evp_cipher_ctx_free (ikpcb * pcb)
 #endif
 }
 ikptr
+ikrt_openssl_evp_cipher_ctx_copy (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_COPY
+  /* rv = EVP_CIPHER_CTX_copy(); */
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** EVP cipher algorithms C wrappers: context init and final.
+ ** ----------------------------------------------------------------- */
+
+ikptr
 ikrt_openssl_evp_encryptinit_ex (ikpcb * pcb)
 {
 #ifdef HAVE_EVP_ENCRYPTINIT_EX
@@ -1420,6 +1478,9 @@ ikrt_openssl_evp_encryptupdate (ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
+
+/* ------------------------------------------------------------------ */
+
 ikptr
 ikrt_openssl_evp_decryptinit_ex (ikpcb * pcb)
 {
@@ -1450,6 +1511,9 @@ ikrt_openssl_evp_decryptfinal_ex (ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
+
+/* ------------------------------------------------------------------ */
+
 ikptr
 ikrt_openssl_evp_cipherinit_ex (ikpcb * pcb)
 {
@@ -1480,6 +1544,84 @@ ikrt_openssl_evp_cipherfinal_ex (ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
+
+
+/** --------------------------------------------------------------------
+ ** EVP cipher algorithms C wrappers: context flags.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_openssl_evp_cipher_ctx_flags (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_FLAGS
+  /* rv = EVP_CIPHER_CTX_flags(); */
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_set_flags (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_SET_FLAGS
+  /* rv = EVP_CIPHER_CTX_set_flags(); */
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_clear_flags (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_CLEAR_FLAGS
+  /* rv = EVP_CIPHER_CTX_clear_flags(); */
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_test_flags (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_TEST_FLAGS
+  /* rv = EVP_CIPHER_CTX_test_flags(); */
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** EVP cipher algorithms C wrappers: context application data.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_openssl_evp_cipher_ctx_get_app_data (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_GET_APP_DATA
+  /* rv = EVP_CIPHER_CTX_get_app_data(); */
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_set_app_data (ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_SET_APP_DATA
+  /* rv = EVP_CIPHER_CTX_set_app_data(); */
+  return IK_VOID;
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
+ ** EVP cipher algorithms C wrappers: context inspection.
+ ** ----------------------------------------------------------------- */
+
 ikptr
 ikrt_openssl_evp_cipher_ctx_set_key_length (ikpcb * pcb)
 {
@@ -1561,50 +1703,10 @@ ikrt_openssl_evp_cipher_ctx_iv_length (ikpcb * pcb)
 #endif
 }
 ikptr
-ikrt_openssl_evp_cipher_ctx_copy (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_COPY
-  /* rv = EVP_CIPHER_CTX_copy(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_get_app_data (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_GET_APP_DATA
-  /* rv = EVP_CIPHER_CTX_get_app_data(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_set_app_data (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_SET_APP_DATA
-  /* rv = EVP_CIPHER_CTX_set_app_data(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
 ikrt_openssl_evp_cipher_ctx_type (ikpcb * pcb)
 {
 #if ((defined HAVE_DECL_EVP_CIPHER_CTX_TYPE) && HAVE_DECL_EVP_CIPHER_CTX_TYPE)
   /* rv = EVP_CIPHER_CTX_type(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_flags (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_FLAGS
-  /* rv = EVP_CIPHER_CTX_flags(); */
   return IK_VOID;
 #else
   feature_failure(__func__);
@@ -1630,6 +1732,12 @@ ikrt_openssl_evp_cipher_ctx_rand_key (ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
+
+
+/** --------------------------------------------------------------------
+ ** EVP cipher algorithms C wrappers: context to/from ASN.1 objects.
+ ** ----------------------------------------------------------------- */
+
 ikptr
 ikrt_openssl_evp_cipher_param_to_asn1 (ikpcb * pcb)
 {
@@ -1650,36 +1758,12 @@ ikrt_openssl_evp_cipher_asn1_to_param (ikpcb * pcb)
   feature_failure(__func__);
 #endif
 }
-ikptr
-ikrt_openssl_evp_cipher_ctx_set_flags (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_SET_FLAGS
-  /* rv = EVP_CIPHER_CTX_set_flags(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_clear_flags (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_CLEAR_FLAGS
-  /* rv = EVP_CIPHER_CTX_clear_flags(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_test_flags (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_TEST_FLAGS
-  /* rv = EVP_CIPHER_CTX_test_flags(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
+
+
+/** --------------------------------------------------------------------
+ ** EVP cipher algorithms C wrappers: one-step encription and decryption.
+ ** ----------------------------------------------------------------- */
+
 ikptr
 ikrt_openssl_evp_cipher (ikpcb * pcb)
 {

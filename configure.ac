@@ -138,7 +138,7 @@ dnl Library initialisation functions checking
 AC_CHECK_FUNCS([SSL_library_init OPENSSL_add_all_algorithms_noconf OPENSSL_add_all_algorithms_conf OpenSSL_add_all_ciphers OpenSSL_add_all_digests])
 
 dnl Library initialisation declarations checking
-AC_CHECK_DECLS([OpenSSL_add_all_algorithms, SSLeay_add_all_algorithms, SSLeay_add_all_ciphers, SSLeay_add_all_digests])
+AC_CHECK_DECLS([OpenSSL_add_all_algorithms, SSLeay_add_all_algorithms, SSLeay_add_all_ciphers, SSLeay_add_all_digests],,,[VICARE_INCLUDES])
 
 #page
 #### C language stuff from the files "openssl/md4.h", "openssl/md5.h", etc.
