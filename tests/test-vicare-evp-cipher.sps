@@ -231,6 +231,7 @@
     => "CAMELLIA-128-ECB")
 
 ;;; --------------------------------------------------------------------
+;;; NID
 
   (check
       (let ((algo (ssl.evp-cast5-ecb)))
@@ -238,11 +239,58 @@
     => 109)
 
 ;;; --------------------------------------------------------------------
+;;; type
 
   (check
       (let ((algo (ssl.evp-enc-null)))
 	(ssl.evp-cipher-type algo))
     => 0)
+
+;;; --------------------------------------------------------------------
+;;; block size
+
+  (check
+      (let ((algo (ssl.evp-cast5-ecb)))
+	(ssl.evp-cipher-block-size algo))
+    => 8)
+
+  (check
+      (let ((algo (ssl.evp-rc4)))
+	(ssl.evp-cipher-block-size algo))
+    => 1)
+
+;;; --------------------------------------------------------------------
+;;; key length
+
+  (check
+      (let ((algo (ssl.evp-cast5-ecb)))
+	(ssl.evp-cipher-key-length algo))
+    => 16)
+
+;;; --------------------------------------------------------------------
+;;; initialisation vector length
+
+  (check
+      (let ((algo (ssl.evp-cast5-ecb)))
+	(ssl.evp-cipher-iv-length algo))
+    => 0)
+
+
+;;; --------------------------------------------------------------------
+;;; mode
+
+  (check
+      (let ((algo (ssl.evp-cast5-ecb)))
+	(ssl.evp-cipher-mode algo))
+    => ssl.EVP_CIPH_ECB_MODE)
+
+;;; --------------------------------------------------------------------
+;;; flags
+
+  (check
+      (let ((algo (ssl.evp-cast5-ecb)))
+	(ssl.evp-cipher-flags algo))
+    => 9)
 
   #t)
 

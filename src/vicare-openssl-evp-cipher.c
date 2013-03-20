@@ -1247,7 +1247,6 @@ ikrt_openssl_evp_get_cipherbyname (ikptr s_name_string, ikpcb * pcb)
   const char *		name = IK_GENERALISED_C_BUFFER(s_name_string);
   const EVP_CIPHER *	rv;
   rv = EVP_get_cipherbyname(name);
-  /* fprintf(stderr, "%s: %s, %p\n", __func__, name, (void*)rv); */
   return (rv)? ika_pointer_alloc(pcb, (long)rv) : IK_FALSE;
 #else
   feature_failure(__func__);

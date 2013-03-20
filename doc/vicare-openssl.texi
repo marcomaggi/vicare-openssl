@@ -3099,6 +3099,7 @@ EVP_MD_CTX_test_flags}.  Return an exact integer.
 * plain evp cipher algo struct::  Cipher algorithms data structures.
 * plain evp cipher algo makers::  Algorithm reference makers.
 * plain evp cipher algo inspect:: Algorithm inspection.
+* plain evp cipher algo symbols:: Constants to symbols.
 * plain evp cipher unimplemented::      Still unimplemented.
 @end menu
 
@@ -3376,22 +3377,50 @@ Return an exact integer, in the range of the C language type
 
 
 @defun evp-cipher-block-size @var{EVP-CIPHER}
+Return an exact integer, in the range of the C language type
+@code{signed int}, representing the block size of the cipher algorithm.
+For stream algorithms: the block size is @math{1}.
 @end defun
 
 
 @defun evp-cipher-key-length @var{EVP-CIPHER}
+Return an exact integer, in the range of the C language type
+@code{signed int}, representing the key length of the cipher algorithm.
 @end defun
 
 
 @defun evp-cipher-iv-length @var{EVP-CIPHER}
-@end defun
-
-
-@defun evp-cipher-flags @var{EVP-CIPHER}
+Return an exact integer, in the range of the C language type
+@code{signed int}, representing the initialisation vector of the cipher
+algorithm.  If the algorithm makes no use of initialisation vectors: the
+returned value is @math{0}.
 @end defun
 
 
 @defun evp-cipher-mode @var{EVP-CIPHER}
+Return an exact integer, in the range of the C language type
+@code{signed int}, representing the mode the cipher algorithm.  The
+returned value is one of the @code{EVP_CIPH_*_MODE} constants.
+@end defun
+
+
+@defun evp-cipher-flags @var{EVP-CIPHER}
+Return an exact integer, in the range of the C language type
+@code{signed int}, representing the flags of the cipher algorithm.
+@end defun
+
+@c page
+@node plain evp cipher algo symbols
+@subsubsection Constants to symbols
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl evp ciphers}.
+
+
+@defun evp-ciph-mode->symbol @var{constant}
+Given a constant among @code{EVP_CIPH_*_MODE} return a symbol
+representing its public name.
 @end defun
 
 @c page

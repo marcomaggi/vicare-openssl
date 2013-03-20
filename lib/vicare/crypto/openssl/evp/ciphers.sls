@@ -36,7 +36,9 @@
     evp-cipher.vicare-arguments-validation
     false-or-evp-cipher.vicare-arguments-validation
 
+    ;; evp-cipher makers
     evp-enc-null
+
     evp-des-ecb
     evp-des-ede
     evp-des-ede3
@@ -55,14 +57,17 @@
     evp-des-ede-cbc
     evp-des-ede3-cbc
     evp-desx-cbc
+
     evp-rc4
     evp-rc4-40
     evp-rc4-hmac-md5
+
     evp-idea-ecb
     evp-idea-cfb64
     evp-idea-cfb
     evp-idea-ofb
     evp-idea-cbc
+
     evp-rc2-ecb
     evp-rc2-cbc
     evp-rc2-40-cbc
@@ -70,21 +75,25 @@
     evp-rc2-cfb64
     evp-rc2-cfb
     evp-rc2-ofb
+
     evp-bf-ecb
     evp-bf-cbc
     evp-bf-cfb64
     evp-bf-cfb
     evp-bf-ofb
+
     evp-cast5-ecb
     evp-cast5-cbc
     evp-cast5-cfb64
     evp-cast5-cfb
     evp-cast5-ofb
+
     evp-rc5-32-12-16-cbc
     evp-rc5-32-12-16-ecb
     evp-rc5-32-12-16-cfb64
     evp-rc5-32-12-16-cfb
     evp-rc5-32-12-16-ofb
+
     evp-aes-128-ecb
     evp-aes-128-cbc
     evp-aes-128-cfb1
@@ -119,6 +128,7 @@
     evp-aes-256-xts
     evp-aes-128-cbc-hmac-sha1
     evp-aes-256-cbc-hmac-sha1
+
     evp-camellia-128-ecb
     evp-camellia-128-cbc
     evp-camellia-128-cfb1
@@ -140,15 +150,20 @@
     evp-camellia-256-cfb128
     evp-camellia-256-cfb
     evp-camellia-256-ofb
+
     evp-seed-ecb
     evp-seed-cbc
     evp-seed-cfb128
     evp-seed-cfb
     evp-seed-ofb
-    evp-cipher-type
+
+    ;; evp-cipher special makers
     evp-get-cipherbyname
     evp-get-cipherbynid
     evp-get-cipherbyobj
+
+    ;; evp-cipher inspection
+    evp-cipher-type
     evp-cipher-nid
     evp-cipher-name
     evp-cipher-block-size
@@ -157,20 +172,16 @@
     evp-cipher-flags
     evp-cipher-mode
 
-    ;; EVP cipher algorithms, context API
-    evp-cipher-ctx-init
-    evp-cipher-ctx-cleanup
-    evp-cipher-ctx-new
-    evp-cipher-ctx-free
-    evp-encryptinit-ex
-    evp-encryptfinal-ex
-    evp-encryptupdate
-    evp-decryptinit-ex
-    evp-decryptupdate
-    evp-decryptfinal-ex
-    evp-cipherinit-ex
-    evp-cipherupdate
-    evp-cipherfinal-ex
+    ;; EVP cipher context: init, update, final
+    evp-cipher-ctx-init		evp-cipher-ctx-cleanup
+    evp-cipher-ctx-new		evp-cipher-ctx-free
+    evp-cipher-ctx-copy
+
+    evp-encryptinit-ex		evp-encryptfinal-ex	evp-encryptupdate
+    evp-decryptinit-ex		evp-decryptupdate	evp-decryptfinal-ex
+    evp-cipherinit-ex		evp-cipherupdate	evp-cipherfinal-ex
+
+    ;; EVP cipher context: inspection
     evp-cipher-ctx-set-key-length
     evp-cipher-ctx-set-padding
     evp-cipher-ctx-ctrl
@@ -179,19 +190,23 @@
     evp-cipher-ctx-block-size
     evp-cipher-ctx-key-length
     evp-cipher-ctx-iv-length
-    evp-cipher-ctx-copy
-    evp-cipher-ctx-get-app-data
-    evp-cipher-ctx-set-app-data
     evp-cipher-ctx-type
-    evp-cipher-ctx-flags
     evp-cipher-ctx-mode
     evp-cipher-ctx-rand-key
-    evp-cipher-param-to-asn1
-    evp-cipher-asn1-to-param
-    evp-cipher-ctx-set-flags
-    evp-cipher-ctx-clear-flags
-    evp-cipher-ctx-test-flags
+
+    ;; EVP cipher context: flags
+    evp-cipher-ctx-flags		evp-cipher-ctx-set-flags
+    evp-cipher-ctx-clear-flags		evp-cipher-ctx-test-flags
+
+    ;; EVP cipher context: misc
+    evp-cipher-ctx-get-app-data		evp-cipher-ctx-set-app-data
+    evp-cipher-param-to-asn1		evp-cipher-asn1-to-param
+
+    ;; single-step encryption and decryption
     evp-crypt
+
+    ;; constants to symbols
+    evp-ciph-mode->symbol
     )
   (import (vicare)
     (vicare crypto openssl constants)
@@ -232,8 +247,10 @@
   (%display "#[evp-cipher")
   (%display " pointer=")	(%write ($evp-cipher-pointer S))
   (%display " algorithm=")	(%write (evp-cipher-name S))
-  ;; (%display " size=")		(%write (capi.evp-cipher-size S))
-  ;; (%display " block-size=")	(%write (capi.evp-cipher-block-size S))
+  (%display " block-size=")	(%write (evp-cipher-block-size S))
+  (%display " key-length=")	(%write (evp-cipher-key-length S))
+  (%display " iv-length=")	(%write (evp-cipher-iv-length S))
+  (%display " mode=")		(%display (evp-ciph-mode->symbol (evp-cipher-mode S)))
   (%display "]"))
 
 ;;; --------------------------------------------------------------------
@@ -371,6 +388,9 @@
       ((signed-int	nid))
     (let ((rv (capi.evp-get-cipherbynid nid)))
       (and rv (make-evp-cipher rv)))))
+
+;;; --------------------------------------------------------------------
+;;; still unimplemented
 
 (define (evp-get-cipherbyobj ctx)
   ;;Convert an ASN.1 object to an EVP_CIPHER.
@@ -638,6 +658,21 @@
   (with-arguments-validation (who)
       ()
     (capi.evp-cipher)))
+
+
+;;;; constants to symbols
+
+(define-exact-integer->symbol-function evp-ciph-mode->symbol
+  (EVP_CIPH_STREAM_CIPHER
+   EVP_CIPH_ECB_MODE
+   EVP_CIPH_CBC_MODE
+   EVP_CIPH_CFB_MODE
+   EVP_CIPH_OFB_MODE
+   EVP_CIPH_CTR_MODE
+   EVP_CIPH_GCM_MODE
+   EVP_CIPH_CCM_MODE
+   EVP_CIPH_XTS_MODE
+   EVP_CIPH_MODE))
 
 
 ;;;; done
