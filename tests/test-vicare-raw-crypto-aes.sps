@@ -39,7 +39,7 @@
 (check-set-mode! 'report-failed)
 (check-display "*** testing Vicare OpenSSL bindings: raw AES API\n")
 
-(ssl.ssl-library-init)
+(ssl.openssl-add-all-algorithms)
 
 
 ;;;; helpers
