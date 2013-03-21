@@ -540,21 +540,95 @@
   (collect))
 
 
+(parametrise ((check-test-name		'ctx-flags)
+	      (struct-guardian-logger	#f))
+
+;;; get
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key.len	(ssl.evp-cipher-key-length algo))
+	     (key	(make-bytevector key.len))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-flags ctx))
+    => 9)
+
+;;; --------------------------------------------------------------------
+;;; set
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key.len	(ssl.evp-cipher-key-length algo))
+	     (key	(make-bytevector key.len))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-set-flags ctx 0))
+    => (void))
+
+;;; --------------------------------------------------------------------
+;;; clear
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key.len	(ssl.evp-cipher-key-length algo))
+	     (key	(make-bytevector key.len))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-clear-flags ctx 0))
+    => (void))
+
+;;; --------------------------------------------------------------------
+;;; test
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key.len	(ssl.evp-cipher-key-length algo))
+	     (key	(make-bytevector key.len))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-test-flags ctx 0))
+    => 0)
+
+  (collect))
+
+
+(parametrise ((check-test-name		'ctx-app-data)
+	      (struct-guardian-logger	#f))
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key.len	(ssl.evp-cipher-key-length algo))
+	     (key	(make-bytevector key.len))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-set-app-data ctx (integer->pointer 123))
+	(ssl.evp-cipher-ctx-get-app-data ctx))
+    => (integer->pointer 123))
+
+  (collect))
+
+
 #;(parametrise ((check-test-name		'encrypt)
 	      (struct-guardian-logger	#f))
 
   (check
-      (let ()
-	(define ctx (ssl.evp-cipher-ctx-new))
-	(define key "ciao")
-	(define in "mamma")
-	(ssl.evp-encrypt-init ctx (ssl.evp-rc4) key #f)
+      (let* ((algo	(ssl.evp-rc4))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key.len	(ssl.evp-cipher-key-length algo))
+	     (key	(make-bytevector key.len))
+	     (in	"mamma"))
+	(ssl.evp-encrypt-init ctx algo key #f)
 	(let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
 	       (ou.len   (ssl.evp-encrypt-update ctx ou #f in #f))
 	       (ou.final (ssl.evp-cipher-final ctx)))
 	  (bytevector-append (subbytevector-u8 ou ou.len) ou.final)))
     => #t)
-
 
   (collect))
 
