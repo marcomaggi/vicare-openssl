@@ -3,7 +3,40 @@
 ** Cipher
 
    Test encryption and decryption  with the EVP-ENCRYPT-*, EVP-DECRYPT-*
-   and EVP-CIPHER-* functions.
+   and EVP-CIPHER-* Scheme functions.
 
-   Test EVP-CIPHER-CTX-COPY.
+   Test the Scheme function EVP-CIPHER-CTX-COPY.
+
+   Implement, document and  test wrappers "EVP_CIPHER_param_to_asn1" and
+   "EVP_CIPHER_asn1_to_param".
+
+** Other stuff
+
+   Implement API documented in manual page "EVP_SealInit".
+
+   Implement API documented in manual page "EVP_OpenInit".
+
+   Implement API documented in manual page "EVP_SignInit".
+
+   Implement API documented in manual page "EVP_VerifyInit".
+
+* Buffers
+
+  Scan the manual page "buffer" for APIs to implement.
+
+* BIO
+
+  Scan the manual page "bio" for APIs to implement.
+
+* Crypto
+
+  Scan the manual page "crypto" for APIs to implement.
+
+* SSL
+
+  Scan the manual page "ssl" for APIs to implement.
+
+* Misc
+
+  Scan the "doc" directory of the original distribution.
 
