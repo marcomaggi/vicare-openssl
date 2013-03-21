@@ -72,7 +72,7 @@
 
 ;;; --------------------------------------------------------------------
 
-  (when #t
+  (when #f
     (check-pretty-print (ssl.evp-cast5-ecb)))
 
   (check-makers
@@ -246,6 +246,11 @@
 	(ssl.evp-cipher-type algo))
     => 0)
 
+  (check
+      (let ((algo (ssl.evp-cast5-ecb)))
+	(ssl.evp-cipher-type algo))
+    => 0)
+
 ;;; --------------------------------------------------------------------
 ;;; block size
 
@@ -319,6 +324,237 @@
 
 (parametrise ((check-test-name		'ctx)
 	      (struct-guardian-logger	#f))
+
+  (check
+      (let ((ctx (ssl.evp-cipher-ctx-new)))
+	(ssl.evp-cipher-ctx? ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.evp-cipher-ctx-new)))
+	(ssl.evp-cipher-ctx?/alive ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.evp-cipher-ctx-new)))
+	(ssl.evp-cipher-ctx?/alive-not-running ctx))
+    => #t)
+
+  (check
+      (let ((ctx (ssl.evp-cipher-ctx-new)))
+	(ssl.evp-cipher-ctx?/running ctx))
+    => #f)
+
+  (check	;free
+      (let ((ctx (ssl.evp-cipher-ctx-new)))
+	(ssl.evp-cipher-ctx-free ctx)
+	(ssl.evp-cipher-ctx?/alive ctx))
+    => #f)
+
+  (check	;free twice
+      (let ((ctx (ssl.evp-cipher-ctx-new)))
+	(ssl.evp-cipher-ctx-free ctx)
+	(ssl.evp-cipher-ctx-free ctx)
+	(ssl.evp-cipher-ctx?/alive ctx))
+    => #f)
+
+  (check
+      (let ((ctx (ssl.evp-cipher-ctx-new)))
+	(ssl.evp-cipher-ctx-free ctx)
+	(ssl.evp-cipher-ctx?/running ctx))
+    => #f)
+
+  (collect))
+
+
+(parametrise ((check-test-name		'ctx-inspect)
+	      (struct-guardian-logger	#f))
+
+;;; cipher
+
+  (check
+      (let ((ctx  (ssl.evp-cipher-ctx-new)))
+	(ssl.evp-encrypt-init ctx (ssl.evp-rc4) "ciao" #f)
+	(let ((algo (ssl.evp-cipher-ctx-cipher ctx)))
+	  (and algo (ssl.evp-cipher-name algo))))
+    => "RC4")
+
+;;; --------------------------------------------------------------------
+;;; NID
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-nid ctx))
+    => 109)
+
+;;; --------------------------------------------------------------------
+;;; type
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-type ctx))
+    => 0)
+
+;;; --------------------------------------------------------------------
+;;; block size
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-block-size ctx))
+    => 8)
+
+;;; --------------------------------------------------------------------
+;;; key length
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-key-length ctx))
+    => 16)
+
+;;; --------------------------------------------------------------------
+;;; iv length
+
+  (check	;ECB mode has no IV
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-iv-length ctx))
+    => 0)
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-cbc))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-iv-length ctx))
+    => 8)
+
+;;; --------------------------------------------------------------------
+;;; mode
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-mode ctx))
+    => ssl.EVP_CIPH_ECB_MODE)
+
+  (collect))
+
+
+(parametrise ((check-test-name		'ctx-config)
+	      (struct-guardian-logger	#f))
+
+;;; key length
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key.len	(ssl.evp-cipher-key-length algo))
+	     (key	(make-bytevector key.len))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-set-key-length ctx key.len))
+    => #t)
+
+;;; --------------------------------------------------------------------
+;;; padding
+
+  (check	;disable
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key.len	(ssl.evp-cipher-key-length algo))
+	     (key	(make-bytevector key.len))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-set-padding ctx #f))
+    => #t)
+
+  (check	;enable
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key.len	(ssl.evp-cipher-key-length algo))
+	     (key	(make-bytevector key.len))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-set-padding ctx 'fuck-yes))
+    => #t)
+
+;;; --------------------------------------------------------------------
+;;; ctrl
+
+  (check	;get RC2 key bits
+      (let* ((algo	(ssl.evp-rc2-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key.len	(ssl.evp-cipher-key-length algo))
+	     (key	(make-bytevector key.len))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-ctrl ctx ssl.EVP_CTRL_GET_RC2_KEY_BITS))
+    => 128)
+
+  (check	;set RC2 key bits
+      (let* ((algo	(ssl.evp-rc2-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key.len	(ssl.evp-cipher-key-length algo))
+	     (key	(make-bytevector key.len))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-ctrl ctx ssl.EVP_CTRL_SET_RC2_KEY_BITS 128))
+    => #t)
+
+;;; --------------------------------------------------------------------
+;;; rand key
+
+  (check
+      (let* ((algo	(ssl.evp-cast5-ecb))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key.len	(ssl.evp-cipher-key-length algo))
+	     (key	(make-bytevector key.len))
+	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
+	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-cipher-ctx-rand-key ctx (make-bytevector key.len)))
+    => #t)
+
+  (collect))
+
+
+#;(parametrise ((check-test-name		'encrypt)
+	      (struct-guardian-logger	#f))
+
+  (check
+      (let ()
+	(define ctx (ssl.evp-cipher-ctx-new))
+	(define key "ciao")
+	(define in "mamma")
+	(ssl.evp-encrypt-init ctx (ssl.evp-rc4) key #f)
+	(let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
+	       (ou.len   (ssl.evp-encrypt-update ctx ou #f in #f))
+	       (ou.final (ssl.evp-cipher-final ctx)))
+	  (bytevector-append (subbytevector-u8 ou ou.len) ou.final)))
+    => #t)
+
 
   (collect))
 

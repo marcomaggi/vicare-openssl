@@ -1784,16 +1784,16 @@ ikrt_openssl_evp_cipher_ctx_ctrl (ikptr s_ctx, ikptr s_type, ikptr s_arg, ikpcb 
   switch (type) {
   case EVP_CTRL_GET_RC5_ROUNDS:
   case EVP_CTRL_GET_RC2_KEY_BITS:
-    break;
+    rv = EVP_CIPHER_CTX_ctrl(ctx, type, 0, &val);
+    return (rv)? ika_integer_from_int(pcb, val) : IK_FALSE;
   case EVP_CTRL_SET_RC5_ROUNDS:
   case EVP_CTRL_SET_RC2_KEY_BITS:
     arg = ik_integer_to_int(s_arg);
-    break;
+    rv = EVP_CIPHER_CTX_ctrl(ctx, type, arg, NULL);
+    return IK_BOOLEAN_FROM_INT(rv);
   default:
     return IK_FALSE;
   }
-  rv = EVP_CIPHER_CTX_ctrl(ctx, type, arg, &val);
-  return (rv)? ika_integer_from_int(pcb, val) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif

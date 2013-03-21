@@ -525,7 +525,7 @@
 ;;; --------------------------------------------------------------------
 
 (define (evp-minimum-output-length ctx in in.len)
-  (define who 'evp-encryp-tinit)
+  (define who 'evp-minimum-output-length)
   (with-arguments-validation (who)
       ((evp-cipher-ctx/running	ctx)
        (general-c-string*	in in.len))
@@ -537,7 +537,7 @@
 ;;; --------------------------------------------------------------------
 
 (define (evp-encrypt-init ctx algo key iv)
-  (define who 'evp-encryp-tinit)
+  (define who 'evp-encrypt-init)
   (with-arguments-validation (who)
       ((evp-cipher-ctx/alive-not-running	ctx)
        (evp-cipher				algo)

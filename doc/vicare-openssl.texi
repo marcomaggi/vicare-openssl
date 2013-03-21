@@ -3863,8 +3863,7 @@ padding is disabled.
 
 @defun evp-cipher-ctx-ctrl @var{EVP-CIPHER-CTX} @var{type}
 @defunx evp-cipher-ctx-ctrl @var{EVP-CIPHER-CTX} @var{type} @var{arg}
-Set or retrieve some context parameters; if successful return @true{},
-otherwise return @false{}.  @manpage{EVP_EncryptInit_ex,
+Set or retrieve some context parameters.  @manpage{EVP_EncryptInit_ex,
 EVP_CIPHER_CTX_set_key_ctrl}.
 
 When the argument @var{arg} @strong{is not} used, @var{type} must be one
@@ -3885,10 +3884,12 @@ the following:
 
 @table @code
 @item EVP_CTRL_SET_RC5_ROUNDS
-Set to @var{arg} the number of rounds for the RC5 algorithm.
+Set to @var{arg} the number of rounds for the RC5 algorithm; if
+successful return @true{}, else return @false{}.
 
 @item EVP_CTRL_SET_RC2_KEY_BITS
-Set to @var{arg} the number of key bits for the RC2 algorithm.
+Set to @var{arg} the number of key bits for the RC2 algorithm; if
+successful return @true{}, else return @false{}.
 @end table
 @end defun
 
