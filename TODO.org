@@ -40,3 +40,5 @@
 
   Scan the "doc" directory of the original distribution.
 
+  Add functions to convert constants to symbols.
+
