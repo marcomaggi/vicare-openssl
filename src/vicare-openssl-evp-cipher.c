@@ -1654,6 +1654,163 @@ ikrt_openssl_evp_cipherupdate (ikptr s_ctx,
 
 
 /** --------------------------------------------------------------------
+ ** EVP cipher algorithms C wrappers: context inspection.
+ ** ----------------------------------------------------------------- */
+
+ikptr
+ikrt_openssl_evp_cipher_ctx_cipher (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_CIPHER
+  EVP_CIPHER_CTX *	ctx = IK_EVP_CIPHER_CTX(s_ctx);
+  const EVP_CIPHER *	rv;
+  rv = EVP_CIPHER_CTX_cipher(ctx);
+  return (rv)? ika_pointer_alloc(pcb, (long)rv) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_nid (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_NID
+  EVP_CIPHER_CTX *	ctx = IK_EVP_CIPHER_CTX(s_ctx);
+  int			rv;
+  rv = EVP_CIPHER_CTX_nid(ctx);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_type (ikptr s_ctx, ikpcb * pcb)
+{
+#if ((defined HAVE_DECL_EVP_CIPHER_CTX_TYPE) && HAVE_DECL_EVP_CIPHER_CTX_TYPE)
+  EVP_CIPHER_CTX *	ctx = IK_EVP_CIPHER_CTX(s_ctx);
+  int			rv;
+  rv = EVP_CIPHER_CTX_type(ctx);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_mode (ikptr s_ctx, ikpcb * pcb)
+{
+#if ((defined HAVE_DECL_EVP_CIPHER_CTX_MODE) && HAVE_DECL_EVP_CIPHER_CTX_MODE)
+  EVP_CIPHER_CTX *	ctx = IK_EVP_CIPHER_CTX(s_ctx);
+  int			rv;
+  rv = EVP_CIPHER_CTX_mode(ctx);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_block_size (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_BLOCK_SIZE
+  EVP_CIPHER_CTX *	ctx = IK_EVP_CIPHER_CTX(s_ctx);
+  int			rv;
+  rv = EVP_CIPHER_CTX_block_size(ctx);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_key_length (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_KEY_LENGTH
+  EVP_CIPHER_CTX *	ctx = IK_EVP_CIPHER_CTX(s_ctx);
+  int			rv;
+  rv = EVP_CIPHER_CTX_key_length(ctx);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_iv_length (ikptr s_ctx, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_IV_LENGTH
+  EVP_CIPHER_CTX *	ctx = IK_EVP_CIPHER_CTX(s_ctx);
+  int			rv;
+  rv = EVP_CIPHER_CTX_iv_length(ctx);
+  return ika_integer_from_int(pcb, rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+/* ------------------------------------------------------------------ */
+
+ikptr
+ikrt_openssl_evp_cipher_ctx_set_key_length (ikptr s_ctx, ikptr s_key_len, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_SET_KEY_LENGTH
+  EVP_CIPHER_CTX *	ctx     = IK_EVP_CIPHER_CTX(s_ctx);
+  int			key_len = ik_integer_to_int(s_key_len);
+  int			rv;
+  rv = EVP_CIPHER_CTX_set_key_length(ctx, key_len);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_set_padding (ikptr s_ctx, ikptr s_pad, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_SET_PADDING
+  EVP_CIPHER_CTX *	ctx = IK_EVP_CIPHER_CTX(s_ctx);
+  int			pad = IK_BOOLEAN_TO_INT(s_pad);
+  int			rv;
+  rv = EVP_CIPHER_CTX_set_padding(ctx, pad);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_ctrl (ikptr s_ctx, ikptr s_type, ikptr s_arg, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_CTRL
+  EVP_CIPHER_CTX *	ctx  = IK_EVP_CIPHER_CTX(s_ctx);
+  int			type = ik_integer_to_int(s_type);
+  int			arg  = 0;
+  int			val, rv;
+  switch (type) {
+  case EVP_CTRL_GET_RC5_ROUNDS:
+  case EVP_CTRL_GET_RC2_KEY_BITS:
+    break;
+  case EVP_CTRL_SET_RC5_ROUNDS:
+  case EVP_CTRL_SET_RC2_KEY_BITS:
+    arg = ik_integer_to_int(s_arg);
+    break;
+  default:
+    return IK_FALSE;
+  }
+  rv = EVP_CIPHER_CTX_ctrl(ctx, type, arg, &val);
+  return (rv)? ika_integer_from_int(pcb, val) : IK_FALSE;
+#else
+  feature_failure(__func__);
+#endif
+}
+ikptr
+ikrt_openssl_evp_cipher_ctx_rand_key (ikptr s_ctx, ikptr s_rand_key, ikpcb * pcb)
+{
+#ifdef HAVE_EVP_CIPHER_CTX_RAND_KEY
+  EVP_CIPHER_CTX *	ctx      = IK_EVP_CIPHER_CTX(s_ctx);
+  unsigned char *	rand_key = IK_GENERALISED_C_BUFFER(s_rand_key);
+  int			rv;
+  rv = EVP_CIPHER_CTX_rand_key(ctx, rand_key);
+  return IK_BOOLEAN_FROM_INT(rv);
+#else
+  feature_failure(__func__);
+#endif
+}
+
+
+/** --------------------------------------------------------------------
  ** EVP cipher algorithms C wrappers: context flags.
  ** ----------------------------------------------------------------- */
 
@@ -1731,122 +1888,6 @@ ikrt_openssl_evp_cipher_ctx_set_app_data (ikptr s_ctx, ikptr s_data, ikpcb * pcb
   EVP_CIPHER_CTX *	ctx  = IK_EVP_CIPHER_CTX(s_ctx);
   void *		data = IK_VOIDP_FROM_POINTER_OR_FALSE(s_data);
   EVP_CIPHER_CTX_set_app_data(ctx, data);
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-
-
-/** --------------------------------------------------------------------
- ** EVP cipher algorithms C wrappers: context inspection.
- ** ----------------------------------------------------------------- */
-
-ikptr
-ikrt_openssl_evp_cipher_ctx_set_key_length (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_SET_KEY_LENGTH
-  /* rv = EVP_CIPHER_CTX_set_key_length(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_set_padding (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_SET_PADDING
-  /* rv = EVP_CIPHER_CTX_set_padding(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_ctrl (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_CTRL
-  /* rv = EVP_CIPHER_CTX_ctrl(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_cipher (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_CIPHER
-  /* rv = EVP_CIPHER_CTX_cipher(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_nid (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_NID
-  /* rv = EVP_CIPHER_CTX_nid(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_block_size (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_BLOCK_SIZE
-  /* rv = EVP_CIPHER_CTX_block_size(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_key_length (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_KEY_LENGTH
-  /* rv = EVP_CIPHER_CTX_key_length(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_iv_length (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_IV_LENGTH
-  /* rv = EVP_CIPHER_CTX_iv_length(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_type (ikpcb * pcb)
-{
-#if ((defined HAVE_DECL_EVP_CIPHER_CTX_TYPE) && HAVE_DECL_EVP_CIPHER_CTX_TYPE)
-  /* rv = EVP_CIPHER_CTX_type(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_mode (ikpcb * pcb)
-{
-#if ((defined HAVE_DECL_EVP_CIPHER_CTX_MODE) && HAVE_DECL_EVP_CIPHER_CTX_MODE)
-  /* rv = EVP_CIPHER_CTX_mode(); */
-  return IK_VOID;
-#else
-  feature_failure(__func__);
-#endif
-}
-ikptr
-ikrt_openssl_evp_cipher_ctx_rand_key (ikpcb * pcb)
-{
-#ifdef HAVE_EVP_CIPHER_CTX_RAND_KEY
-  /* rv = EVP_CIPHER_CTX_rand_key(); */
   return IK_VOID;
 #else
   feature_failure(__func__);

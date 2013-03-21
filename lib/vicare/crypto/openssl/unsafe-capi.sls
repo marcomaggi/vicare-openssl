@@ -1179,38 +1179,40 @@
 
 ;;; --------------------------------------------------------------------
 
-(define-inline (evp-cipher-ctx-set-key-length)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_set_key_length"))
+(define-inline (evp-cipher-ctx-cipher ctx)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_cipher" ctx))
 
-(define-inline (evp-cipher-ctx-set-padding)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_set_padding"))
+(define-inline (evp-cipher-ctx-nid ctx)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_nid" ctx))
 
-(define-inline (evp-cipher-ctx-ctrl)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_ctrl"))
+(define-inline (evp-cipher-ctx-type ctx)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_type" ctx))
 
-(define-inline (evp-cipher-ctx-cipher)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_cipher"))
+(define-inline (evp-cipher-ctx-mode ctx)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_mode" ctx))
 
-(define-inline (evp-cipher-ctx-nid)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_nid"))
+(define-inline (evp-cipher-ctx-block-size ctx)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_block_size" ctx))
 
-(define-inline (evp-cipher-ctx-block-size)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_block_size"))
+(define-inline (evp-cipher-ctx-key-length ctx)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_key_length" ctx))
 
-(define-inline (evp-cipher-ctx-key-length)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_key_length"))
+(define-inline (evp-cipher-ctx-iv-length ctx)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_iv_length" ctx))
 
-(define-inline (evp-cipher-ctx-iv-length)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_iv_length"))
+;;; --------------------------------------------------------------------
 
-(define-inline (evp-cipher-ctx-type)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_type"))
+(define-inline (evp-cipher-ctx-set-key-length ctx key.len)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_set_key_length" ctx key.len))
 
-(define-inline (evp-cipher-ctx-mode)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_mode"))
+(define-inline (evp-cipher-ctx-set-padding ctx pad?)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_set_padding" ctx pad?))
 
-(define-inline (evp-cipher-ctx-rand-key)
-  (foreign-call "ikrt_openssl_evp_cipher_ctx_rand_key"))
+(define-inline (evp-cipher-ctx-ctrl ctx type arg)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_ctrl" ctx type arg))
+
+(define-inline (evp-cipher-ctx-rand-key ctx rand-key)
+  (foreign-call "ikrt_openssl_evp_cipher_ctx_rand_key" ctx rand-key))
 
 ;;; --------------------------------------------------------------------
 

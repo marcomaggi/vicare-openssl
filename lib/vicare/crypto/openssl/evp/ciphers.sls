@@ -649,71 +649,90 @@
 
 ;;;; EVP cipher algorithms: context inspection
 
-(define (evp-cipher-ctx-rand-key ctx)
-  (define who 'evp-cipher-ctx-rand-key)
+(define (evp-cipher-ctx-cipher ctx)
+  (define who 'evp-cipher-ctx-cipher)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-rand-key)))
+      ((evp-cipher-ctx/running	ctx))
+    (let ((rv (capi.evp-cipher-ctx-cipher ctx)))
+      (and rv (make-evp-cipher rv)))))
 
 (define (evp-cipher-ctx-type ctx)
   (define who 'evp-cipher-ctx-type)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-type)))
-
-(define (evp-cipher-ctx-set-key-length ctx)
-  (define who 'evp-cipher-ctx-set-key-length)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-set-key-length)))
-
-(define (evp-cipher-ctx-set-padding ctx)
-  (define who 'evp-cipher-ctx-set-padding)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-set-padding)))
-
-(define (evp-cipher-ctx-ctrl ctx)
-  (define who 'evp-cipher-ctx-ctrl)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-ctrl)))
-
-(define (evp-cipher-ctx-cipher ctx)
-  (define who 'evp-cipher-ctx-cipher)
-  (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-cipher)))
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-cipher-ctx-type ctx)))
 
 (define (evp-cipher-ctx-nid ctx)
   (define who 'evp-cipher-ctx-nid)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-nid)))
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-cipher-ctx-nid ctx)))
 
 (define (evp-cipher-ctx-block-size ctx)
   (define who 'evp-cipher-ctx-block-size)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-block-size)))
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-cipher-ctx-block-size ctx)))
 
 (define (evp-cipher-ctx-key-length ctx)
   (define who 'evp-cipher-ctx-key-length)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-key-length)))
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-cipher-ctx-key-length ctx)))
 
 (define (evp-cipher-ctx-iv-length ctx)
   (define who 'evp-cipher-ctx-iv-length)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-iv-length)))
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-cipher-ctx-iv-length ctx)))
 
 (define (evp-cipher-ctx-mode ctx)
   (define who 'evp-cipher-ctx-mode)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher-ctx-mode)))
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-cipher-ctx-mode ctx)))
+
+;;; --------------------------------------------------------------------
+
+(define (evp-cipher-ctx-rand-key ctx key)
+  (define who 'evp-cipher-ctx-rand-key)
+  (with-arguments-validation (who)
+      ((evp-cipher-ctx/running	ctx)
+       (general-c-string	key))
+    (with-general-c-strings
+	((key^		key))
+      (string-to-bytevector string->utf8)
+      (capi.evp-cipher-ctx-rand-key ctx key^))))
+
+(define (evp-cipher-ctx-set-key-length ctx key.len)
+  (define who 'evp-cipher-ctx-set-key-length)
+  (with-arguments-validation (who)
+      ((evp-cipher-ctx/running	ctx)
+       (signed-int		key.len))
+    (capi.evp-cipher-ctx-set-key-length ctx key.len)))
+
+(define (evp-cipher-ctx-set-padding ctx pad?)
+  (define who 'evp-cipher-ctx-set-padding)
+  (with-arguments-validation (who)
+      ((evp-cipher-ctx/running	ctx))
+    (capi.evp-cipher-ctx-set-padding ctx pad?)))
+
+(define evp-cipher-ctx-ctrl
+  (case-lambda
+   ((ctx type)
+    (define who 'evp-cipher-ctx-ctrl)
+    (with-arguments-validation (who)
+	((evp-cipher-ctx/running	ctx)
+	 (signed-int			type))
+      (capi.evp-cipher-ctx-ctrl ctx type #f)))
+   ((ctx type arg)
+    (define who 'evp-cipher-ctx-ctrl)
+    (with-arguments-validation (who)
+	((evp-cipher-ctx/running	ctx)
+	 (signed-int			type)
+	 (signed-int			arg))
+      (capi.evp-cipher-ctx-ctrl ctx type arg)))
+   ))
 
 
 ;;;; EVP cipher algorithms: context flags

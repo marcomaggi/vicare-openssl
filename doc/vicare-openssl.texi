@@ -3433,6 +3433,7 @@ Return an exact integer, in the range of the C language type
 * plain evp cipher ctx decrypt::  Decrypting data.
 * plain evp cipher ctx cipher::   Encrypting or decrypting data.
 * plain evp cipher ctx inspect::  Context inspection.
+* plain evp cipher ctx config::   Context configuration.
 * plain evp cipher ctx flags::    Context flags.
 * plain evp cipher ctx misc::     Miscellaneous functions.
 * plain evp cipher ctx step::     Single-step encryption and decryption.
@@ -3788,47 +3789,118 @@ The following bindings are exported by the library @library{vicare
 crypto openssl evp ciphers}.
 
 
-@defun evp-cipher-ctx-set-key-length
+@defun evp-cipher-ctx-cipher @var{EVP-CIPHER-CTX}
+Retrieve the cipher algorithm used by the given context; if successful
+return an instance of @code{evp-cipher}, otherwise return @false{}.
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_cipher}.
 @end defun
 
 
-@defun evp-cipher-ctx-set-padding
+@defun evp-cipher-ctx-nid @var{EVP-CIPHER-CTX}
+Return an exact integer representing the NID of the cipher algorithm.
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_nid}.
 @end defun
 
 
-@defun evp-cipher-ctx-ctrl
+@defun evp-cipher-ctx-type @var{EVP-CIPHER-CTX}
+Return an exact integer representing the type of the cipher algorithm.
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_type}.
 @end defun
 
 
-@defun evp-cipher-ctx-cipher
+@defun evp-cipher-ctx-block-size @var{EVP-CIPHER-CTX}
+Return an exact integer representing the block size of the cipher
+algorithm.  @manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_block_size}.
 @end defun
 
 
-@defun evp-cipher-ctx-nid
+@defun evp-cipher-ctx-key-length @var{EVP-CIPHER-CTX}
+Return an exact integer representing the key length of the cipher
+algorithm.  @manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_key_length}.
 @end defun
 
 
-@defun evp-cipher-ctx-block-size
+@defun evp-cipher-ctx-iv-length @var{EVP-CIPHER-CTX}
+Return an exact integer representing the initialisation vecttor length
+of the cipher algorithm.  @manpage{EVP_EncryptInit_ex,
+EVP_CIPHER_CTX_iv_length}.
 @end defun
 
 
-@defun evp-cipher-ctx-key-length
+@defun evp-cipher-ctx-mode @var{EVP-CIPHER-CTX}
+Return an exact integer representing the mode of the cipher algorithm,
+one of the @code{EVP_CIPH_*_MODE} constants.
+@manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_mode}.
+@end defun
+
+@c page
+@node plain evp cipher ctx config
+@subsubsection Context configuration
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl evp ciphers}.
+
+
+@defun evp-cipher-ctx-set-key-length @var{EVP-CIPHER-CTX} @var{key.len}
+Set the key length to use among the supported values; if successful
+return @true{}, otherwise return @false{}.  @manpage{EVP_EncryptInit_ex,
+EVP_CIPHER_CTX_set_key_length}.
+
+@var{key.len} must be an exact integer representing the key length.
 @end defun
 
 
-@defun evp-cipher-ctx-iv-length
+@defun evp-cipher-ctx-set-padding @var{EVP-CIPHER-CTX} @var{pad?}
+Enable or disable padding; if successful return @true{}, otherwise
+return @false{}.  @manpage{EVP_EncryptInit_ex,
+EVP_CIPHER_CTX_set_padding}.
+
+If @var{pad?} is true: padding is enabled.  If @var{pad?} is @false{}:
+padding is disabled.
 @end defun
 
 
-@defun evp-cipher-ctx-type
+@defun evp-cipher-ctx-ctrl @var{EVP-CIPHER-CTX} @var{type}
+@defunx evp-cipher-ctx-ctrl @var{EVP-CIPHER-CTX} @var{type} @var{arg}
+Set or retrieve some context parameters; if successful return @true{},
+otherwise return @false{}.  @manpage{EVP_EncryptInit_ex,
+EVP_CIPHER_CTX_set_key_ctrl}.
+
+When the argument @var{arg} @strong{is not} used, @var{type} must be one
+of the following:
+
+@table @code
+@item EVP_CTRL_GET_RC5_ROUNDS
+Return an exact integer representing the number of rounds for the RC5
+algorithm.
+
+@item EVP_CTRL_GET_RC2_KEY_BITS
+Return an exact integer representing the number of key bits for the RC2
+algorithm.
+@end table
+
+When the argument @var{arg} @strong{is} used, @var{type} must be one of
+the following:
+
+@table @code
+@item EVP_CTRL_SET_RC5_ROUNDS
+Set to @var{arg} the number of rounds for the RC5 algorithm.
+
+@item EVP_CTRL_SET_RC2_KEY_BITS
+Set to @var{arg} the number of key bits for the RC2 algorithm.
+@end table
 @end defun
 
 
-@defun evp-cipher-ctx-mode
-@end defun
+@defun evp-cipher-ctx-rand-key @var{EVP-CIPHER-CTX} @var{key}
+Set a key for the cipher algorithm; if successful return @true{},
+otherwise return @false{}.  @manpage{EVP_EncryptInit_ex,
+EVP_CIPHER_CTX_rand_key}.
 
-
-@defun evp-cipher-ctx-rand-key
+@var{key} must be a generalised C string holding an @asciiz{} string,
+@cstringsref{}.  When @var{key} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 @end defun
 
 @c page
