@@ -1742,7 +1742,10 @@ ikrt_openssl_evp_cipher_ctx_iv_length (ikptr s_ctx, ikpcb * pcb)
 #endif
 }
 
-/* ------------------------------------------------------------------ */
+
+/** --------------------------------------------------------------------
+ ** EVP cipher algorithms C wrappers: context configuration.
+ ** ----------------------------------------------------------------- */
 
 ikptr
 ikrt_openssl_evp_cipher_ctx_set_key_length (ikptr s_ctx, ikptr s_key_len, ikpcb * pcb)
@@ -1926,11 +1929,23 @@ ikrt_openssl_evp_cipher_asn1_to_param (ikpcb * pcb)
  ** ----------------------------------------------------------------- */
 
 ikptr
-ikrt_openssl_evp_cipher (ikpcb * pcb)
+ikrt_openssl_evp_cipher (ikptr s_ctx,
+			 ikptr s_ou, ikptr s_ou_len,
+			 ikptr s_in, ikptr s_in_len,
+			 ikpcb * pcb)
 {
 #ifdef HAVE_EVP_CIPHER
-  /* rv = EVP_Cipher(); */
-  return IK_VOID;
+  EVP_CIPHER_CTX *	ctx	= IK_EVP_CIPHER_CTX(s_ctx);
+  unsigned char *	ou	= IK_GENERALISED_C_BUFFER(s_ou);
+  size_t		ou_len	= ik_generalised_c_buffer_len(s_ou, s_ou_len);
+  unsigned char *	in	= IK_GENERALISED_C_BUFFER(s_in);
+  size_t		in_len	= ik_generalised_c_buffer_len(s_in, s_in_len);
+  int			rv;
+  /* Avoid overflow of integers and "not enough output space" errors. */
+  if (validate_output_buffer_length(ctx, in_len, ou_len))
+    return IK_FALSE;
+  rv = EVP_Cipher(ctx, ou, in, in_len);
+  return (rv)? ika_integer_from_size_t(pcb, ou_len) : IK_FALSE;
 #else
   feature_failure(__func__);
 #endif

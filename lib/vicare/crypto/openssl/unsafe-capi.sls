@@ -1247,8 +1247,8 @@
 
 ;;;; EVP cipher context unsafe C API: single-step encryption and decryption
 
-(define-inline (evp-cipher)
-  (foreign-call "ikrt_openssl_evp_cipher"))
+(define-inline (evp-cipher ctx ou ou.len in in.len)
+  (foreign-call "ikrt_openssl_evp_cipher" ctx ou ou.len in in.len))
 
 
 ;;;; still to be implemented

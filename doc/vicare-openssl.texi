@@ -3982,9 +3982,11 @@ Register a pointer as application data associated to the given context.
 @c ------------------------------------------------------------
 
 @defun evp-cipher-param-to-asn1
+not implemented.
 @end defun
 
 @defun evp-cipher-asn1-to-param
+Not implemented.
 @end defun
 
 @c page
@@ -3996,7 +3998,45 @@ The following bindings are exported by the library @library{vicare
 crypto openssl evp ciphers}.
 
 
-@defun evp-crypt
+@defun evp-crypt @var{EVP-CIPHER-CTX} @var{ou} @var{ou_len} @var{in} @var{in_len}
+Encrypt or decrypt input data and produce output data; if successful it
+should return the actual number of bytes in the output, else return
+@false{}.  @manpage{EVP_EncryptInit_ex, EVP_Cipher}.
+
+@quotation
+@strong{NOTE} This is a low level function not documented by OpenSSL; we
+should use it only if we know what we are doing.  For some cipher
+algorithms the return value is @strong{not} the number of actual output
+bytes.
+@end quotation
+
+@var{EVP-CIPHER-CTX} must be a context already initialised for
+encryption or decryption.
+
+The arguments @var{in} and @var{in_len} must represent a generalised C
+string holding the input data, @cstringsref{}.  When @var{in} is a
+string: it is converted to a bytevector with @func{string->utf8}.
+
+The arguments @var{ou} and @var{ou_len} must represent a generalised C
+buffer holding empty room for the output data, @cbuffersref{}.  The
+length of the output buffer is the maximum number of output bytes that
+can be accepted; such length must be:
+
+@enumerate
+@item
+Less than the greatest fixnum, @code{(greatest-fixnum)}.
+
+@item
+Less than the value of @code{INT_MAX} defined by the underlying
+platform.
+
+@item
+At least the sum between the number of input bytes and the block size of
+the selected cipher algorithm.
+@end enumerate
+
+The minimum output length can be computed with
+@func{evp-minimum-output-length}.
 @end defun
 
 @c page

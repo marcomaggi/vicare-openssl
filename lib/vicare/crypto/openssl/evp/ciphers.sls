@@ -692,7 +692,8 @@
       ((evp-cipher-ctx/running	ctx))
     (capi.evp-cipher-ctx-mode ctx)))
 
-;;; --------------------------------------------------------------------
+
+;;;; EVP cipher algorithms: context configuration
 
 (define (evp-cipher-ctx-rand-key ctx key)
   (define who 'evp-cipher-ctx-rand-key)
@@ -798,11 +799,16 @@
 
 ;;;; EVP cipher algorithms: context single-step encryption and decryption
 
-(define (evp-crypt ctx)
+(define (evp-crypt ctx ou ou.len in in.len)
   (define who 'evp-crypt)
   (with-arguments-validation (who)
-      ()
-    (capi.evp-cipher)))
+      ((evp-cipher-ctx/running	ctx)
+       (general-c-buffer*	ou ou.len)
+       (general-c-string*	in in.len))
+    (with-general-c-strings
+	((in^	in))
+      (string-to-bytevector string->utf8)
+      (capi.evp-cipher ctx ou ou.len in^ in.len))))
 
 
 ;;;; constants to symbols
