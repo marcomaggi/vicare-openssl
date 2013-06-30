@@ -30,7 +30,7 @@
   (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
 ;;;  (prefix (vicare ffi) ffi.)
-  (vicare syntactic-extensions))
+  #;(vicare syntactic-extensions))
 
 (ssl.ssl-library-init)
 
@@ -45,10 +45,10 @@
 
 (let ()
 
-  (%pretty-print (list (vicare-openssl-version-interface-current)
-		       (vicare-openssl-version-interface-revision)
-		       (vicare-openssl-version-interface-age)
-		       (vicare-openssl-version)))
+  (%pretty-print (list (ssl.vicare-openssl-version-interface-current)
+		       (ssl.vicare-openssl-version-interface-revision)
+		       (ssl.vicare-openssl-version-interface-age)
+		       (ssl.vicare-openssl-version)))
 
   #t)
 

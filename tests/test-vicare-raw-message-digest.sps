@@ -27,7 +27,7 @@
 
 #!r6rs
 (import (vicare)
-  (vicare cond-expand)
+  (vicare language-extensions cond-expand)
   (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
   (prefix (vicare crypto openssl message-digests) ssl.)

@@ -27,15 +27,13 @@
 
 #!r6rs
 (import (vicare)
-  (vicare cond-expand)
+  (vicare language-extensions cond-expand)
   (for (prefix (vicare crypto openssl hmac cond-expand) ssl.)
        expand)
   (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
   (prefix (vicare crypto openssl hmac) ssl.)
   (prefix (vicare crypto openssl evp message-digests) ssl.)
-  (only (vicare syntactic-extensions)
-	begin0)
 ;;;  (prefix (vicare ffi) ffi.)
   (vicare checks))
 

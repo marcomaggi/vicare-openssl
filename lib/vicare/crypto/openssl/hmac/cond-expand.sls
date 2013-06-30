@@ -28,7 +28,7 @@
 #!r6rs
 (library (vicare crypto openssl hmac cond-expand)
   (export vicare-openssl-hmac-features)
-  (import (only (vicare cond-expand helpers)
+  (import (only (vicare language-extensions cond-expand helpers)
 		define-cond-expand-identifiers-helper)
     (vicare crypto openssl features)
     (for (vicare crypto openssl hmac)

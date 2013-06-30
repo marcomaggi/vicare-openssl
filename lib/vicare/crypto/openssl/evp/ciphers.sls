@@ -229,11 +229,10 @@
     (prefix (vicare crypto openssl helpers)
 	    help.)
     #;(prefix (vicare ffi) ffi.)
-    (prefix (vicare unsafe-operations)
-	    $)
+    (vicare unsafe operations)
     (prefix (vicare ffi foreign-pointer-wrapper)
 	    ffi.)
-    (vicare syntactic-extensions)
+    (vicare language-extensions syntaxes)
     (vicare arguments validation)
     (vicare arguments general-c-buffers))
 

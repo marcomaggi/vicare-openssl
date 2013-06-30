@@ -53,7 +53,7 @@
 	    capi.)
     (prefix (vicare ffi foreign-pointer-wrapper)
 	    ffi.)
-    (vicare syntactic-extensions)
+    (vicare language-extensions syntaxes)
     (vicare arguments validation))
 
 

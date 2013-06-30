@@ -28,7 +28,7 @@
 #!r6rs
 (library (vicare crypto openssl aes cond-expand)
   (export vicare-openssl-aes-features)
-  (import (only (vicare cond-expand helpers)
+  (import (only (vicare language-extensions cond-expand helpers)
 		define-cond-expand-identifiers-helper)
     (vicare crypto openssl features)
     (for (vicare crypto openssl aes)
