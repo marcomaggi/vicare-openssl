@@ -13,7 +13,7 @@ it provides bindings for the OpenSSL C language library.
 
   The latest version of this package can be downloaded from:
 
-	<>
+	<https://sourceforge.net/projects/vicare-openssl/files/>
 
 the home page of the Vicare project is at:
 
@@ -22,6 +22,10 @@ the home page of the Vicare project is at:
 development takes place at:
 
 	     <http://github.com/marcomaggi/vicare-openssl/>
+
+and as backup at:
+
+	   <https://sourceforge.net/projects/vicare-openssl/>
 
   The last  time the author  bothered to  update this paragraph,  he had
 tested OpenSSL version 1.0.1e; the Openssl library is available at:

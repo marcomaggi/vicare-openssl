@@ -42,8 +42,8 @@
 @set FOREIGN_URL                @url{http://www.openssl.org/}
 @set FOREIGN_SCHEME_LIB         @library{vicare crypto openssl}
 @set GITHUB_URL                 @url{http://github.com/marcomaggi/vicare-openssl}
-@set SOURCEFORGE_URL            @url{}
-@set DOWNLOAD_URL               @url{}
+@set SOURCEFORGE_URL            @url{https://sourceforge.net/projects/vicare-openssl/}
+@set DOWNLOAD_URL               @url{https://sourceforge.net/projects/vicare-openssl/files/}
 @set DOCUMENTATION_URL          @url{http://marcomaggi.github.com/docs/vicare-openssl.html}
 
 
