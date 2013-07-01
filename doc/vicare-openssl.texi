@@ -77,6 +77,11 @@ development takes place at:
 @center @value{GITHUB_URL}
 
 @noindent
+and as backup at:
+
+@center @value{SOURCEFORGE_URL}
+
+@noindent
 @value{FOREIGN_PACKAGE} is available at:
 
 @center @value{FOREIGN_URL}
@@ -165,17 +170,17 @@ language and Scheme language libraries for Vicare Scheme; it provides
 bindings for the @value{FOREIGN_PACKAGE} C language library.
 
 The last time the author bothered to update this paragraph, he had
-tested @value{FOREIGN_PACKAGE} version @value{FOREIGN_VERSION}; This
+tested @value{FOREIGN_PACKAGE} version @value{FOREIGN_VERSION}.  This
 product includes software developed by the OpenSSL Project for use in
-the OpenSSL Toolkit.  (@url{http://www.openssl.org/})
+the OpenSSL Toolkit (@url{http://www.openssl.org/}).
 
 The package installs a C language library implementing wrapper C
 functions for the C language @value{FOREIGN_PACKAGE} library; on top of
-this, the Scheme library @library{vicare crypto openssl} exports one
-binding for some @value{FOREIGN_PACKAGE} public functions; additionally
-the library @library{vicare crypto openssl constants} exports one
-binding for some constant values defined in the C language header
-@file{openssl/ssl.h} and others.
+this, the Scheme libraries in the hierarchy @library{vicare crypto
+openssl ---} export bindings for some @value{FOREIGN_PACKAGE} public
+functions; additionally the library @library{vicare crypto openssl
+constants} exports bindings for some constant values defined in the C
+language header @file{openssl/ssl.h} and others.
 
 Most of the Scheme function names are directly derived from the C
 function names by replacing upper case with lower case and underscore
@@ -4081,6 +4086,11 @@ the latest version of this package can be downloaded from:
 development takes place at:
 
 @center @value{GITHUB_URL}
+
+@noindent
+and as backup at:
+
+@center @value{SOURCEFORGE_URL}
 
 @noindent
 the home page of the Vicare project is at:
