@@ -40,7 +40,7 @@
 (check-set-mode! 'report-failed)
 (check-display "*** testing Vicare OpenSSL bindings: raw HMAC API\n")
 
-(ssl.ssl-library-init)
+(ssl.openssl-add-all-digests)
 
 
 ;;;; helpers
@@ -64,26 +64,26 @@
 	      (struct-guardian-logger	#f))
 
   (when #f
-    (check-pretty-print (ssl.hmac-init "key" 'md5)))
+    (check-pretty-print (ssl.hmac-init "key" #f 'md5)))
 
   (check
-      (let ((ctx (ssl.hmac-init "key" 'md5)))
+      (let ((ctx (ssl.hmac-init "key" #f 'md5)))
 	(ssl.hmac-ctx? ctx))
     => #t)
 
   (check
-      (let ((ctx (ssl.hmac-init "key" 'md5)))
+      (let ((ctx (ssl.hmac-init "key" #f 'md5)))
 	(ssl.hmac-ctx?/alive ctx))
     => #t)
 
   (check
-      (let ((ctx (ssl.hmac-init "key" 'md5)))
+      (let ((ctx (ssl.hmac-init "key" #f 'md5)))
 	(ssl.hmac-final ctx)
 	(ssl.hmac-ctx?/alive ctx))
     => #f)
 
   (check
-      (let ((ctx (ssl.hmac-init "key" 'md5)))
+      (let ((ctx (ssl.hmac-init "key" #f 'md5)))
 	(ssl.hmac-final ctx)
 	(ssl.hmac-final ctx)
 	(ssl.hmac-ctx?/alive ctx))
@@ -93,23 +93,23 @@
 ;;; hmac-update
 
   (check
-      (let ((ctx (ssl.hmac-init "key" 'md5)))
+      (let ((ctx (ssl.hmac-init "key" #f 'md5)))
 	(assert (ssl.hmac-update ctx "ciao"))
 	(ssl.hmac-final ctx))
     => '#vu8(104 95 146 126 133 66 104 215 19 225 230 101 126 75 39 188))
 
   (check
-      (let ((ctx (ssl.hmac-init "key" (ssl.evp-md5))))
+      (let ((ctx (ssl.hmac-init "key" #f (ssl.evp-md5))))
 	(assert (ssl.hmac-update ctx "ciao"))
 	(ssl.hmac-final ctx))
     => '#vu8(104 95 146 126 133 66 104 215 19 225 230 101 126 75 39 188))
 
 ;;; --------------------------------------------------------------------
-;;; hmac-update
+;;; hmac-copy
 
   (check
-      (let ((ctx1 (ssl.hmac-init "key" 'md5))
-	    (ctx2 (ssl.hmac-init "hello" 'md5)))
+      (let ((ctx1 (ssl.hmac-init "key"   #f 'md5))
+	    (ctx2 (ssl.hmac-init "hello" #f 'md5)))
 	(ssl.hmac-ctx-copy ctx2 ctx1)
 	(assert (ssl.hmac-update ctx2 "ciao"))
 	(ssl.hmac-final ctx2))
@@ -119,7 +119,7 @@
 ;;; hmac-ctx-set-flags
 
   (check
-      (let ((ctx (ssl.hmac-init "key" 'md5)))
+      (let ((ctx (ssl.hmac-init "key" #f 'md5)))
 	(ssl.hmac-ctx-set-flags ctx 0))
     => (void))
 
@@ -130,26 +130,26 @@
 	      (struct-guardian-logger	#f))
 
   (when #f
-    (check-pretty-print (ssl.hmac-init "key" 'whirlpool)))
+    (check-pretty-print (ssl.hmac-init "key" #f 'whirlpool)))
 
   (check
-      (let ((ctx (ssl.hmac-init "key" 'whirlpool)))
+      (let ((ctx (ssl.hmac-init "key" #f 'whirlpool)))
 	(ssl.hmac-ctx? ctx))
     => #t)
 
   (check
-      (let ((ctx (ssl.hmac-init "key" 'whirlpool)))
+      (let ((ctx (ssl.hmac-init "key" #f 'whirlpool)))
 	(ssl.hmac-ctx?/alive ctx))
     => #t)
 
   (check
-      (let ((ctx (ssl.hmac-init "key" 'whirlpool)))
+      (let ((ctx (ssl.hmac-init "key" #f 'whirlpool)))
 	(ssl.hmac-final ctx)
 	(ssl.hmac-ctx?/alive ctx))
     => #f)
 
   (check
-      (let ((ctx (ssl.hmac-init "key" 'whirlpool)))
+      (let ((ctx (ssl.hmac-init "key" #f 'whirlpool)))
 	(ssl.hmac-final ctx)
 	(ssl.hmac-final ctx)
 	(ssl.hmac-ctx?/alive ctx))
@@ -159,7 +159,7 @@
 ;;; hmac-update
 
   (check
-      (let ((ctx (ssl.hmac-init "key" 'whirlpool)))
+      (let ((ctx (ssl.hmac-init "key" #f 'whirlpool)))
 	(assert (ssl.hmac-update ctx "ciao"))
 	(ssl.hmac-final ctx))
     => '#vu8(6 37 67 106 243 81 149 29 182 191 33 8 18 103 188 135
@@ -172,8 +172,8 @@
 ;;; hmac-update
 
   (check
-      (let ((ctx1 (ssl.hmac-init "key" 'whirlpool))
-	    (ctx2 (ssl.hmac-init "hello" 'whirlpool)))
+      (let ((ctx1 (ssl.hmac-init "key" #f 'whirlpool))
+	    (ctx2 (ssl.hmac-init "hello" #f 'whirlpool)))
 	(ssl.hmac-ctx-copy ctx2 ctx1)
 	(assert (ssl.hmac-update ctx2 "ciao"))
 	(ssl.hmac-final ctx2))
@@ -187,7 +187,7 @@
 ;;; hmac-ctx-set-flags
 
   (check
-      (let ((ctx (ssl.hmac-init "key" 'whirlpool)))
+      (let ((ctx (ssl.hmac-init "key" #f 'whirlpool)))
 	(ssl.hmac-ctx-set-flags ctx 0))
     => (void))
 

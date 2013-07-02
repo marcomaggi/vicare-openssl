@@ -85,24 +85,20 @@
 
 ;;; --------------------------------------------------------------------
 
-(define hmac-init
+(define (hmac-init key key.len md)
   ;;This  version  performs  the  work  of  both  "HMAC_CTX_init()"  and
   ;;"HMAC_Init()".
-  (case-lambda
-   ((key md)
-    (hmac-init key #f md))
-   ((key key.len md)
-    (define who 'hmac-init)
-    (with-arguments-validation (who)
-	((general-c-string*	key key.len)
-	 (evp-md/symbol	md))
-      (with-general-c-strings
-	  ((key^	key))
-	(string-to-bytevector string->utf8)
-	(let ((rv (capi.hmac-init key^ key.len (if (symbol? md)
-						   (help.symbol->message-digest-index who md)
-						 md))))
-	  (and rv (make-hmac-ctx/owner rv))))))))
+  (define who 'hmac-init)
+  (with-arguments-validation (who)
+      ((general-c-string*	key key.len)
+       (evp-md/symbol		md))
+    (with-general-c-strings
+	((key^	key))
+      (string-to-bytevector string->utf8)
+      (let ((rv (capi.hmac-init key^ key.len (if (symbol? md)
+						 (help.symbol->message-digest-index who md)
+					       md))))
+	(and rv (make-hmac-ctx/owner rv))))))
 
 ;;These  old   versions  perform  the  work   of  "HMAC_CTX_init()"  and
 ;;"HMAC_Init()" separately.

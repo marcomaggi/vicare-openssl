@@ -1703,6 +1703,33 @@ bytevector with @func{string->utf8}.
 @section Computing message authentication codes
 
 
+The raw @api{} to compute HMAC checksums is used as follows:
+
+@smallexample
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl message-digests) ssl.))
+
+(ssl.openssl-add-all-digests)
+
+(let ((ctx (ssl.hmac-init "key" #f 'md5)))
+  (assert (ssl.hmac-update ctx "ciao"))
+  (ssl.hmac-final ctx))
+@result{} #vu8(104 95 146 126 133 66 104 215 19 225
+    230 101 126 75 39 188)
+
+(let ((ctx (ssl.hmac-init "key" #f (ssl.evp-md5))))
+  (assert (ssl.hmac-update ctx "ciao"))
+  (ssl.hmac-final ctx))
+@result{} #vu8(104 95 146 126 133 66 104 215 19 225
+    230 101 126 75 39 188)
+
+(ssl.hmac 'md5 "key" #f "ciao" #f)
+@result{} #vu8(104 95 146 126 133 66 104 215 19 225
+    230 101 126 75 39 188)
+@end smallexample
+
 @menu
 * plain hmac struct::           HMAC data structures.
 * plain hmac api::              Context updating functions.
@@ -1722,7 +1749,7 @@ crypto openssl hmac}.
 @cindex @var{HMAC} argument
 @cindex Argument @var{HMAC}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{HMAC_CTX}; it references an HMAC hash checksum
+language type @code{HMAC_CTX}; it represents a HMAC hash checksum
 context.
 
 When instances of this type are used as arguments to functions: this
@@ -1740,94 +1767,32 @@ associated data is finalised; any error is ignored in this procedure.
 @end itemize
 @end deftp
 
-
-@defun hmac-ctx? @var{obj}
-Return @true{} if @var{obj} is an instance of @code{hmac-ctx}; otherwise
-return @false{}.
-@end defun
-
-
-@defun hmac-ctx?/alive @var{obj}
-Return @true{} if @var{obj} is an instance of @code{hmac-ctx} and the
-context it represents is open; otherwise return @false{}.
-@end defun
-
-
-@defun hmac-ctx-custom-destructor @var{HMAC}
-@defunx set-hmac-ctx-custom-destructor! @var{HMAC} @var{func}
-Retrieve or set a destructor function associated to the @var{HMAC}.
-
-Whenever the @var{HMAC} is closed, either explicitly with
-@func{hmac-final} or implicitly by the garbage collector, @var{func} is
-applied to @var{HMAC} before the internal state of @var{HMAC} is
-finalised.
-@end defun
-
 @c ------------------------------------------------------------
 
+@StructCommonDoc{hmac-ctx, HMAC, hmac-final}
 @StructPropertyListDoc{hmac-ctx, HMAC}
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} hmac-ctx @var{obj}
-@deffnx {Validation Clause} false-or-hmac-ctx @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{hmac-ctx?}; the
-second clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} hmac-ctx/alive @var{obj}
-@deffnx {Validation Clause} false-or-hmac-ctx/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{hmac-ctx?/alive}; the
-second clause also accepts @false{}.
-@end deffn
+@StructArgumentsValidationDoc{hmac-ctx, HMAC}
 
 @c page
 @node plain hmac api
 @subsection Context updating functions
 
 
-Usage example:
-
-@example
-#!r6rs
-(import (vicare)
-  (prefix (vicare crypto openssl hmac) ssl.))
-
-(let ((ctx (ssl.hmac-init "key" 'md5)))
-  (ssl.hmac-update ctx "ciao")
-  (ssl.hmac-final ctx))
-@result{} #vu8(104 95 146 126 133 66
-   104 215 19 225 230 101 126 75 39 188)
-@end example
-
 The following bindings are exported by the library @library{vicare
 crypto openssl}.
 
 
-@defun hmac-init @var{key} @var{md}
-@defunx hmac-init @var{key} @var{key.len} @var{md}
+@defun hmac-init @var{key} @var{key.len} @var{md}
 Allocate and initialise a new instance of @code{hmac-ctx}; if successful
 return the struct, else return @false{}.  Notice that this Scheme
 function performs the work of both @cfunc{HMAC_CTX_init} and
 @cfunc{HMAC_Init}.  @manpage{HMAC_Init, HMAC_Init}.
 
-@var{key} must be a generalised C string, @vicareref{cbuffers strings,
-Introduction to generalised C strings}.  When @var{key} is a string: it
-is converted to a bytevector with @func{string->utf8}.
+@var{key} and @var{key.len} must represent a generalised C string,
+@cstringsref{}.  When @var{input} is a string: it is converted to a
+bytevector with @func{string->utf8}.
 
-The optional @var{key.len} must be @false{} or an exact integer in the
-range of the C language type @code{size_t}.  When @var{key} is a pointer
-object: @var{key.len} must represent the number of bytes available in
-the referenced memory block; otherwise @var{key.len} is ignored.
-
-@var{md} must be either an instance of @code{evp-md} or a symbol among:
+@var{md} must be either a symbol among:
 
 @example
 md4             md5             mdc2
@@ -1835,13 +1800,17 @@ sha1            sha224          sha256
 sha384          sha512          ripemd160
 whirlpool       dss             dss1
 @end example
+
+@noindent
+or an instance of @code{evp-md} (@pxref{plain evp md algo makers,
+Algorithm reference makers})
 @end defun
 
 
 @defun hmac-final @var{HMAC}
 Finalise a checksum context; if successful return a bytevector holding
 the computed checksum, else return @false{}.  Notice that this Scheme
-function performs the work of both @cfunc{HMAC_CTX_cleaup} and
+function performs the work of both @cfunc{HMAC_CTX_cleanup} and
 @cfunc{HMAC_Final}.  @manpage{HMAC_Final, HMAC_Final}.  It is fine to
 apply this function multiple times to the same @var{HMAC} argument.
 @end defun
@@ -1882,7 +1851,7 @@ crypto openssl hmac}.
 Perform a one--step HMAC computing; return a bytevector holding the
 result, or @false{} if an error occurs.  @manpage{HMAC, HMAC}.
 
-@var{md} must be an instance of @code{evp-md} or a symbol among:
+@var{md} must be either a symbol among:
 
 @example
 md4             md5             mdc2
@@ -1890,6 +1859,10 @@ sha1            sha224          sha256
 sha384          sha512          ripemd160
 whirlpool       dss             dss1
 @end example
+
+@noindent
+or an instance of @code{evp-md} (@pxref{plain evp md algo makers,
+Algorithm reference makers})
 
 @var{key} and @var{key.len} must represent a generalised C string,
 @cstringsref{}.  When @var{key} is a string: it is converted to a
