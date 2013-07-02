@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# Launcher script for "vicare-openssl.sps".
+
+PATH=/usr/local/bin:/usr/bin:/bin
+exec_prefix=@prefix@
+libexecdir=@libexecdir@
+pkglibexecdir=${libexecdir}/@PACKAGE@
+SCHEME_PROGRAM=${pkglibexecdir}/vicare-openssl.sps
+
+exec vicare "$SCHEME_PROGRAM" $VFLAGS -- "$@"
+
+### end of file

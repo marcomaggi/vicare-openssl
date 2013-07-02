@@ -541,6 +541,8 @@ AC_CONFIG_FILES([Makefile]
         [tests/Makefile]
         [lib/Makefile]
         [lib/vicare/crypto/openssl/constants.sls]
+        [demos/Makefile]
+        [demos/vicare-openssl]
         [meta/slackware/doinst.sh])
 AC_OUTPUT
 

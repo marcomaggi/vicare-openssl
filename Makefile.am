@@ -2,7 +2,7 @@
 
 ACLOCAL_AMFLAGS		= -I autotools
 AUTOMAKE_OPTIONS	= foreign
-SUBDIRS			= src doc tests lib
+SUBDIRS			= src doc tests lib demos
 EXTRA_DIST		= INSTALL configure.sh
 dist_doc_DATA		= README COPYING
 
