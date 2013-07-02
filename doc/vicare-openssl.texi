@@ -1946,51 +1946,12 @@ Retrieve or set a destructor function associated to the @var{AES}.
 
 Whenever the @var{AES} is closed: @var{func} is applied to @var{AES}
 before the internal state of @var{AES} is finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{AES}; if we do:
-
-@example
-(define context ...)
-(set-aes-key-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((aes-key-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{AES}.
 @end defun
-
-
-@StructPropertyListDoc{aes-key, AES}
 
 @c ------------------------------------------------------------
 
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} aes-key @var{obj}
-@deffnx {Validation Clause} false-or-aes-key @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{aes-key?}; the second
-clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} aes-key/alive @var{obj}
-@deffnx {Validation Clause} false-or-aes-key/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{aes-key?/alive}; the
-second clause also accepts @false{}.
-@end deffn
+@StructPropertyListDoc{aes-key-ctx, AES}
+@StructArgumentsValidationDoc{aes-key-ctx, AES}
 
 @c page
 @node plain crypto aes key
@@ -2001,11 +1962,9 @@ The following bindings are exported by the library @library{vicare
 crypto openssl aes}.
 
 
-@defun aes-set-encrypt-key @var{key}
-@defunx aes-set-encrypt-key @var{key} @var{key.len}
+@defun aes-set-encrypt-key @var{key} @var{key.len}
 Build an instance of @code{aes-ctx} initialised with the encryption
-@var{key} and configured with @var{bits}; if successful return the
-struct, else return @false{}.
+@var{key}; if successful return the struct, else return @false{}.
 
 @var{key} and @var{key.len} must represent a generalised C string,
 @cstringsref{}.  When @var{key} is a string: it is converted to a
@@ -2015,11 +1974,9 @@ length measured in bits of: @math{128}, @math{192}, @math{256}.
 @end defun
 
 
-@defun aes-set-decrypt-key @var{key}
-@defunx aes-set-decrypt-key @var{key} @var{key.len}
+@defun aes-set-decrypt-key @var{key} @var{key.len}
 Build an instance of @code{aes-ctx} initialised with the decryption
-@var{key} and configured with @var{bits}; if successful return the
-struct, else return @false{}.
+@var{key}; if successful return the struct, else return @false{}.
 
 @var{key} and @var{key.len} must represent a generalised C string,
 @cstringsref{}.  When @var{key} is a string: it is converted to a
@@ -2138,7 +2095,6 @@ the initialisation vector, @cbuffersref{}.  Its length must be equal to
 (ssl.aes-cbc-decrypt data.en #f data.de #f key.de iv #f)
 @end example
 @end defun
-
 
 @c page
 @node plain crypto aes misc

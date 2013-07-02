@@ -75,24 +75,24 @@
 (parametrise ((check-test-name	'key))
 
   (check
-      (let ((ctx (ssl.aes-set-encrypt-key "0123456789012345")))
+      (let ((ctx (ssl.aes-set-encrypt-key "0123456789012345" #f)))
 	(ssl.aes-key? ctx))
     => #t)
 
   (check
-      (let ((ctx (ssl.aes-set-encrypt-key "0123456789012345")))
+      (let ((ctx (ssl.aes-set-encrypt-key "0123456789012345" #f)))
 	(ssl.aes-key?/alive ctx))
     => #t)
 
 ;;; --------------------------------------------------------------------
 
   (check
-      (let ((ctx (ssl.aes-set-decrypt-key "0123456789012345")))
+      (let ((ctx (ssl.aes-set-decrypt-key "0123456789012345" #f)))
 	(ssl.aes-key? ctx))
     => #t)
 
   (check
-      (let ((ctx (ssl.aes-set-decrypt-key "0123456789012345")))
+      (let ((ctx (ssl.aes-set-decrypt-key "0123456789012345" #f)))
 	(ssl.aes-key?/alive ctx))
     => #t)
 
@@ -104,8 +104,8 @@
 ;;; crypt with the default scheme
 
   (check
-      (let ((key.en	(ssl.aes-set-encrypt-key "0123456789012345"))
-	    (key.de	(ssl.aes-set-decrypt-key "0123456789012345"))
+      (let ((key.en	(ssl.aes-set-encrypt-key "0123456789012345" #f))
+	    (key.de	(ssl.aes-set-decrypt-key "0123456789012345" #f))
 	    (data.in	(make-bytevector ssl.AES_BLOCK_SIZE 123))
 	    (data.en	(make-bytevector ssl.AES_BLOCK_SIZE 0))
 	    (data.de	(make-bytevector ssl.AES_BLOCK_SIZE 0)))
@@ -122,8 +122,8 @@
 ;;; crypt with the ECB scheme
 
   (check
-      (let ((key.en	(ssl.aes-set-encrypt-key "0123456789012345"))
-	    (key.de	(ssl.aes-set-decrypt-key "0123456789012345"))
+      (let ((key.en	(ssl.aes-set-encrypt-key "0123456789012345" #f))
+	    (key.de	(ssl.aes-set-decrypt-key "0123456789012345" #f))
 	    (data.in	(make-bytevector ssl.AES_BLOCK_SIZE 123))
 	    (data.en	(make-bytevector ssl.AES_BLOCK_SIZE 0))
 	    (data.de	(make-bytevector ssl.AES_BLOCK_SIZE 0)))
@@ -142,9 +142,9 @@
   (check
       (let ()
 	(define key.en
-	  (ssl.aes-set-encrypt-key "0123456789012345"))
+	  (ssl.aes-set-encrypt-key "0123456789012345" #f))
 	(define key.de
-	  (ssl.aes-set-decrypt-key "0123456789012345"))
+	  (ssl.aes-set-decrypt-key "0123456789012345" #f))
 	(define iv
 	  (make-bytevector ssl.AES_BLOCK_SIZE 99))
 	(define data.len
@@ -170,9 +170,9 @@
   (check	;cfb128
       (let ()
 	(define key.en
-	  (ssl.aes-set-encrypt-key "0123456789012345"))
+	  (ssl.aes-set-encrypt-key "0123456789012345" #f))
 	(define key.de
-	  (ssl.aes-set-decrypt-key "0123456789012345"))
+	  (ssl.aes-set-decrypt-key "0123456789012345" #f))
 	(define iv
 	  (make-bytevector ssl.AES_BLOCK_SIZE 99))
 	(define data.len
@@ -192,9 +192,9 @@
   (check	;cfb1
       (let ()
 	(define key.en
-	  (ssl.aes-set-encrypt-key "0123456789012345"))
+	  (ssl.aes-set-encrypt-key "0123456789012345" #f))
 	(define key.de
-	  (ssl.aes-set-decrypt-key "0123456789012345"))
+	  (ssl.aes-set-decrypt-key "0123456789012345" #f))
 	(define iv
 	  (make-bytevector ssl.AES_BLOCK_SIZE 99))
 	(define data.len
@@ -214,9 +214,9 @@
   (check	;cfb8
       (let ()
 	(define key.en
-	  (ssl.aes-set-encrypt-key "0123456789012345"))
+	  (ssl.aes-set-encrypt-key "0123456789012345" #f))
 	(define key.de
-	  (ssl.aes-set-decrypt-key "0123456789012345"))
+	  (ssl.aes-set-decrypt-key "0123456789012345" #f))
 	(define iv
 	  (make-bytevector ssl.AES_BLOCK_SIZE 99))
 	(define data.len

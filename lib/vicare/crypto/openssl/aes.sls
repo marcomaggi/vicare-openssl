@@ -138,37 +138,29 @@
 
 ;;; --------------------------------------------------------------------
 
-(define aes-set-encrypt-key
-  (case-lambda
-   ((key)
-    (aes-set-encrypt-key key #f))
-   ((key key.len)
-    (define who 'aes-set-encrypt-key)
-    (with-arguments-validation (who)
-	((general-c-string*	key key.len))
-      (with-general-c-strings
-	  ((key^	key))
-	(let ((key.len (general-c-buffer-len key^ key.len)))
-	  (with-arguments-validation (who)
-	      ((aes-key-len	key.len))
-	    (let ((rv (capi.aes-set-encrypt-key key^ key.len)))
-	      (and rv (make-aes-key/owner rv))))))))))
+(define (aes-set-encrypt-key key key.len)
+  (define who 'aes-set-encrypt-key)
+  (with-arguments-validation (who)
+      ((general-c-string*	key key.len))
+    (with-general-c-strings
+	((key^	key))
+      (let ((key.len (general-c-buffer-len key^ key.len)))
+	(with-arguments-validation (who)
+	    ((aes-key-len	key.len))
+	  (let ((rv (capi.aes-set-encrypt-key key^ key.len)))
+	    (and rv (make-aes-key/owner rv))))))))
 
-(define aes-set-decrypt-key
-  (case-lambda
-   ((key)
-    (aes-set-decrypt-key key #f))
-   ((key key.len)
-    (define who 'aes-set-decrypt-key)
-    (with-arguments-validation (who)
-	((general-c-string*	key key.len))
-      (with-general-c-strings
-	  ((key^	key))
-	(let ((key.len (general-c-buffer-len key^ key.len)))
-	  (with-arguments-validation (who)
-	      ((aes-key-len	key.len))
-	    (let ((rv (capi.aes-set-decrypt-key key^ key.len)))
-	      (and rv (make-aes-key/owner rv))))))))))
+(define (aes-set-decrypt-key key key.len)
+  (define who 'aes-set-decrypt-key)
+  (with-arguments-validation (who)
+      ((general-c-string*	key key.len))
+    (with-general-c-strings
+	((key^	key))
+      (let ((key.len (general-c-buffer-len key^ key.len)))
+	(with-arguments-validation (who)
+	    ((aes-key-len	key.len))
+	  (let ((rv (capi.aes-set-decrypt-key key^ key.len)))
+	    (and rv (make-aes-key/owner rv))))))))
 
 ;;; --------------------------------------------------------------------
 
