@@ -40,7 +40,7 @@
 (check-set-mode! 'report-failed)
 (check-display "*** testing Vicare OpenSSL bindings: raw message digest API\n")
 
-(ssl.ssl-library-init)
+(ssl.openssl-add-all-digests)
 
 
 ;;;; helpers
