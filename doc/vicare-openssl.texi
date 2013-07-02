@@ -527,7 +527,7 @@ crypto openssl message-digests}.
 @cindex @var{MD4} argument
 @cindex Argument @var{MD4}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{MD4_CTX}; it references an MD4 hash checksum
+language type @code{MD4_CTX}; it represents an MD4 hash checksum
 context.
 
 When instances of this type are used as arguments to functions: this
@@ -645,7 +645,7 @@ crypto openssl message-digests}.
 @cindex @var{MD5} argument
 @cindex Argument @var{MD5}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{MD5_CTX}; it references an MD5 hash checksum
+language type @code{MD5_CTX}; it represents an MD5 hash checksum
 context.
 
 When instances of this type are used as arguments to functions: this
@@ -712,8 +712,8 @@ crypto openssl message-digests}.
 
 @defun md5 @var{input}
 @defunx md5 @var{input} @var{input.len}
-Perform a one--step checksum computing; return a bytevector holding the
-result.  @manpage{MD5, MD5}.
+Perform a one--step checksum computing the checksum of the given input
+data; return a bytevector holding the result.  @manpage{MD5, MD5}.
 
 @var{input} and @var{input.len} must represent a generalised C string,
 @cstringsref{}.  When @var{input} is a string: it is converted to a
@@ -724,6 +724,25 @@ bytevector with @func{string->utf8}.
 @node plain hash mdc2
 @subsection Computing MDC2 hash checksums
 
+
+The raw @api{} to compute MDC2 checksums is used as follows:
+
+@smallexample
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl message-digests) ssl.))
+
+(ssl.openssl-add-all-digests)
+
+(let ((ctx (ssl.mdc2-init)))
+  (assert (ssl.mdc2-update ctx "ciao"))
+  (ssl.mdc2-final ctx))
+@result{} #vu8(7 135 111 85 63 136 98 189 26 91 47 77 36 135 251 237)
+
+(ssl.mdc2 "ciao")
+@result{} #vu8(7 135 111 85 63 136 98 189 26 91 47 77 36 135 251 237)
+@end smallexample
 
 @menu
 * plain hash mdc2 struct::       Hash checksum data structures.
@@ -744,7 +763,7 @@ crypto openssl message-digests}.
 @cindex @var{MDC2} argument
 @cindex Argument @var{MDC2}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{MDC2_CTX}; it references an MDC2 hash checksum
+language type @code{MDC2_CTX}; it represents an MDC2 hash checksum
 context.
 
 When instances of this type are used as arguments to functions: this
@@ -762,53 +781,11 @@ associated data is finalised; any error is ignored in this procedure.
 @end itemize
 @end deftp
 
-
-@defun mdc2-ctx? @var{obj}
-Return @true{} if @var{obj} is an instance of @code{mdc2-ctx}; otherwise
-return @false{}.
-@end defun
-
-
-@defun mdc2-ctx?/alive @var{obj}
-Return @true{} if @var{obj} is an instance of @code{mdc2-ctx} and the
-context it represents is open; otherwise return @false{}.
-@end defun
-
-
-@defun mdc2-ctx-custom-destructor @var{MDC2}
-@defunx set-mdc2-ctx-custom-destructor! @var{MDC2} @var{func}
-Retrieve or set a destructor function associated to the @var{MDC2}.
-
-Whenever the @var{MDC2} is closed, either explicitly with
-@func{mdc2-final} or implicitly by the garbage collector, @var{func} is
-applied to @var{MDC2} before the internal state of @var{MDC2} is
-finalised.
-@end defun
-
 @c ------------------------------------------------------------
 
+@StructCommonDoc{mdc2-ctx, MDC2, mdc2-final}
 @StructPropertyListDoc{mdc2-ctx, MDC2}
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} mdc2-ctx @var{obj}
-@deffnx {Validation Clause} false-or-mdc2-ctx @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{mdc2-ctx?}; the second
-clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} mdc2-ctx/alive @var{obj}
-@deffnx {Validation Clause} false-or-mdc2-ctx/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{mdc2-ctx?/alive}; the
-second clause also accepts @false{}.
-@end deffn
+@StructArgumentsValidationDoc{mdc2-ctx, MDC2}
 
 @c page
 @node plain hash mdc2 api
@@ -853,8 +830,8 @@ crypto openssl message-digests}.
 
 @defun mdc2 @var{input}
 @defunx mdc2 @var{input} @var{input.len}
-Perform a one--step checksum computing; return a bytevector holding the
-result.  @manpage{MDC2, MDC2}.
+Perform a one--step checksum computing the checksum of the given input
+data; return a bytevector holding the result.  @manpage{MDC2, MDC2}.
 
 @var{input} and @var{input.len} must represent a generalised C string,
 @cstringsref{}.  When @var{input} is a string: it is converted to a
@@ -865,6 +842,27 @@ bytevector with @func{string->utf8}.
 @node plain hash sha1
 @subsection Computing SHA1 hash checksums
 
+
+The raw @api{} to compute SHA1 checksums is used as follows:
+
+@smallexample
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl message-digests) ssl.))
+
+(ssl.openssl-add-all-digests)
+
+(let ((ctx (ssl.sha1-init)))
+  (assert (ssl.sha1-update ctx "ciao"))
+  (ssl.sha1-final ctx))
+@result{} #vu8(30 78 136 138 198 111 141 212 30 0 197 167 172 54 163
+     42 153 80 210 113)
+
+(ssl.sha1 "ciao")
+@result{} #vu8(30 78 136 138 198 111 141 212 30 0 197 167 172 54 163
+     42 153 80 210 113)
+@end smallexample
 
 @menu
 * plain hash sha1 struct::       Hash checksum data structures.
@@ -885,7 +883,7 @@ crypto openssl message-digests}.
 @cindex @var{SHA1} argument
 @cindex Argument @var{SHA1}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{SHA1_CTX}; it references an SHA1 hash checksum
+language type @code{SHA1_CTX}; it represents a SHA1 hash checksum
 context.
 
 When instances of this type are used as arguments to functions: this
@@ -896,60 +894,18 @@ underlying checksum context and those who merely reference it.
 
 @itemize
 @item
-@code{sha1-ctx} instances returned by @func{sha1-init} do own the context.
-When instances of this category are garbage collected or when
-@func{md5-final} is applied to them: the context is closed, all the
+@code{sha1-ctx} instances returned by @func{sha1-init} do own the
+context.  When instances of this category are garbage collected or when
+@func{sha1-final} is applied to them: the context is closed, all the
 associated data is finalised; any error is ignored in this procedure.
 @end itemize
 @end deftp
 
-
-@defun sha1-ctx? @var{obj}
-Return @true{} if @var{obj} is an instance of @code{sha1-ctx}; otherwise
-return @false{}.
-@end defun
-
-
-@defun sha1-ctx?/alive @var{obj}
-Return @true{} if @var{obj} is an instance of @code{sha1-ctx} and the
-context it represents is open; otherwise return @false{}.
-@end defun
-
-
-@defun sha1-ctx-custom-destructor @var{SHA1}
-@defunx set-sha1-ctx-custom-destructor! @var{SHA1} @var{func}
-Retrieve or set a destructor function associated to the @var{SHA1}.
-
-Whenever the @var{SHA1} is closed, either explicitly with
-@func{sha1-final} or implicitly by the garbage collector, @var{func} is
-applied to @var{SHA1} before the internal state of @var{SHA1} is
-finalised.
-@end defun
-
 @c ------------------------------------------------------------
 
+@StructCommonDoc{sha1-ctx, SHA1, sha1-final}
 @StructPropertyListDoc{sha1-ctx, SHA1}
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} sha1-ctx @var{obj}
-@deffnx {Validation Clause} false-or-sha1-ctx @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{sha1-ctx?}; the second
-clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} sha1-ctx/alive @var{obj}
-@deffnx {Validation Clause} false-or-sha1-ctx/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{sha1-ctx?/alive}; the
-second clause also accepts @false{}.
-@end deffn
+@StructArgumentsValidationDoc{sha1-ctx, SHA1}
 
 @c page
 @node plain hash sha1 api
@@ -994,8 +950,8 @@ crypto openssl message-digests}.
 
 @defun sha1 @var{input}
 @defunx sha1 @var{input} @var{input.len}
-Perform a one--step checksum computing; return a bytevector holding the
-result.  @manpage{SHA1, SHA1}.
+Perform a one--step checksum computing the checksum of the given input
+data; return a bytevector holding the result.  @manpage{SHA1, SHA1}.
 
 @var{input} and @var{input.len} must represent a generalised C string,
 @cstringsref{}.  When @var{input} is a string: it is converted to a
@@ -1006,6 +962,27 @@ bytevector with @func{string->utf8}.
 @node plain hash sha224
 @subsection Computing SHA224 hash checksums
 
+
+The raw @api{} to compute SHA224 checksums is used as follows:
+
+@smallexample
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl message-digests) ssl.))
+
+(ssl.openssl-add-all-digests)
+
+(let ((ctx (ssl.sha224-init)))
+  (assert (ssl.sha224-update ctx "ciao"))
+  (ssl.sha224-final ctx))
+@result{} #vu8(241 177 161 48 51 237 220 63 222 236 192 237 3 189 192
+     25 194 88 144 186 144 102 88 173 218 217 254 254)
+
+(ssl.sha224 "ciao")
+@result{} #vu8(241 177 161 48 51 237 220 63 222 236 192 237 3 189 192
+     25 194 88 144 186 144 102 88 173 218 217 254 254)
+@end smallexample
 
 @menu
 * plain hash sha224 struct::       Hash checksum data structures.
@@ -1026,7 +1003,7 @@ crypto openssl message-digests}.
 @cindex @var{SHA224} argument
 @cindex Argument @var{SHA224}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{SHA224_CTX}; it references an SHA224 hash checksum
+language type @code{SHA224_CTX}; it represents a SHA224 hash checksum
 context.
 
 When instances of this type are used as arguments to functions: this
@@ -1037,60 +1014,18 @@ underlying checksum context and those who merely reference it.
 
 @itemize
 @item
-@code{sha224-ctx} instances returned by @func{sha224-init} do own the context.
-When instances of this category are garbage collected or when
-@func{md5-final} is applied to them: the context is closed, all the
+@code{sha224-ctx} instances returned by @func{sha224-init} do own the
+context.  When instances of this category are garbage collected or when
+@func{sha224-final} is applied to them: the context is closed, all the
 associated data is finalised; any error is ignored in this procedure.
 @end itemize
 @end deftp
 
-
-@defun sha224-ctx? @var{obj}
-Return @true{} if @var{obj} is an instance of @code{sha224-ctx}; otherwise
-return @false{}.
-@end defun
-
-
-@defun sha224-ctx?/alive @var{obj}
-Return @true{} if @var{obj} is an instance of @code{sha224-ctx} and the
-context it represents is open; otherwise return @false{}.
-@end defun
-
-
-@defun sha224-ctx-custom-destructor @var{SHA224}
-@defunx set-sha224-ctx-custom-destructor! @var{SHA224} @var{func}
-Retrieve or set a destructor function associated to the @var{SHA224}.
-
-Whenever the @var{SHA224} is closed, either explicitly with
-@func{sha224-final} or implicitly by the garbage collector, @var{func} is
-applied to @var{SHA224} before the internal state of @var{SHA224} is
-finalised.
-@end defun
-
 @c ------------------------------------------------------------
 
+@StructCommonDoc{sha224-ctx, SHA224, sha224-final}
 @StructPropertyListDoc{sha224-ctx, SHA224}
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} sha224-ctx @var{obj}
-@deffnx {Validation Clause} false-or-sha224-ctx @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{sha224-ctx?}; the second
-clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} sha224-ctx/alive @var{obj}
-@deffnx {Validation Clause} false-or-sha224-ctx/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{sha224-ctx?/alive}; the
-second clause also accepts @false{}.
-@end deffn
+@StructArgumentsValidationDoc{sha224-ctx, SHA224}
 
 @c page
 @node plain hash sha224 api
@@ -1135,8 +1070,8 @@ crypto openssl message-digests}.
 
 @defun sha224 @var{input}
 @defunx sha224 @var{input} @var{input.len}
-Perform a one--step checksum computing; return a bytevector holding the
-result.  @manpage{SHA224, SHA224}.
+Perform a one--step checksum computing the checksum of the given input
+data; return a bytevector holding the result.  @manpage{SHA224, SHA224}.
 
 @var{input} and @var{input.len} must represent a generalised C string,
 @cstringsref{}.  When @var{input} is a string: it is converted to a
@@ -1147,6 +1082,27 @@ bytevector with @func{string->utf8}.
 @node plain hash sha256
 @subsection Computing SHA256 hash checksums
 
+
+The raw @api{} to compute SHA256 checksums is used as follows:
+
+@smallexample
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl message-digests) ssl.))
+
+(ssl.openssl-add-all-digests)
+
+(let ((ctx (ssl.sha256-init)))
+  (assert (ssl.sha256-update ctx "ciao"))
+  (ssl.sha256-final ctx))
+@result{} #vu8(177 51 160 192 233 190 227 190 32 22 61 42 211 29 98 72
+    219 41 42 166 220 177 238 8 122 42 165 14 15 199 90 226)
+
+(ssl.sha256 "ciao")
+@result{} #vu8(177 51 160 192 233 190 227 190 32 22 61 42 211 29 98 72
+    219 41 42 166 220 177 238 8 122 42 165 14 15 199 90 226)
+@end smallexample
 
 @menu
 * plain hash sha256 struct::       Hash checksum data structures.
@@ -1167,7 +1123,7 @@ crypto openssl message-digests}.
 @cindex @var{SHA256} argument
 @cindex Argument @var{SHA256}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{SHA256_CTX}; it references an SHA256 hash checksum
+language type @code{SHA256_CTX}; it represents a SHA256 hash checksum
 context.
 
 When instances of this type are used as arguments to functions: this
@@ -1178,60 +1134,18 @@ underlying checksum context and those who merely reference it.
 
 @itemize
 @item
-@code{sha256-ctx} instances returned by @func{sha256-init} do own the context.
-When instances of this category are garbage collected or when
-@func{md5-final} is applied to them: the context is closed, all the
+@code{sha256-ctx} instances returned by @func{sha256-init} do own the
+context.  When instances of this category are garbage collected or when
+@func{sha256-final} is applied to them: the context is closed, all the
 associated data is finalised; any error is ignored in this procedure.
 @end itemize
 @end deftp
 
-
-@defun sha256-ctx? @var{obj}
-Return @true{} if @var{obj} is an instance of @code{sha256-ctx}; otherwise
-return @false{}.
-@end defun
-
-
-@defun sha256-ctx?/alive @var{obj}
-Return @true{} if @var{obj} is an instance of @code{sha256-ctx} and the
-context it represents is open; otherwise return @false{}.
-@end defun
-
-
-@defun sha256-ctx-custom-destructor @var{SHA256}
-@defunx set-sha256-ctx-custom-destructor! @var{SHA256} @var{func}
-Retrieve or set a destructor function associated to the @var{SHA256}.
-
-Whenever the @var{SHA256} is closed, either explicitly with
-@func{sha256-final} or implicitly by the garbage collector, @var{func} is
-applied to @var{SHA256} before the internal state of @var{SHA256} is
-finalised.
-@end defun
-
 @c ------------------------------------------------------------
 
+@StructCommonDoc{sha256-ctx, SHA256, sha256-final}
 @StructPropertyListDoc{sha256-ctx, SHA256}
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} sha256-ctx @var{obj}
-@deffnx {Validation Clause} false-or-sha256-ctx @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{sha256-ctx?}; the second
-clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} sha256-ctx/alive @var{obj}
-@deffnx {Validation Clause} false-or-sha256-ctx/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{sha256-ctx?/alive}; the
-second clause also accepts @false{}.
-@end deffn
+@StructArgumentsValidationDoc{sha256-ctx, SHA256}
 
 @c page
 @node plain hash sha256 api
@@ -1276,8 +1190,8 @@ crypto openssl message-digests}.
 
 @defun sha256 @var{input}
 @defunx sha256 @var{input} @var{input.len}
-Perform a one--step checksum computing; return a bytevector holding the
-result.  @manpage{SHA256, SHA256}.
+Perform a one--step checksum computing the checksum of the given input
+data; return a bytevector holding the result.  @manpage{SHA256, SHA256}.
 
 @var{input} and @var{input.len} must represent a generalised C string,
 @cstringsref{}.  When @var{input} is a string: it is converted to a
@@ -1288,6 +1202,31 @@ bytevector with @func{string->utf8}.
 @node plain hash sha384
 @subsection Computing SHA384 hash checksums
 
+
+The raw @api{} to compute SHA384 checksums is used as follows:
+
+@smallexample
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl message-digests) ssl.))
+
+(ssl.openssl-add-all-digests)
+
+(let ((ctx (ssl.sha384-init)))
+  (assert (ssl.sha384-update ctx "ciao"))
+  (ssl.sha384-final ctx))
+@result{} #vu8(110 218 79 204 118 133 171 186 67 69 181 195 13 193 56
+    133 175 247 53 154 81 209 135 124 124 85 207 48 93 213
+    47 198 34 188 209 168 24 58 194 231 199 253 193 252 20
+    195 246 133)
+
+(ssl.sha384 "ciao")
+@result{} #vu8(110 218 79 204 118 133 171 186 67 69 181 195 13 193 56
+    133 175 247 53 154 81 209 135 124 124 85 207 48 93 213
+    47 198 34 188 209 168 24 58 194 231 199 253 193 252 20
+    195 246 133)
+@end smallexample
 
 @menu
 * plain hash sha384 struct::       Hash checksum data structures.
@@ -1308,7 +1247,7 @@ crypto openssl message-digests}.
 @cindex @var{SHA384} argument
 @cindex Argument @var{SHA384}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{SHA384_CTX}; it references an SHA384 hash checksum
+language type @code{SHA384_CTX}; it represents a SHA384 hash checksum
 context.
 
 When instances of this type are used as arguments to functions: this
@@ -1319,60 +1258,18 @@ underlying checksum context and those who merely reference it.
 
 @itemize
 @item
-@code{sha384-ctx} instances returned by @func{sha384-init} do own the context.
-When instances of this category are garbage collected or when
-@func{md5-final} is applied to them: the context is closed, all the
+@code{sha384-ctx} instances returned by @func{sha384-init} do own the
+context.  When instances of this category are garbage collected or when
+@func{sha384-final} is applied to them: the context is closed, all the
 associated data is finalised; any error is ignored in this procedure.
 @end itemize
 @end deftp
 
-
-@defun sha384-ctx? @var{obj}
-Return @true{} if @var{obj} is an instance of @code{sha384-ctx}; otherwise
-return @false{}.
-@end defun
-
-
-@defun sha384-ctx?/alive @var{obj}
-Return @true{} if @var{obj} is an instance of @code{sha384-ctx} and the
-context it represents is open; otherwise return @false{}.
-@end defun
-
-
-@defun sha384-ctx-custom-destructor @var{SHA384}
-@defunx set-sha384-ctx-custom-destructor! @var{SHA384} @var{func}
-Retrieve or set a destructor function associated to the @var{SHA384}.
-
-Whenever the @var{SHA384} is closed, either explicitly with
-@func{sha384-final} or implicitly by the garbage collector, @var{func} is
-applied to @var{SHA384} before the internal state of @var{SHA384} is
-finalised.
-@end defun
-
 @c ------------------------------------------------------------
 
+@StructCommonDoc{sha384-ctx, SHA384, sha384-final}
 @StructPropertyListDoc{sha384-ctx, SHA384}
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} sha384-ctx @var{obj}
-@deffnx {Validation Clause} false-or-sha384-ctx @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{sha384-ctx?}; the second
-clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} sha384-ctx/alive @var{obj}
-@deffnx {Validation Clause} false-or-sha384-ctx/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{sha384-ctx?/alive}; the
-second clause also accepts @false{}.
-@end deffn
+@StructArgumentsValidationDoc{sha384-ctx, SHA384}
 
 @c page
 @node plain hash sha384 api
@@ -1417,8 +1314,8 @@ crypto openssl message-digests}.
 
 @defun sha384 @var{input}
 @defunx sha384 @var{input} @var{input.len}
-Perform a one--step checksum computing; return a bytevector holding the
-result.  @manpage{SHA384, SHA384}.
+Perform a one--step checksum computing the checksum of the given input
+data; return a bytevector holding the result.  @manpage{SHA384, SHA384}.
 
 @var{input} and @var{input.len} must represent a generalised C string,
 @cstringsref{}.  When @var{input} is a string: it is converted to a
@@ -1429,6 +1326,33 @@ bytevector with @func{string->utf8}.
 @node plain hash sha512
 @subsection Computing SHA512 hash checksums
 
+
+The raw @api{} to compute SHA512 checksums is used as follows:
+
+@smallexample
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl message-digests) ssl.))
+
+(ssl.openssl-add-all-digests)
+
+(let ((ctx (ssl.sha512-init)))
+  (assert (ssl.sha512-update ctx "ciao"))
+  (ssl.sha512-final ctx))
+@result{} #vu8(160 194 153 183 26 158 89 213 235 176 121 23 231 6 1
+    163 87 10 161 3 233 154 123 182 90 88 231 128 236 144
+    119 177 144 45 29 237 179 27 20 87 190 218 89 95 228
+    215 29 119 155 108 169 202 212 118 38 108 192 117 144
+    227 29 132 178 6)
+
+(ssl.sha512 "ciao")
+@result{} #vu8(160 194 153 183 26 158 89 213 235 176 121 23 231 6 1
+    163 87 10 161 3 233 154 123 182 90 88 231 128 236 144
+    119 177 144 45 29 237 179 27 20 87 190 218 89 95 228
+    215 29 119 155 108 169 202 212 118 38 108 192 117 144
+    227 29 132 178 6)
+@end smallexample
 
 @menu
 * plain hash sha512 struct::       Hash checksum data structures.
@@ -1449,7 +1373,7 @@ crypto openssl message-digests}.
 @cindex @var{SHA512} argument
 @cindex Argument @var{SHA512}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{SHA512_CTX}; it references an SHA512 hash checksum
+language type @code{SHA512_CTX}; it represents a SHA512 hash checksum
 context.
 
 When instances of this type are used as arguments to functions: this
@@ -1460,60 +1384,18 @@ underlying checksum context and those who merely reference it.
 
 @itemize
 @item
-@code{sha512-ctx} instances returned by @func{sha512-init} do own the context.
-When instances of this category are garbage collected or when
-@func{md5-final} is applied to them: the context is closed, all the
+@code{sha512-ctx} instances returned by @func{sha512-init} do own the
+context.  When instances of this category are garbage collected or when
+@func{sha512-final} is applied to them: the context is closed, all the
 associated data is finalised; any error is ignored in this procedure.
 @end itemize
 @end deftp
 
-
-@defun sha512-ctx? @var{obj}
-Return @true{} if @var{obj} is an instance of @code{sha512-ctx}; otherwise
-return @false{}.
-@end defun
-
-
-@defun sha512-ctx?/alive @var{obj}
-Return @true{} if @var{obj} is an instance of @code{sha512-ctx} and the
-context it represents is open; otherwise return @false{}.
-@end defun
-
-
-@defun sha512-ctx-custom-destructor @var{SHA512}
-@defunx set-sha512-ctx-custom-destructor! @var{SHA512} @var{func}
-Retrieve or set a destructor function associated to the @var{SHA512}.
-
-Whenever the @var{SHA512} is closed, either explicitly with
-@func{sha512-final} or implicitly by the garbage collector, @var{func} is
-applied to @var{SHA512} before the internal state of @var{SHA512} is
-finalised.
-@end defun
-
 @c ------------------------------------------------------------
 
+@StructCommonDoc{sha512-ctx, SHA512, sha512-final}
 @StructPropertyListDoc{sha512-ctx, SHA512}
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} sha512-ctx @var{obj}
-@deffnx {Validation Clause} false-or-sha512-ctx @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{sha512-ctx?}; the second
-clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} sha512-ctx/alive @var{obj}
-@deffnx {Validation Clause} false-or-sha512-ctx/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{sha512-ctx?/alive}; the
-second clause also accepts @false{}.
-@end deffn
+@StructArgumentsValidationDoc{sha512-ctx, SHA512}
 
 @c page
 @node plain hash sha512 api
@@ -1558,8 +1440,8 @@ crypto openssl message-digests}.
 
 @defun sha512 @var{input}
 @defunx sha512 @var{input} @var{input.len}
-Perform a one--step checksum computing; return a bytevector holding the
-result.  @manpage{SHA512, SHA512}.
+Perform a one--step checksum computing the checksum of the given input
+data; return a bytevector holding the result.  @manpage{SHA512, SHA512}.
 
 @var{input} and @var{input.len} must represent a generalised C string,
 @cstringsref{}.  When @var{input} is a string: it is converted to a
@@ -1570,6 +1452,27 @@ bytevector with @func{string->utf8}.
 @node plain hash ripemd160
 @subsection Computing RIPEMD160 hash checksums
 
+
+The raw @api{} to compute RIPEMD160 checksums is used as follows:
+
+@smallexample
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl message-digests) ssl.))
+
+(ssl.openssl-add-all-digests)
+
+(let ((ctx (ssl.ripemd160-init)))
+  (assert (ssl.ripemd160-update ctx "ciao"))
+  (ssl.ripemd160-final ctx))
+@result{} #vu8(73 78 219 37 115 168 139 92 233 100 122
+    73 155 77 18 242 144 169 250 190)
+
+(ssl.ripemd160 "ciao")
+@result{} #vu8(73 78 219 37 115 168 139 92 233 100 122
+    73 155 77 18 242 144 169 250 190)
+@end smallexample
 
 @menu
 * plain hash ripemd160 struct::       Hash checksum data structures.
@@ -1590,8 +1493,8 @@ crypto openssl message-digests}.
 @cindex @var{RIPEMD160} argument
 @cindex Argument @var{RIPEMD160}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{RIPEMD160_CTX}; it references an RIPEMD160 hash checksum
-context.
+language type @code{RIPEMD160_CTX}; it represents a RIPEMD160 hash
+checksum context.
 
 When instances of this type are used as arguments to functions: this
 documentation identifies them as @var{RIPEMD160}.
@@ -1601,60 +1504,19 @@ underlying checksum context and those who merely reference it.
 
 @itemize
 @item
-@code{ripemd160-ctx} instances returned by @func{ripemd160-init} do own the context.
-When instances of this category are garbage collected or when
-@func{md5-final} is applied to them: the context is closed, all the
-associated data is finalised; any error is ignored in this procedure.
+@code{ripemd160-ctx} instances returned by @func{ripemd160-init} do own
+the context.  When instances of this category are garbage collected or
+when @func{ripemd160-final} is applied to them: the context is closed,
+all the associated data is finalised; any error is ignored in this
+procedure.
 @end itemize
 @end deftp
 
-
-@defun ripemd160-ctx? @var{obj}
-Return @true{} if @var{obj} is an instance of @code{ripemd160-ctx}; otherwise
-return @false{}.
-@end defun
-
-
-@defun ripemd160-ctx?/alive @var{obj}
-Return @true{} if @var{obj} is an instance of @code{ripemd160-ctx} and the
-context it represents is open; otherwise return @false{}.
-@end defun
-
-
-@defun ripemd160-ctx-custom-destructor @var{RIPEMD160}
-@defunx set-ripemd160-ctx-custom-destructor! @var{RIPEMD160} @var{func}
-Retrieve or set a destructor function associated to the @var{RIPEMD160}.
-
-Whenever the @var{RIPEMD160} is closed, either explicitly with
-@func{ripemd160-final} or implicitly by the garbage collector, @var{func} is
-applied to @var{RIPEMD160} before the internal state of @var{RIPEMD160} is
-finalised.
-@end defun
-
 @c ------------------------------------------------------------
 
-@StructPropertyListDoc{ripemd160, RIPEMD160}
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} ripemd160-ctx @var{obj}
-@deffnx {Validation Clause} false-or-ripemd160-ctx @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{ripemd160-ctx?}; the second
-clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} ripemd160-ctx/alive @var{obj}
-@deffnx {Validation Clause} false-or-ripemd160-ctx/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{ripemd160-ctx?/alive}; the
-second clause also accepts @false{}.
-@end deffn
+@StructCommonDoc{ripemd160-ctx, RIPEMD160, ripemd160-final}
+@StructPropertyListDoc{ripemd160-ctx, RIPEMD160}
+@StructArgumentsValidationDoc{ripemd160-ctx, RIPEMD160}
 
 @c page
 @node plain hash ripemd160 api
@@ -1699,8 +1561,9 @@ crypto openssl message-digests}.
 
 @defun ripemd160 @var{input}
 @defunx ripemd160 @var{input} @var{input.len}
-Perform a one--step checksum computing; return a bytevector holding the
-result.  @manpage{RIPEMD160, RIPEMD160}.
+Perform a one--step checksum computing the checksum of the given input
+data; return a bytevector holding the result.  @manpage{RIPEMD160,
+RIPEMD160}.
 
 @var{input} and @var{input.len} must represent a generalised C string,
 @cstringsref{}.  When @var{input} is a string: it is converted to a
@@ -1711,6 +1574,33 @@ bytevector with @func{string->utf8}.
 @node plain hash whirlpool
 @subsection Computing WHIRLPOOL hash checksums
 
+
+The raw @api{} to compute WHIRLPOOL checksums is used as follows:
+
+@smallexample
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl message-digests) ssl.))
+
+(ssl.openssl-add-all-digests)
+
+(let ((ctx (ssl.whirlpool-init)))
+  (assert (ssl.whirlpool-update ctx "ciao"))
+  (ssl.whirlpool-final ctx))
+@result{} #vu8(152 106 126 88 185 42 0 166 63 74 143 200 89 163 3 73
+    252 24 173 157 214 90 15 140 193 41 96 233 221 94 42
+    180 241 235 84 108 60 85 85 110 6 1 84 141 34 68 60 230
+    208 104 203 49 17 139 135 81 125 206 42 25 173 36 243
+    237)
+
+(ssl.whirlpool "ciao")
+@result{} #vu8(152 106 126 88 185 42 0 166 63 74 143 200 89 163 3 73
+    252 24 173 157 214 90 15 140 193 41 96 233 221 94 42
+    180 241 235 84 108 60 85 85 110 6 1 84 141 34 68 60 230
+    208 104 203 49 17 139 135 81 125 206 42 25 173 36 243
+    237)
+@end smallexample
 
 @menu
 * plain hash whirlpool struct::       Hash checksum data structures.
@@ -1731,8 +1621,8 @@ crypto openssl message-digests}.
 @cindex @var{WHIRLPOOL} argument
 @cindex Argument @var{WHIRLPOOL}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{WHIRLPOOL_CTX}; it references an WHIRLPOOL hash checksum
-context.
+language type @code{WHIRLPOOL_CTX}; it represents a WHIRLPOOL hash
+checksum context.
 
 When instances of this type are used as arguments to functions: this
 documentation identifies them as @var{WHIRLPOOL}.
@@ -1742,60 +1632,19 @@ underlying checksum context and those who merely reference it.
 
 @itemize
 @item
-@code{whirlpool-ctx} instances returned by @func{whirlpool-init} do own the context.
-When instances of this category are garbage collected or when
-@func{whirlpool-final} is applied to them: the context is closed, all the
-associated data is finalised; any error is ignored in this procedure.
+@code{whirlpool-ctx} instances returned by @func{whirlpool-init} do own
+the context.  When instances of this category are garbage collected or
+when @func{whirlpool-final} is applied to them: the context is closed,
+all the associated data is finalised; any error is ignored in this
+procedure.
 @end itemize
 @end deftp
 
-
-@defun whirlpool-ctx? @var{obj}
-Return @true{} if @var{obj} is an instance of @code{whirlpool-ctx}; otherwise
-return @false{}.
-@end defun
-
-
-@defun whirlpool-ctx?/alive @var{obj}
-Return @true{} if @var{obj} is an instance of @code{whirlpool-ctx} and the
-context it represents is open; otherwise return @false{}.
-@end defun
-
-
-@defun whirlpool-ctx-custom-destructor @var{WHIRLPOOL}
-@defunx set-whirlpool-ctx-custom-destructor! @var{WHIRLPOOL} @var{func}
-Retrieve or set a destructor function associated to the @var{WHIRLPOOL}.
-
-Whenever the @var{WHIRLPOOL} is closed, either explicitly with
-@func{whirlpool-final} or implicitly by the garbage collector, @var{func} is
-applied to @var{WHIRLPOOL} before the internal state of @var{WHIRLPOOL} is
-finalised.
-@end defun
-
 @c ------------------------------------------------------------
 
+@StructCommonDoc{whirlpool-ctx, WHIRLPOOL, whirlpool-final}
 @StructPropertyListDoc{whirlpool-ctx, WHIRLPOOL}
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} whirlpool-ctx @var{obj}
-@deffnx {Validation Clause} false-or-whirlpool-ctx @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{whirlpool-ctx?}; the second
-clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} whirlpool-ctx/alive @var{obj}
-@deffnx {Validation Clause} false-or-whirlpool-ctx/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{whirlpool-ctx?/alive}; the
-second clause also accepts @false{}.
-@end deffn
+@StructArgumentsValidationDoc{whirlpool-ctx, WHIRLPOOL}
 
 @c page
 @node plain hash whirlpool api
@@ -1840,8 +1689,9 @@ crypto openssl message-digests}.
 
 @defun whirlpool @var{input}
 @defunx whirlpool @var{input} @var{input.len}
-Perform a one--step checksum computing; return a bytevector holding the
-result.  @manpage{WHIRLPOOL, WHIRLPOOL}.
+Perform a one--step checksum computing the checksum of the given input
+data; return a bytevector holding the result.  @manpage{WHIRLPOOL,
+WHIRLPOOL}.
 
 @var{input} and @var{input.len} must represent a generalised C string,
 @cstringsref{}.  When @var{input} is a string: it is converted to a
