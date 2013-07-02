@@ -9,6 +9,45 @@
 
 @c page
 @c ------------------------------------------------------------
+@c Local macros.
+@c ------------------------------------------------------------
+
+@c Insert a documentation chunk describing the property lists
+@c API for data structures wrapping foreign pointers.
+@c
+@macro StructPropertyListDoc{PREFIX, STRUCT}
+@subsubheading Property lists
+
+@cindex Property lists, @var{\STRUCT\} structures
+
+@defun \PREFIX\-putprop @var{\STRUCT\} @var{key} @var{value}
+Add a new property @var{key} with @var{value} to the property list of
+@var{\STRUCT\}.  If @var{key} is already set: the old entry is mutated to
+reference @var{value}.  @var{key} must be a symbol.
+@end defun
+
+
+@defun \PREFIX\-getprop @var{\STRUCT\} @var{key}
+Return the value of the property @var{key} in the property list of
+@var{\STRUCT\}; if @var{key} is not set return @false{}.  @var{key} must be a
+symbol.
+@end defun
+
+
+@defun \PREFIX\-remprop @var{\STRUCT\} @var{key}
+Remove the property @var{key} from the property list of @var{\STRUCT\}.
+@var{key} must be a symbol.
+@end defun
+
+
+@defun \PREFIX\-property-list @var{\STRUCT\}
+Return a new association list representing the property list of
+@var{\STRUCT\}.
+@end defun
+@end macro
+
+@c page
+@c ------------------------------------------------------------
 @c Values.
 @c ------------------------------------------------------------
 
@@ -453,27 +492,11 @@ Whenever the @var{MD4} is closed, either explicitly with
 @func{md4-final} or implicitly by the garbage collector, @var{func} is
 applied to @var{MD4} before the internal state of @var{MD4} is
 finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{MD4}; if we do:
-
-@example
-(define context ...)
-(set-md4-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((md4-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{MD4}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{md4-ctx, MD4}
 
 @c ------------------------------------------------------------
 
@@ -610,27 +633,11 @@ Whenever the @var{MD5} is closed, either explicitly with
 @func{md5-final} or implicitly by the garbage collector, @var{func} is
 applied to @var{MD5} before the internal state of @var{MD5} is
 finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{MD5}; if we do:
-
-@example
-(define context ...)
-(set-md5-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((md5-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{MD5}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{md5-ctx, MD5}
 
 @c ------------------------------------------------------------
 
@@ -767,27 +774,11 @@ Whenever the @var{MDC2} is closed, either explicitly with
 @func{mdc2-final} or implicitly by the garbage collector, @var{func} is
 applied to @var{MDC2} before the internal state of @var{MDC2} is
 finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{MDC2}; if we do:
-
-@example
-(define context ...)
-(set-mdc2-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((mdc2-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{MDC2}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{mdc2-ctx, MDC2}
 
 @c ------------------------------------------------------------
 
@@ -924,27 +915,11 @@ Whenever the @var{SHA1} is closed, either explicitly with
 @func{sha1-final} or implicitly by the garbage collector, @var{func} is
 applied to @var{SHA1} before the internal state of @var{SHA1} is
 finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{SHA1}; if we do:
-
-@example
-(define context ...)
-(set-sha1-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((sha1-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{SHA1}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{sha1-ctx, SHA1}
 
 @c ------------------------------------------------------------
 
@@ -1081,27 +1056,11 @@ Whenever the @var{SHA224} is closed, either explicitly with
 @func{sha224-final} or implicitly by the garbage collector, @var{func} is
 applied to @var{SHA224} before the internal state of @var{SHA224} is
 finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{SHA224}; if we do:
-
-@example
-(define context ...)
-(set-sha224-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((sha224-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{SHA224}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{sha224-ctx, SHA224}
 
 @c ------------------------------------------------------------
 
@@ -1238,27 +1197,11 @@ Whenever the @var{SHA256} is closed, either explicitly with
 @func{sha256-final} or implicitly by the garbage collector, @var{func} is
 applied to @var{SHA256} before the internal state of @var{SHA256} is
 finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{SHA256}; if we do:
-
-@example
-(define context ...)
-(set-sha256-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((sha256-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{SHA256}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{sha256-ctx, SHA256}
 
 @c ------------------------------------------------------------
 
@@ -1395,27 +1338,11 @@ Whenever the @var{SHA384} is closed, either explicitly with
 @func{sha384-final} or implicitly by the garbage collector, @var{func} is
 applied to @var{SHA384} before the internal state of @var{SHA384} is
 finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{SHA384}; if we do:
-
-@example
-(define context ...)
-(set-sha384-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((sha384-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{SHA384}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{sha384-ctx, SHA384}
 
 @c ------------------------------------------------------------
 
@@ -1552,27 +1479,11 @@ Whenever the @var{SHA512} is closed, either explicitly with
 @func{sha512-final} or implicitly by the garbage collector, @var{func} is
 applied to @var{SHA512} before the internal state of @var{SHA512} is
 finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{SHA512}; if we do:
-
-@example
-(define context ...)
-(set-sha512-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((sha512-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{SHA512}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{sha512-ctx, SHA512}
 
 @c ------------------------------------------------------------
 
@@ -1709,27 +1620,11 @@ Whenever the @var{RIPEMD160} is closed, either explicitly with
 @func{ripemd160-final} or implicitly by the garbage collector, @var{func} is
 applied to @var{RIPEMD160} before the internal state of @var{RIPEMD160} is
 finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{RIPEMD160}; if we do:
-
-@example
-(define context ...)
-(set-ripemd160-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((ripemd160-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{RIPEMD160}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{ripemd160, RIPEMD160}
 
 @c ------------------------------------------------------------
 
@@ -1866,27 +1761,11 @@ Whenever the @var{WHIRLPOOL} is closed, either explicitly with
 @func{whirlpool-final} or implicitly by the garbage collector, @var{func} is
 applied to @var{WHIRLPOOL} before the internal state of @var{WHIRLPOOL} is
 finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{WHIRLPOOL}; if we do:
-
-@example
-(define context ...)
-(set-whirlpool-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((whirlpool-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{WHIRLPOOL}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{whirlpool-ctx, WHIRLPOOL}
 
 @c ------------------------------------------------------------
 
@@ -2023,27 +1902,11 @@ Whenever the @var{HMAC} is closed, either explicitly with
 @func{hmac-final} or implicitly by the garbage collector, @var{func} is
 applied to @var{HMAC} before the internal state of @var{HMAC} is
 finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{HMAC}; if we do:
-
-@example
-(define context ...)
-(set-hmac-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((hmac-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{HMAC}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{hmac-ctx, HMAC}
 
 @c ------------------------------------------------------------
 
@@ -2272,6 +2135,9 @@ associated to @var{AES}; if we do:
 @noindent
 we can easily associate values to @var{AES}.
 @end defun
+
+
+@StructPropertyListDoc{aes-key, AES}
 
 @c ------------------------------------------------------------
 
@@ -2865,27 +2731,11 @@ Retrieve or set a destructor function associated to the @var{EVP-MD-CTX}.
 
 Whenever the @var{EVP-MD-CTX} is closed: @var{func} is applied to
 @var{EVP-MD-CTX} before the internal state of @var{EVP-MD-CTX} is finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{EVP-MD-CTX}; if we do:
-
-@example
-(define context ...)
-(set-evp-md-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((evp-md-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{EVP-MD-CTX}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{evp-md-ctx, EVP-MD-CTX}
 
 @c ------------------------------------------------------------
 
@@ -3512,27 +3362,11 @@ Retrieve or set a destructor function associated to the
 Whenever the @var{EVP-CIPHER-CTX} is closed: @var{func} is applied to
 @var{EVP-CIPHER-CTX} before the internal state of @var{EVP-CIPHER-CTX}
 is finalised.
-
-Notice that @var{func} can do anything, not only destroy some state
-associated to @var{EVP-CIPHER-CTX}; if we do:
-
-@example
-(define context ...)
-(set-evp-cipher-ctx-custom-destructor! context
-  (let ((state (make-some-data-struct)))
-    (case-lambda
-      ((sex)
-       (destroy state))
-      (()
-       state))))
-
-(let ((state ((evp-cipher-ctx-custom-destructor context))))
-  (do-something-with context state))
-@end example
-
-@noindent
-we can easily associate values to @var{EVP-CIPHER-CTX}.
 @end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{evp-cipher-ctx, EVP-CIPHER-CTX}
 
 @c ------------------------------------------------------------
 

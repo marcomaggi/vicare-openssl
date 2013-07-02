@@ -39,6 +39,9 @@
     md4-ctx.vicare-arguments-validation
     md4-ctx/alive.vicare-arguments-validation
 
+    md4-ctx-putprop		md4-ctx-getprop
+    md4-ctx-remprop		md4-ctx-property-list
+
     md4-init
     md4-update
     md4-final
@@ -52,6 +55,9 @@
     set-md5-ctx-custom-destructor!
     md5-ctx.vicare-arguments-validation
     md5-ctx/alive.vicare-arguments-validation
+
+    md5-ctx-putprop		md5-ctx-getprop
+    md5-ctx-remprop		md5-ctx-property-list
 
     md5-init
     md5-update
@@ -67,6 +73,9 @@
     mdc2-ctx.vicare-arguments-validation
     mdc2-ctx/alive.vicare-arguments-validation
 
+    mdc2-ctx-putprop		mdc2-ctx-getprop
+    mdc2-ctx-remprop		mdc2-ctx-property-list
+
     mdc2-init
     mdc2-update
     mdc2-final
@@ -80,6 +89,9 @@
     set-sha1-ctx-custom-destructor!
     sha1-ctx.vicare-arguments-validation
     sha1-ctx/alive.vicare-arguments-validation
+
+    sha1-ctx-putprop		sha1-ctx-getprop
+    sha1-ctx-remprop		sha1-ctx-property-list
 
     sha1-init
     sha1-update
@@ -95,6 +107,9 @@
     sha224-ctx.vicare-arguments-validation
     sha224-ctx/alive.vicare-arguments-validation
 
+    sha224-ctx-putprop		sha224-ctx-getprop
+    sha224-ctx-remprop		sha224-ctx-property-list
+
     sha224-init
     sha224-update
     sha224-final
@@ -108,6 +123,9 @@
     set-sha256-ctx-custom-destructor!
     sha256-ctx.vicare-arguments-validation
     sha256-ctx/alive.vicare-arguments-validation
+
+    sha256-ctx-putprop		sha256-ctx-getprop
+    sha256-ctx-remprop		sha256-ctx-property-list
 
     sha256-init
     sha256-update
@@ -123,6 +141,9 @@
     sha384-ctx.vicare-arguments-validation
     sha384-ctx/alive.vicare-arguments-validation
 
+    sha384-ctx-putprop		sha384-ctx-getprop
+    sha384-ctx-remprop		sha384-ctx-property-list
+
     sha384-init
     sha384-update
     sha384-final
@@ -136,6 +157,9 @@
     set-sha512-ctx-custom-destructor!
     sha512-ctx.vicare-arguments-validation
     sha512-ctx/alive.vicare-arguments-validation
+
+    sha512-ctx-putprop		sha512-ctx-getprop
+    sha512-ctx-remprop		sha512-ctx-property-list
 
     sha512-init
     sha512-update
@@ -151,6 +175,9 @@
     ripemd160-ctx.vicare-arguments-validation
     ripemd160-ctx/alive.vicare-arguments-validation
 
+    ripemd160-ctx-putprop	ripemd160-ctx-getprop
+    ripemd160-ctx-remprop	ripemd160-ctx-property-list
+
     ripemd160-init
     ripemd160-update
     ripemd160-final
@@ -164,6 +191,9 @@
     set-whirlpool-ctx-custom-destructor!
     whirlpool-ctx.vicare-arguments-validation
     whirlpool-ctx/alive.vicare-arguments-validation
+
+    whirlpool-ctx-putprop	whirlpool-ctx-getprop
+    whirlpool-ctx-remprop	whirlpool-ctx-property-list
 
     whirlpool-init
     whirlpool-update

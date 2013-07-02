@@ -43,6 +43,9 @@
     evp-md-ctx/running.vicare-arguments-validation
     evp-md-ctx/alive-not-running.vicare-arguments-validation
 
+    evp-md-ctx-putprop		evp-md-ctx-getprop
+    evp-md-ctx-remprop		evp-md-ctx-property-list
+
     evp-md-ctx-create		evp-md-ctx-destroy
     evp-digest-init		evp-digest-final
     evp-digest-update		evp-md-ctx-copy

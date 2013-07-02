@@ -185,6 +185,9 @@
     evp-cipher-ctx/running.vicare-arguments-validation
     evp-cipher-ctx/alive-not-running.vicare-arguments-validation
 
+    evp-cipher-ctx-putprop	evp-cipher-ctx-getprop
+    evp-cipher-ctx-remprop	evp-cipher-ctx-property-list
+
     ;; EVP cipher context: init, update, final
     evp-cipher-ctx-new		evp-cipher-ctx-free
     evp-cipher-ctx-copy

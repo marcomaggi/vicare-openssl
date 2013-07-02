@@ -38,6 +38,9 @@
     aes-key.vicare-arguments-validation
     aes-key/alive.vicare-arguments-validation
 
+    aes-key-putprop		aes-key-getprop
+    aes-key-remprop		aes-key-property-list
+
     aes-options
     aes-set-encrypt-key		aes-set-decrypt-key
     aes-encrypt			aes-decrypt
