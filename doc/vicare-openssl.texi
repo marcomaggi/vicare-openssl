@@ -1709,18 +1709,19 @@ The raw @api{} to compute HMAC checksums is used as follows:
 #!r6rs
 (import (vicare)
   (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl hmac) ssl.)
   (prefix (vicare crypto openssl message-digests) ssl.))
 
 (ssl.openssl-add-all-digests)
 
 (let ((ctx (ssl.hmac-init "key" #f 'md5)))
-  (assert (ssl.hmac-update ctx "ciao"))
+  (assert (ssl.hmac-update ctx "ciao" #f))
   (ssl.hmac-final ctx))
 @result{} #vu8(104 95 146 126 133 66 104 215 19 225
     230 101 126 75 39 188)
 
 (let ((ctx (ssl.hmac-init "key" #f (ssl.evp-md5))))
-  (assert (ssl.hmac-update ctx "ciao"))
+  (assert (ssl.hmac-update ctx "ciao" #f))
   (ssl.hmac-final ctx))
 @result{} #vu8(104 95 146 126 133 66 104 215 19 225
     230 101 126 75 39 188)
@@ -1779,7 +1780,7 @@ associated data is finalised; any error is ignored in this procedure.
 
 
 The following bindings are exported by the library @library{vicare
-crypto openssl}.
+crypto openssl hmac}.
 
 
 @defun hmac-init @var{key} @var{key.len} @var{md}
