@@ -2458,9 +2458,10 @@ collector:
 @example
 #!r6rs
 (import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl evp message-digests) ssl.))
 
-(ssl.openssl-add-all-algorithms)
+(ssl.openssl-add-all-digests)
 
 (define ctx
   (ssl.evp-md-ctx-create))
@@ -2640,11 +2641,11 @@ Copy a message digest state from @var{SRC-EVP-MD} to @var{DST-EVP-MD};
 if successful return @true{}, otherwise return @false{}.
 
 @example
-#!r6rs
 (import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl evp message-digests) ssl.))
 
-(ssl.openssl-add-all-algorithms)
+(ssl.openssl-add-all-digests)
 
 (define src (ssl.evp-md-ctx-create))
 (ssl.evp-digest-init src 'md5)
@@ -2667,8 +2668,7 @@ The following bindings are exported by the library @library{vicare
 crypto openssl evp message-digests}.
 
 
-@defun evp-digest-update @var{EVP-MD-CTX} @var{str}
-@defunx evp-digest-update @var{EVP-MD-CTX} @var{str} @var{str.len}
+@defun evp-digest-update @var{EVP-MD-CTX} @var{str} @var{str.len}
 Update a message digest context with input data; if successful return
 @true{}, otherwise return @false{}.  @manpage{EVP_DigestInit,
 EVP_DigestUpdate}.

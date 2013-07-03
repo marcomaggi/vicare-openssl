@@ -177,19 +177,15 @@
 
 ;;; --------------------------------------------------------------------
 
-(define evp-digest-update
-  (case-lambda
-   ((ctx buf)
-    (evp-digest-update ctx buf #f))
-   ((ctx buf buf.len)
-    (define who 'evp-digest-update)
-    (with-arguments-validation (who)
-	((evp-md-ctx/running	ctx)
-	 (general-c-string*	buf buf.len))
-      (with-general-c-strings
-	  ((buf^	buf))
-	(string-to-bytevector string->utf8)
-	(capi.evp-digest-update ctx buf^ buf.len))))))
+(define (evp-digest-update ctx buf buf.len)
+  (define who 'evp-digest-update)
+  (with-arguments-validation (who)
+      ((evp-md-ctx/running	ctx)
+       (general-c-string*	buf buf.len))
+    (with-general-c-strings
+	((buf^	buf))
+      (string-to-bytevector string->utf8)
+      (capi.evp-digest-update ctx buf^ buf.len))))
 
 ;;; --------------------------------------------------------------------
 
