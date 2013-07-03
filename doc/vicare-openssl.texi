@@ -2775,7 +2775,7 @@ crypto openssl evp ciphers}.
 @cindex @var{EVP-CIPHER} argument
 @cindex Argument @var{EVP-CIPHER}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{EVP_CIPHER}; it references an encryption and
+language type @code{EVP_CIPHER}; it describes an encryption and
 decryption algorithm.
 
 When instances of this type are used as arguments to functions: this
@@ -3071,7 +3071,7 @@ returned value is @math{0}.
 
 @defun evp-cipher-mode @var{EVP-CIPHER}
 Return an exact integer, in the range of the C language type
-@code{signed int}, representing the mode the cipher algorithm.  The
+@code{signed int}, representing the mode of the cipher algorithm.  The
 returned value is one of the @code{EVP_CIPH_*_MODE} constants.
 @end defun
 
@@ -3112,8 +3112,8 @@ crypto openssl evp ciphers}.
 @cindex @var{EVP-CIPHER-CTX} argument
 @cindex Argument @var{EVP-CIPHER-CTX}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{EVP_CIPHER_CTX}; it references a message digest
-context.
+language type @code{EVP_CIPHER_CTX}; it describes an encryption or
+decryption context.
 
 When instances of this type are used as arguments to functions: this
 documentation identifies them as @var{EVP-CIPHER-CTX}.
