@@ -40,7 +40,7 @@
 (check-set-mode! 'report-failed)
 (check-display "*** testing Vicare OpenSSL bindings: EVP message digest API\n")
 
-(ssl.openssl-add-all-algorithms)
+(ssl.openssl-add-all-digests)
 
 
 ;;;; helpers

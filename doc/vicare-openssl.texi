@@ -2195,13 +2195,13 @@ crypto openssl evp message-digests}.
 @cindex @var{EVP-MD} argument
 @cindex Argument @var{EVP-MD}
 An opaque Scheme structure holding a pointer object referencing the C
-language type @code{EVP_MD}; it references a message digest algorithm.
+language type @code{EVP_MD}; it represents a message digest algorithm.
 
 When instances of this type are used as arguments to functions: this
 documentation identifies them as @var{EVP-MD}.
 
 @code{evp-md} instances are just references to algorithm
-implementations, they do not have associted dynamic data; their
+implementations, they do not have associated dynamic data; their
 finalisation can be left to the garbage collector.
 @end deftp
 
@@ -2236,7 +2236,7 @@ crypto openssl evp message-digests}.
 
 @defun evp-md-null
 Return a struct of type @code{evp-md} representing a null message digest
-algorithm.  The generated message digest hash zero length.
+algorithm.  The generated message digest has zero length.
 @manpage{EVP_DigestInit, EVP_md_null}.
 @end defun
 
@@ -2413,6 +2413,22 @@ bytevector representing the digest, otherwise return @false{}.
 @var{str} and @var{str.len} must represent a generalised C string,
 @cstringsref{}.  When @var{str} is a string: it is converted to a
 bytevector with @func{string->utf8}.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp message-digests) ssl.))
+
+(ssl.openssl-add-all-digests)
+
+(ssl.evp-digest "ciao" (ssl.evp-md5))
+@result{} #vu8(110 107 196 228 157 212 119 235 201
+    142 244 4 108 6 123 95)
+
+(ssl.evp-digest "ciao" (ssl.evp-md-null))
+@result{} #vu8()
+@end example
 @end defun
 
 @c page
