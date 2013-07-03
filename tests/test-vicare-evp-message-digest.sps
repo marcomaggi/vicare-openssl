@@ -286,11 +286,11 @@
 (parametrise ((check-test-name		'digest))
 
   (check
-      (ssl.evp-digest "ciao" (ssl.evp-md5))
+      (ssl.evp-digest "ciao" #f (ssl.evp-md5))
     => '#vu8(110 107 196 228 157 212 119 235 201 142 244 4 108 6 123 95))
 
   (check
-      (ssl.evp-digest "ciao" (ssl.evp-md-null))
+      (ssl.evp-digest "ciao" #f (ssl.evp-md-null))
     => '#vu8())
 
   #t)

@@ -334,19 +334,15 @@
 
 ;;; --------------------------------------------------------------------
 
-(define evp-digest
-  (case-lambda
-   ((buf algo)
-    (evp-digest buf #f algo))
-   ((buf buf.len algo)
-    (define who 'evp-digest)
-    (with-arguments-validation (who)
-	((general-c-string*	buf buf.len)
-	 (evp-md		algo))
-      (with-general-c-strings
-	  ((buf^	buf))
-	(string-to-bytevector string->utf8)
-	(capi.evp-digest buf^ buf.len algo))))))
+(define (evp-digest buf buf.len algo)
+  (define who 'evp-digest)
+  (with-arguments-validation (who)
+      ((general-c-string*	buf buf.len)
+       (evp-md		algo))
+    (with-general-c-strings
+	((buf^	buf))
+      (string-to-bytevector string->utf8)
+      (capi.evp-digest buf^ buf.len algo))))
 
 (define (evp-get-digestbyname name)
   (define who 'evp-get-digestbyname)
