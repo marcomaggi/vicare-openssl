@@ -372,9 +372,12 @@
 
 ;;; cipher
 
-  (check
-      (let ((ctx  (ssl.evp-cipher-ctx-new)))
-	(ssl.evp-encrypt-init ctx (ssl.evp-rc4) "ciao" #f)
+  (check	;RC4 has no init vector
+      (let* ((algo	(ssl.evp-rc4))
+	     (ctx	(ssl.evp-cipher-ctx-new))
+	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
+	     (iv	'#vu8()))
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(let ((algo (ssl.evp-cipher-ctx-cipher ctx)))
 	  (and algo (ssl.evp-cipher-name algo))))
     => "RC4")
@@ -387,7 +390,7 @@
 	     (ctx	(ssl.evp-cipher-ctx-new))
 	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-nid ctx))
     => 109)
 
@@ -399,7 +402,7 @@
 	     (ctx	(ssl.evp-cipher-ctx-new))
 	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-type ctx))
     => 0)
 
@@ -411,7 +414,7 @@
 	     (ctx	(ssl.evp-cipher-ctx-new))
 	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-block-size ctx))
     => 8)
 
@@ -423,7 +426,7 @@
 	     (ctx	(ssl.evp-cipher-ctx-new))
 	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-key-length ctx))
     => 16)
 
@@ -435,7 +438,7 @@
 	     (ctx	(ssl.evp-cipher-ctx-new))
 	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-iv-length ctx))
     => 0)
 
@@ -444,7 +447,7 @@
 	     (ctx	(ssl.evp-cipher-ctx-new))
 	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-iv-length ctx))
     => 8)
 
@@ -456,7 +459,7 @@
 	     (ctx	(ssl.evp-cipher-ctx-new))
 	     (key	(make-bytevector (ssl.evp-cipher-key-length algo)))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-mode ctx))
     => ssl.EVP_CIPH_ECB_MODE)
 
@@ -474,7 +477,7 @@
 	     (key.len	(ssl.evp-cipher-key-length algo))
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-set-key-length ctx key.len))
     => #t)
 
@@ -487,7 +490,7 @@
 	     (key.len	(ssl.evp-cipher-key-length algo))
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-set-padding ctx #f))
     => #t)
 
@@ -497,7 +500,7 @@
 	     (key.len	(ssl.evp-cipher-key-length algo))
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-set-padding ctx 'fuck-yes))
     => #t)
 
@@ -510,7 +513,7 @@
 	     (key.len	(ssl.evp-cipher-key-length algo))
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-ctrl ctx ssl.EVP_CTRL_GET_RC2_KEY_BITS))
     => 128)
 
@@ -520,7 +523,7 @@
 	     (key.len	(ssl.evp-cipher-key-length algo))
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-ctrl ctx ssl.EVP_CTRL_SET_RC2_KEY_BITS 128))
     => #t)
 
@@ -533,7 +536,7 @@
 	     (key.len	(ssl.evp-cipher-key-length algo))
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-rand-key ctx (make-bytevector key.len)))
     => #t)
 
@@ -551,7 +554,7 @@
 	     (key.len	(ssl.evp-cipher-key-length algo))
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-flags ctx))
     => 9)
 
@@ -564,7 +567,7 @@
 	     (key.len	(ssl.evp-cipher-key-length algo))
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-set-flags ctx 0))
     => (void))
 
@@ -577,7 +580,7 @@
 	     (key.len	(ssl.evp-cipher-key-length algo))
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-clear-flags ctx 0))
     => (void))
 
@@ -590,7 +593,7 @@
 	     (key.len	(ssl.evp-cipher-key-length algo))
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-test-flags ctx 0))
     => 0)
 
@@ -606,7 +609,7 @@
 	     (key.len	(ssl.evp-cipher-key-length algo))
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
-	(ssl.evp-encrypt-init ctx algo key iv)
+	(ssl.evp-encrypt-init ctx algo key #f iv #f)
 	(ssl.evp-cipher-ctx-set-app-data ctx (integer->pointer 123))
 	(ssl.evp-cipher-ctx-get-app-data ctx))
     => (integer->pointer 123))
