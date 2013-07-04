@@ -1147,10 +1147,10 @@
 ;;; --------------------------------------------------------------------
 
 (define-inline (evp-decrypt-init ctx algo key key.len iv iv.len)
-  (foreign-call "ikrt_openssl_evp_decryptinit_ex" ctx algo key key.len iv.len))
+  (foreign-call "ikrt_openssl_evp_decryptinit_ex" ctx algo key key.len iv iv.len))
 
 (define-inline (evp-decrypt-update ctx ou ou.len in in.len)
-  (foreign-call "ikrt_openssl_evp_decryptupdate" ou ou.len in in.len))
+  (foreign-call "ikrt_openssl_evp_decryptupdate" ctx ou ou.len in in.len))
 
 (define-inline (evp-decrypt-final ctx)
   (foreign-call "ikrt_openssl_evp_decryptfinal_ex" ctx))

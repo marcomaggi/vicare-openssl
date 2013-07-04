@@ -534,7 +534,7 @@
     (with-general-c-strings
 	((in^	in))
       (string-to-bytevector string->utf8)
-      (evp-minimum-output-length ctx in^ in.len))))
+      (capi.evp-minimum-output-length ctx in^ in.len))))
 
 ;;; --------------------------------------------------------------------
 

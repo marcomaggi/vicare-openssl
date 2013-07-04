@@ -3437,37 +3437,144 @@ crypto openssl evp ciphers}.
 Retrieve the cipher algorithm used by the given context; if successful
 return an instance of @code{evp-cipher}, otherwise return @false{}.
 @manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_cipher}.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-ciphers)
+
+(let* ((algo (ssl.evp-rc4))
+       (ctx  (ssl.evp-cipher-ctx-new))
+       (key  (make-bytevector (ssl.evp-cipher-key-length algo)))
+       (iv   '#vu8()))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (let ((algo (ssl.evp-cipher-ctx-cipher ctx)))
+    (and algo (ssl.evp-cipher-name algo))))
+@result{} "RC4"
+@end example
 @end defun
 
 
 @defun evp-cipher-ctx-nid @var{EVP-CIPHER-CTX}
 Return an exact integer representing the NID of the cipher algorithm.
 @manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_nid}.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-ciphers)
+
+(ssl.evp-cipher-nid (ssl.evp-cast5-ecb))
+@result{} 109
+@end example
 @end defun
 
 
 @defun evp-cipher-ctx-type @var{EVP-CIPHER-CTX}
 Return an exact integer representing the type of the cipher algorithm.
 @manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_type}.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-ciphers)
+
+(let* ((algo (ssl.evp-cast5-ecb))
+       (ctx  (ssl.evp-cipher-ctx-new))
+       (key  (make-bytevector (ssl.evp-cipher-key-length algo)))
+       (iv   (make-bytevector (ssl.evp-cipher-block-size algo))))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (ssl.evp-cipher-ctx-type ctx))
+@result{} 0
+@end example
 @end defun
 
 
 @defun evp-cipher-ctx-block-size @var{EVP-CIPHER-CTX}
 Return an exact integer representing the block size of the cipher
 algorithm.  @manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_block_size}.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-ciphers)
+
+(let* ((algo (ssl.evp-cast5-ecb))
+       (ctx  (ssl.evp-cipher-ctx-new))
+       (key  (make-bytevector (ssl.evp-cipher-key-length algo)))
+       (iv   (make-bytevector (ssl.evp-cipher-block-size algo))))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (ssl.evp-cipher-ctx-block-size ctx))
+@result{} 8
+@end example
 @end defun
 
 
 @defun evp-cipher-ctx-key-length @var{EVP-CIPHER-CTX}
 Return an exact integer representing the key length of the cipher
 algorithm.  @manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_key_length}.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-ciphers)
+
+(let* ((algo (ssl.evp-cast5-ecb))
+       (ctx  (ssl.evp-cipher-ctx-new))
+       (key  (make-bytevector (ssl.evp-cipher-key-length algo)))
+       (iv   (make-bytevector (ssl.evp-cipher-block-size algo))))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (ssl.evp-cipher-ctx-key-length ctx))
+@result{} 16
+@end example
 @end defun
 
 
 @defun evp-cipher-ctx-iv-length @var{EVP-CIPHER-CTX}
-Return an exact integer representing the initialisation vecttor length
-of the cipher algorithm.  @manpage{EVP_EncryptInit_ex,
+Return an exact integer representing the initialisation vector length of
+the cipher algorithm.  @manpage{EVP_EncryptInit_ex,
 EVP_CIPHER_CTX_iv_length}.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-ciphers)
+
+;; ECB mode has no IV
+(let* ((algo (ssl.evp-cast5-ecb))
+       (ctx  (ssl.evp-cipher-ctx-new))
+       (key  (make-bytevector (ssl.evp-cipher-key-length algo)))
+       (iv   (make-bytevector (ssl.evp-cipher-block-size algo))))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (ssl.evp-cipher-ctx-iv-length ctx))
+@result{} 9
+
+(let* ((algo (ssl.evp-cast5-cbc))
+       (ctx  (ssl.evp-cipher-ctx-new))
+       (key  (make-bytevector (ssl.evp-cipher-key-length algo)))
+       (iv   (make-bytevector (ssl.evp-cipher-block-size algo))))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (ssl.evp-cipher-ctx-iv-length ctx))
+@result{} 8
+@end example
 @end defun
 
 
@@ -3475,6 +3582,23 @@ EVP_CIPHER_CTX_iv_length}.
 Return an exact integer representing the mode of the cipher algorithm,
 one of the @code{EVP_CIPH_*_MODE} constants.
 @manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_mode}.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-ciphers)
+
+(let* ((algo (ssl.evp-cast5-ecb))
+       (ctx  (ssl.evp-cipher-ctx-new))
+       (key  (make-bytevector (ssl.evp-cipher-key-length algo)))
+       (iv   (make-bytevector (ssl.evp-cipher-block-size algo))))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (ssl.evp-cipher-ctx-mode ctx))
+@result{} ssl.EVP_CIPH_ECB_MODE
+@end example
 @end defun
 
 @c page
@@ -3492,6 +3616,24 @@ return @true{}, otherwise return @false{}.  @manpage{EVP_EncryptInit_ex,
 EVP_CIPHER_CTX_set_key_length}.
 
 @var{key.len} must be an exact integer representing the key length.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-ciphers)
+
+(let* ((algo (ssl.evp-cast5-ecb))
+       (ctx  (ssl.evp-cipher-ctx-new))
+       (len  (ssl.evp-cipher-key-length algo))
+       (key  (make-bytevector len))
+       (iv   (make-bytevector (ssl.evp-cipher-block-size algo))))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (ssl.evp-cipher-ctx-set-key-length ctx len))
+@result{} #t
+@end example
 @end defun
 
 
@@ -3502,6 +3644,33 @@ EVP_CIPHER_CTX_set_padding}.
 
 If @var{pad?} is true: padding is enabled.  If @var{pad?} is @false{}:
 padding is disabled.
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-ciphers)
+
+;; disable
+(let* ((algo (ssl.evp-cast5-ecb))
+       (ctx  (ssl.evp-cipher-ctx-new))
+       (key  (make-bytevector (ssl.evp-cipher-key-length algo)))
+       (iv   (make-bytevector (ssl.evp-cipher-block-size algo))))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (ssl.evp-cipher-ctx-set-padding ctx #f))
+@result{} #t
+
+;; enable
+(let* ((algo (ssl.evp-cast5-ecb))
+       (ctx  (ssl.evp-cipher-ctx-new))
+       (key  (make-bytevector (ssl.evp-cipher-key-length algo)))
+       (iv   (make-bytevector (ssl.evp-cipher-block-size algo))))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (ssl.evp-cipher-ctx-set-padding ctx 'fuck-yes))
+@result{} #t
+@end example
 @end defun
 
 
@@ -3535,6 +3704,33 @@ successful return @true{}, else return @false{}.
 Set to @var{arg} the number of key bits for the RC2 algorithm; if
 successful return @true{}, else return @false{}.
 @end table
+
+@example
+#!r6rs
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-ciphers)
+
+;; get RC2 key bits
+(let* ((algo (ssl.evp-rc2-ecb))
+       (ctx  (ssl.evp-cipher-ctx-new))
+       (key  (make-bytevector (ssl.evp-cipher-key-length algo)))
+       (iv   (make-bytevector (ssl.evp-cipher-block-size algo))))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (ssl.evp-cipher-ctx-ctrl ctx ssl.EVP_CTRL_GET_RC2_KEY_BITS))
+@result{} 128
+
+;; set RC2 key bits
+(let* ((algo (ssl.evp-rc2-ecb))
+       (ctx  (ssl.evp-cipher-ctx-new))
+       (key  (make-bytevector (ssl.evp-cipher-key-length algo)))
+       (iv   (make-bytevector (ssl.evp-cipher-block-size algo))))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (ssl.evp-cipher-ctx-ctrl ctx ssl.EVP_CTRL_SET_RC2_KEY_BITS 128))
+@result{} #t
+@end example
 @end defun
 
 
@@ -3590,13 +3786,15 @@ crypto openssl evp ciphers}.
 
 
 @defun evp-minimum-output-length @var{EVP-CIPHER-CTX} @var{in} @var{in.len}
-Compute the minimum output length needed to encrypt or decrypt the given
-argument; if successful return an exact integer representing the number
-of bytes, else return @false{}.
+Compute a number of octets that will certainly be enough to hold the
+result of encrypting or decrypting the given argument; if successful
+return an exact integer representing the number of bytes, else return
+@false{}.  @manpage{EVP_EncryptInit_ex, EVP_CIPHER_CTX_get_app_data}.
 
-The arguments @var{in} and @var{in_len} must represent a generalised C
-string holding the clear text input data, @cstringsref{}.  When @var{in}
-is a string: it is converted to a bytevector with @func{string->utf8}.
+@var{in} and @var{in.len} must represent a generalised C string holding
+the clear text input data or the encrypted input data, @cstringsref{}.
+When @var{in} is a string: it is converted to a bytevector with
+@func{string->utf8}.
 @end defun
 
 
@@ -3643,7 +3841,7 @@ The following bindings are exported by the library @library{vicare
 crypto openssl evp ciphers}.
 
 
-@defun evp-crypt @var{EVP-CIPHER-CTX} @var{ou} @var{ou_len} @var{in} @var{in_len}
+@defun evp-crypt @var{EVP-CIPHER-CTX} @var{ou} @var{ou.len} @var{in} @var{in.len}
 Encrypt or decrypt input data and produce output data; if successful it
 should return the actual number of bytes in the output, else return
 @false{}.  @manpage{EVP_EncryptInit_ex, EVP_Cipher}.
@@ -3658,11 +3856,11 @@ bytes.
 @var{EVP-CIPHER-CTX} must be a context already initialised for
 encryption or decryption.
 
-The arguments @var{in} and @var{in_len} must represent a generalised C
+The arguments @var{in} and @var{in.len} must represent a generalised C
 string holding the input data, @cstringsref{}.  When @var{in} is a
 string: it is converted to a bytevector with @func{string->utf8}.
 
-The arguments @var{ou} and @var{ou_len} must represent a generalised C
+The arguments @var{ou} and @var{ou.len} must represent a generalised C
 buffer holding empty room for the output data, @cbuffersref{}.  The
 length of the output buffer is the maximum number of output bytes that
 can be accepted; such length must be:

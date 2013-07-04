@@ -1444,7 +1444,7 @@ ikrt_openssl_evp_cipher_ctx_copy (ikptr s_dst_ctx, ikptr s_src_ctx, ikpcb * pcb)
 ikptr
 ikrt_openssl_evp_minimum_output_length (ikptr s_ctx, ikptr s_in, ikptr s_in_len, ikpcb * pcb)
 /* Compute the  minimum number  of bytes  needed to  hold the  result of
-   encrypting or  decrypting the  given generalised C  buffer.
+   encrypting or decrypting the given generalised C buffer.
 
    Validate the input  to avoid overflow of integers:  OpenSSL wants the
    number of bytes to be stored in "int" locations; Vicare/OpenSSL wants
@@ -1454,11 +1454,16 @@ ikrt_openssl_evp_minimum_output_length (ikptr s_ctx, ikptr s_in, ikptr s_in_len,
   EVP_CIPHER_CTX *	ctx        = IK_EVP_CIPHER_CTX(s_ctx);
   size_t		in_len     = ik_generalised_c_buffer_len(s_in, s_in_len);
   int			block_size = EVP_CIPHER_CTX_block_size(ctx);
-  if ((IK_GREATEST_FIXNUM - in_len < block_size) ||
-      (INT_MAX            - in_len < block_size))
+  int			twice_block_size = 2 * block_size;
+  if ((IK_GREATEST_FIXNUM - in_len < twice_block_size) ||
+      (INT_MAX            - in_len < twice_block_size))
     return IK_FALSE;
   else
-    return ika_integer_from_size_t(pcb, in_len + block_size);
+    /* CONFESSION I am ignorant of crypto stuff.  Here I want to produce
+       a value  that is always  valid, whatever the algorithm,  and that
+       can be considered safe.  I know  that ignorance is ugly.  Sue me.
+       (Marco Maggi; Thu Jul 4, 2013) */
+    return ika_integer_from_size_t(pcb, block_size * (in_len / block_size) + twice_block_size);
 }
 static int
 validate_output_buffer_length (EVP_CIPHER_CTX * ctx, size_t in_len, size_t ou_len)
