@@ -3241,16 +3241,16 @@ The following bindings are exported by the library @library{vicare
 crypto openssl evp ciphers}.
 
 
-@defun evp-encrypt-init @var{EVP-CIPHER-CTX} @var{EVP-CIPHER} @var{key} @var{iv}
+@defun evp-encrypt-init @var{EVP-CIPHER-CTX} @var{EVP-CIPHER} @var{key} @var{key.len} @var{iv} @var{iv.len}
 Initialise an already built cipher context to encrypt data with the
 algorithm selected by @var{EVP-CIPHER}; if successful return @true{},
 else return @false{}.  @manpage{EVP_EncryptInit_ex, EVP_EncryptInit_ex}.
 
-@var{key} must be @false{} or represent a generalised C string holding
-the encryption key, @cstringsref{}.  When @var{key} is a string: it is
-converted to a bytevector with @func{string->utf8}.
+@var{key} and @var{key.len} must represent a generalised C string
+holding the encryption key, @cstringsref{}.  When @var{key} is a string:
+it is converted to a bytevector with @func{string->utf8}.
 
-@var{iv} must be @false{} or represent a generalised C string holding
+@var{iv} and @var{iv.len} must represent a generalised C string holding
 the initialisation vector, @cstringsref{}.  When @var{iv} is a string:
 it is converted to a bytevector with @func{string->utf8}.
 @end defun
@@ -3263,20 +3263,20 @@ holding the last output data, else return @false{}.
 @end defun
 
 
-@defun evp-encrypt-update @var{EVP-CIPHER-CTX} @var{ou} @var{ou_len} @var{in} @var{in_len}
+@defun evp-encrypt-update @var{EVP-CIPHER-CTX} @var{ou} @var{ou.len} @var{in} @var{in.len}
 Update an encryption context with clear text input data and produce
 encrypted output data; if successful return the actual number of bytes
 in the output, else return @false{}.  @manpage{EVP_EncryptInit_ex,
 EVP_EncryptUpdate}.
 
-The arguments @var{in} and @var{in_len} must represent a generalised C
-string holding the clear text input data, @cstringsref{}.  When @var{in}
-is a string: it is converted to a bytevector with @func{string->utf8}.
+@var{in} and @var{in.len} must represent a generalised C string holding
+the clear text input data, @cstringsref{}.  When @var{in} is a string:
+it is converted to a bytevector with @func{string->utf8}.
 
-The arguments @var{ou} and @var{ou_len} must represent a generalised C
-buffer holding empty room for the encrypted output data, @cbuffersref{}.
-The length of the output buffer is the maximum number of output bytes
-that can be accepted; such length must be:
+@var{ou} and @var{ou.len} must represent a generalised C buffer holding
+empty room for the encrypted output data, @cbuffersref{}.  The length of
+the output buffer is the maximum number of output bytes that can be
+accepted; such length must be:
 
 @enumerate
 @item
@@ -3304,16 +3304,16 @@ The following bindings are exported by the library @library{vicare
 crypto openssl evp ciphers}.
 
 
-@defun evp-decrypt-init @var{EVP-CIPHER-CTX} @var{EVP-CIPHER} @var{key} @var{iv}
+@defun evp-decrypt-init @var{EVP-CIPHER-CTX} @var{EVP-CIPHER} @var{key} @var{key.len} @var{iv} @var{iv.len}
 Initialise an already built cipher context to decrypt data with the
 algorithm selected by @var{EVP-CIPHER}; if successful return @true{},
 else return @false{}.  @manpage{EVP_EncryptInit_ex, EVP_DecryptInit_ex}.
 
-@var{key} must be @false{} or represent a generalised C string holding
-the decryption key, @cstringsref{}.  When @var{key} is a string: it is
-converted to a bytevector with @func{string->utf8}.
+@var{key} and @var{key.len} must represent a generalised C string
+holding the decryption key, @cstringsref{}.  When @var{key} is a string:
+it is converted to a bytevector with @func{string->utf8}.
 
-@var{iv} must be @false{} or represent a generalised C string holding
+@var{iv} and @var{iv.len} must represent a generalised C string holding
 the initialisation vector, @cstringsref{}.  When @var{iv} is a string:
 it is converted to a bytevector with @func{string->utf8}.
 @end defun
@@ -3326,19 +3326,19 @@ the last output data, else return @false{}.
 @end defun
 
 
-@defun evp-decrypt-update @var{EVP-CIPHER-CTX} @var{ou} @var{ou_len} @var{in} @var{in_len}
+@defun evp-decrypt-update @var{EVP-CIPHER-CTX} @var{ou} @var{ou.len} @var{in} @var{in.len}
 Update a decryption context with encrypted text input data and produce
 decrypted output data; if successful return the actual number of bytes
 in the output, else return @false{}.  @manpage{EVP_EncryptInit_ex,
 EVP_DecryptUpdate}.
 
-The arguments @var{in} and @var{in_len} must represent a generalised C
-buffer holding the encrypted input data, @cbuffersref{}.
+@var{in} and @var{in.len} must represent a generalised C buffer holding
+the encrypted input data, @cbuffersref{}.
 
-The arguments @var{ou} and @var{ou_len} must represent a generalised C
-buffer holding empty room for the decrypted output data, @cbuffersref{}.
-The length of the output buffer is the maximum number of output bytes
-that can be accepted; such length must be:
+@var{ou} and @var{ou.len} must represent a generalised C buffer holding
+empty room for the decrypted output data, @cbuffersref{}.  The length of
+the output buffer is the maximum number of output bytes that can be
+accepted; such length must be:
 
 @enumerate
 @item
@@ -3366,17 +3366,17 @@ The following bindings are exported by the library @library{vicare
 crypto openssl evp ciphers}.
 
 
-@defun evp-cipher-init @var{EVP-CIPHER-CTX} @var{EVP-CIPHER} @var{key} @var{iv} @var{enc}
+@defun evp-cipher-init @var{EVP-CIPHER-CTX} @var{EVP-CIPHER} @var{key} @var{key.len} @var{iv} @var{iv.len} @var{enc}
 Initialise an already built cipher context to encrypt or decrypt data
 with the algorithm selected by @var{EVP-CIPHER}; if successful return
 @true{}, else return @false{}.  @manpage{EVP_EncryptInit_ex,
 EVP_CipherInit_ex}.
 
-@var{key} must be @false{} or represent a generalised C string holding
-the encryption key, @cstringsref{}.  When @var{key} is a string: it is
-converted to a bytevector with @func{string->utf8}.
+@var{key} and @var{key.len} must represent a generalised C string
+holding the encryption key, @cstringsref{}.  When @var{key} is a string:
+it is converted to a bytevector with @func{string->utf8}.
 
-@var{iv} must be @false{} or represent a generalised C string holding
+@var{iv} and @var{iv.len} must represent a generalised C string holding
 the initialisation vector, @cstringsref{}.  When @var{iv} is a string:
 it is converted to a bytevector with @func{string->utf8}.
 
@@ -3392,17 +3392,17 @@ bytevector holding the last output data, else return @false{}.
 @end defun
 
 
-@defun evp-cipher-update @var{EVP-CIPHER-CTX} @var{ou} @var{ou_len} @var{in} @var{in_len}
+@defun evp-cipher-update @var{EVP-CIPHER-CTX} @var{ou} @var{ou.len} @var{in} @var{in.len}
 Update an encryption or decryption context with input data and produce
 output data; if successful return the actual number of bytes in the
 output, else return @false{}.  @manpage{EVP_EncryptInit_ex,
 EVP_CipherUpdate}.
 
-The arguments @var{in} and @var{in_len} must represent a generalised C
+The arguments @var{in} and @var{in.len} must represent a generalised C
 string holding the input data, @cstringsref{}.  When @var{in} is a
 string: it is converted to a bytevector with @func{string->utf8}.
 
-The arguments @var{ou} and @var{ou_len} must represent a generalised C
+The arguments @var{ou} and @var{ou.len} must represent a generalised C
 buffer holding empty room for the output data, @cbuffersref{}.  The
 length of the output buffer is the maximum number of output bytes that
 can be accepted; such length must be:

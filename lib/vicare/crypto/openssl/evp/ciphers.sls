@@ -538,18 +538,18 @@
 
 ;;; --------------------------------------------------------------------
 
-(define (evp-encrypt-init ctx algo key iv)
+(define (evp-encrypt-init ctx algo key key.len iv iv.len)
   (define who 'evp-encrypt-init)
   (with-arguments-validation (who)
       ((evp-cipher-ctx/alive-not-running	ctx)
        (evp-cipher				algo)
-       (general-c-string/false			key)
-       (general-c-string/false			iv))
+       (general-c-string*			key key.len)
+       (general-c-string*			iv iv.len))
     (with-general-c-strings/false
 	((key^		key)
 	 (iv^		iv))
       (string-to-bytevector string->utf8)
-      (cond ((capi.evp-encrypt-init ctx algo key^ iv^)
+      (cond ((capi.evp-encrypt-init ctx algo key^ key.len iv^ iv.len)
 	     => (lambda (rv)
 		  ($set-evp-cipher-ctx-running?! ctx #t)
 		  rv))
@@ -576,18 +576,18 @@
 
 ;;; --------------------------------------------------------------------
 
-(define (evp-decrypt-init ctx algo key iv)
+(define (evp-decrypt-init ctx algo key key.len iv iv.len)
   (define who 'evp-decrypt-init)
   (with-arguments-validation (who)
       ((evp-cipher-ctx/alive-not-running	ctx)
        (evp-cipher				algo)
-       (general-c-string/false			key)
-       (general-c-string/false			iv))
+       (general-c-string*			key key.len)
+       (general-c-string*			iv iv.len))
     (with-general-c-strings/false
 	((key^		key)
 	 (iv^		iv))
       (string-to-bytevector string->utf8)
-      (cond ((capi.evp-decrypt-init ctx algo key^ iv^)
+      (cond ((capi.evp-decrypt-init ctx algo key^ key.len iv^ iv.len)
 	     => (lambda (rv)
 		  ($set-evp-cipher-ctx-running?! ctx #t)
 		  rv))
@@ -611,19 +611,19 @@
 
 ;;; --------------------------------------------------------------------
 
-(define (evp-cipher-init ctx algo key iv enc)
+(define (evp-cipher-init ctx algo key key.len iv iv.len enc)
   (define who 'evp-cipher-init)
   (with-arguments-validation (who)
       ((evp-cipher-ctx/alive-not-running	ctx)
        (evp-cipher				algo)
-       (general-c-string/false			key)
-       (general-c-string/false			iv)
+       (general-c-string*			key key.len)
+       (general-c-string*			iv iv.len)
        (evp-cipher-enc				enc))
     (with-general-c-strings/false
 	((key^		key)
 	 (iv^		iv))
       (string-to-bytevector string->utf8)
-      (cond ((capi.evp-cipher-init ctx algo key^ iv^ enc)
+      (cond ((capi.evp-cipher-init ctx algo key^ key.len iv^ iv.len enc)
 	     => (lambda (rv)
 		  ($set-evp-cipher-ctx-running?! ctx #t)
 		  rv))

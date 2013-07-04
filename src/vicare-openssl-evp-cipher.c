@@ -1474,15 +1474,21 @@ validate_output_buffer_length (EVP_CIPHER_CTX * ctx, size_t in_len, size_t ou_le
 /* ------------------------------------------------------------------ */
 
 ikptr
-ikrt_openssl_evp_encryptinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s_iv,
+ikrt_openssl_evp_encryptinit_ex (ikptr s_ctx, ikptr s_algo,
+				 ikptr s_key, ikptr s_key_len,
+				 ikptr s_iv,  ikptr s_iv_len,
 				 ikpcb * pcb)
 {
 #ifdef HAVE_EVP_ENCRYPTINIT_EX
   EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
   const EVP_CIPHER *	algo   = IK_EVP_CIPHER(s_algo);
   ENGINE *		engine = NULL;
-  unsigned char *	key    = IK_GENERALISED_C_BUFFER_OR_FALSE(s_key);
-  unsigned char *	iv     = IK_GENERALISED_C_BUFFER_OR_FALSE(s_iv);
+  unsigned char *	key	= IK_GENERALISED_C_BUFFER(s_key);
+  /* FIXME This length unused.  (Marco Maggi; Wed Jul 3, 2013) */
+  size_t		key_len	= ik_generalised_c_buffer_len(s_key, s_key_len);
+  unsigned char *	iv	= IK_GENERALISED_C_BUFFER(s_iv);
+  /* FIXME This length is unused.  (Marco Maggi; Wed Jul 3, 2013) */
+  size_t		iv_len	= ik_generalised_c_buffer_len(s_iv, s_iv_len);
   int			rv;
   rv = EVP_EncryptInit_ex(ctx, algo, engine, key, iv);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -1533,15 +1539,21 @@ ikrt_openssl_evp_encryptupdate (ikptr s_ctx,
 /* ------------------------------------------------------------------ */
 
 ikptr
-ikrt_openssl_evp_decryptinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s_iv,
+ikrt_openssl_evp_decryptinit_ex (ikptr s_ctx, ikptr s_algo,
+				 ikptr s_key, ikptr s_key_len,
+				 ikptr s_iv,  ikptr s_iv_len,
 				 ikpcb * pcb)
 {
 #ifdef HAVE_EVP_DECRYPTINIT_EX
   EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
   const EVP_CIPHER *	algo   = IK_EVP_CIPHER(s_algo);
   ENGINE *		engine = NULL;
-  unsigned char *	key    = IK_GENERALISED_C_BUFFER_OR_FALSE(s_key);
-  unsigned char *	iv     = IK_GENERALISED_C_BUFFER_OR_FALSE(s_iv);
+  unsigned char *	key	= IK_GENERALISED_C_BUFFER(s_key);
+  /* FIXME This length unused.  (Marco Maggi; Wed Jul 3, 2013) */
+  size_t		key_len	= ik_generalised_c_buffer_len(s_key, s_key_len);
+  unsigned char *	iv	= IK_GENERALISED_C_BUFFER(s_iv);
+  /* FIXME This length is unused.  (Marco Maggi; Wed Jul 3, 2013) */
+  size_t		iv_len	= ik_generalised_c_buffer_len(s_iv, s_iv_len);
   int			rv;
   rv = EVP_DecryptInit_ex(ctx, algo, engine, key, iv);
   return IK_BOOLEAN_FROM_INT(rv);
@@ -1592,7 +1604,9 @@ ikrt_openssl_evp_decryptupdate (ikptr s_ctx,
 /* ------------------------------------------------------------------ */
 
 ikptr
-ikrt_openssl_evp_cipherinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s_iv,
+ikrt_openssl_evp_cipherinit_ex (ikptr s_ctx, ikptr s_algo,
+				ikptr s_key, ikptr s_key_len,
+				ikptr s_iv,  ikptr s_iv_len,
 				ikptr s_encrypt_or_decrypt, ikpcb * pcb)
 /* Initialise    for   encryption    or   decryption.     The   argument
    S_ENCRYPT_OR_DECRYPT must  be an exact  integer: 1 for  encryption, 0
@@ -1602,8 +1616,12 @@ ikrt_openssl_evp_cipherinit_ex (ikptr s_ctx, ikptr s_algo, ikptr s_key, ikptr s_
   EVP_CIPHER_CTX *	ctx    = IK_EVP_CIPHER_CTX(s_ctx);
   const EVP_CIPHER *	algo   = IK_EVP_CIPHER(s_algo);
   ENGINE *		engine = NULL;
-  unsigned char *	key    = IK_GENERALISED_C_BUFFER_OR_FALSE(s_key);
-  unsigned char *	iv     = IK_GENERALISED_C_BUFFER_OR_FALSE(s_iv);
+  unsigned char *	key	= IK_GENERALISED_C_BUFFER(s_key);
+  /* FIXME This length unused.  (Marco Maggi; Wed Jul 3, 2013) */
+  size_t		key_len	= ik_generalised_c_buffer_len(s_key, s_key_len);
+  unsigned char *	iv	= IK_GENERALISED_C_BUFFER(s_iv);
+  /* FIXME This length is unused.  (Marco Maggi; Wed Jul 3, 2013) */
+  size_t		iv_len	= ik_generalised_c_buffer_len(s_iv, s_iv_len);
   int			enc    = ik_integer_to_int(s_encrypt_or_decrypt);
   int			rv;
   rv = EVP_CipherInit_ex(ctx, algo, engine, key, iv, enc);
