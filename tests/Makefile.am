@@ -5,7 +5,7 @@ TESTS			= \
 	test-vicare-raw-message-digest.sps		\
 	test-vicare-raw-hmac.sps			\
 	test-vicare-raw-crypto-aes.sps			\
-	test-vicare-evp-message-digest.sps
+	test-vicare-evp-message-digest.sps		\
 	test-vicare-evp-cipher.sps
 
 EXTRA_DIST = \
