@@ -11,7 +11,6 @@ prefix=/usr/local
     --config-cache                              \
     --cache-file=../config.cache                \
     --prefix="${prefix}"                        \
-    --enable-debug                              \
     CFLAGS='-O3'				\
     "$@"
 
