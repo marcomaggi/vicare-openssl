@@ -3087,6 +3087,7 @@ Return an exact integer, in the range of the C language type
 
 
 @menu
+* plain evp cipher ctx examples:: Encryption and decryption examples.
 * plain evp cipher ctx struct::   Cipher context data structures.
 * plain evp cipher ctx create::   Context creation and destruction.
 * plain evp cipher ctx encrypt::  Encrypting data.
@@ -3098,6 +3099,164 @@ Return an exact integer, in the range of the C language type
 * plain evp cipher ctx misc::     Miscellaneous functions.
 * plain evp cipher ctx step::     Single-step encryption and decryption.
 @end menu
+
+@c page
+@node plain evp cipher ctx examples
+@subsubsection Encryption and decryption examples
+
+
+Here is an example of how to organise encryption and decryption by
+reading from and writing to Scheme binary ports:
+
+@smallexample
+#!vicare
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.))
+
+(ssl.openssl-add-all-ciphers)
+
+(define (make-chunked-bytevector-input-port bv)
+  (let ((port (open-bytevector-input-port bv)))
+    (values port (lambda ()
+                   (get-bytevector-n port 4096)))))
+
+(define (make-chunked-bytevector-output-port)
+  (receive (port getter)
+      (open-bytevector-output-port)
+    (values port getter (lambda (data)
+                          (put-bytevector port data)))))
+
+(define algo (ssl.evp-rc4))
+(define key
+  ;;A random key.
+  (make-bytevector (ssl.evp-cipher-key-length algo)))
+(define iv '#vu8())
+
+(define (encrypt input output)
+  (define ctx
+    (ssl.evp-cipher-ctx-new))
+  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+  (let loop ((in.data (input)))
+    (if (eof-object? in.data)
+        (cond ((ssl.evp-decrypt-final ctx)
+               => output)
+              (else
+               (error "error finalising encryption")))
+      (let* ((ou.len  (ssl.evp-minimum-output-length ctx in.data #f))
+             (ou.data (make-bytevector ou.len)))
+        (cond ((ssl.evp-decrypt-update ctx ou.data #f in.data #f)
+               => (lambda (ou.len)
+                    (output (subbytevector-u8 ou.data 0 ou.len))
+                    (loop (input))))
+              (else
+               (error "error encrypting data")))))))
+
+(define (decrypt input output)
+  (define ctx
+    (ssl.evp-cipher-ctx-new))
+  (ssl.evp-decrypt-init ctx algo key #f iv #f)
+  (let loop ((in.data (input)))
+    (if (eof-object? in.data)
+        (cond ((ssl.evp-decrypt-final ctx)
+               => output)
+              (else
+               (error "error finalising decryption")))
+      (let* ((ou.len  (ssl.evp-minimum-output-length ctx in.data #f))
+             (ou.data (make-bytevector ou.len)))
+        (cond ((ssl.evp-decrypt-update ctx ou.data #f in.data #f)
+               => (lambda (ou.len)
+                    (output (subbytevector-u8 ou.data 0 ou.len))
+                    (loop (input))))
+              (else
+               (error "error decrypting data")))))))
+
+(define clear-text
+  (make-bytevector 123456))
+
+(define-values (clear-port clear-reader)
+  (make-chunked-bytevector-input-port clear-text))
+
+(define-values (encrypted-port encrypted-getter encrypted-writer)
+  (make-chunked-bytevector-output-port))
+
+(encrypt clear-reader encrypted-writer)
+
+(let ((encrypted-text (encrypted-getter)))
+  (define-values (encrypted-port encrypted-reader)
+    (make-chunked-bytevector-input-port encrypted-text))
+  (define-values (decrypted-port decrypted-getter decrypted-writer)
+    (make-chunked-bytevector-output-port))
+  (decrypt encrypted-reader decrypted-writer)
+  (bytevector=? clear-text (decrypted-getter))))
+@end smallexample
+
+And here is the same using the generic cipher @api{}:
+
+@smallexample
+#!vicare
+(import (vicare)
+  (prefix (vicare crypto openssl) ssl.)
+  (prefix (vicare crypto openssl evp ciphers) ssl.)
+  (prefix (vicare crypto openssl constants) ssl.))
+
+(ssl.openssl-add-all-ciphers)
+
+(define (make-chunked-bytevector-input-port bv)
+  (let ((port (open-bytevector-input-port bv)))
+    (values port (lambda ()
+                   (get-bytevector-n port 4096)))))
+
+(define (make-chunked-bytevector-output-port)
+  (receive (port getter)
+      (open-bytevector-output-port)
+    (values port getter (lambda (data)
+                          (put-bytevector port data)))))
+
+(define algo (ssl.evp-rc4))
+(define key
+  ;;A random key.
+  (make-bytevector (ssl.evp-cipher-key-length algo)))
+
+(define (cipher ctx input output)
+  (let loop ((in.data (input)))
+    (if (eof-object? in.data)
+        (cond ((ssl.evp-decrypt-final ctx)
+               => output)
+              (else
+               (error "error finalising cipher")))
+      (let* ((ou.len  (ssl.evp-minimum-output-length ctx in.data #f))
+             (ou.data (make-bytevector ou.len)))
+        (cond ((ssl.evp-decrypt-update ctx ou.data #f in.data #f)
+               => (lambda (ou.len)
+                    (output (subbytevector-u8 ou.data 0 ou.len))
+                    (loop (input))))
+              (else
+               (error "error enciphering data")))))))
+
+(define clear-text
+  (make-bytevector 123456))
+
+(define-values (clear-port clear-reader)
+  (make-chunked-bytevector-input-port clear-text))
+
+(define-values (encrypted-port encrypted-getter encrypted-writer)
+  (make-chunked-bytevector-output-port))
+
+(let ((ctx (ssl.evp-cipher-ctx-new)))
+  (ssl.evp-cipher-init ctx algo key #f '#vu8() #f ssl.EVP_CIPHER_ENCRYPT)
+  (cipher ctx clear-reader encrypted-writer))
+
+(let ((encrypted-text (encrypted-getter)))
+  (define-values (encrypted-port encrypted-reader)
+    (make-chunked-bytevector-input-port encrypted-text))
+  (define-values (ciphered-port ciphered-getter ciphered-writer)
+    (make-chunked-bytevector-output-port))
+  (let ((ctx (ssl.evp-cipher-ctx-new)))
+    (ssl.evp-cipher-init ctx algo key #f '#vu8() #f ssl.EVP_CIPHER_DECRYPT)
+    (cipher ctx encrypted-reader ciphered-writer))
+  (bytevector=? clear-text (ciphered-getter)))
+@end smallexample
 
 @c page
 @node plain evp cipher ctx struct
@@ -3251,8 +3410,10 @@ holding the encryption key, @cstringsref{}.  When @var{key} is a string:
 it is converted to a bytevector with @func{string->utf8}.
 
 @var{iv} and @var{iv.len} must represent a generalised C string holding
-the initialisation vector, @cstringsref{}.  When @var{iv} is a string:
-it is converted to a bytevector with @func{string->utf8}.
+the initialisation vector, @cstringsref{}; the initialisation vector
+cannot be @cnull{} even when the algorithm does not need it, so in those
+case we must use @samp{#vu8()} as vector.  When @var{iv} is a string: it
+is converted to a bytevector with @func{string->utf8}.
 @end defun
 
 
@@ -3314,8 +3475,10 @@ holding the decryption key, @cstringsref{}.  When @var{key} is a string:
 it is converted to a bytevector with @func{string->utf8}.
 
 @var{iv} and @var{iv.len} must represent a generalised C string holding
-the initialisation vector, @cstringsref{}.  When @var{iv} is a string:
-it is converted to a bytevector with @func{string->utf8}.
+the initialisation vector, @cstringsref{}; the initialisation vector
+cannot be @cnull{} even when the algorithm does not need it, so in those
+case we must use @samp{#vu8()} as vector.  When @var{iv} is a string: it
+is converted to a bytevector with @func{string->utf8}.
 @end defun
 
 
@@ -3377,8 +3540,10 @@ holding the encryption key, @cstringsref{}.  When @var{key} is a string:
 it is converted to a bytevector with @func{string->utf8}.
 
 @var{iv} and @var{iv.len} must represent a generalised C string holding
-the initialisation vector, @cstringsref{}.  When @var{iv} is a string:
-it is converted to a bytevector with @func{string->utf8}.
+the initialisation vector, @cstringsref{}; the initialisation vector
+cannot be @cnull{} even when the algorithm does not need it, so in those
+case we must use @samp{#vu8()} as vector.  When @var{iv} is a string: it
+is converted to a bytevector with @func{string->utf8}.
 
 @var{enc} must be a fixnum: @math{1} for encryption, @math{0} for
 decryption, @math{-1} to leave unchanged a previously set value.  The

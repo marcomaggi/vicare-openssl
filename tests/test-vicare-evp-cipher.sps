@@ -778,11 +778,10 @@
     (define algo (ssl.evp-rc4))
     (define key
       (make-bytevector (ssl.evp-cipher-key-length algo)))
-    (define iv '#vu8())
 
     (define (encrypt in)
       (let ((ctx (ssl.evp-cipher-ctx-new)))
-	(ssl.evp-cipher-init ctx algo key #f iv #f ssl.EVP_CIPHER_ENCRYPT)
+	(ssl.evp-cipher-init ctx algo key #f '#vu8() #f ssl.EVP_CIPHER_ENCRYPT)
 	(let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
 	       (ou.len   (ssl.evp-cipher-update ctx ou #f in #f))
 	       (ou.final (ssl.evp-cipher-final ctx)))
@@ -790,7 +789,7 @@
 
     (define (decrypt in)
       (let ((ctx (ssl.evp-cipher-ctx-new)))
-	(ssl.evp-cipher-init ctx algo key #f iv #f ssl.EVP_CIPHER_DECRYPT)
+	(ssl.evp-cipher-init ctx algo key #f '#vu8() #f ssl.EVP_CIPHER_DECRYPT)
 	(let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
 	       (ou.len   (ssl.evp-cipher-update ctx ou #f in #f))
 	       (ou.final (ssl.evp-cipher-final ctx)))
@@ -821,7 +820,6 @@
 	(define key
 	  ;;A random key.
 	  (make-bytevector (ssl.evp-cipher-key-length algo)))
-	(define iv '#vu8())
 
 	(define (cipher ctx input output)
 	  (let loop ((in.data (input)))
@@ -849,7 +847,7 @@
 	  (make-chunked-bytevector-output-port))
 
 	(let ((ctx (ssl.evp-cipher-ctx-new)))
-	  (ssl.evp-cipher-init ctx algo key #f iv #f ssl.EVP_CIPHER_ENCRYPT)
+	  (ssl.evp-cipher-init ctx algo key #f '#vu8() #f ssl.EVP_CIPHER_ENCRYPT)
 	  (cipher ctx clear-reader encrypted-writer))
 
 	(let ((encrypted-text (encrypted-getter)))
@@ -858,7 +856,7 @@
 	  (define-values (ciphered-port ciphered-getter ciphered-writer)
 	    (make-chunked-bytevector-output-port))
 	  (let ((ctx (ssl.evp-cipher-ctx-new)))
-	    (ssl.evp-cipher-init ctx algo key #f iv #f ssl.EVP_CIPHER_DECRYPT)
+	    (ssl.evp-cipher-init ctx algo key #f '#vu8() #f ssl.EVP_CIPHER_DECRYPT)
 	    (cipher ctx encrypted-reader ciphered-writer))
 	  (bytevector=? clear-text (ciphered-getter))))
     => #t)
