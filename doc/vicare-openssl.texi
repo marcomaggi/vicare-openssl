@@ -3381,7 +3381,10 @@ the initialisation vector, @cstringsref{}.  When @var{iv} is a string:
 it is converted to a bytevector with @func{string->utf8}.
 
 @var{enc} must be a fixnum: @math{1} for encryption, @math{0} for
-decryption, @math{-1} to leave unchanged a previously set value.
+decryption, @math{-1} to leave unchanged a previously set value.  The
+library @library{vicare crypto openssl constants} defines the constants:
+@code{EVP_CIPHER_ENCRYPT}, @code{EVP_CIPHER_DECRYPT},
+@code{EVP_CIPHER_DEFAULT}.
 @end defun
 
 
