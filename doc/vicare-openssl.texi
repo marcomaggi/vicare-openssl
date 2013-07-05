@@ -402,6 +402,7 @@ Return a Scheme string representing the version number.
 * plain hmac::                  Computing message authentication codes.
 * plain crypto::                Low-level cryptographic algorithms.
 * plain evp::                   High-level cryptographic functions.
+* plain buffers::               Simple character arrays structure.
 @end menu
 
 @c page
@@ -4063,6 +4064,166 @@ crypto openssl evp ciphers}.
 Given a constant among @code{EVP_CIPH_*_MODE} return a symbol
 representing its public name.
 @end defun
+
+@c page
+@node plain buffers
+@section Simple character arrays structures
+
+
+@cindex Library @library{vicare crypto openssl buffers}
+@cindex @library{vicare crypto openssl buffers}, library
+
+
+@menu
+* plain buffers structs::       Memory buffer data structures.
+* plain buffers api::           Memory buffer programming interface.
+@end menu
+
+@c page
+@node plain buffers structs
+@subsection Memory buffer data structures.
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl buffers}.
+
+
+@deftp {Struct Type} buf-mem
+@cindex @var{BUF} argument
+@cindex Argument @var{BUF}
+An opaque Scheme structure holding a pointer object referencing the C
+language type @code{BUF_MEM}; it describes a simple array of octets.
+
+When instances of this type are used as arguments to functions: this
+documentation identifies them as @var{BUF}.
+
+There are two categories of @code{buf-mem} instances: those who own the
+underlying structure and those who merely reference it.
+
+@itemize
+@item
+@code{buf-mem} instances returned by @func{buf-mem-new} do own the
+context.  When instances of this category are garbage collected or
+@func{buf-mem-free} is applied to them: all the associated data is
+finalised; any error is ignored in this procedure.
+@end itemize
+@end deftp
+
+
+@defun buf-mem? @var{obj}
+Return @true{} if @var{obj} is an instance of @code{buf-mem}; otherwise
+return @false{}.
+@end defun
+
+
+@defun buf-mem?/alive @var{obj}
+Return @true{} if @var{obj} is an instance of @code{buf-mem} and the
+context it represents is open; otherwise return @false{}.
+@end defun
+
+
+@defun buf-mem-custom-destructor @var{BUF}
+@defunx set-buf-mem-custom-destructor! @var{BUF} @var{func}
+Retrieve or set a destructor function associated to the @var{BUF}.
+
+Whenever the @var{BUF} is released: @var{func} is applied to @var{BUF}
+before the internal state of @var{BUF} is finalised.
+@end defun
+
+@c ------------------------------------------------------------
+
+@StructPropertyListDoc{buf-mem, BUF}
+
+@c ------------------------------------------------------------
+
+@subsubheading Arguments validation
+
+The following bindings are meant to be used along the library
+@library{vicare arguments validation}.
+
+
+@deffn {Validation Clause} buf-mem @var{obj}
+@deffnx {Validation Clause} false-or-buf-mem @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{buf-mem?}; the second
+clause also accepts @false{}.
+@end deffn
+
+
+@deffn {Validation Clause} buf-mem/alive @var{obj}
+@deffnx {Validation Clause} false-or-buf-mem/alive @var{obj}
+Succeed if @var{obj} satisfies the predicate @func{buf-mem?/alive}; the
+second clause also accepts @false{}.
+@end deffn
+
+@c page
+@node plain buffers api
+@subsection Memory buffer programming interface
+
+
+The following bindings are exported by the library @library{vicare
+crypto openssl buffers}.
+
+
+@defun buf-mem-new
+If successful return a new instance of @code{buf-mem}, else return
+@false{}.  @manpage{buffer, BUF_MEM_new}.
+@end defun
+
+
+@defun buf-mem-free @var{BUF}
+Finalise @var{BUF} releasing all the associated resources; return
+unspecified values.  @manpage{buffer, BUF_MEM_free}.
+
+It is fine to apply this function multiple times to the same argument:
+the first time the context is finalised, subsequent times nothing
+happens.
+@end defun
+
+
+@defun buf-mem-grow @var{BUF} @var{len}
+Change the size of the buffer to @var{len}, which must be an exact
+integer in the range of the C language type @code{signed int}.  If
+successful return @true{}, otherwise return @false{}.  @manpage{buffer,
+BUF_MEM_grow}.
+@end defun
+
+
+@defun buf-mem-grow-clean @var{BUF} @var{len}
+Change the size of the buffer to @var{len}, which must be an exact
+integer in the range of the C language type @code{signed int}; reset the
+octets to zero.  If successful return @true{}, otherwise return
+@false{}.  @manpage{buffer, BUF_MEM_grow_clean}.
+@end defun
+
+
+@ignore
+@defun buf-strdup
+@end defun
+
+
+@defun buf-strndup
+@end defun
+
+
+@defun buf-memdup
+@end defun
+
+
+@defun buf-reverse
+@end defun
+
+
+@defun buf-strlcpy
+@end defun
+
+
+@defun buf-strlcat
+@end defun
+
+
+@defun err-load-buf-strings
+@end defun
+@end ignore
 
 @c page
 @c ------------------------------------------------------------

@@ -40,6 +40,9 @@
   (only (vicare crypto openssl message-digests cond-expand))
   (only (vicare crypto openssl hmac cond-expand))
   (only (vicare crypto openssl aes cond-expand))
+
+  (only (vicare crypto openssl buffers))
+  (only (vicare crypto openssl buffers cond-expand))
   )
 
 ;;; end of file

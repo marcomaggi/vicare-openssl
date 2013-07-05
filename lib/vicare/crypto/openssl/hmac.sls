@@ -38,6 +38,9 @@
     hmac-ctx.vicare-arguments-validation
     hmac-ctx/alive.vicare-arguments-validation
 
+    hmac-ctx-putprop		hmac-ctx-getprop
+    hmac-ctx-remprop		hmac-ctx-property-list
+
     hmac
     #;hmac-ctx-init
     #;hmac-ctx-cleanup

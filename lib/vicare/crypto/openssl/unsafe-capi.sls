@@ -322,6 +322,19 @@
     evp-cipher-ctx-clear-flags		evp-cipher-ctx-test-flags
     evp-cipher
 
+    ;; buffer unsafe C API
+    buf-mem-new
+    buf-mem-free
+    buf-mem-grow
+    buf-mem-grow-clean
+    ;; buf-strdup
+    ;; buf-strndup
+    ;; buf-memdup
+    ;; buf-reverse
+    ;; buf-strlcpy
+    ;; buf-strlcat
+    ;; err-load-buf-strings
+
 ;;; --------------------------------------------------------------------
 ;;; still to be implemented
 
@@ -1238,6 +1251,42 @@
 
 (define-inline (evp-cipher ctx ou ou.len in in.len)
   (foreign-call "ikrt_openssl_evp_cipher" ctx ou ou.len in in.len))
+
+
+;;;; buffer unsafe C API
+
+(define-inline (buf-mem-new)
+  (foreign-call "ikrt_buf_mem_new"))
+
+(define-inline (buf-mem-free buf)
+  (foreign-call "ikrt_buf_mem_free" buf))
+
+(define-inline (buf-mem-grow buf len)
+  (foreign-call "ikrt_buf_mem_grow" buf len))
+
+(define-inline (buf-mem-grow-clean buf len)
+  (foreign-call "ikrt_buf_mem_grow_clean" buf len))
+
+;; (define-inline (buf-strdup)
+;;   (foreign-call "ikrt_buf_strdup"))
+
+;; (define-inline (buf-strndup)
+;;   (foreign-call "ikrt_buf_strndup"))
+
+;; (define-inline (buf-memdup)
+;;   (foreign-call "ikrt_buf_memdup"))
+
+;; (define-inline (buf-reverse)
+;;   (foreign-call "ikrt_buf_reverse"))
+
+;; (define-inline (buf-strlcpy)
+;;   (foreign-call "ikrt_buf_strlcpy"))
+
+;; (define-inline (buf-strlcat)
+;;   (foreign-call "ikrt_buf_strlcat"))
+
+;; (define-inline (err-load-buf-strings)
+;;   (foreign-call "ikrt_err_load_buf_strings"))
 
 
 ;;;; still to be implemented

@@ -10,7 +10,9 @@ libvicare_openssl_la_LDFLAGS	= -version-info $(vicare_openssl_VERSION)
 libvicare_openssl_la_SOURCES	= \
 	vicare-openssl-version.c		\
 	vicare-openssl-core.c			\
+	vicare-openssl-buffer.c			\
 	vicare-openssl-helpers.c		\
+	\
 	vicare-openssl-raw-message-digest.c	\
 	vicare-openssl-raw-hmac.c		\
 	vicare-openssl-raw-crypto-aes.c		\

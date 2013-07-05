@@ -361,6 +361,19 @@ main (int argc, const char *const argv[])
     HAVE_AES_WRAP_KEY\n\
     HAVE_AES_UNWRAP_KEY\n\
     \n\
+    ;; buffer features\n\
+    HAVE_BUF_MEM_NEW\n\
+    HAVE_BUF_MEM_FREE\n\
+    HAVE_BUF_MEM_GROW\n\
+    HAVE_BUF_MEM_GROW_CLEAN\n\
+    HAVE_BUF_STRDUP\n\
+    HAVE_BUF_STRNDUP\n\
+    HAVE_BUF_MEMDUP\n\
+    HAVE_BUF_REVERSE\n\
+    HAVE_BUF_STRLCPY\n\
+    HAVE_BUF_STRLCAT\n\
+    HAVE_ERR_LOAD_BUF_STRINGS\n\
+    \n\
     )\n\
   (import (rnrs))\n\
 \n\
@@ -2599,6 +2612,99 @@ printf("(define-inline-constant HAVE_EVP_CIPHER_CTX_TEST_FLAGS %s)\n",
 
 printf("(define-inline-constant HAVE_EVP_CIPHER %s)\n",
 #ifdef HAVE_EVP_CIPHER
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+
+/** --------------------------------------------------------------------
+ ** buffer features.
+ ** ----------------------------------------------------------------- */
+
+printf("(define-inline-constant HAVE_BUF_MEM_NEW %s)\n",
+#ifdef HAVE_BUF_MEM_NEW
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_BUF_MEM_FREE %s)\n",
+#ifdef HAVE_BUF_MEM_FREE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_BUF_MEM_GROW %s)\n",
+#ifdef HAVE_BUF_MEM_GROW
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_BUF_MEM_GROW_CLEAN %s)\n",
+#ifdef HAVE_BUF_MEM_GROW_CLEAN
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_BUF_STRDUP %s)\n",
+#ifdef HAVE_BUF_STRDUP
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_BUF_STRNDUP %s)\n",
+#ifdef HAVE_BUF_STRNDUP
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_BUF_MEMDUP %s)\n",
+#ifdef HAVE_BUF_MEMDUP
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_BUF_REVERSE %s)\n",
+#ifdef HAVE_BUF_REVERSE
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_BUF_STRLCPY %s)\n",
+#ifdef HAVE_BUF_STRLCPY
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_BUF_STRLCAT %s)\n",
+#ifdef HAVE_BUF_STRLCAT
+  "#t"
+#else
+  "#f"
+#endif
+  );
+
+printf("(define-inline-constant HAVE_ERR_LOAD_BUF_STRINGS %s)\n",
+#ifdef HAVE_ERR_LOAD_BUF_STRINGS
   "#t"
 #else
   "#f"

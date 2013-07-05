@@ -72,6 +72,11 @@
 #  include <openssl/aes.h>
 #endif
 
+/* Miscellaneous features */
+#ifdef HAVE_OPENSSL_BUFFER_H
+#  include <openssl/buffer.h>
+#endif
+
 
 /** --------------------------------------------------------------------
  ** Helper functions prototypes.
@@ -157,6 +162,15 @@ extern const EVP_MD * ik_openssl_integer_to_evp_md (ikptr s_md);
 /* Accessors for the fields of the Scheme structure "evp-cipher". */
 #define IK_EVP_CIPHER_POINTER(CIPHER)	IK_FIELD((CIPHER),0)
 #define IK_EVP_CIPHER(CIPHER)		IK_POINTER_DATA_VOIDP(IK_EVP_CIPHER_POINTER(CIPHER))
+
+
+/** --------------------------------------------------------------------
+ ** Handling of Scheme objects: miscellaneous data structures.
+ ** ----------------------------------------------------------------- */
+
+/* Accessors for the fields of the Scheme structure "BUF_MEM". */
+#define IK_BUF_MEM_POINTER(CTX)		IK_FIELD((CTX),0)
+#define IK_BUF_MEM(CTX)			IK_POINTER_DATA_VOIDP(IK_BUF_MEM_POINTER(CTX))
 
 
 /** --------------------------------------------------------------------

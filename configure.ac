@@ -77,10 +77,18 @@ dnl Encrypting and decrypting
 AC_CHECK_HEADERS([openssl/aes.h],,
   [AC_MSG_FAILURE([missing openssl/aes.h header],[2])])
 
+dnl Miscellaneous features
+AC_CHECK_HEADERS([openssl/buffer.h],,
+  [AC_MSG_FAILURE([missing openssl/buffer.h header],[2])])
+
+dnl --------------------------------------------------------------------
+
 AC_CHECK_LIB([crypto],[MD5_Init],,
   [AC_MSG_FAILURE([missing OpenSSL crypto library],[2])])
 AC_CHECK_LIB([ssl],[SSL_library_init],,
   [AC_MSG_FAILURE([missing OpenSSL ssl library],[2])])
+
+dnl --------------------------------------------------------------------
 
 m4_define([VICARE_INCLUDES],[
 AC_INCLUDES_DEFAULT
@@ -121,6 +129,10 @@ AC_INCLUDES_DEFAULT
 
 #ifdef HAVE_OPENSSL_AES_H
 #  include <openssl/aes.h>
+#endif
+
+#ifdef HAVE_OPENSSL_BUFFER_H
+#  include <openssl/buffer.h>
 #endif
 
 ])
@@ -529,6 +541,20 @@ VICARE_CONSTANT_TESTS([AES_ENCRYPT AES_DECRYPT AES_BLOCK_SIZE])
 
 dnl AES functions checking
 AC_CHECK_FUNCS([AES_options AES_set_encrypt_key AES_set_decrypt_key AES_encrypt AES_decrypt AES_ecb_encrypt AES_cbc_encrypt AES_cfb128_encrypt AES_cfb1_encrypt AES_cfb8_encrypt AES_ofb128_encrypt AES_ctr128_encrypt AES_ige_encrypt AES_bi_ige_encrypt AES_wrap_key AES_unwrap_key ])
+
+#page
+#### miscellaneous features
+
+dnl buffer functions checking
+AC_CHECK_FUNCS([BUF_MEM_new BUF_MEM_free BUF_MEM_grow BUF_MEM_grow_clean BUF_strdup BUF_strndup BUF_memdup BUF_reverse BUF_strlcpy BUF_strlcat ERR_load_BUF_strings])
+
+VICARE_CONSTANT_TESTS([
+ BUF_F_BUF_MEMDUP
+ BUF_F_BUF_MEM_GROW
+ BUF_F_BUF_MEM_GROW_CLEAN
+ BUF_F_BUF_MEM_NEW
+ BUF_F_BUF_STRDUP
+ BUF_F_BUF_STRNDUP])
 
 #page
 #### finish
