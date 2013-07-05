@@ -3142,7 +3142,7 @@ reading from and writing to Scheme binary ports:
         (cond ((ssl.evp-decrypt-final ctx)
                => output)
               (else
-               (error "error finalising encryption")))
+               (error #f "error finalising encryption")))
       (let* ((ou.len  (ssl.evp-minimum-output-length ctx in.data #f))
              (ou.data (make-bytevector ou.len)))
         (cond ((ssl.evp-decrypt-update ctx ou.data #f in.data #f)
@@ -3150,7 +3150,7 @@ reading from and writing to Scheme binary ports:
                     (output (subbytevector-u8 ou.data 0 ou.len))
                     (loop (input))))
               (else
-               (error "error encrypting data")))))))
+               (error #f "error encrypting data")))))))
 
 (define (decrypt input output)
   (define ctx
@@ -3161,7 +3161,7 @@ reading from and writing to Scheme binary ports:
         (cond ((ssl.evp-decrypt-final ctx)
                => output)
               (else
-               (error "error finalising decryption")))
+               (error #f "error finalising decryption")))
       (let* ((ou.len  (ssl.evp-minimum-output-length ctx in.data #f))
              (ou.data (make-bytevector ou.len)))
         (cond ((ssl.evp-decrypt-update ctx ou.data #f in.data #f)
@@ -3169,7 +3169,7 @@ reading from and writing to Scheme binary ports:
                     (output (subbytevector-u8 ou.data 0 ou.len))
                     (loop (input))))
               (else
-               (error "error decrypting data")))))))
+               (error #f "error decrypting data")))))))
 
 (define clear-text
   (make-bytevector 123456))
@@ -3224,7 +3224,7 @@ And here is the same using the generic cipher @api{}:
         (cond ((ssl.evp-decrypt-final ctx)
                => output)
               (else
-               (error "error finalising cipher")))
+               (error #f "error finalising cipher")))
       (let* ((ou.len  (ssl.evp-minimum-output-length ctx in.data #f))
              (ou.data (make-bytevector ou.len)))
         (cond ((ssl.evp-decrypt-update ctx ou.data #f in.data #f)
@@ -3232,7 +3232,7 @@ And here is the same using the generic cipher @api{}:
                     (output (subbytevector-u8 ou.data 0 ou.len))
                     (loop (input))))
               (else
-               (error "error enciphering data")))))))
+               (error #f "error enciphering data")))))))
 
 (define clear-text
   (make-bytevector 123456))

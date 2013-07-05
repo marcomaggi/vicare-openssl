@@ -1509,8 +1509,8 @@ ikrt_openssl_evp_encryptfinal_ex (ikptr s_ctx, ikpcb * pcb)
 {
 #ifdef HAVE_EVP_ENCRYPTFINAL_EX
   EVP_CIPHER_CTX *	ctx = IK_EVP_CIPHER_CTX(s_ctx);
-  unsigned char		ou[EVP_CIPHER_CTX_block_size(ctx)];
-  int			ou_len;
+  int			ou_len = EVP_CIPHER_CTX_block_size(ctx);
+  unsigned char		ou[ou_len];
   int			rv;
   rv = EVP_EncryptFinal_ex(ctx, ou, &ou_len);
   return (rv)? ika_bytevector_from_memory_block(pcb, ou, ou_len) : IK_FALSE;
