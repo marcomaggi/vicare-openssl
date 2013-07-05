@@ -661,33 +661,32 @@
 (parametrise ((check-test-name		'encrypt-rc4)
 	      (struct-guardian-logger	#f))
 
-  (let ()
-    (define algo (ssl.evp-rc4))
-    (define key
-      (make-bytevector (ssl.evp-cipher-key-length algo)))
-    (define iv '#vu8())
+  (check
+      (let ()
+	(define algo (ssl.evp-rc4))
+	(define key
+	  (make-bytevector (ssl.evp-cipher-key-length algo)))
+	(define iv '#vu8())
 
-    (define (encrypt in)
-      (let ((ctx (ssl.evp-cipher-ctx-new)))
-	(ssl.evp-encrypt-init ctx algo key #f iv #f)
-	(let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
-	       (ou.len   (ssl.evp-encrypt-update ctx ou #f in #f))
-	       (ou.final (ssl.evp-encrypt-final ctx)))
-	  (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
+	(define (encrypt in)
+	  (let ((ctx (ssl.evp-cipher-ctx-new)))
+	    (ssl.evp-encrypt-init ctx algo key #f iv #f)
+	    (let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
+		   (ou.len   (ssl.evp-encrypt-update ctx ou #f in #f))
+		   (ou.final (ssl.evp-encrypt-final ctx)))
+	      (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
 
-    (define (decrypt in)
-      (let ((ctx (ssl.evp-cipher-ctx-new)))
-	(ssl.evp-decrypt-init ctx algo key #f iv #f)
-	(let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
-	       (ou.len   (ssl.evp-decrypt-update ctx ou #f in #f))
-	       (ou.final (ssl.evp-decrypt-final ctx)))
-	  (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
+	(define (decrypt in)
+	  (let ((ctx (ssl.evp-cipher-ctx-new)))
+	    (ssl.evp-decrypt-init ctx algo key #f iv #f)
+	    (let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
+		   (ou.len   (ssl.evp-decrypt-update ctx ou #f in #f))
+		   (ou.final (ssl.evp-decrypt-final ctx)))
+	      (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
 
-    (check
-	(decrypt (encrypt "mamma"))
-      => '#ve(ascii "mamma"))
 
-    #f)
+	(decrypt (encrypt "mamma")))
+    => '#ve(ascii "mamma"))
 
 ;;; --------------------------------------------------------------------
 
@@ -768,40 +767,71 @@
 	  (bytevector=? clear-text (decrypted-getter))))
     => #t)
 
+;;; --------------------------------------------------------------------
+;;; copying contexts
+
+  (check
+      (let ()
+	(define algo (ssl.evp-rc4))
+	(define key
+	  (make-bytevector (ssl.evp-cipher-key-length algo)))
+	(define iv '#vu8())
+
+	(define (encrypt in)
+	  (let ((ctx (ssl.evp-cipher-ctx-new)))
+	    (ssl.evp-encrypt-init ctx algo key #f iv #f)
+	    (let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
+		   (ou.len   (ssl.evp-encrypt-update ctx ou #f in #f))
+		   (ou.final (ssl.evp-encrypt-final ctx)))
+	      (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
+
+	(define (decrypt in)
+	  (let ((ctx (ssl.evp-cipher-ctx-new)))
+	    (ssl.evp-decrypt-init ctx algo key #f iv #f)
+	      (let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
+		     (ou.len   (ssl.evp-decrypt-update ctx ou #f in #f)))
+		(let ((ctx^ (ssl.evp-cipher-ctx-new)))
+		  (ssl.evp-decrypt-init ctx^ algo key #f iv #f)
+		  (assert (ssl.evp-cipher-ctx-copy ctx^ ctx))
+		  (let ((ou.final (ssl.evp-decrypt-final ctx^)))
+		    (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))))
+
+	(decrypt (encrypt "mamma")))
+    => '#ve(ascii "mamma"))
+
   (collect))
 
 
 (parametrise ((check-test-name		'encrypt-cast5)
 	      (struct-guardian-logger	#f))
 
-  (let ()
-    (define algo (ssl.evp-cast5-cbc))
-    (define key
-      (make-bytevector (ssl.evp-cipher-key-length algo)))
-    (define iv
-      (make-bytevector (ssl.evp-cipher-iv-length algo)))
+  (check
+      (let ()
+	(define algo (ssl.evp-cast5-cbc))
+	(define key
+	  (make-bytevector (ssl.evp-cipher-key-length algo)))
+	(define iv
+	  (make-bytevector (ssl.evp-cipher-iv-length algo)))
 
-    (define (encrypt in)
-      (let ((ctx (ssl.evp-cipher-ctx-new)))
-	(ssl.evp-encrypt-init ctx algo key #f iv #f)
-	(let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
-	       (ou.len   (ssl.evp-encrypt-update ctx ou #f in #f))
-	       (ou.final (ssl.evp-encrypt-final ctx)))
-	  (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
+	(define (encrypt in)
+	  (let ((ctx (ssl.evp-cipher-ctx-new)))
+	    (ssl.evp-encrypt-init ctx algo key #f iv #f)
+	    (let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
+		   (ou.len   (ssl.evp-encrypt-update ctx ou #f in #f))
+		   (ou.final (ssl.evp-encrypt-final ctx)))
+	      (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
 
-    (define (decrypt in)
-      (let ((ctx (ssl.evp-cipher-ctx-new)))
-	(ssl.evp-decrypt-init ctx algo key #f iv #f)
-	(let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
-	       (ou.len   (ssl.evp-decrypt-update ctx ou #f in #f))
-	       (ou.final (ssl.evp-decrypt-final ctx)))
-	  (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
+	(define (decrypt in)
+	  (let ((ctx (ssl.evp-cipher-ctx-new)))
+	    (ssl.evp-decrypt-init ctx algo key #f iv #f)
+	    (let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
+		   (ou.len   (ssl.evp-decrypt-update ctx ou #f in #f))
+		   (ou.final (ssl.evp-decrypt-final ctx)))
+	      (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
 
-    (check
-	(decrypt (encrypt "mamma"))
-      => '#ve(ascii "mamma"))
 
-    #f)
+	(decrypt (encrypt "mamma")))
+    => '#ve(ascii "mamma"))
 
 ;;; --------------------------------------------------------------------
 
@@ -891,32 +921,30 @@
 (parametrise ((check-test-name		'cipher-rc4)
 	      (struct-guardian-logger	#f))
 
-  (let ()
-    (define algo (ssl.evp-rc4))
-    (define key
-      (make-bytevector (ssl.evp-cipher-key-length algo)))
+  (check
+      (let ()
+	(define algo (ssl.evp-rc4))
+	(define key
+	  (make-bytevector (ssl.evp-cipher-key-length algo)))
 
-    (define (encrypt in)
-      (let ((ctx (ssl.evp-cipher-ctx-new)))
-	(ssl.evp-cipher-init ctx algo key #f '#vu8() #f ssl.EVP_CIPHER_ENCRYPT)
-	(let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
-	       (ou.len   (ssl.evp-cipher-update ctx ou #f in #f))
-	       (ou.final (ssl.evp-cipher-final ctx)))
-	  (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
+	(define (encrypt in)
+	  (let ((ctx (ssl.evp-cipher-ctx-new)))
+	    (ssl.evp-cipher-init ctx algo key #f '#vu8() #f ssl.EVP_CIPHER_ENCRYPT)
+	    (let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
+		   (ou.len   (ssl.evp-cipher-update ctx ou #f in #f))
+		   (ou.final (ssl.evp-cipher-final ctx)))
+	      (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
 
-    (define (decrypt in)
-      (let ((ctx (ssl.evp-cipher-ctx-new)))
-	(ssl.evp-cipher-init ctx algo key #f '#vu8() #f ssl.EVP_CIPHER_DECRYPT)
-	(let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
-	       (ou.len   (ssl.evp-cipher-update ctx ou #f in #f))
-	       (ou.final (ssl.evp-cipher-final ctx)))
-	  (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
+	(define (decrypt in)
+	  (let ((ctx (ssl.evp-cipher-ctx-new)))
+	    (ssl.evp-cipher-init ctx algo key #f '#vu8() #f ssl.EVP_CIPHER_DECRYPT)
+	    (let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
+		   (ou.len   (ssl.evp-cipher-update ctx ou #f in #f))
+		   (ou.final (ssl.evp-cipher-final ctx)))
+	      (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
 
-    (check
-	(decrypt (encrypt "mamma"))
-      => '#ve(ascii "mamma"))
-
-    #f)
+	(decrypt (encrypt "mamma")))
+    => '#ve(ascii "mamma"))
 
 ;;; --------------------------------------------------------------------
 
@@ -984,34 +1012,32 @@
 (parametrise ((check-test-name		'cipher-cast5)
 	      (struct-guardian-logger	#f))
 
-  (let ()
-    (define algo (ssl.evp-cast5-cbc))
-    (define key
-      (make-bytevector (ssl.evp-cipher-key-length algo)))
-    (define iv
-      (make-bytevector (ssl.evp-cipher-iv-length algo)))
+  (check
+      (let ()
+	(define algo (ssl.evp-cast5-cbc))
+	(define key
+	  (make-bytevector (ssl.evp-cipher-key-length algo)))
+	(define iv
+	  (make-bytevector (ssl.evp-cipher-iv-length algo)))
 
-    (define (encrypt in)
-      (let ((ctx (ssl.evp-cipher-ctx-new)))
-	(ssl.evp-cipher-init ctx algo key #f iv #f ssl.EVP_CIPHER_ENCRYPT)
-	(let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
-	       (ou.len   (ssl.evp-cipher-update ctx ou #f in #f))
-	       (ou.final (ssl.evp-cipher-final ctx)))
-	  (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
+	(define (encrypt in)
+	  (let ((ctx (ssl.evp-cipher-ctx-new)))
+	    (ssl.evp-cipher-init ctx algo key #f iv #f ssl.EVP_CIPHER_ENCRYPT)
+	    (let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
+		   (ou.len   (ssl.evp-cipher-update ctx ou #f in #f))
+		   (ou.final (ssl.evp-cipher-final ctx)))
+	      (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
 
-    (define (decrypt in)
-      (let ((ctx (ssl.evp-cipher-ctx-new)))
-	(ssl.evp-cipher-init ctx algo key #f iv #f ssl.EVP_CIPHER_DECRYPT)
-	(let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
-	       (ou.len   (ssl.evp-cipher-update ctx ou #f in #f))
-	       (ou.final (ssl.evp-cipher-final ctx)))
-	  (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
+	(define (decrypt in)
+	  (let ((ctx (ssl.evp-cipher-ctx-new)))
+	    (ssl.evp-cipher-init ctx algo key #f iv #f ssl.EVP_CIPHER_DECRYPT)
+	    (let* ((ou       (make-bytevector (ssl.evp-minimum-output-length ctx in #f)))
+		   (ou.len   (ssl.evp-cipher-update ctx ou #f in #f))
+		   (ou.final (ssl.evp-cipher-final ctx)))
+	      (bytevector-append (subbytevector-u8 ou 0 ou.len) ou.final))))
 
-    (check
-	(decrypt (encrypt "mamma"))
-      => '#ve(ascii "mamma"))
-
-    #f)
+	(decrypt (encrypt "mamma")))
+    => '#ve(ascii "mamma"))
 
 ;;; --------------------------------------------------------------------
 

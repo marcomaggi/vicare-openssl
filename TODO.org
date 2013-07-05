@@ -2,11 +2,6 @@
 
 ** Cipher
 
-   Test encryption and decryption  with the EVP-ENCRYPT-*, EVP-DECRYPT-*
-   and EVP-CIPHER-* Scheme functions.
-
-   Test the Scheme function EVP-CIPHER-CTX-COPY.
-
    Implement, document and  test wrappers "EVP_CIPHER_param_to_asn1" and
    "EVP_CIPHER_asn1_to_param".
 
