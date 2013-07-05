@@ -689,6 +689,85 @@
 
     #f)
 
+;;; --------------------------------------------------------------------
+
+  (check
+      (let ()
+	(define (make-chunked-bytevector-input-port bv)
+	  (let ((port (open-bytevector-input-port bv)))
+	    (values port (lambda ()
+			   (get-bytevector-n port 4096)))))
+
+	(define (make-chunked-bytevector-output-port)
+	  (receive (port getter)
+	      (open-bytevector-output-port)
+	    (values port getter (lambda (data)
+				  (put-bytevector port data)))))
+
+	(define algo (ssl.evp-rc4))
+	(define key
+	  ;;A random key.
+	  (make-bytevector (ssl.evp-cipher-key-length algo)))
+	(define iv '#vu8())
+
+	(define (encrypt input output)
+	  (define ctx
+	    (ssl.evp-cipher-ctx-new))
+	  (ssl.evp-encrypt-init ctx algo key #f iv #f)
+	  (let loop ((in.data (input)))
+	    (if (eof-object? in.data)
+		(cond ((ssl.evp-decrypt-final ctx)
+		       => output)
+		      (else
+		       (error "error finalising encryption")))
+	      (let* ((ou.len  (ssl.evp-minimum-output-length ctx in.data #f))
+		     (ou.data (make-bytevector ou.len)))
+		(cond ((ssl.evp-decrypt-update ctx ou.data #f in.data #f)
+		       => (lambda (ou.len)
+			    (output (subbytevector-u8 ou.data 0 ou.len))
+			    (loop (input))))
+		      (else
+		       (error "error encrypting data")))))))
+
+	(define (decrypt input output)
+	  (define ctx
+	    (ssl.evp-cipher-ctx-new))
+	  (ssl.evp-decrypt-init ctx algo key #f iv #f)
+	  (let loop ((in.data (input)))
+	    (if (eof-object? in.data)
+		(cond ((ssl.evp-decrypt-final ctx)
+		       => output)
+		      (else
+		       (error "error finalising decryption")))
+	      (let* ((ou.len  (ssl.evp-minimum-output-length ctx in.data #f))
+		     (ou.data (make-bytevector ou.len)))
+		(cond ((ssl.evp-decrypt-update ctx ou.data #f in.data #f)
+		       => (lambda (ou.len)
+			    (output (subbytevector-u8 ou.data 0 ou.len))
+			    (loop (input))))
+		      (else
+		       (error "error decrypting data")))))))
+
+	(define clear-text
+	  (make-bytevector 123456))
+
+	(define-values (clear-port clear-reader)
+	  (make-chunked-bytevector-input-port clear-text))
+
+	(define-values (encrypted-port encrypted-getter encrypted-writer)
+	  (make-chunked-bytevector-output-port))
+
+	(encrypt clear-reader encrypted-writer)
+
+	(let ((encrypted-text (encrypted-getter)))
+	  (define-values (encrypted-port encrypted-reader)
+	    (make-chunked-bytevector-input-port encrypted-text))
+	  (define-values (decrypted-port decrypted-getter decrypted-writer)
+	    (make-chunked-bytevector-output-port))
+	  (decrypt encrypted-reader decrypted-writer)
+	  (bytevector=? clear-text (decrypted-getter))))
+    => #t)
+
   (collect))
 
 
