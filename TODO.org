@@ -15,10 +15,6 @@
 
    Implement API documented in manual page "EVP_VerifyInit".
 
-* Buffers
-
-  Scan the manual page "buffer" for APIs to implement.
-
 * BIO
 
   Scan the manual page "bio" for APIs to implement.
