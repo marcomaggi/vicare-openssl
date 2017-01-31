@@ -8,7 +8,7 @@
 ;;;
 ;;;
 ;;;
-;;;Copyright (C) 2013 Marco Maggi <marco.maggi-ipsu@poste.it>
+;;;Copyright (C) 2013, 2017 Marco Maggi <marco.maggi-ipsu@poste.it>
 ;;;
 ;;;This program is free software:  you can redistribute it and/or modify
 ;;;it under the terms of the  GNU General Public License as published by
@@ -27,7 +27,9 @@
 
 #!r6rs
 (import (vicare)
+  (prefix (vicare system structs) structs::)
   (vicare language-extensions cond-expand)
+  (prefix (vicare crypto openssl features) features::)
   (prefix (vicare crypto openssl) ssl.)
   (prefix (vicare crypto openssl constants) ssl.)
   (prefix (vicare crypto openssl message-digests) ssl.)
@@ -61,7 +63,7 @@
 
 
 (parametrise ((check-test-name		'md4)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (when #f
     (check-pretty-print (ssl.md4-init)))
@@ -109,7 +111,7 @@
 
 
 (parametrise ((check-test-name		'md5)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (when #f
     (check-pretty-print (ssl.md5-init)))
@@ -157,55 +159,59 @@
 
 
 (parametrise ((check-test-name		'mdc2)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
-  (when #f
-    (check-pretty-print (ssl.mdc2-init)))
+  (when features::HAVE_MDC2_INIT
 
-  (check
-      (let ((ctx (ssl.mdc2-init)))
-	(ssl.mdc2-ctx? ctx))
-    => #t)
+    (when #f
+      (check-pretty-print (ssl.mdc2-init)))
 
-  (check
-      (let ((ctx (ssl.mdc2-init)))
-	(ssl.mdc2-ctx?/alive ctx))
-    => #t)
+    (check
+	(let ((ctx (ssl.mdc2-init)))
+	  (ssl.mdc2-ctx? ctx))
+      => #t)
 
-  (check
-      (let ((ctx (ssl.mdc2-init)))
-	(ssl.mdc2-final ctx)
-	(ssl.mdc2-ctx?/alive ctx))
-    => #f)
+    (check
+	(let ((ctx (ssl.mdc2-init)))
+	  (ssl.mdc2-ctx?/alive ctx))
+      => #t)
 
-  (check
-      (let ((ctx (ssl.mdc2-init)))
-	(ssl.mdc2-final ctx)
-	(ssl.mdc2-final ctx)
-	(ssl.mdc2-ctx?/alive ctx))
-    => #f)
+    (check
+	(let ((ctx (ssl.mdc2-init)))
+	  (ssl.mdc2-final ctx)
+	  (ssl.mdc2-ctx?/alive ctx))
+      => #f)
+
+    (check
+	(let ((ctx (ssl.mdc2-init)))
+	  (ssl.mdc2-final ctx)
+	  (ssl.mdc2-final ctx)
+	  (ssl.mdc2-ctx?/alive ctx))
+      => #f)
 
 ;;; --------------------------------------------------------------------
 ;;; mdc2-update
 
-  (check
-      (let ((ctx (ssl.mdc2-init)))
-	(assert (ssl.mdc2-update ctx "ciao"))
-	(ssl.mdc2-final ctx))
-    => '#vu8(7 135 111 85 63 136 98 189 26 91 47 77 36 135 251 237))
+    (check
+	(let ((ctx (ssl.mdc2-init)))
+	  (assert (ssl.mdc2-update ctx "ciao"))
+	  (ssl.mdc2-final ctx))
+      => '#vu8(7 135 111 85 63 136 98 189 26 91 47 77 36 135 251 237))
 
 ;;; --------------------------------------------------------------------
 ;;; mdc2
 
-  (check
-      (ssl.mdc2 "ciao")
-    => '#vu8(7 135 111 85 63 136 98 189 26 91 47 77 36 135 251 237))
+    (check
+	(ssl.mdc2 "ciao")
+      => '#vu8(7 135 111 85 63 136 98 189 26 91 47 77 36 135 251 237))
+
+    #| end of WHEN |# )
 
   (collect))
 
 
 (parametrise ((check-test-name		'sha1)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (when #f
     (check-pretty-print (ssl.sha1-init)))
@@ -255,7 +261,7 @@
 
 
 (parametrise ((check-test-name		'sha224)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (when #f
     (check-pretty-print (ssl.sha224-init)))
@@ -305,7 +311,7 @@
 
 
 (parametrise ((check-test-name		'sha256)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (when #f
     (check-pretty-print (ssl.sha256-init)))
@@ -355,7 +361,7 @@
 
 
 (parametrise ((check-test-name		'sha384)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (when #f
     (check-pretty-print (ssl.sha384-init)))
@@ -409,7 +415,7 @@
 
 
 (parametrise ((check-test-name		'sha512)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (when #f
     (check-pretty-print (ssl.sha512-init)))
@@ -465,7 +471,7 @@
 
 
 (parametrise ((check-test-name		'ripemd160)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (when #f
     (check-pretty-print (ssl.ripemd160-init)))
@@ -513,7 +519,7 @@
 
 
 (parametrise ((check-test-name		'whirlpool)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (when #f
     (check-pretty-print (ssl.whirlpool-init)))

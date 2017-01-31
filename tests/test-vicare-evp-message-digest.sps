@@ -8,7 +8,7 @@
 ;;;
 ;;;
 ;;;
-;;;Copyright (C) 2013 Marco Maggi <marco.maggi-ipsu@poste.it>
+;;;Copyright (C) 2013, 2017 Marco Maggi <marco.maggi-ipsu@poste.it>
 ;;;
 ;;;This program is free software:  you can redistribute it and/or modify
 ;;;it under the terms of the  GNU General Public License as published by
@@ -27,6 +27,7 @@
 
 #!r6rs
 (import (vicare)
+  (prefix (vicare system structs) structs::)
   (vicare language-extensions cond-expand)
   (for (prefix (vicare crypto openssl evp message-digests cond-expand)
 	       ssl.)
@@ -159,7 +160,7 @@
 
 
 (parametrise ((check-test-name		'context)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (check
       (let ((ctx (ssl.evp-md-ctx-create)))
@@ -188,7 +189,7 @@
 
 
 (parametrise ((check-test-name		'running)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (check
       (let ((ctx (ssl.evp-md-ctx-create)))
@@ -230,7 +231,7 @@
 
 
 (parametrise ((check-test-name		'inspect)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (check
       (let ((ctx (ssl.evp-md-ctx-create)))
@@ -262,7 +263,7 @@
 
 
 (parametrise ((check-test-name		'flags)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (check
       (let ((ctx (ssl.evp-md-ctx-create)))

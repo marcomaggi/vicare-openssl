@@ -8,7 +8,7 @@
 ;;;
 ;;;
 ;;;
-;;;Copyright (C) 2013 Marco Maggi <marco.maggi-ipsu@poste.it>
+;;;Copyright (C) 2013, 2017 Marco Maggi <marco.maggi-ipsu@poste.it>
 ;;;
 ;;;This program is free software:  you can redistribute it and/or modify
 ;;;it under the terms of the  GNU General Public License as published by
@@ -27,6 +27,7 @@
 
 #!r6rs
 (import (vicare)
+  (prefix (vicare system structs) structs::)
   (vicare language-extensions cond-expand)
   (for (prefix (vicare crypto openssl hmac cond-expand) ssl.)
        expand)
@@ -61,7 +62,7 @@
 
 
 (parametrise ((check-test-name		'md5)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (when #f
     (check-pretty-print (ssl.hmac-init "key" #f 'md5)))
@@ -120,14 +121,14 @@
 
   (check
       (let ((ctx (ssl.hmac-init "key" #f 'md5)))
-	(ssl.hmac-ctx-set-flags ctx 0))
-    => (void))
+	(void-object? (ssl.hmac-ctx-set-flags ctx 0)))
+    => #t)
 
   (collect))
 
 
 (parametrise ((check-test-name		'whirlpool)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (when #f
     (check-pretty-print (ssl.hmac-init "key" #f 'whirlpool)))
@@ -188,8 +189,8 @@
 
   (check
       (let ((ctx (ssl.hmac-init "key" #f 'whirlpool)))
-	(ssl.hmac-ctx-set-flags ctx 0))
-    => (void))
+	(void-object? (ssl.hmac-ctx-set-flags ctx 0)))
+    => #t)
 
   (collect))
 

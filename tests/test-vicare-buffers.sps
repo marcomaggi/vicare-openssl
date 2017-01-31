@@ -8,7 +8,7 @@
 ;;;
 ;;;
 ;;;
-;;;Copyright (C) 2013 Marco Maggi <marco.maggi-ipsu@poste.it>
+;;;Copyright (C) 2013, 2017 Marco Maggi <marco.maggi-ipsu@poste.it>
 ;;;
 ;;;This program is free software:  you can redistribute it and/or modify
 ;;;it under the terms of the  GNU General Public License as published by
@@ -27,6 +27,7 @@
 
 #!r6rs
 (import (vicare)
+  (prefix (vicare system structs) structs::)
   (vicare language-extensions cond-expand)
   (for (prefix (vicare crypto openssl buffers cond-expand) ssl.)
        expand)
@@ -59,7 +60,7 @@
 
 
 (parametrise ((check-test-name		'struct)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (when #f
     (check-pretty-print (ssl.buf-mem-new)))

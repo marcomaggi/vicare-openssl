@@ -8,7 +8,7 @@
 ;;;
 ;;;
 ;;;
-;;;Copyright (C) 2013 Marco Maggi <marco.maggi-ipsu@poste.it>
+;;;Copyright (C) 2013, 2017 Marco Maggi <marco.maggi-ipsu@poste.it>
 ;;;
 ;;;This program is free software:  you can redistribute it and/or modify
 ;;;it under the terms of the  GNU General Public License as published by
@@ -26,8 +26,9 @@
 
 
 #!vicare
-#!(load-shared-library "vicare-openssl")
 (library (vicare crypto openssl)
+  (options typed-language)
+  (foreign-library "vicare-openssl")
   (export
 
     ;; version numbers and strings
@@ -49,10 +50,8 @@
 
     )
   (import (vicare)
-    (prefix (vicare crypto openssl unsafe-capi)
-	    capi.)
-    (prefix (vicare ffi foreign-pointer-wrapper)
-	    ffi.)
+    (prefix (vicare crypto openssl unsafe-capi) capi::)
+    (prefix (vicare ffi foreign-pointer-wrapper) ffi::)
     (vicare language-extensions syntaxes)
     (vicare arguments validation))
 
@@ -60,53 +59,53 @@
 ;;;; version functions
 
 (define (vicare-openssl-version-interface-current)
-  (capi.vicare-openssl-version-interface-current))
+  (capi::vicare-openssl-version-interface-current))
 
 (define (vicare-openssl-version-interface-revision)
-  (capi.vicare-openssl-version-interface-revision))
+  (capi::vicare-openssl-version-interface-revision))
 
 (define (vicare-openssl-version-interface-age)
-  (capi.vicare-openssl-version-interface-age))
+  (capi::vicare-openssl-version-interface-age))
 
 (define (vicare-openssl-version)
-  (ascii->string (capi.vicare-openssl-version)))
+  (ascii->string (capi::vicare-openssl-version)))
 
 
 ;;;; initialisation functions
 
 (define (ssl-library-init)
-  (capi.ssl-library-init))
+  (capi::ssl-library-init))
 
 (define (openssl-add-all-algorithms-noconf)
-  (capi.openssl-add-all-algorithms-noconf))
+  (capi::openssl-add-all-algorithms-noconf))
 
 (define (openssl-add-all-algorithms-conf)
-  (capi.openssl-add-all-algorithms-conf))
+  (capi::openssl-add-all-algorithms-conf))
 
 (define (openssl-add-all-algorithms)
-  (capi.openssl-add-all-algorithms))
+  (capi::openssl-add-all-algorithms))
 
 (define (openssl-add-all-ciphers)
-  (capi.openssl-add-all-ciphers))
+  (capi::openssl-add-all-ciphers))
 
 (define (openssl-add-all-digests)
-  (capi.openssl-add-all-digests))
+  (capi::openssl-add-all-digests))
 
 (define (ssleay-add-all-algorithms)
-  (capi.ssleay-add-all-algorithms))
+  (capi::ssleay-add-all-algorithms))
 
 (define (ssleay-add-all-ciphers)
-  (capi.ssleay-add-all-ciphers))
+  (capi::ssleay-add-all-ciphers))
 
 (define (ssleay-add-all-digests)
-  (capi.ssleay-add-all-digests))
+  (capi::ssleay-add-all-digests))
 
 
 ;;;; done
 
-)
+#| end of library |# )
 
 ;;; end of file
 ;; Local Variables:
-;; eval: (put 'ffi.define-foreign-pointer-wrapper 'scheme-indent-function 1)
+;; eval: (put 'ffi::define-foreign-pointer-wrapper 'scheme-indent-function 1)
 ;; End:

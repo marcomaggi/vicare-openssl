@@ -1,4 +1,4 @@
-Subject: [announce] Vicare/OpenSSL revision 0.1d0
+Subject: [announce] Vicare/OpenSSL revision 0.4.1
 
 			     Vicare/OpenSSL
 			     ==============
@@ -13,27 +13,33 @@ it provides bindings for the OpenSSL C language library.
 
   The latest version of this package can be downloaded from:
 
-	<https://sourceforge.net/projects/vicare-openssl/files/>
+      <https://bitbucket.org/marcomaggi/vicare-openssl/downloads>
 
 the home page of the Vicare project is at:
 
-	       <http://marcomaggi.github.com/vicare.html>
+               <http://marcomaggi.github.io/vicare.html>
 
 development takes place at:
 
-	     <http://github.com/marcomaggi/vicare-openssl/>
+	    <http://github.com/marcomaggi/vicare-openssl/>
 
 and as backup at:
 
-	   <https://sourceforge.net/projects/vicare-openssl/>
+	  <https://bitbucket.org/marcomaggi/vicare-openssl/>
 
   The last  time the author  bothered to  update this paragraph,  he had
-tested OpenSSL version 1.0.1e; the Openssl library is available at:
+tested OpenSSL version 1.0.2j; the Openssl library is available at:
 
 		       <http://www.openssl.org/>
 
   This product  includes software developed  by the OpenSSL  Project for
 use in the OpenSSL Toolkit.  (http://www.openssl.org/)
+
+
+Notes for revision 0.4d1
+------------------------
+
+* Ensures compatibility with Vicare Scheme 0.4d1.
 
 
 Notes for revision 0.1d0

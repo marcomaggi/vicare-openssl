@@ -8,7 +8,7 @@
 ;;;
 ;;;
 ;;;
-;;;Copyright (C) 2013 Marco Maggi <marco.maggi-ipsu@poste.it>
+;;;Copyright (C) 2013, 2017 Marco Maggi <marco.maggi-ipsu@poste.it>
 ;;;
 ;;;This program is free software:  you can redistribute it and/or modify
 ;;;it under the terms of the  GNU General Public License as published by
@@ -27,6 +27,7 @@
 
 #!vicare
 (import (vicare)
+  (prefix (vicare system structs) structs::)
   (vicare language-extensions cond-expand)
   (for (prefix (vicare crypto openssl evp ciphers cond-expand)
 	       ssl.)
@@ -323,7 +324,7 @@
 
 
 (parametrise ((check-test-name		'ctx)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (check
       (let ((ctx (ssl.evp-cipher-ctx-new)))
@@ -368,7 +369,7 @@
 
 
 (parametrise ((check-test-name		'ctx-inspect)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
 ;;; cipher
 
@@ -467,7 +468,7 @@
 
 
 (parametrise ((check-test-name		'ctx-config)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
 ;;; key length
 
@@ -544,7 +545,7 @@
 
 
 (parametrise ((check-test-name		'ctx-flags)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
 ;;; get
 
@@ -568,8 +569,8 @@
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
 	(ssl.evp-encrypt-init ctx algo key #f iv #f)
-	(ssl.evp-cipher-ctx-set-flags ctx 0))
-    => (void))
+	(void-object? (ssl.evp-cipher-ctx-set-flags ctx 0)))
+    => #t)
 
 ;;; --------------------------------------------------------------------
 ;;; clear
@@ -581,8 +582,8 @@
 	     (key	(make-bytevector key.len))
 	     (iv	(make-bytevector (ssl.evp-cipher-block-size algo))))
 	(ssl.evp-encrypt-init ctx algo key #f iv #f)
-	(ssl.evp-cipher-ctx-clear-flags ctx 0))
-    => (void))
+	(void-object? (ssl.evp-cipher-ctx-clear-flags ctx 0)))
+    => #t)
 
 ;;; --------------------------------------------------------------------
 ;;; test
@@ -601,7 +602,7 @@
 
 
 (parametrise ((check-test-name		'ctx-app-data)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (check
       (let* ((algo	(ssl.evp-cast5-ecb))
@@ -659,7 +660,7 @@
 
 
 (parametrise ((check-test-name		'encrypt-rc4)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (check
       (let ()
@@ -803,7 +804,7 @@
 
 
 (parametrise ((check-test-name		'encrypt-cast5)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (check
       (let ()
@@ -919,7 +920,7 @@
 
 
 (parametrise ((check-test-name		'cipher-rc4)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (check
       (let ()
@@ -1010,7 +1011,7 @@
 
 
 (parametrise ((check-test-name		'cipher-cast5)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (check
       (let ()
@@ -1105,7 +1106,7 @@
 
 
 (parametrise ((check-test-name		'step)
-	      (struct-guardian-logger	#f))
+	      (structs::struct-guardian-logger	#f))
 
   (let ((key '#vu8(0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15)))
     #;(debug-print (ssl.evp-cipher-key-length (ssl.evp-rc4)))

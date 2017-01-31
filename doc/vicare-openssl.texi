@@ -127,12 +127,12 @@ second clause also accepts @false{}.
 
 @c To be used as @value{COPYRIGHT_YEARS} whenever we need to include the
 @c list of copyright years.
-@set COPYRIGHT_YEARS            2013
+@set COPYRIGHT_YEARS            2013, 2017
 
 @c ------------------------------------------------------------
 
 @set FOREIGN_PACKAGE            @openssl{}
-@set FOREIGN_VERSION            1.0.1e
+@set FOREIGN_VERSION            1.0.2j
 @set FOREIGN_URL                @url{http://www.openssl.org/}
 @set FOREIGN_SCHEME_LIB         @library{vicare crypto openssl}
 @set GITHUB_URL                 @url{http://github.com/marcomaggi/vicare-openssl}
@@ -257,114 +257,90 @@ Indexes
 @chapter Overview of the package
 
 
-Vicare Scheme is an @rnrs{6} compliant Scheme language implementation in
-the form of a native compiler for x86 architectures, officially
-supporting @gnu{}+Linux systems.  @value{PACKAGE} is a distribution of C
-language and Scheme language libraries for Vicare Scheme; it provides
-bindings for the @value{FOREIGN_PACKAGE} C language library.
+Vicare Scheme is an @rnrs{6} compliant Scheme language implementation in the form of a native
+compiler for x86 architectures, officially supporting @gnu{}+Linux systems.  @value{PACKAGE} is a
+distribution of C language and Scheme language libraries for Vicare Scheme; it provides bindings for
+the @value{FOREIGN_PACKAGE} C language library.
 
-The last time the author bothered to update this paragraph, he had
-tested @value{FOREIGN_PACKAGE} version @value{FOREIGN_VERSION}.  This
-product includes software developed by the OpenSSL Project for use in
-the OpenSSL Toolkit (@url{http://www.openssl.org/}).
+The last time the author bothered to update this paragraph, he had tested @value{FOREIGN_PACKAGE}
+version @value{FOREIGN_VERSION}.  This product includes software developed by the OpenSSL Project
+for use in the OpenSSL Toolkit (@url{http://www.openssl.org/}).
 
-The package installs a C language library implementing wrapper C
-functions for the C language @value{FOREIGN_PACKAGE} library; on top of
-this, the Scheme libraries in the hierarchy @library{vicare crypto
-openssl ---} export bindings for some @value{FOREIGN_PACKAGE} public
-functions; additionally the library @library{vicare crypto openssl
-constants} exports bindings for some constant values defined in the C
-language header @file{openssl/ssl.h} and others.
+The package installs a C language library implementing wrapper C functions for the C language
+@value{FOREIGN_PACKAGE} library; on top of this, the Scheme libraries in the hierarchy
+@library{vicare crypto openssl ---} export bindings for some @value{FOREIGN_PACKAGE} public
+functions; additionally the library @library{vicare crypto openssl constants} exports bindings for
+some constant values defined in the C language header @file{openssl/ssl.h} and others.
 
-Most of the Scheme function names are directly derived from the C
-function names by replacing upper case with lower case and underscore
-characters @samp{_} with dash characters @samp{-}; so
-@cfunc{SSL_library_init} becomes @func{ssl-library-init}.  In some rare
-case a dash is inserted to make the name more readable, for example
-@cfunc{EVP_DigestInit} becomes @func{evp-digest-init}.
+Most of the Scheme function names are directly derived from the C function names by replacing upper
+case with lower case and underscore characters @samp{_} with dash characters @samp{-}; so
+@cfunc{SSL_library_init} becomes @func{ssl-library-init}.  In some rare case a dash is inserted to
+make the name more readable, for example @cfunc{EVP_DigestInit} becomes @func{evp-digest-init}.
 
 The following Scheme libraries are installed:
 
-@table @library
-@item vicare crypto openssl
+@table @asis
+@item @library{vicare crypto openssl}
 @cindex Library @library{vicare crypto openssl}
 @cindex @library{vicare crypto openssl}, library
-It exports bindings for some @value{FOREIGN_PACKAGE} core public
-functions needed for library initialisation.
+It exports bindings for some @value{FOREIGN_PACKAGE} core public functions needed for library
+initialisation.
 
-@item vicare crypto openssl evp message-digests
+@item @library{vicare crypto openssl evp message-digests}
 @cindex Library @library{vicare crypto openssl evp message-digests}
 @cindex @library{vicare crypto openssl evp message-digests}, library
-It exports bindings for some @value{FOREIGN_PACKAGE} high--level
-functions implementing the EVP message digests @api{}.
+It exports bindings for some @value{FOREIGN_PACKAGE} high--level functions implementing the EVP
+message digests @api{}.
 
-@item vicare crypto openssl evp ciphers
+@item @library{vicare crypto openssl evp ciphers}
 @cindex Library @library{vicare crypto openssl evp ciphers}
 @cindex @library{vicare crypto openssl evp ciphers}, library
-It exports bindings for some @value{FOREIGN_PACKAGE} high--level
-functions implementing the EVP ciphers @api{}.
+It exports bindings for some @value{FOREIGN_PACKAGE} high--level functions implementing the EVP
+ciphers @api{}.
 
-@item vicare crypto openssl message-digests
+@item @library{vicare crypto openssl message-digests}
 @cindex Library @library{vicare crypto openssl message-digests}
 @cindex @library{vicare crypto openssl message-digests}, library
-It exports bindings for some @value{FOREIGN_PACKAGE} low--level
-functions implementing message digests.
+It exports bindings for some @value{FOREIGN_PACKAGE} low--level functions implementing message
+digests.
 
-@item vicare crypto openssl hmac
+@item @library{vicare crypto openssl hmac}
 @cindex Library @library{vicare crypto openssl hmac}
 @cindex @library{vicare crypto openssl hmac}, library
-It exports bindings for some @value{FOREIGN_PACKAGE} low--level
-functions implementing HMAC.
+It exports bindings for some @value{FOREIGN_PACKAGE} low--level functions implementing HMAC.
 
-@item vicare crypto openssl aes
+@item @library{vicare crypto openssl aes}
 @cindex Library @library{vicare crypto openssl aes}
 @cindex @library{vicare crypto openssl aes}, library
-It exports bindings for some @value{FOREIGN_PACKAGE} low--level
-functions implementing the AES cipher.
+It exports bindings for some @value{FOREIGN_PACKAGE} low--level functions implementing the AES
+cipher.
 
-@item vicare crypto openssl unsafe-capi
+@item @library{vicare crypto openssl unsafe-capi}
 @cindex Library @library{vicare crypto openssl unsafe-capi}
 @cindex @library{vicare crypto openssl unsafe-capi}, library
-It exports syntax bindings for some @value{FOREIGN_PACKAGE} public
-functions.  These syntaxes expand to a direct call to the C language
-wrapper functions in the @value{PACKAGE} library; they are not meant to
-be called in normal usage of the package.
+It exports syntax bindings for some @value{FOREIGN_PACKAGE} public functions.  These syntaxes expand
+to a direct call to the C language wrapper functions in the @value{PACKAGE} library; they are not
+meant to be called in normal usage of the package.
 
-@item vicare crypto openssl constants
+@item @library{vicare crypto openssl constants}
 @cindex Library @library{vicare crypto openssl constants}
 @cindex @library{vicare crypto openssl constants}, library
-It exports bindings for some constant values defined in the C language
-header @file{openssl/ssl.h} and others.
+It exports bindings for some constant values defined in the C language header @file{openssl/ssl.h}
+and others.
 
-@item vicare crypto openssl features
+@item @library{vicare crypto openssl features}
 @cindex Library @library{vicare crypto openssl features}
 @cindex @library{vicare crypto openssl features}, library
-It exports one identifier syntax binding for each @code{HAVE_} constant
-defined by the @command{configure} script, expanding to @true{} or
-@false{}.
+It exports one identifier syntax binding for each @code{HAVE_} constant defined by the
+@command{configure} script, expanding to @true{} or @false{}.
 @end table
 
 Scheme libraries are installed under the directory:
 
 @center @file{$(libdir)/vicare-scheme}
 
-After installation, under the directory:
-
-@center @file{$(libexecdir)/@value{PACKAGE_NICKNAME}}
-
-@noindent
-a script @file{compile-all.sps} can be executed to precompile the
-installed libraries; for example:
-
-@example
-$ sudo vicare \
-   --fasl-directory /var/cache/vicare-scheme \
-   --compile-dependencies \
-      /usr/local/libexec/vicare-openssl/compile-all.sps
-@end example
-
-This document contains only a brief description of the functions: refer
-to the @value{FOREIGN_PACKAGE}'s documentation for details.
+This document contains only a brief description of the functions: refer to the
+@value{FOREIGN_PACKAGE}'s documentation for details.
 
 @c page
 @node version
@@ -2131,34 +2107,6 @@ length; valid values are: @math{16}, @math{24}, @math{32}.  Otherwise
 return @false{}.
 @end defun
 
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} aes-block-len @var{buf} @var{buf.len}
-@var{buf} and @var{buf.len} must represent a generalised C buffer,
-@cbuffersref{}.  Succeed if the length of the buffer equals the AES
-block size.
-@end deffn
-
-
-@deffn {Validation Clause} aes-data-len @var{buf} @var{buf.len}
-@var{buf} and @var{buf.len} must represent a generalised C buffer,
-@cbuffersref{}.  Succeed if the length of the buffer is an exact
-multiple of the AES block size.
-@end deffn
-
-
-@deffn {Validation Clause} aes-key-len @var{obj}
-Succeed if @var{obj} is a finxum representing a valid AES key length;
-valid values are: @math{16}, @math{24}, @math{32}.
-@end deffn
-
 @c page
 @node plain evp
 @section High--level cryptographic functions
@@ -2212,20 +2160,6 @@ finalisation can be left to the garbage collector.
 Return @true{} if @var{obj} is an instance of @code{evp-md}; otherwise
 return @false{}.
 @end defun
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} evp-md @var{obj}
-@deffnx {Validation Clause} false-or-evp-md @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{evp-md?}; the second
-clause also accepts @false{}.
-@end deffn
 
 @c page
 @node plain evp md algo makers
@@ -2543,38 +2477,6 @@ Whenever the @var{EVP-MD-CTX} is closed: @var{func} is applied to
 
 @StructPropertyListDoc{evp-md-ctx, EVP-MD-CTX}
 
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} evp-md-ctx @var{obj}
-@deffnx {Validation Clause} false-or-evp-md-ctx @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{evp-md-ctx?}; the
-second clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} evp-md-ctx/alive @var{obj}
-@deffnx {Validation Clause} false-or-evp-md-ctx/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{evp-md-ctx?/alive};
-the second clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} evp-md-ctx/running @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{evp-md-ctx?/running}.
-@end deffn
-
-
-@deffn {Validation Clause} evp-md-ctx/alive-not-running @var{obj}
-Succeed if @var{obj} satisfies the predicate
-@func{evp-md-ctx?/alive-not-running}.
-@end deffn
-
 @c page
 @node plain evp md ctx create
 @subsubsection Context creation and destruction
@@ -2792,20 +2694,6 @@ finalisation can be left to the garbage collector.
 Return @true{} if @var{obj} is an instance of @code{evp-cipher};
 otherwise return @false{}.
 @end defun
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} evp-cipher @var{obj}
-@deffnx {Validation Clause} false-or-evp-cipher @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{evp-cipher?}; the
-second clause also accepts @false{}.
-@end deffn
 
 @c page
 @node plain evp cipher algo makers
@@ -3331,39 +3219,6 @@ is finalised.
 @c ------------------------------------------------------------
 
 @StructPropertyListDoc{evp-cipher-ctx, EVP-CIPHER-CTX}
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} evp-cipher-ctx @var{obj}
-@deffnx {Validation Clause} false-or-evp-cipher-ctx @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{evp-cipher-ctx?}; the
-second clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} evp-cipher-ctx/alive @var{obj}
-@deffnx {Validation Clause} false-or-evp-cipher-ctx/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate
-@func{evp-cipher-ctx?/alive}; the second clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} evp-cipher-ctx/running @var{obj}
-Succeed if @var{obj} satisfies the predicate
-@func{evp-cipher-ctx?/running}.
-@end deffn
-
-
-@deffn {Validation Clause} evp-cipher-ctx/alive-not-running @var{obj}
-Succeed if @var{obj} satisfies the predicate
-@func{evp-cipher-ctx?/alive-not-running}.
-@end deffn
 
 @c page
 @node plain evp cipher ctx create
@@ -4133,27 +3988,6 @@ before the internal state of @var{BUF} is finalised.
 @c ------------------------------------------------------------
 
 @StructPropertyListDoc{buf-mem, BUF}
-
-@c ------------------------------------------------------------
-
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} buf-mem @var{obj}
-@deffnx {Validation Clause} false-or-buf-mem @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{buf-mem?}; the second
-clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} buf-mem/alive @var{obj}
-@deffnx {Validation Clause} false-or-buf-mem/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{buf-mem?/alive}; the
-second clause also accepts @false{}.
-@end deffn
 
 @c page
 @node plain buffers api

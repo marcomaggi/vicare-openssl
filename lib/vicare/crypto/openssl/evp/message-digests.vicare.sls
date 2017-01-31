@@ -8,7 +8,7 @@
 ;;;
 ;;;
 ;;;
-;;;Copyright (C) 2013 Marco Maggi <marco.maggi-ipsu@poste.it>
+;;;Copyright (C) 2013, 2017 Marco Maggi <marco.maggi-ipsu@poste.it>
 ;;;
 ;;;This program is free software:  you can redistribute it and/or modify
 ;;;it under the terms of the  GNU General Public License as published by
@@ -26,8 +26,9 @@
 
 
 #!vicare
-#!(load-shared-library "vicare-openssl")
 (library (vicare crypto openssl evp message-digests)
+  (options typed-language)
+  (foreign-library "vicare-openssl")
   (export
 
     ;; EVP message digest context functions
@@ -38,10 +39,6 @@
     evp-md-ctx?/alive-not-running
     evp-md-ctx-custom-destructor
     set-evp-md-ctx-custom-destructor!
-    evp-md-ctx.vicare-arguments-validation
-    evp-md-ctx/alive.vicare-arguments-validation
-    evp-md-ctx/running.vicare-arguments-validation
-    evp-md-ctx/alive-not-running.vicare-arguments-validation
 
     evp-md-ctx-putprop		evp-md-ctx-getprop
     evp-md-ctx-remprop		evp-md-ctx-property-list
@@ -55,8 +52,6 @@
     ;; EVP message digest algorithms
     evp-md
     evp-md?
-    evp-md.vicare-arguments-validation
-    false-or-evp-md.vicare-arguments-validation
 
     evp-md-null
     evp-md2			evp-md4
@@ -81,6 +76,7 @@
     evp-digest
     evp-get-digestbyname)
   (import (vicare)
+    (prefix (vicare system structs) structs::)
     (vicare crypto openssl constants)
     (vicare crypto openssl features)
     (prefix (vicare crypto openssl unsafe-capi)
@@ -111,6 +107,10 @@
   (evp-md-ctx?/alive-not-running obj)
   (assertion-violation who
     "expected alive but not running EVP message digest context" obj))
+
+(define-argument-validation (evp-md who obj)
+  (evp-md? obj)
+  (assertion-violation who "expected EVP message digest context" obj))
 
 
 ;;;; EVP message digest context functions
@@ -244,10 +244,8 @@
 
 ;;;; EVP message digest algorithms functions
 
-(define-struct-extended evp-md
-  (pointer)
-  %evp-md-printer
-  #f)
+(structs::define-struct evp-md
+  (pointer))
 
 (define (%evp-md-printer S port sub-printer)
   (define (%display thing)
@@ -260,6 +258,9 @@
   (%display " size=")		(%write (capi.evp-md-size S))
   (%display " block-size=")	(%write (capi.evp-md-block-size S))
   (%display "]"))
+
+(module ()
+  (structs::set-struct-type-printer! (type-descriptor evp-md) %evp-md-printer))
 
 ;;; --------------------------------------------------------------------
 

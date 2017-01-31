@@ -8,7 +8,7 @@
 ;;;
 ;;;
 ;;;
-;;;Copyright (C) 2013 Marco Maggi <marco.maggi-ipsu@poste.it>
+;;;Copyright (C) 2013, 2017 Marco Maggi <marco.maggi-ipsu@poste.it>
 ;;;
 ;;;This program is free software:  you can redistribute it and/or modify
 ;;;it under the terms of the  GNU General Public License as published by
@@ -26,15 +26,14 @@
 
 
 #!vicare
-#!(load-shared-library "vicare-openssl")
 (library (vicare crypto openssl evp ciphers)
+  (options typed-language)
+  (foreign-library "vicare-openssl")
   (export
 
     ;; EVP cipher algorithms
     evp-cipher
     evp-cipher?
-    evp-cipher.vicare-arguments-validation
-    false-or-evp-cipher.vicare-arguments-validation
 
     ;; evp-cipher makers
     evp-enc-null
@@ -180,10 +179,6 @@
     evp-cipher-ctx?/alive-not-running
     evp-cipher-ctx-custom-destructor
     set-evp-cipher-ctx-custom-destructor!
-    evp-cipher-ctx.vicare-arguments-validation
-    evp-cipher-ctx/alive.vicare-arguments-validation
-    evp-cipher-ctx/running.vicare-arguments-validation
-    evp-cipher-ctx/alive-not-running.vicare-arguments-validation
 
     evp-cipher-ctx-putprop	evp-cipher-ctx-getprop
     evp-cipher-ctx-remprop	evp-cipher-ctx-property-list
@@ -225,6 +220,7 @@
     evp-ciph-mode->symbol
     )
   (import (vicare)
+    (prefix (vicare system structs) structs::)
     (vicare crypto openssl constants)
     #;(vicare crypto openssl features)
     (prefix (vicare crypto openssl unsafe-capi)
@@ -241,6 +237,10 @@
 
 
 ;;;; arguments validation
+
+(define-argument-validation (evp-cipher who obj)
+  (evp-cipher? obj)
+  (assertion-violation who "expected EVP cipher context" obj))
 
 (define-argument-validation (evp-cipher/symbol who obj)
   (or (evp-cipher? obj)
@@ -270,10 +270,8 @@
 
 ;;;; EVP cipher algorithms: makers for EVP_CIPHER references
 
-(define-struct-extended evp-cipher
-  (pointer)
-  %evp-cipher-printer
-  #f)
+(structs::define-struct evp-cipher
+  (pointer))
 
 (define (%evp-cipher-printer S port sub-printer)
   (define (%display thing)
@@ -288,6 +286,9 @@
   (%display " iv-length=")	(%write (evp-cipher-iv-length S))
   (%display " mode=")		(%display (evp-ciph-mode->symbol (evp-cipher-mode S)))
   (%display "]"))
+
+(module ()
+  (structs::set-struct-type-printer! (type-descriptor evp-cipher) %evp-cipher-printer))
 
 ;;; --------------------------------------------------------------------
 
