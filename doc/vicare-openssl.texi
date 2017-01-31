@@ -1,7 +1,7 @@
 \input texinfo.tex
 @c %**start of header
 @setfilename vicare-openssl.info
-@settitle Openssl for Vicare
+@settitle OpenSSL for Vicare
 @c %**end of header
 
 @include version.texi
@@ -106,7 +106,7 @@ second clause also accepts @false{}.
 @c Values.
 @c ------------------------------------------------------------
 
-@set TITLE                      Openssl for Vicare
+@set TITLE                      OpenSSL for Vicare
 
 @c To be used as @value{PACKAGE} whenever we need to include the full
 @c name of this package.
@@ -135,11 +135,11 @@ second clause also accepts @false{}.
 @set FOREIGN_VERSION            1.0.2j
 @set FOREIGN_URL                @url{http://www.openssl.org/}
 @set FOREIGN_SCHEME_LIB         @library{vicare crypto openssl}
-@set GITHUB_URL                 @url{http://github.com/marcomaggi/vicare-openssl}
-@set SOURCEFORGE_URL            @url{https://sourceforge.net/projects/vicare-openssl/}
-@set DOWNLOAD_URL               @url{https://sourceforge.net/projects/vicare-openssl/files/}
-@set DOCUMENTATION_URL          @url{http://marcomaggi.github.com/docs/vicare-openssl.html}
-
+@set GITHUB_URL                 @url{http:/@//@/github.com/@/marcomaggi/@/@value{PACKAGE_NICKNAME}}
+@set BITBUCKET_URL              @url{https:/@//@/bitbucket.org/@/marcomaggi/@/@value{PACKAGE_NICKNAME}}
+@set DOWNLOAD_URL               @url{https:/@//@/bitbucket.org/@/marcomaggi/@/@value{PACKAGE_NICKNAME}/@/downloads}
+@set DOCUMENTATION_URL          @url{http:/@//@/marcomaggi.github.io/@/docs/@/@value{PACKAGE_NICKNAME}.html}
+@set VICARE_HOMEPAGE_URL        @url{http:/@//@/marcomaggi.github.io/@/vicare.html}
 
 @macro opensslref{NODE, TITLE}
 @xref{\NODE\,\TITLE\,\TITLE\,openssl}
@@ -155,13 +155,12 @@ second clause also accepts @false{}.
 @c ------------------------------------------------------------
 
 @copying
-This document describes version @version{} of @value{PACKAGE}, a
-distribution of C and Scheme libraries for Vicare Scheme, an @rnrs{6}
-compliant Scheme implementation; it provides bindings for the
-@value{FOREIGN_PACKAGE} C language library.
+This document describes version @version{} of @value{PACKAGE}, a distribution of C and Scheme
+libraries for Vicare Scheme, an @rnrs{6} compliant Scheme implementation; it provides bindings for
+the @value{FOREIGN_PACKAGE} C language library.
 
-The package is distributed under the terms of the @gnu{} General Public
-License (@gpl{}) and can be downloaded from:
+The package is distributed under the terms of the @gnu{} General Public License (@gpl{}) and can be
+downloaded from:
 
 @center @value{DOWNLOAD_URL}
 
@@ -173,7 +172,7 @@ development takes place at:
 @noindent
 and as backup at:
 
-@center @value{SOURCEFORGE_URL}
+@center @value{BITBUCKET_URL}
 
 @noindent
 @value{FOREIGN_PACKAGE} is available at:
@@ -234,8 +233,13 @@ entitled ``@gnu{} Free Documentation License''.
 
 @menu
 * overview::                    Overview of the package.
-* version::                     Openssl version informations.
-* plain::                       Plain programming interface.
+* version::                     OpenSSL version informations.
+* init::                        Global initialisation functions.
+* hash::                        Computing hash checksums.
+* hmac::                        Computing message authentication codes.
+* crypto::                      Low-level cryptographic algorithms.
+* evp::                         High-level cryptographic functions.
+* buffers::                     Simple character arrays structure.
 
 Appendices
 
@@ -368,22 +372,8 @@ Return a Scheme string representing the version number.
 @end defun
 
 @c page
-@node plain
-@chapter Plain programming interface
-
-
-@menu
-* plain init::                  Global initialisation functions.
-* plain hash::                  Computing hash checksums.
-* plain hmac::                  Computing message authentication codes.
-* plain crypto::                Low-level cryptographic algorithms.
-* plain evp::                   High-level cryptographic functions.
-* plain buffers::               Simple character arrays structure.
-@end menu
-
-@c page
-@node plain init
-@section Global initialisation functions
+@node init
+@chapter Global initialisation functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -444,26 +434,26 @@ Perform some initialisation operations.
 @end defun
 
 @c page
-@node plain hash
-@section Computing hash checksums
+@node hash
+@chapter Computing hash checksums
 
 
 @menu
-* plain hash md4::              Computing MD4 hash checksums.
-* plain hash md5::              Computing MD5 hash checksums.
-* plain hash mdc2::             Computing MDC2 hash checksums.
-* plain hash sha1::             Computing SHA1 hash checksums.
-* plain hash sha224::           Computing SHA224 hash checksums.
-* plain hash sha256::           Computing SHA256 hash checksums.
-* plain hash sha384::           Computing SHA384 hash checksums.
-* plain hash sha512::           Computing SHA512 hash checksums.
-* plain hash ripemd160::        Computing RIPEMD160 hash checksums.
-* plain hash whirlpool::        Computing WHIRLPOOL hash checksums.
+* hash md4::                    Computing MD4 hash checksums.
+* hash md5::                    Computing MD5 hash checksums.
+* hash mdc2::                   Computing MDC2 hash checksums.
+* hash sha1::                   Computing SHA1 hash checksums.
+* hash sha224::                 Computing SHA224 hash checksums.
+* hash sha256::                 Computing SHA256 hash checksums.
+* hash sha384::                 Computing SHA384 hash checksums.
+* hash sha512::                 Computing SHA512 hash checksums.
+* hash ripemd160::              Computing RIPEMD160 hash checksums.
+* hash whirlpool::              Computing WHIRLPOOL hash checksums.
 @end menu
 
 @c page
-@node plain hash md4
-@subsection Computing MD4 hash checksums
+@node hash md4
+@section Computing MD4 hash checksums
 
 
 The raw @api{} to compute MD4 checksums is used as follows:
@@ -486,14 +476,14 @@ The raw @api{} to compute MD4 checksums is used as follows:
 @end smallexample
 
 @menu
-* plain hash md4 struct::       Hash checksum data structures.
-* plain hash md4 api::          Context updating functions.
-* plain hash md4 direct::       Directly computing hash checksums.
+* hash md4 struct::             Hash checksum data structures.
+* hash md4 api::                Context updating functions.
+* hash md4 direct::             Directly computing hash checksums.
 @end menu
 
 @c page
-@node plain hash md4 struct
-@subsubsection Hash checksum data structures
+@node hash md4 struct
+@subsection Hash checksum data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -529,8 +519,8 @@ associated data is finalised; any error is ignored in this procedure.
 @StructArgumentsValidationDoc{md4-ctx, MD4}
 
 @c page
-@node plain hash md4 api
-@subsubsection Context updating functions
+@node hash md4 api
+@subsection Context updating functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -561,8 +551,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash md4 direct
-@subsubsection Directly computing hash checksums
+@node hash md4 direct
+@subsection Directly computing hash checksums
 
 
 The following bindings are exported by the library @library{vicare
@@ -580,8 +570,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash md5
-@subsection Computing MD5 hash checksums
+@node hash md5
+@section Computing MD5 hash checksums
 
 
 The raw @api{} to compute MD5 checksums is used as follows:
@@ -604,14 +594,14 @@ The raw @api{} to compute MD5 checksums is used as follows:
 @end smallexample
 
 @menu
-* plain hash md5 struct::       Hash checksum data structures.
-* plain hash md5 api::          Context updating functions.
-* plain hash md5 direct::       Directly computing hash checksums.
+* hash md5 struct::             Hash checksum data structures.
+* hash md5 api::                Context updating functions.
+* hash md5 direct::             Directly computing hash checksums.
 @end menu
 
 @c page
-@node plain hash md5 struct
-@subsubsection Hash checksum data structures
+@node hash md5 struct
+@subsection Hash checksum data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -647,8 +637,8 @@ associated data is finalised; any error is ignored in this procedure.
 @StructArgumentsValidationDoc{md5-ctx, MD5}
 
 @c page
-@node plain hash md5 api
-@subsubsection Context updating functions
+@node hash md5 api
+@subsection Context updating functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -679,8 +669,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash md5 direct
-@subsubsection Directly computing hash checksums
+@node hash md5 direct
+@subsection Directly computing hash checksums
 
 
 The following bindings are exported by the library @library{vicare
@@ -698,8 +688,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash mdc2
-@subsection Computing MDC2 hash checksums
+@node hash mdc2
+@section Computing MDC2 hash checksums
 
 
 The raw @api{} to compute MDC2 checksums is used as follows:
@@ -722,14 +712,14 @@ The raw @api{} to compute MDC2 checksums is used as follows:
 @end smallexample
 
 @menu
-* plain hash mdc2 struct::       Hash checksum data structures.
-* plain hash mdc2 api::          Context updating functions.
-* plain hash mdc2 direct::       Directly computing hash checksums.
+* hash mdc2 struct::            Hash checksum data structures.
+* hash mdc2 api::               Context updating functions.
+* hash mdc2 direct::            Directly computing hash checksums.
 @end menu
 
 @c page
-@node plain hash mdc2 struct
-@subsubsection Hash checksum data structures
+@node hash mdc2 struct
+@subsection Hash checksum data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -765,8 +755,8 @@ associated data is finalised; any error is ignored in this procedure.
 @StructArgumentsValidationDoc{mdc2-ctx, MDC2}
 
 @c page
-@node plain hash mdc2 api
-@subsubsection Context updating functions
+@node hash mdc2 api
+@subsection Context updating functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -797,8 +787,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash mdc2 direct
-@subsubsection Directly computing hash checksums
+@node hash mdc2 direct
+@subsection Directly computing hash checksums
 
 
 The following bindings are exported by the library @library{vicare
@@ -816,8 +806,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash sha1
-@subsection Computing SHA1 hash checksums
+@node hash sha1
+@section Computing SHA1 hash checksums
 
 
 The raw @api{} to compute SHA1 checksums is used as follows:
@@ -842,14 +832,14 @@ The raw @api{} to compute SHA1 checksums is used as follows:
 @end smallexample
 
 @menu
-* plain hash sha1 struct::       Hash checksum data structures.
-* plain hash sha1 api::          Context updating functions.
-* plain hash sha1 direct::       Directly computing hash checksums.
+* hash sha1 struct::            Hash checksum data structures.
+* hash sha1 api::               Context updating functions.
+* hash sha1 direct::            Directly computing hash checksums.
 @end menu
 
 @c page
-@node plain hash sha1 struct
-@subsubsection Hash checksum data structures
+@node hash sha1 struct
+@subsection Hash checksum data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -885,8 +875,8 @@ associated data is finalised; any error is ignored in this procedure.
 @StructArgumentsValidationDoc{sha1-ctx, SHA1}
 
 @c page
-@node plain hash sha1 api
-@subsubsection Context updating functions
+@node hash sha1 api
+@subsection Context updating functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -917,8 +907,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash sha1 direct
-@subsubsection Directly computing hash checksums
+@node hash sha1 direct
+@subsection Directly computing hash checksums
 
 
 The following bindings are exported by the library @library{vicare
@@ -936,8 +926,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash sha224
-@subsection Computing SHA224 hash checksums
+@node hash sha224
+@section Computing SHA224 hash checksums
 
 
 The raw @api{} to compute SHA224 checksums is used as follows:
@@ -962,14 +952,14 @@ The raw @api{} to compute SHA224 checksums is used as follows:
 @end smallexample
 
 @menu
-* plain hash sha224 struct::       Hash checksum data structures.
-* plain hash sha224 api::          Context updating functions.
-* plain hash sha224 direct::       Directly computing hash checksums.
+* hash sha224 struct::          Hash checksum data structures.
+* hash sha224 api::             Context updating functions.
+* hash sha224 direct::          Directly computing hash checksums.
 @end menu
 
 @c page
-@node plain hash sha224 struct
-@subsubsection Hash checksum data structures
+@node hash sha224 struct
+@subsection Hash checksum data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -1005,8 +995,8 @@ associated data is finalised; any error is ignored in this procedure.
 @StructArgumentsValidationDoc{sha224-ctx, SHA224}
 
 @c page
-@node plain hash sha224 api
-@subsubsection Context updating functions
+@node hash sha224 api
+@subsection Context updating functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -1037,8 +1027,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash sha224 direct
-@subsubsection Directly computing hash checksums
+@node hash sha224 direct
+@subsection Directly computing hash checksums
 
 
 The following bindings are exported by the library @library{vicare
@@ -1056,8 +1046,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash sha256
-@subsection Computing SHA256 hash checksums
+@node hash sha256
+@section Computing SHA256 hash checksums
 
 
 The raw @api{} to compute SHA256 checksums is used as follows:
@@ -1082,14 +1072,14 @@ The raw @api{} to compute SHA256 checksums is used as follows:
 @end smallexample
 
 @menu
-* plain hash sha256 struct::       Hash checksum data structures.
-* plain hash sha256 api::          Context updating functions.
-* plain hash sha256 direct::       Directly computing hash checksums.
+* hash sha256 struct::          Hash checksum data structures.
+* hash sha256 api::             Context updating functions.
+* hash sha256 direct::          Directly computing hash checksums.
 @end menu
 
 @c page
-@node plain hash sha256 struct
-@subsubsection Hash checksum data structures
+@node hash sha256 struct
+@subsection Hash checksum data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -1125,8 +1115,8 @@ associated data is finalised; any error is ignored in this procedure.
 @StructArgumentsValidationDoc{sha256-ctx, SHA256}
 
 @c page
-@node plain hash sha256 api
-@subsubsection Context updating functions
+@node hash sha256 api
+@subsection Context updating functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -1157,8 +1147,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash sha256 direct
-@subsubsection Directly computing hash checksums
+@node hash sha256 direct
+@subsection Directly computing hash checksums
 
 
 The following bindings are exported by the library @library{vicare
@@ -1176,8 +1166,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash sha384
-@subsection Computing SHA384 hash checksums
+@node hash sha384
+@section Computing SHA384 hash checksums
 
 
 The raw @api{} to compute SHA384 checksums is used as follows:
@@ -1206,14 +1196,14 @@ The raw @api{} to compute SHA384 checksums is used as follows:
 @end smallexample
 
 @menu
-* plain hash sha384 struct::       Hash checksum data structures.
-* plain hash sha384 api::          Context updating functions.
-* plain hash sha384 direct::       Directly computing hash checksums.
+* hash sha384 struct::          Hash checksum data structures.
+* hash sha384 api::             Context updating functions.
+* hash sha384 direct::          Directly computing hash checksums.
 @end menu
 
 @c page
-@node plain hash sha384 struct
-@subsubsection Hash checksum data structures
+@node hash sha384 struct
+@subsection Hash checksum data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -1249,8 +1239,8 @@ associated data is finalised; any error is ignored in this procedure.
 @StructArgumentsValidationDoc{sha384-ctx, SHA384}
 
 @c page
-@node plain hash sha384 api
-@subsubsection Context updating functions
+@node hash sha384 api
+@subsection Context updating functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -1281,8 +1271,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash sha384 direct
-@subsubsection Directly computing hash checksums
+@node hash sha384 direct
+@subsection Directly computing hash checksums
 
 
 The following bindings are exported by the library @library{vicare
@@ -1300,8 +1290,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash sha512
-@subsection Computing SHA512 hash checksums
+@node hash sha512
+@section Computing SHA512 hash checksums
 
 
 The raw @api{} to compute SHA512 checksums is used as follows:
@@ -1332,14 +1322,14 @@ The raw @api{} to compute SHA512 checksums is used as follows:
 @end smallexample
 
 @menu
-* plain hash sha512 struct::       Hash checksum data structures.
-* plain hash sha512 api::          Context updating functions.
-* plain hash sha512 direct::       Directly computing hash checksums.
+* hash sha512 struct::          Hash checksum data structures.
+* hash sha512 api::             Context updating functions.
+* hash sha512 direct::          Directly computing hash checksums.
 @end menu
 
 @c page
-@node plain hash sha512 struct
-@subsubsection Hash checksum data structures
+@node hash sha512 struct
+@subsection Hash checksum data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -1375,8 +1365,8 @@ associated data is finalised; any error is ignored in this procedure.
 @StructArgumentsValidationDoc{sha512-ctx, SHA512}
 
 @c page
-@node plain hash sha512 api
-@subsubsection Context updating functions
+@node hash sha512 api
+@subsection Context updating functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -1407,8 +1397,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash sha512 direct
-@subsubsection Directly computing hash checksums
+@node hash sha512 direct
+@subsection Directly computing hash checksums
 
 
 The following bindings are exported by the library @library{vicare
@@ -1426,8 +1416,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash ripemd160
-@subsection Computing RIPEMD160 hash checksums
+@node hash ripemd160
+@section Computing RIPEMD160 hash checksums
 
 
 The raw @api{} to compute RIPEMD160 checksums is used as follows:
@@ -1452,14 +1442,14 @@ The raw @api{} to compute RIPEMD160 checksums is used as follows:
 @end smallexample
 
 @menu
-* plain hash ripemd160 struct::       Hash checksum data structures.
-* plain hash ripemd160 api::          Context updating functions.
-* plain hash ripemd160 direct::       Directly computing hash checksums.
+* hash ripemd160 struct::       Hash checksum data structures.
+* hash ripemd160 api::          Context updating functions.
+* hash ripemd160 direct::       Directly computing hash checksums.
 @end menu
 
 @c page
-@node plain hash ripemd160 struct
-@subsubsection Hash checksum data structures
+@node hash ripemd160 struct
+@subsection Hash checksum data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -1496,8 +1486,8 @@ procedure.
 @StructArgumentsValidationDoc{ripemd160-ctx, RIPEMD160}
 
 @c page
-@node plain hash ripemd160 api
-@subsubsection Context updating functions
+@node hash ripemd160 api
+@subsection Context updating functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -1528,8 +1518,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash ripemd160 direct
-@subsubsection Directly computing hash checksums
+@node hash ripemd160 direct
+@subsection Directly computing hash checksums
 
 
 The following bindings are exported by the library @library{vicare
@@ -1548,8 +1538,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash whirlpool
-@subsection Computing WHIRLPOOL hash checksums
+@node hash whirlpool
+@section Computing WHIRLPOOL hash checksums
 
 
 The raw @api{} to compute WHIRLPOOL checksums is used as follows:
@@ -1580,14 +1570,14 @@ The raw @api{} to compute WHIRLPOOL checksums is used as follows:
 @end smallexample
 
 @menu
-* plain hash whirlpool struct::       Hash checksum data structures.
-* plain hash whirlpool api::          Context updating functions.
-* plain hash whirlpool direct::       Directly computing hash checksums.
+* hash whirlpool struct::       Hash checksum data structures.
+* hash whirlpool api::          Context updating functions.
+* hash whirlpool direct::       Directly computing hash checksums.
 @end menu
 
 @c page
-@node plain hash whirlpool struct
-@subsubsection Hash checksum data structures
+@node hash whirlpool struct
+@subsection Hash checksum data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -1624,8 +1614,8 @@ procedure.
 @StructArgumentsValidationDoc{whirlpool-ctx, WHIRLPOOL}
 
 @c page
-@node plain hash whirlpool api
-@subsubsection Context updating functions
+@node hash whirlpool api
+@subsection Context updating functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -1656,8 +1646,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hash whirlpool direct
-@subsubsection Directly computing hash checksums
+@node hash whirlpool direct
+@subsection Directly computing hash checksums
 
 
 The following bindings are exported by the library @library{vicare
@@ -1676,8 +1666,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain hmac
-@section Computing message authentication codes
+@node hmac
+@chapter Computing message authentication codes
 
 
 The raw @api{} to compute HMAC checksums is used as follows:
@@ -1709,14 +1699,14 @@ The raw @api{} to compute HMAC checksums is used as follows:
 @end smallexample
 
 @menu
-* plain hmac struct::           HMAC data structures.
-* plain hmac api::              Context updating functions.
-* plain hmac direct::           Directly computing HMACs.
+* hmac struct::                 HMAC data structures.
+* hmac api::                    Context updating functions.
+* hmac direct::                 Directly computing HMACs.
 @end menu
 
 @c page
-@node plain hmac struct
-@subsection HMAC data structures
+@node hmac struct
+@section HMAC data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -1752,8 +1742,8 @@ associated data is finalised; any error is ignored in this procedure.
 @StructArgumentsValidationDoc{hmac-ctx, HMAC}
 
 @c page
-@node plain hmac api
-@subsection Context updating functions
+@node hmac api
+@section Context updating functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -1780,8 +1770,7 @@ whirlpool       dss             dss1
 @end example
 
 @noindent
-or an instance of @code{evp-md} (@pxref{plain evp md algo makers,
-Algorithm reference makers})
+or an instance of @code{evp-md} (@pxref{evp md algo makers, Algorithm reference makers})
 @end defun
 
 
@@ -1817,8 +1806,8 @@ Set flags in an HMAC context; return unspecified values.
 @end defun
 
 @c page
-@node plain hmac direct
-@subsection Directly computing HMACs
+@node hmac direct
+@section Directly computing HMACs
 
 
 The following bindings are exported by the library @library{vicare
@@ -1839,8 +1828,7 @@ whirlpool       dss             dss1
 @end example
 
 @noindent
-or an instance of @code{evp-md} (@pxref{plain evp md algo makers,
-Algorithm reference makers})
+or an instance of @code{evp-md} (@pxref{evp md algo makers, Algorithm reference makers})
 
 @var{key} and @var{key.len} must represent a generalised C string,
 @cstringsref{}.  When @var{key} is a string: it is converted to a
@@ -1852,31 +1840,31 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain crypto
-@section Low--level cryptographic algorithms.
+@node crypto
+@chapter Low--level cryptographic algorithms.
 
 
 @menu
-* plain crypto aes::            The AES algorithm.
+* crypto aes::                  The AES algorithm.
 @end menu
 
 @c page
-@node plain crypto aes
-@subsection The AES algorithm
+@node crypto aes
+@section The AES algorithm
 
 
 The cryptographic algorithm AES operates on blocks of size @math{16}.
 
 @menu
-* plain crypto aes struct::     Context data structure.
-* plain crypto aes key::        Selecting the key.
-* plain crypto aes crypt::      Encryption and decryption.
-* plain crypto aes misc::       Miscellaneous functions and syntaxes.
+* crypto aes struct::           Context data structure.
+* crypto aes key::              Selecting the key.
+* crypto aes crypt::            Encryption and decryption.
+* crypto aes misc::             Miscellaneous functions and syntaxes.
 @end menu
 
 @c page
-@node plain crypto aes struct
-@subsubsection Context data structure
+@node crypto aes struct
+@subsection Context data structure
 
 
 The following bindings are exported by the library @library{vicare
@@ -1932,8 +1920,8 @@ before the internal state of @var{AES} is finalised.
 @StructArgumentsValidationDoc{aes-key-ctx, AES}
 
 @c page
-@node plain crypto aes key
-@subsubsection Selecting the key
+@node crypto aes key
+@subsection Selecting the key
 
 
 The following bindings are exported by the library @library{vicare
@@ -1964,8 +1952,8 @@ length measured in bits of: @math{128}, @math{192}, @math{256}.
 @end defun
 
 @c page
-@node plain crypto aes crypt
-@subsubsection Encryption and decryption
+@node crypto aes crypt
+@subsection Encryption and decryption
 
 
 The following bindings are exported by the library @library{vicare
@@ -2075,8 +2063,8 @@ the initialisation vector, @cbuffersref{}.  Its length must be equal to
 @end defun
 
 @c page
-@node plain crypto aes misc
-@subsubsection Miscellaneous functions and syntaxes
+@node crypto aes misc
+@subsection Miscellaneous functions and syntaxes
 
 
 The following bindings are exported by the library @library{vicare
@@ -2108,33 +2096,33 @@ return @false{}.
 @end defun
 
 @c page
-@node plain evp
-@section High--level cryptographic functions
+@node evp
+@chapter High--level cryptographic functions
 
 
 @menu
-* plain evp md algo::           Message digest algorithms.
-* plain evp md ctx::            Message digest generation.
-* plain evp cipher algo::       Cipher algorithms.
-* plain evp cipher ctx::        Encryption and decription contexts.
-* plain evp symbols::           Constants to symbols.
+* evp md algo::                 Message digest algorithms.
+* evp md ctx::                  Message digest generation.
+* evp cipher algo::             Cipher algorithms.
+* evp cipher ctx::              Encryption and decription contexts.
+* evp symbols::                 Constants to symbols.
 @end menu
 
 @c page
-@node plain evp md algo
-@subsection Message digest algorithms
+@node evp md algo
+@section Message digest algorithms
 
 
 @menu
-* plain evp md algo struct::    Algorithm data structure.
-* plain evp md algo makers::    Algorithm reference makers.
-* plain evp md algo inspect::   Algorithm inspection.
-* plain evp md algo step::      Single-step message digest.
+* evp md algo struct::          Algorithm data structure.
+* evp md algo makers::          Algorithm reference makers.
+* evp md algo inspect::         Algorithm inspection.
+* evp md algo step::            Single-step message digest.
 @end menu
 
 @c page
-@node plain evp md algo struct
-@subsubsection Algorithm data structure
+@node evp md algo struct
+@subsection Algorithm data structure
 
 
 The following bindings are exported by the library @library{vicare
@@ -2162,8 +2150,8 @@ return @false{}.
 @end defun
 
 @c page
-@node plain evp md algo makers
-@subsubsection Algorithm reference makers
+@node evp md algo makers
+@subsection Algorithm reference makers
 
 
 The following bindings are exported by the library @library{vicare
@@ -2282,8 +2270,8 @@ Examples of valid names: @samp{MD5}, @samp{SHA1}, @samp{SHA224},
 @end defun
 
 @c page
-@node plain evp md algo inspect
-@subsubsection Algorithm inspection
+@node evp md algo inspect
+@subsection Algorithm inspection
 
 
 The following bindings are exported by the library @library{vicare
@@ -2332,8 +2320,8 @@ EVP_MD_pkey_type}.
 @end defun
 
 @c page
-@node plain evp md algo step
-@subsubsection Single-step message digest
+@node evp md algo step
+@subsection Single-step message digest
 
 
 The following bindings are exported by the library @library{vicare
@@ -2367,23 +2355,23 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain evp md ctx
-@subsection Message digest generation
+@node evp md ctx
+@section Message digest generation
 
 
 @menu
-* plain evp md ctx examples::   Some message digest usage examples.
-* plain evp md ctx struct::     Context data structures.
-* plain evp md ctx create::     Context creation and destruction.
-* plain evp md ctx init::       Context initialisation and finalisation.
-* plain evp md ctx update::     Processing input data.
-* plain evp md ctx inspect::    Context inspection.
-* plain evp md ctx flags::      Context flags.
+* evp md ctx examples::         Some message digest usage examples.
+* evp md ctx struct::           Context data structures.
+* evp md ctx create::           Context creation and destruction.
+* evp md ctx init::             Context initialisation and finalisation.
+* evp md ctx update::           Processing input data.
+* evp md ctx inspect::          Context inspection.
+* evp md ctx flags::            Context flags.
 @end menu
 
 @c page
-@node plain evp md ctx examples
-@subsubsection Some message digest usage examples
+@node evp md ctx examples
+@subsection Some message digest usage examples
 
 
 Here is an example of MD5 checksum computation, notice that the
@@ -2409,8 +2397,8 @@ collector:
 @end example
 
 @c page
-@node plain evp md ctx struct
-@subsubsection Hash checksums data structures
+@node evp md ctx struct
+@subsection Hash checksums data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -2478,8 +2466,8 @@ Whenever the @var{EVP-MD-CTX} is closed: @var{func} is applied to
 @StructPropertyListDoc{evp-md-ctx, EVP-MD-CTX}
 
 @c page
-@node plain evp md ctx create
-@subsubsection Context creation and destruction
+@node evp md ctx create
+@subsection Context creation and destruction
 
 
 The following bindings are exported by the library @library{vicare
@@ -2502,8 +2490,8 @@ this function multiple times to the same instance of @var{EVP-MD-CTX}.
 @end defun
 
 @c page
-@node plain evp md ctx init
-@subsubsection Context initialisation and finalisation
+@node evp md ctx init
+@subsection Context initialisation and finalisation
 
 
 The following bindings are exported by the library @library{vicare
@@ -2563,8 +2551,8 @@ if successful return @true{}, otherwise return @false{}.
 @end defun
 
 @c page
-@node plain evp md ctx update
-@subsubsection Processing input data
+@node evp md ctx update
+@subsection Processing input data
 
 
 The following bindings are exported by the library @library{vicare
@@ -2586,8 +2574,8 @@ It is an error to apply this function to a non--initialised
 @end defun
 
 @c page
-@node plain evp md ctx inspect
-@subsubsection Context inspection
+@node evp md ctx inspect
+@subsection Context inspection
 
 
 The following bindings are exported by the library @library{vicare
@@ -2620,8 +2608,8 @@ algorithm with which the context was initialised; otherwise return
 @end defun
 
 @c page
-@node plain evp md ctx flags
-@subsubsection Context flags
+@node evp md ctx flags
+@subsection Context flags
 
 
 The following bindings are exported by the library @library{vicare
@@ -2655,19 +2643,19 @@ EVP_MD_CTX_test_flags}.  Return an exact integer.
 @end defun
 
 @c page
-@node plain evp cipher algo
-@subsection Cipher algorithms
+@node evp cipher algo
+@section Cipher algorithms
 
 
 @menu
-* plain evp cipher algo struct::  Cipher algorithms data structures.
-* plain evp cipher algo makers::  Algorithm reference makers.
-* plain evp cipher algo inspect:: Algorithm inspection.
+* evp cipher algo struct::      Cipher algorithms data structures.
+* evp cipher algo makers::      Algorithm reference makers.
+* evp cipher algo inspect::     Algorithm inspection.
 @end menu
 
 @c page
-@node plain evp cipher algo struct
-@subsubsection Cipher algorithms data structures
+@node evp cipher algo struct
+@subsection Cipher algorithms data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -2696,8 +2684,8 @@ otherwise return @false{}.
 @end defun
 
 @c page
-@node plain evp cipher algo makers
-@subsubsection Algorithm reference makers
+@node evp cipher algo makers
+@subsection Algorithm reference makers
 
 
 The following bindings are exported by the library @library{vicare
@@ -2874,8 +2862,8 @@ EVP_get_cipherbyobj}.
 @end ignore
 
 @c page
-@node plain evp cipher algo inspect
-@subsubsection Algorithm inspection
+@node evp cipher algo inspect
+@subsection Algorithm inspection
 
 
 The following bindings are exported by the library @library{vicare
@@ -2971,27 +2959,27 @@ Return an exact integer, in the range of the C language type
 @end defun
 
 @c page
-@node plain evp cipher ctx
-@subsection Encryption and decription contexts
+@node evp cipher ctx
+@section Encryption and decription contexts
 
 
 @menu
-* plain evp cipher ctx examples:: Encryption and decryption examples.
-* plain evp cipher ctx struct::   Cipher context data structures.
-* plain evp cipher ctx create::   Context creation and destruction.
-* plain evp cipher ctx encrypt::  Encrypting data.
-* plain evp cipher ctx decrypt::  Decrypting data.
-* plain evp cipher ctx cipher::   Encrypting or decrypting data.
-* plain evp cipher ctx inspect::  Context inspection.
-* plain evp cipher ctx config::   Context configuration.
-* plain evp cipher ctx flags::    Context flags.
-* plain evp cipher ctx misc::     Miscellaneous functions.
-* plain evp cipher ctx step::     Single-step encryption and decryption.
+* evp cipher ctx examples::     Encryption and decryption examples.
+* evp cipher ctx struct::       Cipher context data structures.
+* evp cipher ctx create::       Context creation and destruction.
+* evp cipher ctx encrypt::      Encrypting data.
+* evp cipher ctx decrypt::      Decrypting data.
+* evp cipher ctx cipher::       Encrypting or decrypting data.
+* evp cipher ctx inspect::      Context inspection.
+* evp cipher ctx config::       Context configuration.
+* evp cipher ctx flags::        Context flags.
+* evp cipher ctx misc::         Miscellaneous functions.
+* evp cipher ctx step::         Single-step encryption and decryption.
 @end menu
 
 @c page
-@node plain evp cipher ctx examples
-@subsubsection Encryption and decryption examples
+@node evp cipher ctx examples
+@subsection Encryption and decryption examples
 
 
 Here is an example of how to organise encryption and decryption by
@@ -3148,8 +3136,8 @@ And here is the same using the generic cipher @api{}:
 @end smallexample
 
 @c page
-@node plain evp cipher ctx struct
-@subsubsection Cipher context data structures
+@node evp cipher ctx struct
+@subsection Cipher context data structures
 
 
 The following bindings are exported by the library @library{vicare
@@ -3221,8 +3209,8 @@ is finalised.
 @StructPropertyListDoc{evp-cipher-ctx, EVP-CIPHER-CTX}
 
 @c page
-@node plain evp cipher ctx create
-@subsubsection Context creation and destruction
+@node evp cipher ctx create
+@subsection Context creation and destruction
 
 
 The following bindings are exported by the library @library{vicare
@@ -3248,8 +3236,8 @@ happens.
 @end defun
 
 @c page
-@node plain evp cipher ctx encrypt
-@subsubsection Encrypting data
+@node evp cipher ctx encrypt
+@subsection Encrypting data
 
 
 The following bindings are exported by the library @library{vicare
@@ -3313,8 +3301,8 @@ The minimum output length can be computed with
 @end defun
 
 @c page
-@node plain evp cipher ctx decrypt
-@subsubsection Decrypting data
+@node evp cipher ctx decrypt
+@subsection Decrypting data
 
 
 The following bindings are exported by the library @library{vicare
@@ -3377,8 +3365,8 @@ The minimum output length can be computed with
 @end defun
 
 @c page
-@node plain evp cipher ctx cipher
-@subsubsection Encrypting or decrypting data
+@node evp cipher ctx cipher
+@subsection Encrypting or decrypting data
 
 
 The following bindings are exported by the library @library{vicare
@@ -3449,8 +3437,8 @@ The minimum output length can be computed with
 @end defun
 
 @c page
-@node plain evp cipher ctx inspect
-@subsubsection Context inspection
+@node evp cipher ctx inspect
+@subsection Context inspection
 
 
 The following bindings are exported by the library @library{vicare
@@ -3626,8 +3614,8 @@ one of the @code{EVP_CIPH_*_MODE} constants.
 @end defun
 
 @c page
-@node plain evp cipher ctx config
-@subsubsection Context configuration
+@node evp cipher ctx config
+@subsection Context configuration
 
 
 The following bindings are exported by the library @library{vicare
@@ -3769,8 +3757,8 @@ bytevector with @func{string->utf8}.
 @end defun
 
 @c page
-@node plain evp cipher ctx flags
-@subsubsection Context flags
+@node evp cipher ctx flags
+@subsection Context flags
 
 
 The following bindings are exported by the library @library{vicare
@@ -3801,8 +3789,8 @@ Tests a context's flags; return an exact integer.
 @end defun
 
 @c page
-@node plain evp cipher ctx misc
-@subsubsection Miscellaneous functions
+@node evp cipher ctx misc
+@subsection Miscellaneous functions
 
 
 The following bindings are exported by the library @library{vicare
@@ -3857,8 +3845,8 @@ Not implemented.
 @end defun
 
 @c page
-@node plain evp cipher ctx step
-@subsubsection Single--step encryption and decryption
+@node evp cipher ctx step
+@subsection Single--step encryption and decryption
 
 
 The following bindings are exported by the library @library{vicare
@@ -3907,8 +3895,8 @@ The minimum output length can be computed with
 @end defun
 
 @c page
-@node plain evp symbols
-@subsection Constants to symbols
+@node evp symbols
+@section Constants to symbols
 
 
 The following bindings are exported by the library @library{vicare
@@ -3921,8 +3909,8 @@ representing its public name.
 @end defun
 
 @c page
-@node plain buffers
-@section Simple character arrays structures
+@node buffers
+@chapter Simple character arrays structures
 
 
 @cindex Library @library{vicare crypto openssl buffers}
@@ -3930,13 +3918,13 @@ representing its public name.
 
 
 @menu
-* plain buffers structs::       Memory buffer data structures.
-* plain buffers api::           Memory buffer programming interface.
+* buffers structs::             Memory buffer data structures.
+* buffers api::                 Memory buffer programming interface.
 @end menu
 
 @c page
-@node plain buffers structs
-@subsection Memory buffer data structures.
+@node buffers structs
+@section Memory buffer data structures.
 
 
 The following bindings are exported by the library @library{vicare
@@ -3990,8 +3978,8 @@ before the internal state of @var{BUF} is finalised.
 @StructPropertyListDoc{buf-mem, BUF}
 
 @c page
-@node plain buffers api
-@subsection Memory buffer programming interface
+@node buffers api
+@section Memory buffer programming interface
 
 
 The following bindings are exported by the library @library{vicare
@@ -4089,17 +4077,12 @@ development takes place at:
 @noindent
 and as backup at:
 
-@center @value{SOURCEFORGE_URL}
+@center @value{BITBUCKET_URL}
 
 @noindent
 the home page of the Vicare project is at:
 
-@center @url{http://marcomaggi.github.com/vicare.html}
-
-@noindent
-the home page of the Nausicaa project is at:
-
-@center @url{http://marcomaggi.github.com/nausicaa.html}
+@center @value{VICARE_HOMEPAGE_URL}
 
 @noindent
 @value{FOREIGN_PACKAGE} can be found here:
