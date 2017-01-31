@@ -75,32 +75,6 @@ Return a new association list representing the property list of
 @end defun
 @end macro
 
-@c ------------------------------------------------------------
-
-@c Insert a documentation chunk describing the arguments validation
-@c clauses API for data structures wrapping foreign pointers.
-@c
-@macro StructArgumentsValidationDoc{PREFIX, STRUCT}
-@subsubheading Arguments validation
-
-The following bindings are meant to be used along the library
-@library{vicare arguments validation}.
-
-
-@deffn {Validation Clause} \PREFIX\ @var{obj}
-@deffnx {Validation Clause} false-or-\PREFIX\ @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{\PREFIX\?}; the second
-clause also accepts @false{}.
-@end deffn
-
-
-@deffn {Validation Clause} \PREFIX\/alive @var{obj}
-@deffnx {Validation Clause} false-or-\PREFIX\/alive @var{obj}
-Succeed if @var{obj} satisfies the predicate @func{\PREFIX\?/alive}; the
-second clause also accepts @false{}.
-@end deffn
-@end macro
-
 @c page
 @c ------------------------------------------------------------
 @c Values.
@@ -516,7 +490,6 @@ associated data is finalised; any error is ignored in this procedure.
 
 @StructCommonDoc{md4-ctx, MD4, md4-final}
 @StructPropertyListDoc{md4-ctx, MD4}
-@StructArgumentsValidationDoc{md4-ctx, MD4}
 
 @c page
 @node hash md4 api
@@ -634,7 +607,6 @@ associated data is finalised; any error is ignored in this procedure.
 
 @StructCommonDoc{md5-ctx, MD5, md5-final}
 @StructPropertyListDoc{md5-ctx, MD5}
-@StructArgumentsValidationDoc{md5-ctx, MD5}
 
 @c page
 @node hash md5 api
@@ -752,7 +724,6 @@ associated data is finalised; any error is ignored in this procedure.
 
 @StructCommonDoc{mdc2-ctx, MDC2, mdc2-final}
 @StructPropertyListDoc{mdc2-ctx, MDC2}
-@StructArgumentsValidationDoc{mdc2-ctx, MDC2}
 
 @c page
 @node hash mdc2 api
@@ -872,7 +843,6 @@ associated data is finalised; any error is ignored in this procedure.
 
 @StructCommonDoc{sha1-ctx, SHA1, sha1-final}
 @StructPropertyListDoc{sha1-ctx, SHA1}
-@StructArgumentsValidationDoc{sha1-ctx, SHA1}
 
 @c page
 @node hash sha1 api
@@ -992,7 +962,6 @@ associated data is finalised; any error is ignored in this procedure.
 
 @StructCommonDoc{sha224-ctx, SHA224, sha224-final}
 @StructPropertyListDoc{sha224-ctx, SHA224}
-@StructArgumentsValidationDoc{sha224-ctx, SHA224}
 
 @c page
 @node hash sha224 api
@@ -1112,7 +1081,6 @@ associated data is finalised; any error is ignored in this procedure.
 
 @StructCommonDoc{sha256-ctx, SHA256, sha256-final}
 @StructPropertyListDoc{sha256-ctx, SHA256}
-@StructArgumentsValidationDoc{sha256-ctx, SHA256}
 
 @c page
 @node hash sha256 api
@@ -1236,7 +1204,6 @@ associated data is finalised; any error is ignored in this procedure.
 
 @StructCommonDoc{sha384-ctx, SHA384, sha384-final}
 @StructPropertyListDoc{sha384-ctx, SHA384}
-@StructArgumentsValidationDoc{sha384-ctx, SHA384}
 
 @c page
 @node hash sha384 api
@@ -1362,7 +1329,6 @@ associated data is finalised; any error is ignored in this procedure.
 
 @StructCommonDoc{sha512-ctx, SHA512, sha512-final}
 @StructPropertyListDoc{sha512-ctx, SHA512}
-@StructArgumentsValidationDoc{sha512-ctx, SHA512}
 
 @c page
 @node hash sha512 api
@@ -1483,7 +1449,6 @@ procedure.
 
 @StructCommonDoc{ripemd160-ctx, RIPEMD160, ripemd160-final}
 @StructPropertyListDoc{ripemd160-ctx, RIPEMD160}
-@StructArgumentsValidationDoc{ripemd160-ctx, RIPEMD160}
 
 @c page
 @node hash ripemd160 api
@@ -1611,7 +1576,6 @@ procedure.
 
 @StructCommonDoc{whirlpool-ctx, WHIRLPOOL, whirlpool-final}
 @StructPropertyListDoc{whirlpool-ctx, WHIRLPOOL}
-@StructArgumentsValidationDoc{whirlpool-ctx, WHIRLPOOL}
 
 @c page
 @node hash whirlpool api
@@ -1739,7 +1703,6 @@ associated data is finalised; any error is ignored in this procedure.
 
 @StructCommonDoc{hmac-ctx, HMAC, hmac-final}
 @StructPropertyListDoc{hmac-ctx, HMAC}
-@StructArgumentsValidationDoc{hmac-ctx, HMAC}
 
 @c page
 @node hmac api
@@ -1917,7 +1880,6 @@ before the internal state of @var{AES} is finalised.
 @c ------------------------------------------------------------
 
 @StructPropertyListDoc{aes-key-ctx, AES}
-@StructArgumentsValidationDoc{aes-key-ctx, AES}
 
 @c page
 @node crypto aes key
